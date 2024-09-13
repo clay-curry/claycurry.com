@@ -8,11 +8,23 @@ const nextConfig = {
   experimental: {
     ppr: true,
   },
+
+  env: {
+    // for each reaction (CLAPPING, THINGKING, AMAZED)
+    //MAX_REACTIONS_PER_SESSION: 15,
+    // max shares that will be counted
+    //MAX_SHARES_PER_SESSION: 10,
+    // max views that will be counted
+    //MAX_VIEWS_PER_SESSION: 20
+  },
+
   logging: {
     fetches: {
       fullUrl: true,
     },
   },
+
+
   transpilePackages: ['next-mdx-remote'],
   async redirects() {
     if (!process.env.POSTGRES_URL) {
@@ -30,6 +42,8 @@ const nextConfig = {
       permanent: !!permanent,
     }));
   },
+
+
   headers() {
     return [
       {
