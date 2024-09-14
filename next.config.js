@@ -1,4 +1,4 @@
-const postgres = require('postgres');
+const postgres = require('postgres').default;
 
 const sql = postgres(process.env.POSTGRES_URL, {
   ssl: 'allow',

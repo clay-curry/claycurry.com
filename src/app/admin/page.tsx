@@ -1,5 +1,5 @@
 import { auth } from 'src/app/auth';
-import { getGuestbookEntries } from '@/app/_db/queries';
+import { getGuestbookEntries } from '@/app/_lib/db/queries';
 import { redirect } from 'next/navigation';
 import Form from './form';
 

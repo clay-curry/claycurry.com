@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { sql } from '../../../_db/postgres';
+import { sql } from '../../../_lib/db/postgres';
 
 export const dynamic = 'force-dynamic';
 

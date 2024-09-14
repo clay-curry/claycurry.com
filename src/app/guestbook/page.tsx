@@ -1,5 +1,5 @@
 import { auth } from 'src/app/auth';
-import { getGuestbookEntries } from '@/app/_db/queries';
+import { getGuestbookEntries } from '@/app/_lib/db/queries';
 import { SignIn, SignOut } from './buttons';
 import { Suspense } from 'react';
 import Form from './form';

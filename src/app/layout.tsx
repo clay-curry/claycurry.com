@@ -1,16 +1,28 @@
-
-
 import './main.css';
+
+import Footer from '@/app/_lib/components/Footer';
+import Navigation from '@/app/_lib/components/Navigation';
+import QuickAccess from '@/app/_lib/components/QuickAccess';
+import Shortcuts from '@/app/_lib/components/Shortcuts';
+import Toaster from '@/app/_lib/components/Toaster';
 import type { Metadata } from 'next';
-import Provider from './_providers';
+import Provider from '@/app/_lib/providers';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
-import RootLayout from './_components/layouts/Root';
-import WithNavigationFooter from './_components/layouts/WithNavigationFooter';
-import { ReactElement, ReactNode } from 'react';
-import { cookies, headers } from 'next/headers';
-import { encrypt } from './_lib/session';
+import clsx from 'clsx';
 
+import {
+  JetBrains_Mono as JetBrainsMono,
+  Plus_Jakarta_Sans as PlusJakartaSans,
+} from 'next/font/google';
+const jetbrainsMono = JetBrainsMono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+});
+const plusJakartaSans = PlusJakartaSans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+});
 
 
 
@@ -60,19 +72,25 @@ export default function Layout({
 
   return (
     <html>
-      <body>
+      <body
+        id="__root"
+        className={clsx([jetbrainsMono.variable, plusJakartaSans.variable])}
+      >
         <div id="skip-navigation" />
 
         <Provider>
-        <RootLayout>
 
-          <WithNavigationFooter>
+          <QuickAccess />
+          <Shortcuts />
+          <Navigation />
+          <main>
             {children}
-          </WithNavigationFooter>
+          </main>
+          <Toaster />
+          <Footer />
 
-          <GoogleAnalytics gaId='' />
-        </RootLayout>
-      </Provider>
+        </Provider>
+        <GoogleAnalytics gaId='' />
       </body>
     </html>
   );

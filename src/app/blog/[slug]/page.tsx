@@ -1,36 +1,34 @@
 "use server"
 
-
-
-
-
 import type { Metadata } from 'next';
 import { Suspense, cache } from 'react';
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'src/components-old/mdx';
 
-import { getBlogPosts } from '../fetch';
-
-
-import { getViewsCount } from '@/app/_db/queries';
-import { incrementView } from '@/app/_db/actions';
+import { getBlogs } from '../page';
 import { unstable_noStore as noStore } from 'next/cache';
 
+export default async function Page({ params }) {
+  const post = (await getBlogs()).find((post) => post.slug === params.slug);
+
+  if (!post) 
+    notFound();
+  
+  return <div>{post.slug}</div>;
+}
+
+/*
 export async function generateMetadata({
   params,
 }): Promise<Metadata | undefined> {
-  let post = getBlogPosts().find((post) => post.slug === params.slug);
-  if (!post) {
-    return;
-  }
+  
+  const post = (await getBlogs()).find((post) => post.slug === params.slug);
 
-  let {
-    title,
-    publishedAt: publishedTime,
-    summary: description,
-    image,
-  } = post.metadata;
-  let ogImage = image
+  if (!post) 
+    notFound();
+  
+
+  let ogImage = post.image
     ? `https://claycurry.com${image}`
     : `https://claycurry.com/og?title=${title}`;
 
@@ -93,9 +91,6 @@ function formatDate(date: string) {
 export default function Blog({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
 
-  if (!post) {
-    notFound();
-  }
 
   return (
     <section>
@@ -172,3 +167,4 @@ async function Views({ slug }: { slug: string }) {
   
   return <ViewCounter allViews={views} slug={slug} />;
 }
+*/
