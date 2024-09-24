@@ -5,10 +5,8 @@
 
 import clsx from 'clsx';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ReactElement, useState } from 'react';
 import { m, useReducedMotion } from 'framer-motion';
-import { useAnimationControls } from 'framer-motion';
 
 import {
   FigmaIcon,
@@ -26,6 +24,180 @@ import { SectionButton } from '@/app/_lib/components/sections/SectionButton';
 import SectionContent from '@/app/_lib/components/sections/SectionContent';
 import SectionTitle from '@/app/_lib/components/sections/SectionTitle';
 
+
+
+
+function Hero() {
+
+  const WaveILY = () => <m.div
+    initial={{ y: 16, rotate: 30, transformOrigin: 'right center' }}
+    animate={{ y: 0, rotate: 0 }}
+    transition={{ type: 'spring', delay: 0.725, bounce: 0.7, duration: 0.7 }}
+  >
+    🤟
+  </m.div>
+
+  const AvailableForHire = () =>
+    <div
+      className={clsx(
+        'button button--ghost text-accent-500 pointer-events-none gap-2.5 px-2.5',
+        'md:button--big md:px-2.5',
+        'dark:text-accent-400'
+      )}
+    >
+      <span className={clsx('relative flex h-2 w-2')}>
+        <span
+          className={clsx(
+            'bg-accent-600 absolute -top-1 -left-1 inline-flex h-4 w-4 animate-ping rounded-full opacity-75',
+            'dark:bg-accent-300'
+          )}
+        />
+        <span
+          className={clsx(
+            'bg-accent-500 relative inline-flex h-2 w-2 rounded-full',
+            'dark:bg-accent-400'
+          )}
+        />
+      </span>
+      Available for hire
+    </div>
+
+
+  const LetsWorkTogetherButton = () =>
+    <Link
+      href="/work/contact"
+      className={clsx('button min-w-[128px]', 'md:button--big')}
+    >
+      <CodeIcon className={clsx('h-5 w-5')} />
+      Work together
+    </Link>
+
+  const ButtonResume = () =>
+    <a
+      target="_blank"
+      rel="noreferrer nofollow"
+      href="https://www.figma.com/community/file/1176377524040948926"
+      className={clsx('button button--ghost px-2', 'md:button--big md:px-2')}
+    >
+      <DocumentIcon className={clsx('h-5 w-5')} />
+      Resume
+    </a>
+
+
+  const HeroCta = ({
+    isFree = true,
+    isFreeAnimationDuration = 4,
+  }: {
+    isFree?: boolean;
+    isFreeAnimationDuration?: number;
+  }) => {
+    const shouldReduceMotion = useReducedMotion();
+
+    return (
+      <m.div className={clsx('flex gap-6')} initial="hide" animate="show">
+        <m.div variants={{
+          hide: { x: -16, opacity: 0 },
+          show: { x: 0, opacity: 1 },
+        }} transition={{ delay: 0.1 }}>
+          <ButtonResume />
+        </m.div>
+
+        <m.div
+          className={clsx('relative z-20')}
+          variants={{
+            hide: { x: -16, opacity: 0 },
+            show: { x: 0, opacity: 1 },
+          }}
+          transition={{ delay: 0.2 }}
+        >
+          <LetsWorkTogetherButton />
+        </m.div>
+      </m.div>
+    );
+  }
+
+  const SlideIn = ({ delay = 0.0, className, children }: { delay?: number, className?: string, children: React.ReactNode }) => <m.span
+    className={className}
+    initial={{ x: -32, opacity: 0 }}
+    animate={{ x: 0, opacity: 1 }}
+    transition={{ delay }}
+  >
+    {children}
+  </m.span>
+
+  return (
+
+    <div className={clsx('relative z-10 max-w-xl')}>
+      <div className={clsx(
+        'text-slate-700', 'dark:text-slate-300')}>
+        {/* hero text line 1*/}
+        <SlideIn
+          className={clsx(
+            'w-[90%] flex items-center justify-between',
+            'text-2xl md:text-4xl',
+            'mb-1 md:mb-2',
+            'text-slate-600 dark:text-slate-400'
+          )}
+        >
+          <div className={clsx('flex items-center gap-2')}>
+            <span>hi!</span>
+            <WaveILY /> {/* wave 🤟 emoji */}
+          </div>
+          <AvailableForHire />
+        </SlideIn>
+
+
+        {/* hero text line 2*/}
+        <SlideIn
+          className={clsx(
+            'w-fit',
+            'mb-4 block text-[2.5rem] font-[1000] leading-none',
+            'md:mb-6 md:text-7xl'
+          )}
+        >
+          I&apos;m{' '}
+          <span className={clsx('text-accent-600', 'dark:text-accent-500')}>
+            Clay
+          </span>{' '}
+          Curry,{' '}
+        </SlideIn>
+
+
+        {/* hero text line 3*/}
+        <SlideIn
+          className={clsx(
+            'text-pretty',
+            'tracking-wide',
+            'md:text-xl',
+            'text-slate-600',
+            'dark:text-slate-400'
+          )}
+        >
+
+          a
+          {' '}
+          <strong
+            className={clsx(
+              'font-bold lowercase',
+              'text-slate-700',
+              'dark:text-slate-300'
+            )}
+          >
+            builder
+          </strong>
+          {' '}
+
+          skilled in UI design, programming
+          language design, visual analytics, and system observability.
+        </SlideIn>
+
+        <div className={clsx('w-fit mt-6 md:mt-8')}>
+          <HeroCta />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function HeaderTechStack() {
 
@@ -101,181 +273,6 @@ function HeaderTechStack() {
         </m.li>
       </m.ul>
     </div>
-  );
-}
-
-
-
-
-function Hero() {
-
-  const WaveILY = () => <m.div
-    initial={{ opacity: 0, y: 16, rotate: 30, transformOrigin: 'right center' }}
-    animate={{ opacity: 1, y: 0, rotate: 0 }}
-    transition={{ type: 'spring', delay: 0.25, bounce: 0.7, duration: 0.7 }}
-  >
-    🤟
-  </m.div>
-
-  const AvailableForHire = () =>
-    <div
-      className={clsx(
-        'button button--ghost text-accent-500 pointer-events-none gap-2.5 px-2.5',
-        'md:button--big md:px-2.5',
-        'dark:text-accent-400'
-      )}
-    >
-      <span className={clsx('relative flex h-2 w-2')}>
-        <span
-          className={clsx(
-            'bg-accent-600 absolute -top-1 -left-1 inline-flex h-4 w-4 animate-ping rounded-full opacity-75',
-            'dark:bg-accent-300'
-          )}
-        />
-        <span
-          className={clsx(
-            'bg-accent-500 relative inline-flex h-2 w-2 rounded-full',
-            'dark:bg-accent-400'
-          )}
-        />
-      </span>
-      Available for hire
-    </div>
-
-
-  const LetsWorkTogetherButton = () =>
-    <Link
-      href="/work/contact"
-      className={clsx('button min-w-[128px]', 'md:button--big')}
-    >
-      <CodeIcon className={clsx('h-5 w-5')} />
-      Work together
-    </Link>
-
-  const ButtonResume = () =>
-    <a
-      target="_blank"
-      rel="noreferrer nofollow"
-      href="https://www.figma.com/community/file/1176377524040948926"
-      className={clsx('button button--ghost px-2', 'md:button--big md:px-2')}
-    >
-      <DocumentIcon className={clsx('h-5 w-5')} />
-      Resume
-    </a>
-
-
-  const HeroCta = ({
-    isFree = true,
-    isFreeAnimationDuration = 4,
-  }: {
-    isFree?: boolean;
-    isFreeAnimationDuration?: number;
-  }) => {
-    const shouldReduceMotion = useReducedMotion();
-
-    return (
-      <m.div className={clsx('flex gap-2')} initial="hide" animate="show">
-        <m.div variants={{
-          hide: { x: -16, opacity: 0 },
-          show: { x: 0, opacity: 1 },
-        }} transition={{ delay: 0.4 }}>
-          <ButtonResume />
-        </m.div>
-
-        <m.div
-          className={clsx('relative z-20')}
-          variants={{
-            hide: { x: -16, opacity: 0 },
-            show: { x: 0, opacity: 1 },
-          }}
-          transition={{ delay: 0.5 }}
-        >
-          <LetsWorkTogetherButton />
-        </m.div>
-      </m.div>
-    );
-  }
-
-  const SlideIn = ({ delay = 0.1, className, children }: { delay?: number, className?: string, children: React.ReactNode }) => <m.div
-    className={className}
-    initial={{ x: -32, opacity: 0 }}
-    animate={{ x: 0, opacity: 1 }}
-    transition={{ delay }}
-  >
-    {children}
-  </m.div>
-
-
-  return (
-
-    <div className={clsx('relative z-10')}>
-      <div className={clsx('text-slate-700', 'dark:text-slate-300')}>
-        {/* hero text line 1*/}
-        <SlideIn
-          className={clsx(
-            'mb-1 flex items-center gap-1 text-2xl text-slate-600',
-            'md:mb-0 md:gap-2 md:text-4xl',
-            'dark:text-slate-400'
-          )}
-        >
-          hi!
-          <WaveILY /> {/* wave 🤟 emoji */}
-          <AvailableForHire />
-        </SlideIn>
-
-
-        {/* hero text line 2*/}
-        <SlideIn
-          className={clsx(
-            'mb-4 block text-[2.5rem] font-[1000] leading-none',
-            'md:mb-6 md:text-7xl'
-          )}
-          delay={0.2}
-        >
-          I&apos;m{' '}
-          <span className={clsx('text-accent-600', 'dark:text-accent-500')}>
-            Clay
-          </span>{' '}
-          Curry,{' '}
-        </SlideIn>
-
-
-        {/* hero text line 3*/}
-        <SlideIn
-          className={clsx(
-            'max-w-xl text-pretty',
-            'block tracking-wide',
-            'md:text-xl',
-            'text-slate-600',
-            'dark:text-slate-400'
-          )}
-          delay={0.3}
-        >
-          a
-          {' '}
-          <strong
-            className={clsx(
-              'font-bold lowercase',
-              'text-slate-700',
-              'dark:text-slate-300'
-            )}
-          >
-            builder
-          </strong>
-          {' '}
-
-          skilled in UI design, programming
-          language design, visual analytics, and system observability.
-        </SlideIn>
-      </div>
-
-
-      <div className={clsx('mt-6 md:mt-8')}>
-        <HeroCta />
-      </div>
-    </div>
-
-
   );
 }
 
@@ -406,7 +403,7 @@ function QuoteSection() {
         />
         <span className={clsx('flex flex-col')}>
           <span className={clsx('leading-[1.15]')}>
-            <em>Effective software</em>{' '}
+            <em>Design patterns</em>{' '}
           </span>
           <span
             className={clsx('flex items-center gap-2 leading-[1.15]', 'lg:gap-4')}
@@ -690,9 +687,9 @@ function CleanIntuitive() {
     <>
       <header className={clsx('mb-8')}>
         <SectionTitle
-          title="Meaningful & Purpose-Driven Visual Design."
+          title="Purpose-Driven Visual Design."
           caption="Visual Communication"
-          description="Following battle-tested design patterns, technical standards, and software frameworks simplify the creative process."
+          description="Communicating  battle-tested design patterns, technical standards, and software frameworks simplify the creative process."
         />
       </header>
       <SectionContent>

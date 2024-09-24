@@ -53,11 +53,11 @@ function Navbar() {
               <li>
                 <NavLink title="T.I.L" href="/today-i-learned" />
               </li>
-              <li className={clsx('lg:hidden')} data-accent="blue">
-                <NavLinkDropdown title="Work" items={workLinks} />
+              <li className={clsx('block lg:hidden')} data-accent="blue">
+                <NavLinkDropdown title="More" items={workLinks} />
               </li>
               <li className={clsx('hidden lg:block')} data-accent="blue">
-                <NavLinkExpanded title="Work" items={workLinks} />
+                <NavLinkExpanded title="More" items={workLinks} />
               </li>
             </ul>
           </nav>
