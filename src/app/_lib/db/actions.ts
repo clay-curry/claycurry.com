@@ -1,7 +1,7 @@
 'use server';
 
 import { sql } from './postgres';
-import { auth } from 'src/app/auth';
+import { auth } from '@/app/_lib/auth';
 import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
 
 export async function saveGuestbookEntry(formData: FormData) {

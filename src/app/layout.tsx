@@ -83,7 +83,7 @@ export default function Layout({
           <QuickAccess />
           <Shortcuts />
           <Navigation />
-          <main>
+          <main className='top-18'>
             {children}
           </main>
           <Toaster />

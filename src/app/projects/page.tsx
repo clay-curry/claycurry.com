@@ -1,9 +1,9 @@
 "use client"
-
-
 import clsx from 'clsx';
 import { useState } from 'react';
 import { m } from 'framer-motion';
+
+import Page from '@/app/_lib/contents-layouts/Page';
 import { GitHubIcon, NpmIcon } from '@/app/_lib/components/Icons';
 import { SectionButton } from '@/app/_lib/components/sections/SectionButton';
 import SectionContent from '@/app/_lib/components/sections/SectionContent';
@@ -161,8 +161,6 @@ function HeaderImage() {
     </m.svg>
   );
 }
-
-import Page from '@/contents-layouts/Page';
 
 function Projects() {
   return (

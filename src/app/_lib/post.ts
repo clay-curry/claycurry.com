@@ -49,7 +49,23 @@ export const formatLang = (lang: TPostFrontMatter['lang']) => {
       return '';
   }
 };
+export type TPostOgImage = Partial<
+  Pick<TPostFrontMatter, 'category' | 'title' | 'date' | 'lang' | 'tags'>
+> & {
+  aspectRatio?: '16/9' | '4/3' | '1/1';
+};
 
+export const getPostOgImageUrl = (data: TPostOgImage) => {
+  
+  const getUrl = (aspectRatio?: TPostOgImage['aspectRatio']) => `/api/og-post?${aspectRatio}`;
+
+  return {
+    default: getUrl(),
+    '16/9': getUrl('16/9'),
+    '4/3': getUrl('4/3'),
+    '1/1': getUrl('1/1'),
+  };
+};
 
 export const getPostStructuredData = ({
   title,

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 
-import { formatLang } from '@/app/_lib/helpers/post';
+import { formatLang } from '@/app/_lib/post';
 
 import type { TPageOgImage, TPostOgImage } from '@/app/_lib/utils/types';
 import type { CSSProperties } from 'react';

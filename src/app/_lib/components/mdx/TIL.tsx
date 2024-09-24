@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { CheckCircleIcon, XCircleIcon } from '@/app/_lib/components/Icons';
 
-import { formatDate } from '@/app/_lib/helpers/post';
+import { formatDate } from '@/app/_lib/post';
 
 import type { PropsWithChildren, ReactElement } from 'react';
 

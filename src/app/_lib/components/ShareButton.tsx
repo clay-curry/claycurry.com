@@ -12,7 +12,7 @@ import {
 } from '@/app/_lib/components/Icons';
 
 import type { PropsWithChildren, Ref } from 'react';
-import { ShareType } from '../_lib/db/actions';
+import { ShareType } from '@/app/_lib/db/actions';
 import { usePathname } from 'next/navigation';
 
 interface ShareItemProps extends PropsWithChildren {

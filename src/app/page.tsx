@@ -23,15 +23,15 @@ import { SectionButton } from '@/app/_lib/components/sections/SectionButton';
 import SectionContent from '@/app/_lib/components/sections/SectionContent';
 import SectionTitle from '@/app/_lib/components/sections/SectionTitle';
 
-function Header() {
+function Hero() {
 
-  function HeaderCta({
+  const HeroCta = ({
     isFree = true,
     isFreeAnimationDuration = 4,
   }: {
     isFree?: boolean;
     isFreeAnimationDuration?: number;
-  }) {
+  }) => {
     const shouldReduceMotion = useReducedMotion();
 
     const animation = {
@@ -45,12 +45,12 @@ function Header() {
       },
     };
 
-    const ButtonContactMe = () =>
+    const LetsWorkTogetherButton = () =>
       <Link
         href="/work/contact"
-        className={clsx('button button--solid min-w-[128px]', 'md:button--big')}
+        className={clsx('button min-w-[128px]', 'md:button--big')}
       >
-        Get in Touch
+        Lets work together
       </Link>
 
     const ButtonResume = () =>
@@ -109,7 +109,7 @@ function Header() {
           variants={animation}
           transition={{ delay: 0.4 }}
         >
-          <ButtonContactMe />
+          <LetsWorkTogetherButton />
         </m.div>
         {isFree ? (
           <m.div
@@ -427,9 +427,9 @@ function Header() {
                 'dark:text-slate-300'
               )}
             >
-              problem-solver
+              builder
             </strong>{' '}
-            skilled in software design,{' '}
+            skilled in UI design, programming language design,{' '}
             <span className={clsx('block')}>
               visual analytics, and system observability.
             </span>
@@ -453,7 +453,7 @@ function Header() {
             <HeaderTitle />
           </div>
           <div className={clsx('mt-6 md:mt-8')}>
-            <HeaderCta isFree={false} />
+            <HeroCta isFree={false} />
           </div>
           <div className={clsx('mt-20 lg:mt-36')}>
             <HeaderTechStack />
@@ -599,7 +599,7 @@ function QuoteSection() {
         />
         <span className={clsx('flex flex-col')}>
           <span className={clsx('leading-[1.15]')}>
-            <em>Beautiful</em>{' '}
+            <em>Effective software</em>{' '}
           </span>
           <span
             className={clsx('flex items-center gap-2 leading-[1.15]', 'lg:gap-4')}
@@ -972,7 +972,7 @@ export default function Page() {
   return (
     <section>
 
-      <Header />
+      <Hero />
 
       <div className={clsx('hidden', 'lg:-mt-16 lg:mb-24 lg:block')}>
         <FeaturedCardSection />

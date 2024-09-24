@@ -99,7 +99,11 @@
   }
 
   .button {
-    @apply inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent px-4 text-center text-sm font-bold transition duration-150;
+    @apply inline-flex items-center justify-center; 
+    @apply rounded-md border border-transparent;
+    @apply px-4 h-10 gap-1.5; 
+    @apply text-center text-sm font-bold;
+    @apply transition duration-150;
     @apply md:rounded-xl;
 
     &--solid {

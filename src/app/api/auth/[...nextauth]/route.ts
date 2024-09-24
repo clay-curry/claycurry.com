@@ -1,2 +1,2 @@
-export { GET, POST } from 'src/app/auth';
+export { GET, POST } from '@/app/_lib/auth';
 export const runtime = 'edge';

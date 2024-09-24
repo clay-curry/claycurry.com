@@ -1,9 +1,9 @@
 /* eslint-disable no-template-curly-in-string */
 import jsonata from 'jsonata';
 
-import dayjs from '@/app/_utils/dayjs';
+import dayjs from '@/app/_lib/utils/dayjs';
 
-import { ContentType, ReactionType, ShareType } from '@/app/_utils/types';
+import { ContentType, ReactionType, ShareType } from '@/app/_lib/utils/types';
 
 type TContentMeta = {
   slug: string;

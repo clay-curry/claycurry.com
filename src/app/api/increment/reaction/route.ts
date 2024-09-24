@@ -1,5 +1,5 @@
 import { sql } from "@/app/_lib/db/postgres";
-import { getSessionId } from "@/app/_lib/session";
+import { getSessionId } from "@/app/_lib/hooks/session";
 import { ReactionType } from "@/app/_utils/types";
 
 

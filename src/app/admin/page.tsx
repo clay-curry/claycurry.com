@@ -1,4 +1,4 @@
-import { auth } from 'src/app/auth';
+import { auth } from '@/app/_lib/auth';
 import { getGuestbookEntries } from '@/app/_lib/db/queries';
 import { redirect } from 'next/navigation';
 import Form from './form';

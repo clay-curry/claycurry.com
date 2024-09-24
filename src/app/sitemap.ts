@@ -1,7 +1,7 @@
-import { getBlogPosts } from '@/app/blog/fetch';
+import { getBlogs } from '@/app/blog/ls';
 
 export default async function sitemap() {
-  let blogs = getBlogPosts().map((post) => ({
+  let blogs = (await getBlogs()).map((post) => ({
     url: `https://claycurry.com/blog/${post.slug}`,
     lastModified:  new Date().toISOString().split('T')[0],
   }));

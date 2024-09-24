@@ -1,33 +1,51 @@
-'use client'
+'use client';
 
-import React from 'react';
+import clsx from 'clsx';
+import Link from 'next/link';
+import { m } from 'framer-motion';
+
 
 import CountUp from '@/app/_lib/components/CountUp';
 import { formatDateRelative, formatLang } from '@/app/_lib/post';
 import { ChevronRightIcon, InsightIcon, PinIcon } from '@/app/_lib/components/Icons';
 
-import clsx from 'clsx';
-import Link from 'next/link';
-import { m } from 'framer-motion';
-import useSWR from "swr";
+export function HeaderImage () {
+  return (
+  <m.svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 512 512"
+    fill="none"
+    initial="hide"
+    animate="show"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={clsx(
+      'stroke-accent-500 -mt-16 h-full opacity-60',
+      'dark:opacity-40'
+    )}
+  >
+    <m.path
+      variants={{
+        hide: { pathLength: 0.1 },
+        show: (i) => {
+          const delay = 0.2 + i * 0.1;
+          return {
+            pathLength: 1,
+            transition: {
+              pathLength: { delay, duration: 2 },
+            },
+          };
+        },
+      }}
+      custom={1}
+      d="M204.055 213.905q-18.12-5.28-34.61-9a145.92 145.92 0 0 1-6.78-44.33c0-65.61 42.17-118.8 94.19-118.8 52.02 0 94.15 53.14 94.15 118.76a146.3 146.3 0 0 1-6.16 42.32q-20.52 4.3-43.72 11.05c-22 6.42-39.79 12.78-48.56 16.05-8.72-3.27-26.51-9.63-48.51-16.05zm-127.95 84.94a55.16 55.16 0 1 0 55.16 55.15 55.16 55.16 0 0 0-55.16-55.15zm359.79 0a55.16 55.16 0 1 0 55.16 55.15 55.16 55.16 0 0 0-55.15-55.15zm-71.15 55.15a71.24 71.24 0 0 1 42.26-65v-77.55c-64.49 0-154.44 35.64-154.44 35.64s-89.95-35.64-154.44-35.64v74.92a71.14 71.14 0 0 1 0 135.28v7c64.49 0 154.44 41.58 154.44 41.58s89.99-41.55 154.44-41.55v-9.68a71.24 71.24 0 0 1-42.26-65z"
+    />
+  </m.svg>
+);
+}
 
-const PINNED_POST = 'the-2023-retrospective';
-
-type BlogContentsProps = {
-  posts: {
-    title: string;
-    description: string;
-    date: string;
-    lang: "id" | "en";
-    tags: Array<string>;
-    category: string;
-    slug: string;
-    pinned?: boolean;
-  }[];
-};
-
-
-function PostPreview({
+export function PostPreview({
   title,
   description,
   category,
@@ -130,30 +148,7 @@ function PostPreview({
         >
           {description}
         </p>
-        <div
-          className={clsx(
-            'flex items-center gap-2 text-xs text-slate-600',
-            'dark:text-slate-400',
-            pinned ? ['mb-4', 'sm:mb-1'] : 'mb-4'
-          )}
-        >
-          <InsightIcon className={clsx('-mt-0.5 h-4 w-4')} />
-          <span className={clsx('flex gap-1.5')}>
-            <span
-              className={clsx('flex items-center gap-1.5')}
-              title="Number of view(s)"
-            >
-              <CountUp from={0} to={views} /> Views
-            </span>
-            <span>&middot;</span>
-            <span
-              className={clsx('flex items-center gap-1.5')}
-              title="Number of share(s)"
-            >
-              <CountUp from={0} to={shares} /> Shares
-            </span>
-          </span>
-        </div>
+
         <div
           className={clsx(
             'text-accent-600 items-center gap-1 text-sm font-semibold',
@@ -169,23 +164,23 @@ function PostPreview({
   );
 }
 
-export default function BlogContents({ posts }: BlogContentsProps) {
-  
-  const postsWithCounts = posts.map((post) => {
-    const { data: views } = useSWR(`/api/count/view`);
-    //const { data: shares } = useSWR(`/api/count/share`);
-    console.log(views);
-    return {
-      ...post,
-      views:  0,
-      shares: 0,
-    };
-  });
+type PostPreview = {
+  slug: string;
+  category: string;
+  title: string;
+  description: string;
+  date: string;
+  lang: string;
+  tags: string[];
+  views: number;
+  shares: number;
+}
 
-  const pinnedPost = postsWithCounts.find(post => post.slug === PINNED_POST);
-  const postsPreview = postsWithCounts.filter(post => post.slug !== PINNED_POST);
-
+export function BlogPage(
+   { pinnedPost, postsPreview }: { pinnedPost: PostPreview | undefined, postsPreview: PostPreview[] }
+) {
   return (
+     
     <div className={clsx('content-wrapper')}>
       <div
         className={clsx(
@@ -193,76 +188,91 @@ export default function BlogContents({ posts }: BlogContentsProps) {
           'md:flex-row md:gap-8 lg:gap-24'
         )}
       >
-        <div className={clsx('md:w-64')}>{/* TODO: Filter Posts */}</div>
+        <div className={clsx('md:w-64')}>
+          {
+            // TODO: Filter Posts
+          }
+        </div>
         <div className={clsx('flex-1')}>
           {pinnedPost && (
             <div
+              key={pinnedPost.slug}
               className={clsx(
                 'mb-8 flex items-start gap-4',
-                'md:mb-12 md:gap-6'
-              )}
-            >
-              <div className={clsx('flex-1')}>
-                <PostPreview
-                  pinned
-                  slug={pinnedPost.slug}
-                  category={pinnedPost.category}
-                  title={pinnedPost.title}
-                  description={pinnedPost.description}
-                  date={pinnedPost.date}
-                  lang={pinnedPost.lang}
-                  tags={pinnedPost.tags}
-                  views={pinnedPost.views}
-                  shares={pinnedPost.shares}
-                />
-              </div>
-            </div>
-          )}
+                      'md:mb-4 md:gap-6'
+                    )}
+                  >
+                    <div
+                      className={clsx(
+                        'border-divider-light mt-14 hidden w-8 -translate-y-1 border-b',
+                        'md:mt-16 md:w-20 lg:block',
+                        'dark:border-divider-dark'
+                      )}
+                    />
+                    <div className={clsx('flex-1')}>
+                      <PostPreview
+                        pinned={true}
+                        slug={pinnedPost.slug}
+                        category={pinnedPost.category}
+                        title={pinnedPost.title}
+                        description={pinnedPost.description}
+                        date={pinnedPost.date}
+                        lang={pinnedPost.lang}
+                        tags={pinnedPost.tags}
+                        views={pinnedPost.views}
+                        shares={pinnedPost.shares}
+                      />
+                    </div>
+                  </div>
+                )
+              }
 
-          {postsPreview.map(
-            ({
-              slug,
-              category,
-              title,
-              description,
-              date,
-              lang,
-              tags,
-              views,
-              shares,
-            }) => (
-              <div
-                key={slug}
-                className={clsx(
-                  'mb-8 flex items-start gap-4',
-                  'md:mb-4 md:gap-6'
-                )}
-              >
-                <div
-                  className={clsx(
-                    'border-divider-light mt-14 hidden w-8 -translate-y-1 border-b',
-                    'md:mt-16 md:w-20 lg:block',
-                    'dark:border-divider-dark'
-                  )}
-                />
-                <div className={clsx('flex-1')}>
-                  <PostPreview
-                    slug={slug}
-                    category={category}
-                    title={title}
-                    description={description}
-                    date={date}
-                    lang={lang}
-                    tags={tags}
-                    views={views}
-                    shares={shares}
-                  />
-                </div>
-              </div>
-            )
-          )}
+
+
+              {postsPreview.map(
+                ({
+                  slug,
+                  category,
+                  title,
+                  description,
+                  date,
+                  lang,
+                  tags,
+                  views,
+                  shares,
+                }) => (
+                  <div
+                    key={slug}
+                    className={clsx(
+                      'mb-8 flex items-start gap-4',
+                      'md:mb-4 md:gap-6'
+                    )}
+                  >
+                    <div
+                      className={clsx(
+                        'border-divider-light mt-14 hidden w-8 -translate-y-1 border-b',
+                        'md:mt-16 md:w-20 lg:block',
+                        'dark:border-divider-dark'
+                      )}
+                    />
+                    <div className={clsx('flex-1')}>
+                      <PostPreview
+                        slug={slug}
+                        category={category}
+                        title={title}
+                        description={description}
+                        date={date}
+                        lang={lang}
+                        tags={tags}
+                        views={views}
+                        shares={shares}
+                      />
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
