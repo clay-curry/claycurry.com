@@ -100,7 +100,7 @@
 
   .button {
     @apply inline-flex items-center justify-center; 
-    @apply rounded-md border border-transparent;
+    @apply rounded-md border border-accent-600;
     @apply px-4 h-10 gap-1.5; 
     @apply text-center text-sm font-bold;
     @apply transition duration-150;
