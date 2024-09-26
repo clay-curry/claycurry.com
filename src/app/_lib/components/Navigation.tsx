@@ -13,11 +13,18 @@ import Kbd from '@/app/_lib/components/Kbd';
 import Logo from '@/app/_lib/components/Logo';
 import { useScroll, useGlobal } from '@/app/_lib/hooks';
 
-const workLinks = [
+const mainLinks = [
+  { title: 'About', href: '/about' },
+  { title: 'Blog', href: '/blog' },
+  { title: 'Contact', href: '/work/contact' },
+];
+
+const moreLinks = [
+  { title: 'Projects', href: '/projects' },
   { title: 'Skills & Tools', href: '/work/skills-and-tools' },
   { title: 'Experience', href: '/work/experience' },
   { title: 'Studio', href: '/work/studio' },
-  { title: 'Contact', href: '/work/contact' },
+  { title: 'T.I.L', href: '/today-i-learned' },
 ];
 
 export default function Navbar() {
@@ -45,20 +52,18 @@ export default function Navbar() {
           <nav className={clsx('flex', 'md:gap-2')}>
             <NavLogo href="/" title="Home" />
             <ul className={clsx('flex items-center', 'md:gap-1')}>
-              <li>
-                <NavLink title="Projects" href="/projects" />
-              </li>
-              <li>
-                <NavLink title="Blog" href="/blog" />
-              </li>
-              <li>
-                <NavLink title="T.I.L" href="/today-i-learned" />
-              </li>
+              {
+                mainLinks.map((link) => (
+                  <li key={link.href}>
+                    <NavLink href={link.href} title={link.title} />
+                  </li>
+                ))
+              }
               <li className={clsx('block lg:hidden')}>
-                <NavLinkDropdown title="More" items={workLinks} />
+                <NavLinkDropdown title="More" items={moreLinks} />
               </li>
               <li className={clsx('hidden lg:block')}>
-                <NavLinkExpanded title="More" items={workLinks} />
+                <NavLinkExpanded title="More" items={moreLinks} />
               </li>
             </ul>
           </nav>

@@ -91,7 +91,7 @@ function AvailableForHire() {
       <span className={clsx('relative flex h-2 w-2')}>
         <span
           className={clsx(
-            'bg-accent-600 absolute inline-flex h-2 w-2 animate-ping rounded-full opacity-75',
+            'bg-accent-600 absolute inline-flex -translate-y-0.5 -translate-x-0.5 size-[11px] animate-ping rounded-full opacity-75',
             'dark:bg-accent-300'
           )}
         />
@@ -110,11 +110,11 @@ function AvailableForHire() {
 function LetsWorkTogetherButton() {
   return (
     <Link
-      href="/work/contact"
+      href="https://github.com/clay-curry"
       className={clsx('button min-w-[128px]', 'md:button--big')}
     >
       <CodeIcon className={clsx('h-5 w-5')} />
-      Work together
+      Collaborate
     </Link>
   );
 }
@@ -149,7 +149,7 @@ function HeroCta({
           hide: { x: -16, opacity: 0 },
           show: { x: 0, opacity: 1 },
         }}
-        transition={{ delay: 0.1 }}
+        transition={{ delay: 0.2 }}
       >
         <ButtonResume />
       </m.div>
@@ -160,21 +160,22 @@ function HeroCta({
           hide: { x: -16, opacity: 0 },
           show: { x: 0, opacity: 1 },
         }}
-        transition={{ delay: 0.2 }}
+        transition={{ delay: 0.3 }}
       >
         <LetsWorkTogetherButton />
       </m.div>
 
-      <m.div
+      <m.a
+        href="https://github.com/clay-curry"
         className={clsx('relative z-20')}
         variants={{
           hide: { x: -16, opacity: 0 },
           show: { x: 0, opacity: 1 },
         }}
-        transition={{ delay: 0.8 }}
+        transition={{ delay: 0.5 }}
       >
         <AvailableForHire />
-      </m.div>
+      </m.a>
     </m.div>
   );
 }
@@ -254,7 +255,7 @@ function Hero() {
           >
             builder
           </strong>{' '}
-          who dreams of helping other builders make an impact through programming language design.
+          who empowers other builders through programming language design and tooling.
         </SlideIn>
 
         <div className={clsx('w-fit mt-6 md:mt-8')}>
@@ -280,9 +281,9 @@ function HeaderTechStack() {
         className={clsx('mb-2.5 text-sm text-slate-600', 'dark:text-slate-400')}
         initial={animation.hide}
         animate={animation.show}
-        transition={{ delay: 0.6 }}
+        transition={{ delay: 0.8 }}
       >
-        current favorite tech stack/tools: (tools: (Nextjs, Webpack, Grafana))
+        current favorite tech stack/tools: (TypeScript, Webpack, React, NextJS, TailwindCSS, Framer, VSCode, Figma))
       </m.p>
       <m.ul
         className={clsx(
@@ -291,7 +292,7 @@ function HeaderTechStack() {
         )}
         initial="hide"
         animate="show"
-        transition={{ delayChildren: 0.6, staggerChildren: 0.025 }}
+        transition={{ delayChildren: 0.8, staggerChildren: 0.025 }}
       >
         <m.li variants={animation}>
           <div className={clsx('transition duration-200 hover:text-[#3178C6]')}>
@@ -468,7 +469,7 @@ function QuoteSection() {
         />
         <span className={clsx('flex flex-col')}>
           <span className={clsx('leading-[1.15]')}>
-            <em>Design patterns</em>{' '}
+            <em>Excellent design</em>{' '}
           </span>
           <span
             className={clsx(
@@ -492,7 +493,7 @@ function QuoteSection() {
               >
                 inside
               </strong>{' '}
-              and{' '}
+                and{' '}
               <strong
                 className={clsx(
                   'font-extrabold text-slate-600',
@@ -511,8 +512,7 @@ function QuoteSection() {
             />
           </span>
           <span className={clsx('leading-[1.15]')}>
-            is a{' '}
-            <strong
+          <strong
               className={clsx(
                 'relative font-extrabold text-slate-600',
                 'dark:text-slate-300'
@@ -524,9 +524,12 @@ function QuoteSection() {
                   'lg:-left-1.5 lg:-right-0.5 lg:top-2 lg:bottom-0',
                   'dark:bg-slate-800'
                 )}
-              />
-              must.
-            </strong>
+              />signifies 
+            </strong>{' '}
+            purpose
+          </span>
+          <span className={clsx('leading-[1.15]')}>
+            then achieves it.
           </span>
         </span>
       </blockquote>
@@ -543,7 +546,7 @@ function QuoteSection() {
 }
 
 function CleanIntuitive() {
-  type TodoItemState = 'spacing' | 'typography' | 'colors' | 'effects';
+  type TodoItemState = 'signify' | 'interaction' | 'colors' | 'outcome';
 
   type Content = {
     state: TodoItemState;
@@ -554,26 +557,26 @@ function CleanIntuitive() {
 
   const content: Array<Content> = [
     {
-      state: 'typography',
-      shows: ['typography'],
-      title: 'Typography',
-      description: 'Selecting the font type, font size, and font weight.',
+      state: 'signify',
+      shows: ['signify'],
+      title: 'Signifiers',
+      description: 'Patterns communicate what/how/when/... a tool is used.',
     },
     {
-      state: 'spacing',
-      shows: ['typography', 'spacing'],
-      title: 'Spacing',
-      description: 'Positioning and adding spacing between elements.',
+      state: 'interaction',
+      shows: ['signify', 'interaction'],
+      title: 'Interactions',
+      description: 'Interaction design encourages the proper use of a tool. ',
     },
     {
       state: 'colors',
-      shows: ['typography', 'spacing', 'colors'],
+      shows: ['signify', 'interaction', 'colors'],
       title: 'Colors',
       description: 'Choosing a color scheme with sufficient contrast.',
     },
     {
-      state: 'effects',
-      shows: ['typography', 'spacing', 'colors', 'effects'],
+      state: 'outcome',
+      shows: ['signify', 'interaction', 'colors', 'outcome'],
       title: 'Effects',
       description: 'Add effects like borders, shadows, rounded corners, etc.',
     },
@@ -601,9 +604,9 @@ function CleanIntuitive() {
         className={clsx(
           'pointer-events-none w-full select-none border p-6',
           'lg:w-96',
-          state.includes('effects') && ['rounded-xl '],
-          state.includes('spacing') && [''],
-          state.includes('typography') ? ['text-sm'] : ['font-serif'],
+          state.includes('outcome') && ['rounded-xl '],
+          state.includes('interaction') && [''],
+          state.includes('signify') ? ['text-sm'] : ['font-serif'],
           state.includes('colors')
             ? [
                 'border-divider-light bg-white',
@@ -616,16 +619,16 @@ function CleanIntuitive() {
         <div
           className={clsx(
             'flex items-center',
-            state.includes('spacing') && ['mb-4 justify-between']
+            state.includes('interaction') && ['mb-4 justify-between']
           )}
         >
           <div className={clsx('flex')}>
             <div
               className={clsx(
                 'relative flex h-8 w-8 items-center justify-center',
-                state.includes('effects') && ['rounded-full'],
-                state.includes('spacing') && [''],
-                state.includes('typography') && ['font-bold'],
+                state.includes('outcome') && ['rounded-full'],
+                state.includes('interaction') && [''],
+                state.includes('signify') && ['font-bold'],
                 state.includes('colors')
                   ? ['border-white bg-sky-400 text-white']
                   : [
@@ -639,9 +642,9 @@ function CleanIntuitive() {
           </div>
           <div
             className={clsx(
-              state.includes('effects') && ['rounded-full'],
-              state.includes('spacing') && ['px-2 py-0.5'],
-              state.includes('typography') && ['text-xs font-bold'],
+              state.includes('outcome') && ['rounded-full'],
+              state.includes('interaction') && ['px-2 py-0.5'],
+              state.includes('signify') && ['text-xs font-bold'],
               state.includes('colors')
                 ? [
                     'bg-red-100 text-red-800',
@@ -655,8 +658,8 @@ function CleanIntuitive() {
         </div>
         <div
           className={clsx(
-            state.includes('spacing') && ['mb-1'],
-            state.includes('typography') && ['text-lg font-bold'],
+            state.includes('interaction') && ['mb-1'],
+            state.includes('signify') && ['text-lg font-bold'],
             state.includes('colors')
               ? ['text-slate-700', 'dark:text-slate-300']
               : ['text-black', 'dark:text-white']
@@ -666,8 +669,8 @@ function CleanIntuitive() {
         </div>
         <div
           className={clsx(
-            state.includes('spacing') && ['mb-4'],
-            state.includes('typography') && [''],
+            state.includes('interaction') && ['mb-4'],
+            state.includes('signify') && [''],
             state.includes('colors')
               ? ['text-slate-600', 'dark:text-slate-400']
               : ['text-black', 'dark:text-white']
@@ -678,16 +681,16 @@ function CleanIntuitive() {
         <div
           className={clsx(
             'flex',
-            state.includes('spacing') && ['mb-6 gap-2'],
-            state.includes('typography') && ['text-xs font-bold'],
+            state.includes('interaction') && ['mb-6 gap-2'],
+            state.includes('signify') && ['text-xs font-bold'],
             state.includes('colors') && ['']
           )}
         >
           <div
             className={clsx(
-              state.includes('effects') && ['rounded-full'],
-              state.includes('spacing') && ['px-2 py-0.5'],
-              state.includes('typography') && [''],
+              state.includes('outcome') && ['rounded-full'],
+              state.includes('interaction') && ['px-2 py-0.5'],
+              state.includes('signify') && [''],
               state.includes('colors')
                 ? [
                     'bg-blue-100 text-blue-700',
@@ -700,9 +703,9 @@ function CleanIntuitive() {
           </div>
           <div
             className={clsx(
-              state.includes('effects') && ['rounded-full'],
-              state.includes('spacing') && ['px-2 py-0.5'],
-              state.includes('typography') && [''],
+              state.includes('outcome') && ['rounded-full'],
+              state.includes('interaction') && ['px-2 py-0.5'],
+              state.includes('signify') && [''],
               state.includes('colors')
                 ? [
                     'bg-yellow-100 text-yellow-700',
@@ -717,16 +720,16 @@ function CleanIntuitive() {
         <div
           className={clsx(
             'flex items-center',
-            state.includes('spacing') && ['gap-1 '],
-            state.includes('typography') && ['text-xs font-medium'],
+            state.includes('interaction') && ['gap-1 '],
+            state.includes('signify') && ['text-xs font-medium'],
             state.includes('colors') && ['']
           )}
         >
           <CalendarIcon
             className={clsx(
               'h-4 w-4',
-              state.includes('spacing') && ['-mt-1'],
-              state.includes('typography') && [''],
+              state.includes('interaction') && ['-mt-1'],
+              state.includes('signify') && [''],
               state.includes('colors')
                 ? ['text-slate-400', 'dark:text-slate-600']
                 : ['h-4 w-4 text-black', 'dark:text-white']
@@ -734,8 +737,8 @@ function CleanIntuitive() {
           />
           <div
             className={clsx(
-              state.includes('spacing') && [''],
-              state.includes('typography') && [''],
+              state.includes('interaction') && [''],
+              state.includes('signify') && [''],
               state.includes('colors')
                 ? ['text-slate-600', 'dark:text-slate-400']
                 : ['text-black', 'dark:text-white']
@@ -752,9 +755,9 @@ function CleanIntuitive() {
     <>
       <header className={clsx('mb-8')}>
         <SectionTitle
-          title="Purpose-Driven Visual Design."
-          caption="Visual Communication"
-          description="Communicating  battle-tested design patterns, technical standards, and software frameworks simplify the creative process."
+          caption="Communication. Results."
+          title="Developer Experience."
+          description="Quantified in the likelihood that a developer using a tool achieves a potential outcome percieved to be facilitated by the tool."
         />
       </header>
       <SectionContent>
@@ -784,7 +787,7 @@ function CleanIntuitive() {
                   state={
                     currentState
                       ? currentState.shows
-                      : ['typography', 'spacing', 'colors', 'effects']
+                      : ['signify', 'interaction', 'colors', 'outcome']
                   }
                 />
               </div>
@@ -793,7 +796,7 @@ function CleanIntuitive() {
                   state={
                     currentState
                       ? currentState.shows
-                      : ['typography', 'spacing', 'colors', 'effects']
+                      : ['signify', 'interaction', 'colors', 'outcome']
                   }
                   title="UI Implementation"
                   description="Start creating UI components using React and Tailwind CSS."
@@ -814,10 +817,18 @@ function DetailOriented() {
   return (
     <header className={clsx('mb-8')}>
       <SectionTitle
-        title="Keen Eye for Spotting Small Details."
-        caption="Detail Oriented"
-        description="Awareness to ease of access, User Interface consistency, and improved User Experience."
+        title="Historical Compass"
+        caption="Honoring Heritage."
+        description="Studying particular epiphanies, challenges, and solutions that mark previous ages in computer programming not only honors our common heritage but forecasts its arc."
       />
+      {/*
+        1. origins
+        ada lovelace discussed ...
+
+        2. reception
+      
+      
+      */}
     </header>
   );
 }

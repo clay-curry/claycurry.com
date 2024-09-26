@@ -1,21 +1,18 @@
-const postgres = require('postgres').default;
+const postgres = require('postgres');
+const createMDX = require('@next/mdx');
 
 const sql = postgres(process.env.POSTGRES_URL, {
   ssl: 'allow',
 });
 
+const withMDX = createMDX({
+  // Add markdown plugins here, as desired
+});
+
 const nextConfig = {
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   experimental: {
     ppr: true,
-  },
-
-  env: {
-    // for each reaction (CLAPPING, THINGKING, AMAZED)
-    //MAX_REACTIONS_PER_SESSION: 15,
-    // max shares that will be counted
-    //MAX_SHARES_PER_SESSION: 10,
-    // max views that will be counted
-    //MAX_VIEWS_PER_SESSION: 20
   },
 
   logging: {
@@ -23,7 +20,6 @@ const nextConfig = {
       fullUrl: true,
     },
   },
-
 
   transpilePackages: ['next-mdx-remote'],
   async redirects() {
@@ -42,7 +38,6 @@ const nextConfig = {
       permanent: !!permanent,
     }));
   },
-
 
   headers() {
     return [
@@ -96,4 +91,4 @@ const securityHeaders = [
   },
 ];
 
-module.exports = nextConfig;
+module.exports = withMDX(nextConfig);

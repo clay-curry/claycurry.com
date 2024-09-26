@@ -61,7 +61,7 @@ export default function TIL() {
         <Page
           frontMatter={{
             title: 'Today I Learned',
-            description: `Tracking my trajectory into the unknown for record keeping.`
+            description: `For connecting dots along my trajectory into the abyss.`
           }}
           headerImage={<HeaderImage />}
           >

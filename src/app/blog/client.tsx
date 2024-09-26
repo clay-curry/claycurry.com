@@ -18,7 +18,7 @@ export default function BlogHome({ contentPromise }: { contentPromise: BlogConte
     <Page
       frontMatter={{
         title: 'Blog',
-        description: `My personal corner for sharing things worthy of attention in computer science and higher mathematics.`
+        description: `My personal impression of developments at the interface of tech, computer science, and higher mathematics.`
       }}
       headerImage={<HeaderImage />}
     >
