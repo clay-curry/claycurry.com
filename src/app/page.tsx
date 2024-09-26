@@ -254,7 +254,7 @@ function Hero() {
           >
             builder
           </strong>{' '}
-          experienced in UI development and programming language design.
+          who dreams of helping other builders make an impact through programming language design.
         </SlideIn>
 
         <div className={clsx('w-fit mt-6 md:mt-8')}>

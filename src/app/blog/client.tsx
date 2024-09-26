@@ -1,6 +1,6 @@
 'use client'
 
-const PINNED_POST = 'the-2023-retrospective';
+const PINNED_POST = 'the-2024-retrospective';
 
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -18,7 +18,7 @@ export default function BlogHome({ contentPromise }: { contentPromise: BlogConte
     <Page
       frontMatter={{
         title: 'Blog',
-        description: `Short notes on computer science, mathematics, and related topics.`
+        description: `My personal corner for sharing things worthy of attention in computer science and higher mathematics.`
       }}
       headerImage={<HeaderImage />}
     >
@@ -39,7 +39,6 @@ export default function BlogHome({ contentPromise }: { contentPromise: BlogConte
 
             {/* pinned post goes first */}
               <RenderPosts contentPromise={ contentPromise } />
-            
           </div>
         </div>
       </div>
@@ -242,7 +241,6 @@ function PostPreview({
     </article>
   );
 }
-
 
 function HeaderImage() {
 

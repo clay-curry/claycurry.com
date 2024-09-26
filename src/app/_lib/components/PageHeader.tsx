@@ -18,7 +18,7 @@ interface PageHeaderProps {
   headerImage?: ReactNode;
 }
 
-function PageHeader({
+function PageHeaderA({
   title,
   description,
   caption = '',
@@ -94,9 +94,10 @@ function PageHeader({
         >
           <p
             className={clsx(
-              'mt-4 text-lg text-slate-600',
-              'md:mt-6 md:text-2xl lg:max-w-[500px] xl:max-w-[700px]',
-              'dark:text-slate-400'
+              'mt-4 text-lg ',
+              'md:mt-6 md:text-2xl',
+              'lg:max-w-[500px] xl:max-w-[650px]',
+              'text-slate-600 dark:text-slate-400'
             )}
           >
             {description}
@@ -107,7 +108,7 @@ function PageHeader({
   );
 }
 
-function PageHeader2({
+function PageHeaderB({
   title,
   description,
   caption = '',
@@ -193,4 +194,4 @@ function PageHeader2({
 }
 
 
-export default PageHeader;
+export default PageHeaderA;
