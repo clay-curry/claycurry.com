@@ -24,8 +24,6 @@ const plusJakartaSans = PlusJakartaSans({
   variable: '--font-sans',
 });
 
-
-
 export const metadata: Metadata = {
   metadataBase: new URL('https://claycurry.com'),
   title: {
@@ -62,14 +60,7 @@ export const metadata: Metadata = {
   },
 };
 
-
-
-export default function Layout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html>
       <body
@@ -79,18 +70,14 @@ export default function Layout({
         <div id="skip-navigation" />
 
         <Provider>
-
           <QuickAccess />
           <Shortcuts />
           <Navigation />
-          <main className='top-18'>
-            {children}
-          </main>
+          <main className="top-18">{children}</main>
           <Toaster />
           <Footer />
-
         </Provider>
-        <GoogleAnalytics gaId='' />
+        <GoogleAnalytics gaId="" />
       </body>
     </html>
   );

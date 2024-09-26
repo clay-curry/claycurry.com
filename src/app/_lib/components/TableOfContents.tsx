@@ -2,7 +2,7 @@
 import clsx from 'clsx';
 import { m } from 'framer-motion';
 
-import useOnScroll from '@/app/_lib/hooks/useOnScroll';
+import useOnScroll from '@/app/_lib/hooks/useScroll';
 import useScrollSpy from '@/app/_lib/hooks/useScrollSpy';
 
 import type { TTableOfContentsItem } from '@/app/_lib/utils/types';

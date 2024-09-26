@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 // TODO:
 // - add support for reduced motion
@@ -17,7 +17,10 @@ import {
   TypeScriptIcon,
   VSCodeIcon,
   QuoteIcon,
-  CodeIcon, HeartIcon, SparklesIcon, CalendarIcon
+  CodeIcon,
+  HeartIcon,
+  SparklesIcon,
+  CalendarIcon,
 } from '@/app/_lib/components/Icons';
 import { DocumentIcon } from '@/app/_lib/components/Icons';
 import { SectionButton } from '@/app/_lib/components/sections/SectionButton';
@@ -25,19 +28,59 @@ import SectionContent from '@/app/_lib/components/sections/SectionContent';
 import SectionTitle from '@/app/_lib/components/sections/SectionTitle';
 
 
+export default function Page() {
+  return (
+    <section>
+      <header
+        id="page-header"
+        className={clsx(
+          'background-grid background-grid--fade-out pt-36 pb-20',
+          'lg:pb-28 lg:pt-52'
+        )}
+      >
+        <div className={clsx('content-wrapper')}>
+          <div className={clsx('relative')}>
+            <Hero />
+          </div>
+          <div className={clsx('mt-20 lg:mt-36')}>
+            <HeaderTechStack />
+          </div>
+        </div>
+      </header>
 
+      <div className={clsx('hidden', 'lg:-mt-16 lg:mb-24 lg:block')}>
+        <FeaturedCardSection />
+      </div>
+      <div className={clsx('-mt-12 mb-12', 'md:mt-0 md:mb-24')}>
+        <QuoteSection />
+      </div>
+      <section className={clsx('mb-12', 'lg:mb-24')}>
+        <CleanIntuitive />
+      </section>
+      <section className={clsx('mb-12', 'lg:mb-24')}>
+        <DetailOriented />
+      </section>
+      <section className={clsx('mb-12', 'lg:mb-24')}>
+        <PrettyOptimized />
+      </section>
+    </section>
+  );
+}
 
-function Hero() {
+function WaveILY() {
+  return (
+    <m.div
+      initial={{ y: 16, rotate: 30, transformOrigin: 'right center' }}
+      animate={{ y: 0, rotate: 0 }}
+      transition={{ type: 'spring', delay: 0.725, bounce: 0.7, duration: 0.7 }}
+    >
+      🤟
+    </m.div>
+  );
+}
 
-  const WaveILY = () => <m.div
-    initial={{ y: 16, rotate: 30, transformOrigin: 'right center' }}
-    animate={{ y: 0, rotate: 0 }}
-    transition={{ type: 'spring', delay: 0.725, bounce: 0.7, duration: 0.7 }}
-  >
-    🤟
-  </m.div>
-
-  const AvailableForHire = () =>
+function AvailableForHire() {
+  return (
     <div
       className={clsx(
         'button button--ghost text-accent-500 pointer-events-none gap-2.5 px-2.5',
@@ -48,7 +91,7 @@ function Hero() {
       <span className={clsx('relative flex h-2 w-2')}>
         <span
           className={clsx(
-            'bg-accent-600 absolute -top-1 -left-1 inline-flex h-4 w-4 animate-ping rounded-full opacity-75',
+            'bg-accent-600 absolute inline-flex h-2 w-2 animate-ping rounded-full opacity-75',
             'dark:bg-accent-300'
           )}
         />
@@ -61,9 +104,11 @@ function Hero() {
       </span>
       Available for hire
     </div>
+  );
+}
 
-
-  const LetsWorkTogetherButton = () =>
+function LetsWorkTogetherButton() {
+  return (
     <Link
       href="/work/contact"
       className={clsx('button min-w-[128px]', 'md:button--big')}
@@ -71,65 +116,94 @@ function Hero() {
       <CodeIcon className={clsx('h-5 w-5')} />
       Work together
     </Link>
+  );
+}
 
-  const ButtonResume = () =>
+function ButtonResume() {
+  return (
     <a
       target="_blank"
       rel="noreferrer nofollow"
-      href="https://www.figma.com/community/file/1176377524040948926"
+      href="https://github.com/clay-curry"
       className={clsx('button button--ghost px-2', 'md:button--big md:px-2')}
     >
       <DocumentIcon className={clsx('h-5 w-5')} />
       Resume
     </a>
+  );
+}
 
-
-  const HeroCta = ({
-    isFree = true,
-    isFreeAnimationDuration = 4,
-  }: {
-    isFree?: boolean;
-    isFreeAnimationDuration?: number;
-  }) => {
-    const shouldReduceMotion = useReducedMotion();
-
-    return (
-      <m.div className={clsx('flex gap-6')} initial="hide" animate="show">
-        <m.div variants={{
-          hide: { x: -16, opacity: 0 },
-          show: { x: 0, opacity: 1 },
-        }} transition={{ delay: 0.1 }}>
-          <ButtonResume />
-        </m.div>
-
-        <m.div
-          className={clsx('relative z-20')}
-          variants={{
-            hide: { x: -16, opacity: 0 },
-            show: { x: 0, opacity: 1 },
-          }}
-          transition={{ delay: 0.2 }}
-        >
-          <LetsWorkTogetherButton />
-        </m.div>
-      </m.div>
-    );
-  }
-
-  const SlideIn = ({ delay = 0.0, className, children }: { delay?: number, className?: string, children: React.ReactNode }) => <m.span
-    className={className}
-    initial={{ x: -32, opacity: 0 }}
-    animate={{ x: 0, opacity: 1 }}
-    transition={{ delay }}
-  >
-    {children}
-  </m.span>
+function HeroCta({
+  isFree = true,
+  isFreeAnimationDuration = 4,
+}: {
+  isFree?: boolean;
+  isFreeAnimationDuration?: number;
+}) {
+  const shouldReduceMotion = useReducedMotion();
 
   return (
+    <m.div className={clsx('flex gap-6')} initial="hide" animate="show">
+      <m.div
+        variants={{
+          hide: { x: -16, opacity: 0 },
+          show: { x: 0, opacity: 1 },
+        }}
+        transition={{ delay: 0.1 }}
+      >
+        <ButtonResume />
+      </m.div>
 
+      <m.div
+        className={clsx('relative z-20')}
+        variants={{
+          hide: { x: -16, opacity: 0 },
+          show: { x: 0, opacity: 1 },
+        }}
+        transition={{ delay: 0.2 }}
+      >
+        <LetsWorkTogetherButton />
+      </m.div>
+
+      <m.div
+        className={clsx('relative z-20')}
+        variants={{
+          hide: { x: -16, opacity: 0 },
+          show: { x: 0, opacity: 1 },
+        }}
+        transition={{ delay: 0.8 }}
+      >
+        <AvailableForHire />
+      </m.div>
+    </m.div>
+  );
+}
+
+function SlideIn({
+  delay = 0.0,
+  className,
+  children,
+}: {
+  delay?: number;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <m.span
+      className={className}
+      initial={{ x: -32, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ delay }}
+    >
+      {children}
+    </m.span>
+  );
+}
+
+function Hero() {
+  return (
     <div className={clsx('relative z-10 max-w-xl')}>
-      <div className={clsx(
-        'text-slate-700', 'dark:text-slate-300')}>
+      <div className={clsx('text-slate-700', 'dark:text-slate-300')}>
         {/* hero text line 1*/}
         <SlideIn
           className={clsx(
@@ -143,9 +217,7 @@ function Hero() {
             <span>hi!</span>
             <WaveILY /> {/* wave 🤟 emoji */}
           </div>
-          <AvailableForHire />
         </SlideIn>
-
 
         {/* hero text line 2*/}
         <SlideIn
@@ -162,7 +234,6 @@ function Hero() {
           Curry,{' '}
         </SlideIn>
 
-
         {/* hero text line 3*/}
         <SlideIn
           className={clsx(
@@ -173,9 +244,7 @@ function Hero() {
             'dark:text-slate-400'
           )}
         >
-
-          a
-          {' '}
+          a{' '}
           <strong
             className={clsx(
               'font-bold lowercase',
@@ -184,11 +253,8 @@ function Hero() {
             )}
           >
             builder
-          </strong>
-          {' '}
-
-          skilled in UI design, programming
-          language design, visual analytics, and system observability.
+          </strong>{' '}
+          experienced in UI development and programming language design.
         </SlideIn>
 
         <div className={clsx('w-fit mt-6 md:mt-8')}>
@@ -200,7 +266,6 @@ function Hero() {
 }
 
 function HeaderTechStack() {
-
   const animation = {
     hide: { x: -8, opacity: 0 },
     show: {
@@ -208,7 +273,6 @@ function HeaderTechStack() {
       opacity: 1,
     },
   };
-
 
   return (
     <div>
@@ -277,8 +341,11 @@ function HeaderTechStack() {
 }
 
 function FeaturedCardSection() {
-
-  function FeaturedCard({ icon, title, desc }: {
+  function FeaturedCard({
+    icon,
+    title,
+    desc,
+  }: {
     icon: ReactElement;
     title: string;
     desc: string;
@@ -332,7 +399,6 @@ function FeaturedCardSection() {
     );
   }
 
-
   return (
     <div className={clsx('content-wrapper')}>
       <div className={clsx('flex flex-col gap-4', 'lg:flex-row lg:gap-8')}>
@@ -384,7 +450,6 @@ function FeaturedCardSection() {
 }
 
 function QuoteSection() {
-
   function Quote() {
     return (
       <blockquote
@@ -406,7 +471,10 @@ function QuoteSection() {
             <em>Design patterns</em>{' '}
           </span>
           <span
-            className={clsx('flex items-center gap-2 leading-[1.15]', 'lg:gap-4')}
+            className={clsx(
+              'flex items-center gap-2 leading-[1.15]',
+              'lg:gap-4'
+            )}
           >
             <span
               className={clsx(
@@ -465,7 +533,6 @@ function QuoteSection() {
     );
   }
 
-
   return (
     <div className={clsx('content-wrapper')}>
       <div className={clsx('flex items-center justify-center py-8')}>
@@ -476,7 +543,6 @@ function QuoteSection() {
 }
 
 function CleanIntuitive() {
-
   type TodoItemState = 'spacing' | 'typography' | 'colors' | 'effects';
 
   type Content = {
@@ -540,9 +606,9 @@ function CleanIntuitive() {
           state.includes('typography') ? ['text-sm'] : ['font-serif'],
           state.includes('colors')
             ? [
-              'border-divider-light bg-white',
-              'dark:border-divider-dark dark:bg-slate-900',
-            ]
+                'border-divider-light bg-white',
+                'dark:border-divider-dark dark:bg-slate-900',
+              ]
             : ['border-black bg-white', 'dark:border-white dark:bg-[#050914]']
         )}
         role="presentation"
@@ -563,9 +629,9 @@ function CleanIntuitive() {
                 state.includes('colors')
                   ? ['border-white bg-sky-400 text-white']
                   : [
-                    'border-white bg-[#050914] text-white',
-                    'dark:bg-white dark:text-black',
-                  ]
+                      'border-white bg-[#050914] text-white',
+                      'dark:bg-white dark:text-black',
+                    ]
               )}
             >
               E
@@ -578,9 +644,9 @@ function CleanIntuitive() {
               state.includes('typography') && ['text-xs font-bold'],
               state.includes('colors')
                 ? [
-                  'bg-red-100 text-red-800',
-                  'dark:bg-red-500/20 dark:text-red-300',
-                ]
+                    'bg-red-100 text-red-800',
+                    'dark:bg-red-500/20 dark:text-red-300',
+                  ]
                 : ['bg-[#ff0000] text-white']
             )}
           >
@@ -624,9 +690,9 @@ function CleanIntuitive() {
               state.includes('typography') && [''],
               state.includes('colors')
                 ? [
-                  'bg-blue-100 text-blue-700',
-                  'dark:bg-blue-500/20 dark:text-blue-300',
-                ]
+                    'bg-blue-100 text-blue-700',
+                    'dark:bg-blue-500/20 dark:text-blue-300',
+                  ]
                 : ['bg-[#0000ff] text-white']
             )}
           >
@@ -639,9 +705,9 @@ function CleanIntuitive() {
               state.includes('typography') && [''],
               state.includes('colors')
                 ? [
-                  'bg-yellow-100 text-yellow-700',
-                  'dark:bg-yellow-500/20 dark:text-yellow-300',
-                ]
+                    'bg-yellow-100 text-yellow-700',
+                    'dark:bg-yellow-500/20 dark:text-yellow-300',
+                  ]
                 : ['bg-[#ffff00] text-black']
             )}
           >
@@ -681,7 +747,6 @@ function CleanIntuitive() {
       </div>
     );
   }
-
 
   return (
     <>
@@ -766,49 +831,5 @@ function PrettyOptimized() {
         description="Writing clean code is a top priority while keeping it as optimized as possible."
       />
     </header>
-  );
-}
-
-
-
-export default function Page() {
-  return (
-    <section>
-
-      <header
-        id="page-header"
-        className={clsx(
-          'background-grid background-grid--fade-out pt-36 pb-20',
-          'lg:pb-28 lg:pt-52'
-        )}
-      >
-        <div className={clsx('content-wrapper')}>
-          <div className={clsx('relative')}>
-            <Hero />
-          </div>
-          <div className={clsx('mt-20 lg:mt-36')}>
-            <HeaderTechStack />
-          </div>
-        </div>
-      </header>
-
-      <div className={clsx('hidden', 'lg:-mt-16 lg:mb-24 lg:block')}>
-        <FeaturedCardSection />
-      </div>
-      <div className={clsx('-mt-12 mb-12', 'md:mt-0 md:mb-24')}>
-        <QuoteSection />
-      </div>
-      <section className={clsx('mb-12', 'lg:mb-24')}>
-        <CleanIntuitive />
-      </section>
-      <section className={clsx('mb-12', 'lg:mb-24')}>
-        <DetailOriented />
-      </section>
-      <section className={clsx('mb-12', 'lg:mb-24')}>
-        <PrettyOptimized />
-      </section>
-
-
-    </section>
   );
 }

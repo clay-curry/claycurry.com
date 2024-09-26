@@ -1,51 +1,137 @@
-'use client';
+'use client'
+
+const PINNED_POST = 'the-2023-retrospective';
 
 import clsx from 'clsx';
 import Link from 'next/link';
 import { m } from 'framer-motion';
+import { useState, useEffect, use, Suspense } from 'react';
 
-
-import CountUp from '@/app/_lib/components/CountUp';
+import Page from '@/app/_lib/contents-layouts/Page';
 import { formatDateRelative, formatLang } from '@/app/_lib/post';
-import { ChevronRightIcon, InsightIcon, PinIcon } from '@/app/_lib/components/Icons';
+import { ChevronRightIcon, PinIcon } from '@/app/_lib/components/Icons';
 
-export function HeaderImage () {
-  return (
-  <m.svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 512 512"
-    fill="none"
-    initial="hide"
-    animate="show"
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={clsx(
-      'stroke-accent-500 -mt-16 h-full opacity-60',
-      'dark:opacity-40'
-    )}
-  >
-    <m.path
-      variants={{
-        hide: { pathLength: 0.1 },
-        show: (i) => {
-          const delay = 0.2 + i * 0.1;
-          return {
-            pathLength: 1,
-            transition: {
-              pathLength: { delay, duration: 2 },
-            },
-          };
-        },
+export type BlogContentType = { slug: string; category: string; title: string; description: string; date: string; lang: string; tags: string[]; views: number; shares: number; }
+
+export default function BlogHome({ contentPromise }: { contentPromise: BlogContentType[] }) {
+  return (<div>
+    <Page
+      frontMatter={{
+        title: 'Blog',
+        description: `Short notes on computer science, mathematics, and related topics.`
       }}
-      custom={1}
-      d="M204.055 213.905q-18.12-5.28-34.61-9a145.92 145.92 0 0 1-6.78-44.33c0-65.61 42.17-118.8 94.19-118.8 52.02 0 94.15 53.14 94.15 118.76a146.3 146.3 0 0 1-6.16 42.32q-20.52 4.3-43.72 11.05c-22 6.42-39.79 12.78-48.56 16.05-8.72-3.27-26.51-9.63-48.51-16.05zm-127.95 84.94a55.16 55.16 0 1 0 55.16 55.15 55.16 55.16 0 0 0-55.16-55.15zm359.79 0a55.16 55.16 0 1 0 55.16 55.15 55.16 55.16 0 0 0-55.15-55.15zm-71.15 55.15a71.24 71.24 0 0 1 42.26-65v-77.55c-64.49 0-154.44 35.64-154.44 35.64s-89.95-35.64-154.44-35.64v74.92a71.14 71.14 0 0 1 0 135.28v7c64.49 0 154.44 41.58 154.44 41.58s89.99-41.55 154.44-41.55v-9.68a71.24 71.24 0 0 1-42.26-65z"
-    />
-  </m.svg>
-);
+      headerImage={<HeaderImage />}
+    >
+
+      <div className={clsx('content-wrapper')}>
+        <div
+          className={clsx(
+            'flex flex-col gap-8',
+            'md:flex-row md:gap-8 lg:gap-24'
+          )}
+        >
+          <div className={clsx('md:w-64')}>
+            {
+              // TODO: Filter Posts
+            }
+          </div>
+          <div className={clsx('flex-1')}>
+
+            {/* pinned post goes first */}
+              <RenderPosts contentPromise={ contentPromise } />
+            
+          </div>
+        </div>
+      </div>
+    </Page>
+  </div>
+  );
 }
 
-export function PostPreview({
+function RenderPosts({contentPromise}) {  
+  const pinnedPost = contentPromise.filter(post => post.slug === PINNED_POST);
+  const postsPreview = contentPromise.filter(post => post.slug !== PINNED_POST);
+  return (
+    [
+      (
+        <div
+          key={pinnedPost[0].slug}
+          className={clsx(
+            'mb-8 flex items-start gap-4',
+            'md:mb-4 md:gap-6'
+          )}
+        >
+          <div
+            className={clsx(
+              'border-divider-light mt-14 hidden w-8 -translate-y-1 border-b',
+              'md:mt-16 md:w-20 lg:block',
+              'dark:border-divider-dark'
+            )}
+          />
+          <div className={clsx('flex-1')}>
+            <PostPreview
+              pinned={true}
+              slug={pinnedPost[0].slug}
+              category={pinnedPost[0].category}
+              title={pinnedPost[0].title}
+              description={pinnedPost[0].description}
+              date={pinnedPost[0].date}
+              lang={pinnedPost[0].lang}
+              tags={pinnedPost[0].tags}
+              views={pinnedPost[0].views}
+              shares={pinnedPost[0].shares}
+            />
+          </div>
+        </div>
+      
+      ),
+      ...postsPreview.map(
+      ({
+        slug,
+        category,
+        title,
+        description,
+        date,
+        lang,
+        tags,
+        views,
+        shares,
+      }) => (
+        <div
+          key={slug}
+          className={clsx(
+            'mb-8 flex items-start gap-4',
+            'md:mb-4 md:gap-6'
+          )}
+        >
+          <div
+            className={clsx(
+              'border-divider-light mt-14 hidden w-8 -translate-y-1 border-b',
+              'md:mt-16 md:w-20 lg:block',
+              'dark:border-divider-dark'
+            )}
+          />
+          <div className={clsx('flex-1')}>
+            <PostPreview
+              slug={slug}
+              category={category}
+              title={title}
+              description={description}
+              date={date}
+              lang={lang}
+              tags={tags}
+              views={views}
+              shares={shares}
+            />
+          </div>
+        </div>
+      )
+    )]
+    
+  );
+}
+
+function PostPreview({
   title,
   description,
   category,
@@ -56,18 +142,10 @@ export function PostPreview({
   views,
   shares,
   pinned = false,
-}: {
-  title: string;
-  description: string;
-  date: string;
-  category: string;
-  slug: string;
-  lang: string;
-  tags: string[];
-  views: number;
-  shares: number;
-  pinned?: boolean;
-}) {
+}: BlogContentType & { 
+  pinned?: boolean
+}
+) {
   return (
     <article lang={lang}>
       <Link
@@ -77,14 +155,15 @@ export function PostPreview({
           'sm:mb-0 sm:rounded-2xl',
           pinned
             ? [
-                'border-divider-light',
-                'sm:border sm:p-4 md:mt-6 md:p-6',
-                'dark:border-divider-dark',
-              ]
+              'border-divider-light',
+              'sm:border sm:p-4 md:mt-6 md:p-6',
+              'dark:border-divider-dark',
+            ]
             : ['sm:p-4 md:p-6']
         )}
       >
         {pinned && (
+          <>
           <m.div
             initial={{ x: 0, opacity: 0 }}
             animate={{ x: '100%', opacity: [0, 1, 0, 0] }}
@@ -102,18 +181,18 @@ export function PostPreview({
               )}
             />
           </m.div>
-        )}
-        {pinned && (
+          
           <div
-            className={clsx(
-              'relative mb-4 flex items-center gap-2 font-semibold text-slate-500',
-              'sm:text-slate-500',
-              'dark:sm:text-accent-400 dark:text-slate-400'
-            )}
-          >
-            <PinIcon className={clsx('h-5 w-5')} />
-            Pinned Post
-          </div>
+              className={clsx(
+                'relative mb-4 flex items-center gap-2 font-semibold text-slate-500',
+                'sm:text-slate-500',
+                'dark:sm:text-accent-400 dark:text-slate-400'
+              )}
+            >
+              <PinIcon className={clsx('h-5 w-5')} />
+              Pinned Post
+            </div>
+        </>
         )}
         <div
           className={clsx(
@@ -164,115 +243,54 @@ export function PostPreview({
   );
 }
 
-type PostPreview = {
-  slug: string;
-  category: string;
-  title: string;
-  description: string;
-  date: string;
-  lang: string;
-  tags: string[];
-  views: number;
-  shares: number;
-}
 
-export function BlogPage(
-   { pinnedPost, postsPreview }: { pinnedPost: PostPreview | undefined, postsPreview: PostPreview[] }
-) {
+function HeaderImage() {
+
+  const animation = {
+    hide: { pathLength: 0.3 },
+    show: (i) => {
+      const delay = 0.4 + i * 0.1;
+      return {
+        pathLength: 1.2,
+        transition: {
+          pathLength: { delay, duration: 0.5 },
+        },
+      };
+    },
+  };
+
+
   return (
-     
-    <div className={clsx('content-wrapper')}>
-      <div
-        className={clsx(
-          'flex flex-col gap-8',
-          'md:flex-row md:gap-8 lg:gap-24'
-        )}
-      >
-        <div className={clsx('md:w-64')}>
-          {
-            // TODO: Filter Posts
-          }
-        </div>
-        <div className={clsx('flex-1')}>
-          {pinnedPost && (
-            <div
-              key={pinnedPost.slug}
-              className={clsx(
-                'mb-8 flex items-start gap-4',
-                      'md:mb-4 md:gap-6'
-                    )}
-                  >
-                    <div
-                      className={clsx(
-                        'border-divider-light mt-14 hidden w-8 -translate-y-1 border-b',
-                        'md:mt-16 md:w-20 lg:block',
-                        'dark:border-divider-dark'
-                      )}
-                    />
-                    <div className={clsx('flex-1')}>
-                      <PostPreview
-                        pinned={true}
-                        slug={pinnedPost.slug}
-                        category={pinnedPost.category}
-                        title={pinnedPost.title}
-                        description={pinnedPost.description}
-                        date={pinnedPost.date}
-                        lang={pinnedPost.lang}
-                        tags={pinnedPost.tags}
-                        views={pinnedPost.views}
-                        shares={pinnedPost.shares}
-                      />
-                    </div>
-                  </div>
-                )
-              }
-
-
-
-              {postsPreview.map(
-                ({
-                  slug,
-                  category,
-                  title,
-                  description,
-                  date,
-                  lang,
-                  tags,
-                  views,
-                  shares,
-                }) => (
-                  <div
-                    key={slug}
-                    className={clsx(
-                      'mb-8 flex items-start gap-4',
-                      'md:mb-4 md:gap-6'
-                    )}
-                  >
-                    <div
-                      className={clsx(
-                        'border-divider-light mt-14 hidden w-8 -translate-y-1 border-b',
-                        'md:mt-16 md:w-20 lg:block',
-                        'dark:border-divider-dark'
-                      )}
-                    />
-                    <div className={clsx('flex-1')}>
-                      <PostPreview
-                        slug={slug}
-                        category={category}
-                        title={title}
-                        description={description}
-                        date={date}
-                        lang={lang}
-                        tags={tags}
-                        views={views}
-                        shares={shares}
-                      />
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        </div>
-    );
+    <m.svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      fill="none"
+      initial="hide"
+      animate="show"
+      strokeWidth={0.1}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={clsx(
+        'stroke-accent-500 -mt-7 h-full opacity-60',
+        'dark:opacity-40'
+      )}
+    >
+      <m.circle
+        cx="5"
+        cy="6"
+        r="2"
+        variants={animation}
+        custom={1}
+        initial={{ pathLength: 1.2 }}
+      />
+      <m.circle cx="12" cy="6" r="2" variants={animation} custom={2} />
+      <m.circle cx="19" cy="6" r="2" variants={animation} custom={3} />
+      <m.circle cx="5" cy="18" r="2" variants={animation} custom={4} />
+      <m.circle cx="12" cy="18" r="2" variants={animation} custom={5} />
+      <m.line x1="5" y1="8" x2="5" y2="16" variants={animation} custom={6} />
+      <m.line x1="12" y1="8" x2="12" y2="16" variants={animation} custom={7} />
+      <m.path d="M19 8v2a2 2 0 0 1 -2 2h-12" variants={animation} custom={8} />
+    </m.svg>
+  );
 }

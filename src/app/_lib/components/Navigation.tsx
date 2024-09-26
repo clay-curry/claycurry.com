@@ -1,16 +1,17 @@
 "use client"
 
 import clsx from 'clsx';
+import React from 'react';
+import Link from 'next/link';
+import { m } from 'framer-motion';
+import { Menu } from '@headlessui/react';
+import { usePathname } from 'next/navigation';
+import type { ReactElement, ReactNode, forwardRef } from 'react';
+import { ChevronRightIcon, GitHubIcon, QuickAccessIcon, TwitterIcon } from '@/app/_lib/components/Icons';
 
-import { GitHubIcon, TwitterIcon } from '@/app/_lib/components/Icons';
-import NavIcon from '@/app/_lib/components/navigations/NavIcon';
-import NavIconQuickAccess from '@/app/_lib/components/navigations/NavIconQuickAccess';
-import NavLink from '@/app/_lib/components/navigations/NavLink';
-import NavLinkDropdown from '@/app/_lib/components/navigations/NavLinkDropdown';
-import NavLinkExpanded from '@/app/_lib/components/navigations/NavLinkExpanded';
-import NavLogo from '@/app/_lib/components/navigations/NavLogo';
-
-import useOnScroll from '@/app/_lib/hooks/useOnScroll';
+import Kbd from '@/app/_lib/components/Kbd';
+import Logo from '@/app/_lib/components/Logo';
+import { useScroll, useGlobal } from '@/app/_lib/hooks';
 
 const workLinks = [
   { title: 'Skills & Tools', href: '/work/skills-and-tools' },
@@ -19,8 +20,8 @@ const workLinks = [
   { title: 'Contact', href: '/work/contact' },
 ];
 
-function Navbar() {
-  const isScrolled = useOnScroll(0);
+export default function Navbar() {
+  const isScrolled = useScroll(0);
 
   return (
     <header
@@ -41,7 +42,7 @@ function Navbar() {
             'md:px-4'
           )}
         >
-          <nav className={clsx('flex', 'md:gap-2')} data-accent="violet">
+          <nav className={clsx('flex', 'md:gap-2')}>
             <NavLogo href="/" title="Home" />
             <ul className={clsx('flex items-center', 'md:gap-1')}>
               <li>
@@ -53,10 +54,10 @@ function Navbar() {
               <li>
                 <NavLink title="T.I.L" href="/today-i-learned" />
               </li>
-              <li className={clsx('block lg:hidden')} data-accent="blue">
+              <li className={clsx('block lg:hidden')}>
                 <NavLinkDropdown title="More" items={workLinks} />
               </li>
-              <li className={clsx('hidden lg:block')} data-accent="blue">
+              <li className={clsx('hidden lg:block')}>
                 <NavLinkExpanded title="More" items={workLinks} />
               </li>
             </ul>
@@ -94,4 +95,213 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+type NavLink = {
+  href: string;
+  title: string;
+};
+
+type NavLinkProps = {
+  title: string;
+  href: string;
+  icon?: ReactNode;
+};
+
+interface NavLogoProps {
+  href: string;
+  title: string;
+}
+
+interface NavLinkDropdownProps {
+  title: string;
+  items: Array<NavLink>;
+}
+
+
+function NavIcon({ href, icon, title, label = '' }: {
+  href: string;
+  icon: ReactElement;
+  title: string;
+  label?: string;
+}) {
+  return (
+    <a
+      href={href}
+      className={clsx(
+        'flex items-center justify-center rounded-xl',
+        'hover:bg-slate-300/50',
+        'dark:hover:bg-slate-800/50',
+        [
+          label && [
+            'text-slate-800',
+            'sm:bg-slate-300/50 sm:pr-3 sm:pl-1',
+            'sm:hover:bg-slate-300/70',
+            'dark:text-slate-100 sm:dark:bg-slate-800/50 sm:dark:hover:bg-slate-700/50',
+          ],
+        ]
+      )}
+      aria-label={`My ${title} profile`}
+      title={`My ${title} profile`}
+      target="_blank"
+      rel="noreferrer nofollow"
+    >
+      <span
+        className={clsx('flex h-9 w-9 items-center justify-center rounded-xl')}
+      >
+        {icon}
+      </span>
+      {label && (
+        <span
+          className={clsx(
+            'hidden text-xs font-bold',
+            'sm:block',
+            'dark:font-semibold'
+          )}
+        >
+          {label}
+        </span>
+      )}
+    </a>
+  );
+}
+
+function NavIconQuickAccess() {
+  const { setQuickAccessOpen } = useGlobal();
+
+  return (
+    <button
+      type="button"
+      className={clsx(
+        'ml-1 flex h-9 w-9 items-center justify-center gap-2 rounded-xl bg-slate-300/50 text-slate-800',
+        'xl:w-auto xl:px-3',
+        'hover:bg-slate-300/70 sm:ml-0',
+        'dark:bg-slate-800/50 dark:text-slate-100 dark:hover:bg-slate-700/50'
+      )}
+      aria-label="Open Quick Access"
+      title="Open Quick Access"
+      onClick={() => {
+        setQuickAccessOpen(true);
+      }}
+    >
+      <QuickAccessIcon className={clsx('h-5 w-5')} />
+      <div
+        className={clsx(
+          'hidden items-center gap-2 text-xs font-bold',
+          'xl:flex',
+          'dark:font-normal'
+        )}
+      >
+        Quick Access
+        <Kbd>Q</Kbd>
+      </div>
+    </button>
+  );
+}
+
+function NavLink({ title, href, icon = null }: NavLinkProps) {
+  return (
+    <Link href={href} className={clsx('nav-link')}>
+      {title}
+      {icon}
+    </Link>
+  );
+}
+
+interface NavLinkExpandedProps {
+  title: string;
+  items: Array<NavLinkProps>;
+}
+
+function NavLinkExpanded({ title, items }: NavLinkExpandedProps) {
+  return (
+    <div className={clsx('flex')}>
+      <div
+        className={clsx(
+          'text-white',
+          'nav-link nav-link--label pointer-events-none ml-2 mr-2'
+        )}
+      >
+        {title}
+        <ChevronRightIcon className={clsx('h-3 w-3')} />
+      </div>
+      <ul className={clsx('flex items-center')}>
+        {items.map((item, idx) => (
+          <React.Fragment key={item.href}>
+            <li>
+              <NavLink title={item.title} href={item.href} />
+            </li>
+            {idx !== items.length - 1 && (
+              <li>
+                <div className="nav-link__separator">&middot;</div>
+              </li>
+            )}
+          </React.Fragment>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function NavLinkDropdown({ title, items }: NavLinkDropdownProps) {
+  return (
+    <div className="relative">
+      <Menu>
+        {({ open }) => (
+          <>
+            <Menu.Button className={clsx('nav-link nav-link--label ml-2')}>
+              {title}
+              <ChevronRightIcon
+                className={clsx('h-3 w-3 rotate-90', [open && '-rotate-90'])}
+              />
+            </Menu.Button>
+            {open && (
+              <Menu.Items
+                static
+                as={m.div}
+                variants={{
+                  hide: { opacity: 0, y: -16 },
+                  show: { opacity: 1, y: 0, transition: { duration: 0.18 } },
+                }}
+                initial="hide"
+                animate="show"
+                className={clsx(
+                  'border-divider-light absolute top-11 flex w-40 flex-col rounded-2xl border bg-white/70 p-2 backdrop-blur',
+                  'dark:border-divider-dark dark:bg-slate-900/80'
+                )}
+              >
+                {items.map((item) => (
+                  <Menu.Item key={item.href}>
+                    {({ active }) => (
+                      <Link
+                        href={item.href}
+                        className={clsx('nav-link h-8 text-xs', [
+                          active && 'nav-link--focus',
+                        ])}
+                      >
+                        {item.title}
+                      </Link>
+                    )}
+                  </Menu.Item>
+                ))}
+              </Menu.Items>
+            )}
+          </>
+        )}
+      </Menu>
+    </div>
+  );
+}
+
+function NavLogo({ href, title }: NavLogoProps) {
+  const isActive = usePathname() === href;
+
+  return (
+    <Link
+      href={href}
+      className={clsx('flex h-9 items-center gap-2 rounded-xl px-2')}
+      aria-label={title}
+    >
+      <Logo active={isActive} />
+    </Link>
+  );
+}
+
