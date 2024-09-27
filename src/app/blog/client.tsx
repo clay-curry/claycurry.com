@@ -13,7 +13,7 @@ import { ChevronRightIcon, PinIcon } from '@/app/_lib/components/Icons';
 
 export type BlogContentType = { slug: string; category: string; title: string; description: string; date: string; lang: string; tags: string[]; views: number; shares: number; }
 
-export default function BlogHome({ contentPromise }: { contentPromise: BlogContentType[] }) {
+export default function BlogHome({ contentPromise: content }: { contentPromise: BlogContentType[] }) {
   return (<div>
     <Page
       frontMatter={{
@@ -38,7 +38,7 @@ export default function BlogHome({ contentPromise }: { contentPromise: BlogConte
           <div className={clsx('flex-1')}>
 
             {/* pinned post goes first */}
-              <RenderPosts contentPromise={ contentPromise } />
+              <RenderPosts contentPromise={ content } />
           </div>
         </div>
       </div>

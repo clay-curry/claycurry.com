@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { m } from 'framer-motion';
 import { Menu } from '@headlessui/react';
 import { usePathname } from 'next/navigation';
-import type { ReactElement, ReactNode, forwardRef } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import { ChevronRightIcon, GitHubIcon, QuickAccessIcon, TwitterIcon } from '@/app/_lib/components/Icons';
 
 import Kbd from '@/app/_lib/components/Kbd';
@@ -25,6 +25,7 @@ const moreLinks = [
   { title: 'Experience', href: '/work/experience' },
   { title: 'Studio', href: '/work/studio' },
   { title: 'T.I.L', href: '/today-i-learned' },
+  { title: 'Credits', href: '/credits' },
 ];
 
 export default function Navbar() {
