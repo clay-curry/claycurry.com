@@ -13,7 +13,7 @@ import { ChevronRightIcon, PinIcon } from '@/app/_lib/components/Icons';
 
 export type BlogContentType = { slug: string; category: string; title: string; description: string; date: string; lang: string; tags: string[]; views: number; shares: number; }
 
-export function BlogHome({ content }: { contentPromise: BlogContentType[] }) {
+export function BlogHome({ posts }: { posts: Promise<BlogContentType[]> }) {
 
 
   return (<div>
@@ -40,7 +40,7 @@ export function BlogHome({ content }: { contentPromise: BlogContentType[] }) {
           <div className={clsx('flex-1')}>
 
             {/* pinned post goes first */}
-            <RenderPosts contentPromise={content} />
+            <RenderPosts contentPromise={posts} />
           </div>
         </div>
       </div>
@@ -49,19 +49,24 @@ export function BlogHome({ content }: { contentPromise: BlogContentType[] }) {
   );
 }
 
-function RenderPosts({ contentPromise }) {
-  const pinnedPost = contentPromise.filter(post => post.slug === PINNED_POST);
-  const postsPreview = contentPromise.filter(post => post.slug !== PINNED_POST);
+function RenderPosts({ contentPromise }: { contentPromise: Promise<BlogContentType[]> }) {
+  const content = use(contentPromise);
+  const pinnedPost = content.filter(post => post.slug === PINNED_POST);
+  const postsPreview = content.filter(post => post.slug !== PINNED_POST);
+
+
   return (
-    [
-      (
+    <Suspense fallback={<div>Loading...</div>}>
+
+      {pinnedPost[0] ? (
         <div
           key={pinnedPost[0].slug}
           className={clsx(
             'mb-8 flex items-start gap-4',
             'md:mb-4 md:gap-6'
-          )}
-        >
+          )}>
+
+
           <div
             className={clsx(
               'border-divider-light mt-14 hidden w-8 -translate-y-1 border-b',
@@ -72,34 +77,15 @@ function RenderPosts({ contentPromise }) {
           <div className={clsx('flex-1')}>
             <PostPreview
               pinned={true}
-              slug={pinnedPost[0].slug}
-              category={pinnedPost[0].category}
-              title={pinnedPost[0].title}
-              description={pinnedPost[0].description}
-              date={pinnedPost[0].date}
-              lang={pinnedPost[0].lang}
-              tags={pinnedPost[0].tags}
-              views={pinnedPost[0].views}
-              shares={pinnedPost[0].shares}
+              {...pinnedPost[0]}
             />
           </div>
         </div>
-
-      ),
-      ...postsPreview.map(
-        ({
-          slug,
-          category,
-          title,
-          description,
-          date,
-          lang,
-          tags,
-          views,
-          shares,
-        }) => (
+      ) : <></>}
+      {postsPreview.map(
+        (props) => (
           <div
-            key={slug}
+            key={props.slug}
             className={clsx(
               'mb-8 flex items-start gap-4',
               'md:mb-4 md:gap-6'
@@ -113,40 +99,29 @@ function RenderPosts({ contentPromise }) {
               )}
             />
             <div className={clsx('flex-1')}>
-              <PostPreview
-                slug={slug}
-                category={category}
-                title={title}
-                description={description}
-                date={date}
-                lang={lang}
-                tags={tags}
-                views={views}
-                shares={shares}
-              />
+              <PostPreview {...props} />
             </div>
           </div>
         )
-      )]
-
+      )}
+    </Suspense>
   );
 }
 
-function PostPreview({
-  title,
-  description,
-  category,
-  date,
-  slug,
-  lang,
-  tags,
-  views,
-  shares,
-  pinned = false,
-}: BlogContentType & {
+function PostPreview(props: BlogContentType & {
   pinned?: boolean
 }
 ) {
+  const { title,
+    description,
+    category,
+    date,
+    slug,
+    lang,
+    tags,
+    views,
+    shares,
+    pinned } = props
   return (
     <article lang={lang}>
       <Link

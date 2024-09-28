@@ -1,8 +1,10 @@
-export default ({ params }) => {
+function WorkPage({ params }) {
   return <div>
     work/{params.slug}
   </div>
 }
+
+export default WorkPage;
 
 
 /*

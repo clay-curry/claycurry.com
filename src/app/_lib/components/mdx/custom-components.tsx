@@ -108,15 +108,15 @@ export function Link({ children, href }: DetailedHTMLProps<AnchorHTMLAttributes<
     if (['/'].includes(url[0])) {
       return 'internal';
     }
-  
+
     if (['#'].includes(url[0])) {
       return 'hash';
     }
-  
+
     if (url.indexOf('mailto') === 0) {
       return 'mail';
     }
-  
+
     return 'external';
   };
   const type = urlType(href);
@@ -474,7 +474,7 @@ export function Table({ children }: DetailedHTMLProps<
   );
 }
 
-export default {
+const CustomComponents = {
   a: Link,
   h2: H2,
   h3: H3,
@@ -482,3 +482,5 @@ export default {
   pre: Pre,
   table: Table,
 }
+
+export default CustomComponents;

@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "build-only": "next build",
+    "lint": "next lint",
     "start": "next start"
   },
   "dependencies": {

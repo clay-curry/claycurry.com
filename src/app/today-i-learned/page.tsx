@@ -5,6 +5,23 @@ import clsx from 'clsx';
 import Page from '@/app/_lib/contents-layouts/Page';
 import { m } from 'framer-motion';
 
+export default function TIL() {
+  return (<div>
+    <Page
+      frontMatter={{
+        title: 'Today I Learned',
+        description: `For connecting dots along my trajectory into the abyss.`
+      }}
+      headerImage={<HeaderImage />}
+    >
+      <div className={clsx('content-wrapper mdx-contents')}>
+        TODO
+      </div>
+    </Page>
+  </div>
+  );
+}
+
 function HeaderImage() {
 
   const animation = {
@@ -53,22 +70,5 @@ function HeaderImage() {
       <m.line x1="12" y1="8" x2="12" y2="16" variants={animation} custom={7} />
       <m.path d="M19 8v2a2 2 0 0 1 -2 2h-12" variants={animation} custom={8} />
     </m.svg>
-  );
-}
-
-export default function TIL() {
-  return (<div>
-        <Page
-          frontMatter={{
-            title: 'Today I Learned',
-            description: `For connecting dots along my trajectory into the abyss.`
-          }}
-          headerImage={<HeaderImage />}
-          >
-          <div className={clsx('content-wrapper mdx-contents')}>
-            TODO
-          </div>
-        </Page>
-      </div>
   );
 }

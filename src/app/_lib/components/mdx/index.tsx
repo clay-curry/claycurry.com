@@ -13,7 +13,7 @@ function slugify(str) {
 }
 
 function createHeading(level) {
-  return ({ children }) => {
+  return (function createHeading({ children }) {
     let slug = slugify(children);
     return React.createElement(
       `h${level}`,
@@ -27,7 +27,7 @@ function createHeading(level) {
       ],
       children
     );
-  };
+  });
 }
 
 let components = {

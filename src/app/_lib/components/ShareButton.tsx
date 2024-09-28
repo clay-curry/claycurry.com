@@ -24,23 +24,25 @@ interface ShareItemButtonProps extends ShareItemProps {
 }
 
 const ShareItemButton = forwardRef(
-  (
+  function ShareItemButton(
     { active, children, onClick }: ShareItemButtonProps,
     ref: Ref<HTMLButtonElement>
-  ) => (
-    <button
-      type="button"
-      ref={ref}
-      className={clsx(
-        'flex w-full items-center gap-3 px-4 py-2 text-[13px]',
-        ['hover:bg-slate-100', 'hover:dark:bg-[#1d263a]'],
-        [active && ['bg-slate-100', 'dark:bg-[#1d263a]']]
-      )}
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  )
+  ) {
+    return (
+      <button
+        type="button"
+        ref={ref}
+        className={clsx(
+          'flex w-full items-center gap-3 px-4 py-2 text-[13px]',
+          ['hover:bg-slate-100', 'hover:dark:bg-[#1d263a]'],
+          [active && ['bg-slate-100', 'dark:bg-[#1d263a]']]
+        )}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    )
+  }
 );
 
 interface ShareItemLinkProps extends ShareItemProps {
@@ -49,26 +51,27 @@ interface ShareItemLinkProps extends ShareItemProps {
 }
 
 const ShareItemLink = forwardRef(
-  (
+  function ShareItemLink(
     { href, active, onClick, children }: ShareItemLinkProps,
     ref: Ref<HTMLAnchorElement>
-  ) => (
-    <a
-      ref={ref}
-      href={href}
-      onClick={onClick}
-      target="_blank"
-      rel="noreferrer nofollow"
-      className={clsx(
-        'flex w-full items-center gap-3 px-4 py-2 text-[13px]',
-        ['hover:bg-slate-100', 'hover:dark:bg-[#1d263a]'],
-        [active && ['bg-slate-100', 'dark:bg-[#1d263a]']]
-      )}
-    >
-      {children}
-    </a>
-  )
-);
+  ) {
+    return (
+      <a
+        ref={ref}
+        href={href}
+        onClick={onClick}
+        target="_blank"
+        rel="noreferrer nofollow"
+        className={clsx(
+          'flex w-full items-center gap-3 px-4 py-2 text-[13px]',
+          ['hover:bg-slate-100', 'hover:dark:bg-[#1d263a]'],
+          [active && ['bg-slate-100', 'dark:bg-[#1d263a]']]
+        )}
+      >
+        {children}
+      </a>
+    )
+  });
 
 const animation = {
   hide: { opacity: 0, y: 16 },
@@ -79,7 +82,7 @@ interface ShareButtonProps {
   onItemClick?: (type: ShareType) => void;
 }
 
-function ShareButton({ onItemClick = () => {} }: ShareButtonProps) {
+export default function ShareButton({ onItemClick = () => { } }: ShareButtonProps) {
   const currentUrl = usePathname();
 
   const handleCopy = async () => {
@@ -166,5 +169,3 @@ function ShareButton({ onItemClick = () => {} }: ShareButtonProps) {
     </Menu>
   );
 }
-
-export default ShareButton;

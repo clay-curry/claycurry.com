@@ -2,7 +2,7 @@
 
 import React from "react"
 
-export default ({ params }) => {
+export default function DocsPage({ params }) {
   return <div>
     work/{params.slug}
   </div>

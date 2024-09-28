@@ -103,7 +103,7 @@ function HeaderImage() {
       };
     },
   };
-  
+
   return (
     <m.svg
       xmlns="http://www.w3.org/2000/svg"
@@ -163,20 +163,21 @@ function HeaderImage() {
 }
 
 
-            
-import { useEffect } from 'react';
+
+import { useEffect, useMemo, useCallback } from 'react';
 
 const useAge = (birthDateString: string) => {
-  const birthDate = new Date(birthDateString);
 
-  const calculateAge = () => {
+  const birthDate = useMemo(() => new Date(birthDateString), [birthDateString]);
+
+  const calculateAge = useCallback(() => {
     const now = new Date();
     const ageInMilliseconds = now.getTime() - birthDate.getTime(); // Make sure to use getTime() to return a number (milliseconds since epoch)
     const ageDate = new Date(ageInMilliseconds);
     return Math.abs(ageDate.getUTCFullYear() - 1970); // Calculate the number of full years
-  };
+  }, [birthDate]);
 
-  const [age, setAge] = useState(calculateAge);
+  const [age, setAge] = useState(calculateAge());
 
   useEffect(() => {
     const now = new Date();
@@ -200,7 +201,7 @@ const useAge = (birthDateString: string) => {
     }, timeUntilNextBirthday);
 
     return () => clearTimeout(timer);
-  }, [birthDate, age]);
+  }, [birthDate, calculateAge]);
 
   return age;
 };
@@ -209,7 +210,7 @@ export default function AboutPage() {
 
   const age = useAge('May 19, 1999 10:45:38');
 
-  
+
   return (
     <main className='mt-20'>
       <table>
@@ -218,7 +219,7 @@ export default function AboutPage() {
             Born
           </td>
           <td>
-            May 19, 1999 ({ age } years)
+            May 19, 1999 ({age} years)
           </td>
         </tr>
         <tr>
@@ -234,7 +235,7 @@ export default function AboutPage() {
             Home
           </td>
           <td>
-          Oklahoma City, OK
+            Oklahoma City, OK
           </td>
         </tr>
         <tr>
@@ -281,25 +282,25 @@ export default function AboutPage() {
       <h1>
         Heritage
       </h1>
-      I am fortunate to my late paternal grandmother "Momo" to know my that 
-      familial roots in the United States go at least back to the original 
-      British colonies (<span className='italic'>build a family tree</span>), but the knowledge from where my ancestors actually emigrated 
-      before arriving in the Western world is currently lost. The pigment of my skin and 
+      I am fortunate to my late paternal grandmother Momo to know my that
+      familial roots in the United States go at least back to the original
+      British colonies (<span className='italic'>build a family tree</span>), but the knowledge from where my ancestors actually emigrated
+      before arriving in the Western world is currently lost. The pigment of my skin and
       facial features suggest I inherit Nordic or Irish diaspora, but this is all the knowledge
-      I have about my ancestors. 
+      I have about my ancestors.
 
-      
+
       Childhood: I should like to imagine that the village who raised me nurtured an
-      ambitious challenger of thought, but my adult life has showed me that others are 
-      probably more up for the job. 
-      
-      
-      Growing up, it never occurred to me that I might have some unusual ability to notice 
+      ambitious challenger of thought, but my adult life has showed me that others are
+      probably more up for the job.
+
+
+      Growing up, it never occurred to me that I might have some unusual ability to notice
       patterns until I got back my mathematics sub-score from the standard college entrance exams
-      used in my country. Part of me still believes a charitable database error explains why I found 
-      myself among the 99.5 percentile of test-takers who score perfectly, this is likely the best 
+      used in my country. Part of me still believes a charitable database error explains why I found
+      myself among the 99.5 percentile of test-takers who score perfectly, this is likely the best
       explanation available for the origins of my interest in programming language compilers.
-      
+
 
 
     </main>

@@ -173,7 +173,7 @@ export function Items({
   );
 }
 
-export default {
+const TILComponents = {
   Items,
   Item,
   ItemTags,
@@ -182,3 +182,5 @@ export default {
   Do,
   Dont,
 };
+
+export default TILComponents;
