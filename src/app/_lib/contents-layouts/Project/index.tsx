@@ -1,11 +1,11 @@
-import WithReactions from '@/app/_lib/components/layouts/WithReactions';
-import WithTableOfContents from '@/app/_lib/components/layouts/WithTableOfContents';
-import SkipNavigation from '@/app/_lib/components/navigations/SkipNavigation';
-import PageHeader from '@/app/_lib/components/PageHeader';
+import WithReactions from '@/components/layouts/WithReactions';
+import WithTableOfContents from '@/components/layouts/WithTableOfContents';
+import SkipNavigation from '@/components/navigations/SkipNavigation';
+import PageHeader from '@/components/PageHeader';
 import ProjectFooter from '@/app/_lib/contents-layouts/Project/ProjectFooter';
 import ProjectMeta from '@/app/_lib/contents-layouts/Project/ProjectMeta';
 
-import type { TProjectFrontMatter, TTableOfContents } from '@/app/_lib/utils/types';
+import type { TProjectFrontMatter, TTableOfContents } from '@/utils/types';
 import type { PropsWithChildren } from 'react';
 
 interface ProjectLayoutProps {

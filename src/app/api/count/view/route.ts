@@ -1,19 +1,19 @@
 import { NextResponse } from 'next/server';
-import { sql } from '../../../_lib/db/postgres';
+import { sql } from '../../../../db/postgres';
 
 export async function GET(
   request: Request,
   { params }: { params?: { slug: string } | { slug: string }[] }
 ): Promise<NextResponse> {
   try {
-    
+
     let query = (await sql<{ slug: string, view_count: number }[]>`
     SELECT 
       slug, COUNT(*) as view_count
     FROM views
     GROUP BY slug
     ORDER BY slug;
-  `).map(v => ({ slug: v.slug, views: v.view_count })); 
+  `).map(v => ({ slug: v.slug, views: v.view_count }));
 
     // If no params provided, return the entire query result
     if (!params) {

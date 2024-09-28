@@ -1,16 +1,16 @@
 import { PropsWithChildren } from 'react';
 
-import WithReactions from '@/app/_lib/components/layouts/WithReactions';
-import WithTableOfContents from '@/app/_lib/components/layouts/WithTableOfContents';
-import SkipNavigation from '@/app/_lib/components/navigations/SkipNavigation';
-import PageHeader from '@/app/_lib/components/PageHeader';
+import WithReactions from '@/components/layouts/WithReactions';
+import WithTableOfContents from '@/components/layouts/WithTableOfContents';
+import SkipNavigation from '@/components/navigations/SkipNavigation';
+import PageHeader from '@/components/PageHeader';
 
-import { getPostOgImageUrl, getPostStructuredData } from '@/app/_lib/post';
+import { getPostOgImageUrl, getPostStructuredData } from '@/utils/post';
 
 import PostFooter from '@/app/_lib/contents-layouts/Post/PostFooter';
 import PostMeta from '@/app/_lib/contents-layouts/Post/PostMeta';
 
-import type { TPostFrontMatter, TTableOfContents } from '@/app/_lib/utils/types';
+import type { TPostFrontMatter, TTableOfContents } from '@/utils/types';
 
 interface PostProps {
   frontMatter: TPostFrontMatter;

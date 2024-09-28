@@ -21,11 +21,11 @@ import {
   HeartIcon,
   SparklesIcon,
   CalendarIcon,
-} from '@/app/_lib/components/Icons';
-import { DocumentIcon } from '@/app/_lib/components/Icons';
-import { SectionButton } from '@/app/_lib/components/sections/SectionButton';
-import SectionContent from '@/app/_lib/components/sections/SectionContent';
-import SectionTitle from '@/app/_lib/components/sections/SectionTitle';
+} from '@/components/Icons';
+import { DocumentIcon } from '@/components/Icons';
+import { SectionButton } from '@/components/sections/SectionButton';
+import SectionContent from '@/components/sections/SectionContent';
+import SectionTitle from '@/components/sections/SectionTitle';
 
 
 export default function Page() {
@@ -493,7 +493,7 @@ function QuoteSection() {
               >
                 inside
               </strong>{' '}
-                and{' '}
+              and{' '}
               <strong
                 className={clsx(
                   'font-extrabold text-slate-600',
@@ -512,7 +512,7 @@ function QuoteSection() {
             />
           </span>
           <span className={clsx('leading-[1.15]')}>
-          <strong
+            <strong
               className={clsx(
                 'relative font-extrabold text-slate-600',
                 'dark:text-slate-300'
@@ -524,7 +524,7 @@ function QuoteSection() {
                   'lg:-left-1.5 lg:-right-0.5 lg:top-2 lg:bottom-0',
                   'dark:bg-slate-800'
                 )}
-              />signifies 
+              />signifies
             </strong>{' '}
             purpose
           </span>
@@ -609,9 +609,9 @@ function CleanIntuitive() {
           state.includes('signify') ? ['text-sm'] : ['font-serif'],
           state.includes('colors')
             ? [
-                'border-divider-light bg-white',
-                'dark:border-divider-dark dark:bg-slate-900',
-              ]
+              'border-divider-light bg-white',
+              'dark:border-divider-dark dark:bg-slate-900',
+            ]
             : ['border-black bg-white', 'dark:border-white dark:bg-[#050914]']
         )}
         role="presentation"
@@ -632,9 +632,9 @@ function CleanIntuitive() {
                 state.includes('colors')
                   ? ['border-white bg-sky-400 text-white']
                   : [
-                      'border-white bg-[#050914] text-white',
-                      'dark:bg-white dark:text-black',
-                    ]
+                    'border-white bg-[#050914] text-white',
+                    'dark:bg-white dark:text-black',
+                  ]
               )}
             >
               E
@@ -647,9 +647,9 @@ function CleanIntuitive() {
               state.includes('signify') && ['text-xs font-bold'],
               state.includes('colors')
                 ? [
-                    'bg-red-100 text-red-800',
-                    'dark:bg-red-500/20 dark:text-red-300',
-                  ]
+                  'bg-red-100 text-red-800',
+                  'dark:bg-red-500/20 dark:text-red-300',
+                ]
                 : ['bg-[#ff0000] text-white']
             )}
           >
@@ -693,9 +693,9 @@ function CleanIntuitive() {
               state.includes('signify') && [''],
               state.includes('colors')
                 ? [
-                    'bg-blue-100 text-blue-700',
-                    'dark:bg-blue-500/20 dark:text-blue-300',
-                  ]
+                  'bg-blue-100 text-blue-700',
+                  'dark:bg-blue-500/20 dark:text-blue-300',
+                ]
                 : ['bg-[#0000ff] text-white']
             )}
           >
@@ -708,9 +708,9 @@ function CleanIntuitive() {
               state.includes('signify') && [''],
               state.includes('colors')
                 ? [
-                    'bg-yellow-100 text-yellow-700',
-                    'dark:bg-yellow-500/20 dark:text-yellow-300',
-                  ]
+                  'bg-yellow-100 text-yellow-700',
+                  'dark:bg-yellow-500/20 dark:text-yellow-300',
+                ]
                 : ['bg-[#ffff00] text-black']
             )}
           >

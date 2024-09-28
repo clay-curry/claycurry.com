@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { m } from 'framer-motion';
 
 import Page from '@/app/_lib/contents-layouts/Page';
-import { GitHubIcon, NpmIcon } from '@/app/_lib/components/Icons';
-import { SectionButton } from '@/app/_lib/components/sections/SectionButton';
-import SectionContent from '@/app/_lib/components/sections/SectionContent';
-import SectionTitle from '@/app/_lib/components/sections/SectionTitle';
-import AppWindow from '@/app/_lib/components/wireframes/AppWindow';
-import GitHubWireframe from '@/app/_lib/components/wireframes/GitHub';
-import NpmWireframe from '@/app/_lib/components/wireframes/Npm';
+import { GitHubIcon, NpmIcon } from '@/components/Icons';
+import { SectionButton } from '@/components/sections/SectionButton';
+import SectionContent from '@/components/sections/SectionContent';
+import SectionTitle from '@/components/sections/SectionTitle';
+import AppWindow from '@/components/wireframes/AppWindow';
+import GitHubWireframe from '@/components/wireframes/GitHub';
+import NpmWireframe from '@/components/wireframes/Npm';
 
 function ProjectsContents() {
   const [currentState, setCurrentState] = useState<'npm' | 'github'>('github');
@@ -103,7 +103,7 @@ function HeaderImage() {
       };
     },
   };
-  
+
   return (
     <m.svg
       xmlns="http://www.w3.org/2000/svg"

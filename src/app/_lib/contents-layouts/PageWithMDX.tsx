@@ -1,8 +1,8 @@
-import WithTableOfContents from '@/app/_lib/components/layouts/WithTableOfContents';
-import SkipNavigation from '@/app/_lib/components/navigations/SkipNavigation';
-import PageHeader from '@/app/_lib/components/PageHeader';
+import WithTableOfContents from '@/components/layouts/WithTableOfContents';
+import SkipNavigation from '@/components/navigations/SkipNavigation';
+import PageHeader from '@/components/PageHeader';
 
-import type { TPageFrontMatter, TTableOfContents } from '@/app/_lib/utils/types';
+import type { TPageFrontMatter, TTableOfContents } from '@/utils/types';
 import type { PropsWithChildren } from 'react';
 
 interface PageWithMDXProps {

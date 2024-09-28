@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 
-import SkipNavigation from '@/app/_lib/components/navigations/SkipNavigation';
-import PageHeader from '@/app/_lib/components/PageHeader';
-import type { TPageFrontMatter } from '@/app/_lib/utils/types';
+import SkipNavigation from '@/components/navigations/SkipNavigation';
+import PageHeader from '@/components/PageHeader';
+import type { TPageFrontMatter } from '@/utils/types';
 import type { PropsWithChildren, ReactNode } from 'react';
 
 interface PageProps {

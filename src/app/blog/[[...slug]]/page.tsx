@@ -23,7 +23,7 @@ export async function generateStaticParams() {
     ...paths
   ]
 }
-import { extractFrontMatter } from '@/app/_lib/frontmatter';
+import { extractFrontMatter } from '@/utils/frontmatter';
 
 const getPostData = (path: string) => {
   console.log(path)

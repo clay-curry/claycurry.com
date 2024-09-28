@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import type { PropsWithChildren } from 'react';
-import { TPostFrontMatter } from '@/app/_lib/utils/types';
+import { TPostFrontMatter } from '@/utils/types';
 
 type ChipProps = {
   href: string;

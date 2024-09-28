@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { sql } from '../../../_lib/db/postgres';
+import { sql } from '../../../../db/postgres';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,7 +8,7 @@ export async function GET(
   { params }: { params?: { slug: string } | { slug: string }[] }
 ): Promise<NextResponse> {
   try {
-    
+
     let query = await sql<{ slug: string, share_count: number }[]>`
       SELECT 
         slug, 

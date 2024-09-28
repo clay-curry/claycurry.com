@@ -1,10 +1,10 @@
 import './main.css';
 
-import Footer from '@/app/_lib/components/Footer';
-import Navigation from '@/app/_lib/components/Navigation';
-import QuickAccess from '@/app/_lib/components/QuickAccess';
-import Shortcuts from '@/app/_lib/components/Shortcuts';
-import Toaster from '@/app/_lib/components/Toaster';
+import Footer from '@/components/Footer';
+import Navigation from '@/components/Navigation';
+import QuickAccess from '@/components/QuickAccess';
+import Shortcuts from '@/components/Shortcuts';
+import Toaster from '@/components/Toaster';
 import type { Metadata } from 'next';
 import Provider from '@/app/_lib/providers';
 import { GoogleAnalytics } from '@next/third-parties/google';

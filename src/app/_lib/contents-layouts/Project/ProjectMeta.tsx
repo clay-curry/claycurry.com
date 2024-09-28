@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 
-import { GitHubIcon, NpmIcon } from '@/app/_lib/components/Icons';
+import { GitHubIcon, NpmIcon } from '@/components/Icons';
 
-import { TProjectFrontMatter } from '@/app/_lib/utils/types';
+import { TProjectFrontMatter } from '@/utils/types';
 
 interface ProjectMetaProps {
   githubUrl?: TProjectFrontMatter['githubUrl'];

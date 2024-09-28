@@ -8,8 +8,8 @@ import { m } from 'framer-motion';
 import { useState, useEffect, use, Suspense } from 'react';
 
 import Page from '@/app/_lib/contents-layouts/Page';
-import { formatDateRelative, formatLang } from '@/app/_lib/post';
-import { ChevronRightIcon, PinIcon } from '@/app/_lib/components/Icons';
+import { formatDateRelative, formatLang } from '@/utils/post';
+import { ChevronRightIcon, PinIcon } from '@/components/Icons';
 
 export type BlogContentType = { slug: string; category: string; title: string; description: string; date: string; lang: string; tags: string[]; views: number; shares: number; }
 
