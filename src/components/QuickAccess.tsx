@@ -36,7 +36,7 @@ function QuickAccess() {
         initial="hide"
         animate="show"
         className={clsx(
-          'fixed inset-0 z-[-1] bg-slate-200/[.95]',
+          'fixed inset-0 bg-slate-200/[.95]',
           'dark:bg-slate-900/[.98]'
         )}
         aria-hidden={!isQuickAccessOpen}

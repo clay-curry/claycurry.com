@@ -34,20 +34,28 @@ export default function Navbar() {
   return (
     <header
       className={clsx(
-        'h-18 sticky'
+        'h-[72px]'
       )}
     >
-      <div className={clsx('content-wrapper-max h-18 fixed top-0 right-0 left-0 z-[1000] fm:absolute',
-        [
-          isScrolled === true && [
-            'border-divider-light border-b bg-white/70 backdrop-blur',
-            'dark:border-divider-dark dark:bg-slate-900/80'
-          ]
-        ])}>
+      <div
+        className={clsx(
+          'h-[72px]', // size
+          'fixed top-0 right-0 left-0 z-[1000]', // position
+          'mx-auto max-w-[120rem]', // content wrapper
+          [
+            isScrolled === true && [
+              'border-b backdrop-blur',
+              'border-divider-light dark:border-divider-dark',
+              'bg-white/70 dark:bg-slate-900/80'
+            ]
+          ])}
+      >
         <div
           className={clsx(
-            'relative z-50 flex h-16 items-center justify-between px-2 text-sm',
-            'md:px-4'
+            'relative h-16',
+            'flex items-center justify-between',
+            'text-sm',
+            'px-2 md:px-4'
           )}
         >
           <nav className={clsx('flex', 'md:gap-2')}>

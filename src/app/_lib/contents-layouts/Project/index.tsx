@@ -1,6 +1,5 @@
 import WithReactions from '@/components/layouts/WithReactions';
 import WithTableOfContents from '@/components/layouts/WithTableOfContents';
-import SkipNavigation from '@/components/navigations/SkipNavigation';
 import PageHeader from '@/components/PageHeader';
 import ProjectFooter from '@/app/_lib/contents-layouts/Project/ProjectFooter';
 import ProjectMeta from '@/app/_lib/contents-layouts/Project/ProjectMeta';
@@ -20,7 +19,6 @@ function ProjectLayout({
 }: PropsWithChildren<ProjectLayoutProps>) {
   return (
     <>
-      <SkipNavigation />
       <PageHeader title={title} description={description} caption={caption} />
       <ProjectMeta githubUrl={githubUrl} npmUrl={npmUrl} />
       <WithTableOfContents tableOfContents={tableOfContents}>

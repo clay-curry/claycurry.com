@@ -21,49 +21,47 @@ import {
   HeartIcon,
   SparklesIcon,
   CalendarIcon,
+  DocumentIcon
 } from '@/components/Icons';
-import { DocumentIcon } from '@/components/Icons';
 import { SectionButton } from '@/components/sections/SectionButton';
 import SectionContent from '@/components/sections/SectionContent';
 import SectionTitle from '@/components/sections/SectionTitle';
 
 
 export default function Page() {
-  return (
-    <section>
-      <header
-        id="page-header"
-        className={clsx(
-          'background-grid background-grid--fade-out pt-36 pb-20',
-          'lg:pb-28 lg:pt-52'
-        )}
-      >
-        <div className={clsx('content-wrapper')}>
-          <div className={clsx('relative')}>
-            <Hero />
-          </div>
-          <div className={clsx('mt-20 lg:mt-36')}>
-            <HeaderTechStack />
-          </div>
+  return (<main>
+    <section
+      className={clsx(
+        'pt-20 lg:pt-52',
+        'pb-20 lg:pb-28',
+        'background-grid background-grid--fade-out',
+      )}
+    >
+      <div className={clsx('content-wrapper')}>
+        <div className={clsx('relative')}>
+          <Hero />
         </div>
-      </header>
-
-      <div className={clsx('hidden', 'lg:-mt-16 lg:mb-24 lg:block')}>
-        <FeaturedCardSection />
+        <div className={clsx('mt-20 lg:mt-36')}>
+          <HeaderTechStack />
+        </div>
       </div>
-      <div className={clsx('-mt-12 mb-12', 'md:mt-0 md:mb-24')}>
-        <QuoteSection />
-      </div>
-      <section className={clsx('mb-12', 'lg:mb-24')}>
-        <CleanIntuitive />
-      </section>
-      <section className={clsx('mb-12', 'lg:mb-24')}>
-        <DetailOriented />
-      </section>
-      <section className={clsx('mb-12', 'lg:mb-24')}>
-        <PrettyOptimized />
-      </section>
     </section>
+    <section className={clsx('hidden', 'lg:-mt-16 lg:mb-24 lg:block')}>
+      <FeaturedCardSection />
+    </section>
+    <section className={clsx('-mt-12 mb-12', 'md:mt-0 md:mb-24')}>
+      <QuoteSection />
+    </section>
+    <section className={clsx('mb-12', 'lg:mb-24')}>
+      <CleanIntuitive />
+    </section>
+    <section className={clsx('mb-12', 'lg:mb-24')}>
+      <DetailOriented />
+    </section>
+    <section className={clsx('mb-12', 'lg:mb-24')}>
+      <PrettyOptimized />
+    </section>
+  </main>
   );
 }
 
@@ -155,7 +153,6 @@ function HeroCta({
       </m.div>
 
       <m.div
-        className={clsx('relative z-20')}
         variants={{
           hide: { x: -16, opacity: 0 },
           show: { x: 0, opacity: 1 },
@@ -167,7 +164,6 @@ function HeroCta({
 
       <m.a
         href="https://github.com/clay-curry"
-        className={clsx('relative z-20')}
         variants={{
           hide: { x: -16, opacity: 0 },
           show: { x: 0, opacity: 1 },
@@ -203,7 +199,7 @@ function SlideIn({
 
 function Hero() {
   return (
-    <div className={clsx('relative z-10 max-w-xl')}>
+    <div className={clsx('max-w-xl')}>
       <div className={clsx('text-slate-700', 'dark:text-slate-300')}>
         {/* hero text line 1*/}
         <SlideIn
@@ -254,7 +250,7 @@ function Hero() {
           >
             builder
           </strong>{' '}
-          focused on making tools used by other builders to create a positive impact.
+          making tools for other builders to create a positive impact.
         </SlideIn>
 
         <div className={clsx('w-fit mt-6 md:mt-8')}>
@@ -353,19 +349,19 @@ function FeaturedCardSection() {
     return (
       <div
         className={clsx(
-          'border-divider-light relative z-10 flex-1 rounded-2xl border bg-white',
+          'border-divider-light flex-1 rounded-2xl border bg-white',
           'dark:border-divider-dark dark:bg-slate-900'
         )}
       >
         <div
           className={clsx(
-            'border-divider-light absolute inset-x-0 inset-y-8 z-[-1] border-t',
+            'border-divider-light inset-x-0 inset-y-8 border-t',
             'dark:border-divider-dark'
           )}
         />
         <div
           className={clsx(
-            'border-divider-light absolute inset-y-0 inset-x-8 z-[-1] border-l',
+            'border-divider-light inset-y-0 inset-x-8 border-l',
             'dark:border-divider-dark'
           )}
         />
@@ -519,7 +515,7 @@ function QuoteSection() {
             >
               <span
                 className={clsx(
-                  'absolute -left-0.5 right-0 top-1 bottom-0 z-[-1] rounded-md bg-slate-100 px-1',
+                  'absolute -left-0.5 right-0 top-1 bottom-0 rounded-md bg-slate-100 px-1',
                   'lg:-left-1.5 lg:-right-0.5 lg:top-2 lg:bottom-0',
                   'dark:bg-slate-800'
                 )}

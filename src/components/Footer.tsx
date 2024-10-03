@@ -161,8 +161,10 @@ function Footer() {
   return (
     <footer
       className={clsx(
-        'background-grid background-grid--fade-in border-divider-light mt-24 pt-16 text-sm text-slate-900',
-        'dark:border-divider-dark dark:text-slate-200'
+        'background-grid background-grid--fade-in',
+        'mt-24 pt-16 text-sm',
+        'text-slate-900 dark:text-slate-200',
+        'border-divider-light dark:border-divider-dark'
       )}
     >
       <div className={clsx('content-wrapper')}>

@@ -63,22 +63,28 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html>
-      <head>
-        <script src="http://localhost:8097"></script>
-      </head>
+      {
+        /*
+        <head>
+          <script src="http://localhost:8097"></script>
+        </head>
+        */
+      }
       <body
-        id="__root"
-        className={clsx([jetbrainsMono.variable, plusJakartaSans.variable])}
+        className={clsx(
+          'h-full',
+          'bg-white text-slate-900',
+          'dark:bg-slate-900 dark:text-slate-200 dark:[color-scheme:dark]',
+          'flex flex-col',
+          'font-sans',
+          [jetbrainsMono.variable, plusJakartaSans.variable]
+        )}
       >
-        <div id="skip-navigation" />
-
         <Provider>
           <QuickAccess />
           <Shortcuts />
           <Navigation />
-          <main>
-            {children}
-          </main>
+          {children}
           <Toaster />
           <Footer />
         </Provider>

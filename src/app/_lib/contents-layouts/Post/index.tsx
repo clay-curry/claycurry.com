@@ -2,7 +2,6 @@ import { PropsWithChildren } from 'react';
 
 import WithReactions from '@/components/layouts/WithReactions';
 import WithTableOfContents from '@/components/layouts/WithTableOfContents';
-import SkipNavigation from '@/components/navigations/SkipNavigation';
 import PageHeader from '@/components/PageHeader';
 
 import { getPostOgImageUrl, getPostStructuredData } from '@/utils/post';
@@ -50,7 +49,6 @@ function Post({
       />
       */
       }
-      <SkipNavigation />
       <PageHeader title={title} description={description} caption={caption} />
       <PostMeta date={date} lang={lang} />
       <WithTableOfContents tableOfContents={tableOfContents}>

@@ -22,7 +22,7 @@ export function BlogHome({ posts }: { posts: Promise<BlogContentType[]> }) {
       }}
       headerImage={<HeaderImage />}
     >
-      <div className={clsx('content-wrapper')}>
+      <div className={clsx('mx-auto max-w-[75rem] px-4 sm:px-12 md:px-10 lg:px-16 xl:px-6')}>
         <div
           className={clsx(
             'flex flex-col gap-8',
@@ -192,7 +192,7 @@ function PostPreview(props: BlogContentType & {
                 duration: 1.84,
                 ease: [0.85, 0, 0.15, 1],
               }}
-              className="absolute -inset-x-64 inset-y-0 z-[-1]"
+              className="absolute -inset-x-64 inset-y-0"
             >
               <div
                 className={clsx(

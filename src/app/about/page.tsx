@@ -1,6 +1,6 @@
 "use client"
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { GitHubIcon, NpmIcon } from '@/components/Icons';
 import { SectionButton } from '@/components/sections/SectionButton';
@@ -9,6 +9,114 @@ import SectionTitle from '@/components/sections/SectionTitle';
 import AppWindow from '@/components/wireframes/AppWindow';
 import GitHubWireframe from '@/components/wireframes/GitHub';
 import NpmWireframe from '@/components/wireframes/Npm';
+
+export default function AboutPage() {
+
+
+  return (
+    <main className='mt-20'>
+      <BioTable />
+      <h1>
+        Heritage
+      </h1>
+      I am fortunate to my to know my that
+      familial roots in the United States go at least back to the original
+      13 colonies (<span className='italic'>build a family tree</span>), but the knowledge from where my ancestors actually emigrated
+      before arriving in the Western world is currently lost. The pigment of my skin and
+      facial features suggest I inherit Nordic or Irish diaspora, but this is all the knowledge
+      I have about my ancestors.
+
+
+      Childhood: I should like to imagine that the village who raised me nurtured an
+      ambitious challenger of thought, but my adult life has showed me that others are
+      probably more up for the job.
+
+
+      Growing up, it never occurred to me that I might have some unusual ability to notice
+      patterns until I got back my mathematics sub-score from the standard college entrance exams
+      used in my country. Part of me still believes a charitable database error explains why I found
+      myself among the 99.5 percentile of test-takers who score perfectly, this is likely the best
+      explanation available for the origins of my interest in programming language compilers.
+
+
+
+    </main>
+  );
+}
+
+function BioTable() {
+
+
+  const age = useAge('May 19, 1999 10:45:38');
+
+  return (
+    <table>
+      <tr>
+        <td>
+          Born
+        </td>
+        <td>
+          May 19, 1999 ({age} years)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Pronouns
+        </td>
+        <td>
+          He / Him / His
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Home
+        </td>
+        <td>
+          Oklahoma City, OK
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Pronouns
+        </td>
+        <td>
+          He / Him / His
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Pronouns
+        </td>
+        <td>
+          He / Him / His
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Pronouns
+        </td>
+        <td>
+          He / Him / His
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Pronouns
+        </td>
+        <td>
+          He / Him / His
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Pronouns
+        </td>
+        <td>
+          He / Him / His
+        </td>
+      </tr>
+    </table>)
+}
 
 function ProjectsContents() {
   const [currentState, setCurrentState] = useState<'npm' | 'github'>('github');
@@ -88,9 +196,7 @@ function ProjectsContents() {
 }
 
 
-import { useEffect, useMemo, useCallback } from 'react';
-
-const useAge = (birthDateString: string) => {
+function useAge(birthDateString: string) {
 
   const birthDate = useMemo(() => new Date(birthDateString), [birthDateString]);
 
@@ -129,108 +235,6 @@ const useAge = (birthDateString: string) => {
 
   return age;
 };
-
-export default function AboutPage() {
-
-  const age = useAge('May 19, 1999 10:45:38');
-
-
-  return (
-    <main className='mt-20'>
-      <table>
-        <tr>
-          <td>
-            Born
-          </td>
-          <td>
-            May 19, 1999 ({age} years)
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Pronouns
-          </td>
-          <td>
-            He / Him / His
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Home
-          </td>
-          <td>
-            Oklahoma City, OK
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Pronouns
-          </td>
-          <td>
-            He / Him / His
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Pronouns
-          </td>
-          <td>
-            He / Him / His
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Pronouns
-          </td>
-          <td>
-            He / Him / His
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Pronouns
-          </td>
-          <td>
-            He / Him / His
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Pronouns
-          </td>
-          <td>
-            He / Him / His
-          </td>
-        </tr>
-      </table>
-      <h1>
-        Heritage
-      </h1>
-      I am fortunate to my late paternal grandmother Momo to know my that
-      familial roots in the United States go at least back to the original
-      British colonies (<span className='italic'>build a family tree</span>), but the knowledge from where my ancestors actually emigrated
-      before arriving in the Western world is currently lost. The pigment of my skin and
-      facial features suggest I inherit Nordic or Irish diaspora, but this is all the knowledge
-      I have about my ancestors.
-
-
-      Childhood: I should like to imagine that the village who raised me nurtured an
-      ambitious challenger of thought, but my adult life has showed me that others are
-      probably more up for the job.
-
-
-      Growing up, it never occurred to me that I might have some unusual ability to notice
-      patterns until I got back my mathematics sub-score from the standard college entrance exams
-      used in my country. Part of me still believes a charitable database error explains why I found
-      myself among the 99.5 percentile of test-takers who score perfectly, this is likely the best
-      explanation available for the origins of my interest in programming language compilers.
-
-
-
-    </main>
-  );
-}
-
 
 /*
 https://www.truity.com/test-results/bigfive/18708/59459828

@@ -108,7 +108,7 @@ export default function ShareButton({ onItemClick = () => { } }: ShareButtonProp
             title="Share"
             aria-label="Share"
             className={clsx(
-              'relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-slate-200',
+              'relative flex h-10 w-10 items-center justify-center rounded-full bg-slate-200',
               'dark:bg-[#1d263a]'
             )}
           >
@@ -122,7 +122,7 @@ export default function ShareButton({ onItemClick = () => { } }: ShareButtonProp
               initial="hide"
               animate="show"
               className={clsx(
-                'border-divider-light absolute bottom-24 right-2 z-[902] flex w-56 flex-col overflow-hidden rounded-2xl border bg-white/70 pb-2 pt-1 backdrop-blur',
+                'border-divider-light absolute bottom-24 right-2 flex w-56 flex-col overflow-hidden rounded-2xl border bg-white/70 pb-2 pt-1 backdrop-blur',
                 'dark:border-divider-dark dark:bg-slate-900/80'
               )}
             >

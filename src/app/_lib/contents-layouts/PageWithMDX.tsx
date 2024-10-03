@@ -1,5 +1,4 @@
 import WithTableOfContents from '@/components/layouts/WithTableOfContents';
-import SkipNavigation from '@/components/navigations/SkipNavigation';
 import PageHeader from '@/components/PageHeader';
 
 import type { TPageFrontMatter, TTableOfContents } from '@/utils/types';
@@ -17,7 +16,6 @@ function PageWithMDX({
 }: PropsWithChildren<PageWithMDXProps>) {
   return (
     <>
-      <SkipNavigation />
       <PageHeader title={title} description={description} caption={caption} />
       <WithTableOfContents tableOfContents={tableOfContents}>
         {children}

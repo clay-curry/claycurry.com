@@ -8,24 +8,8 @@
     @apply scroll-smooth;
   }
 
-  html,
-  body,
-  #__next,
-  #__root {
-    @apply h-full;
-  }
-
-  #__root {
-    @apply flex flex-col font-sans;
-  }
-
   main {
     @apply flex-1;
-  }
-
-  body {
-    @apply bg-white text-slate-900;
-    @apply dark:bg-slate-900 dark:text-slate-200 dark:[color-scheme:dark];
   }
 
   :focus-visible {
@@ -47,7 +31,6 @@
   }
 }
 
-
 @tailwind components;
 
 @layer components {
@@ -56,16 +39,12 @@
     @apply sm:px-12 md:px-10 lg:px-16 xl:px-6;
   }
 
-  .content-wrapper-max {
-    @apply mx-auto max-w-[120rem];
-  }
-
   .background-grid {
-    @apply relative z-0 bg-slate-100;
+    @apply bg-slate-100;
     @apply dark:bg-[#0c1222];
 
     &::before {
-      @apply bg-grid-slate-200/80 absolute inset-0 z-[-1] content-[''];
+      @apply bg-grid-slate-200/80 absolute inset-0 content-[''];
       @apply dark:bg-grid-slate-50/[.025];
 
       mask-image: linear-gradient(transparent, black, transparent);
@@ -99,9 +78,9 @@
   }
 
   .button {
-    @apply inline-flex items-center justify-center; 
+    @apply inline-flex items-center justify-center;
     @apply rounded-md border border-accent-600;
-    @apply px-4 h-10 gap-1.5; 
+    @apply px-4 h-10 gap-1.5;
     @apply text-center text-sm font-bold;
     @apply transition duration-150;
     @apply md:rounded-xl;
@@ -201,7 +180,7 @@
   }
 
   .toc-link {
-    @apply hover:text-accent-700 relative z-10 flex p-1 px-2 text-[13px] font-bold text-slate-700;
+    @apply hover:text-accent-700 flex p-1 px-2 text-[13px] font-bold text-slate-700;
     @apply dark:hover:text-accent-300 dark:font-semibold dark:text-slate-300;
 
     &--depth-2 {
@@ -230,7 +209,7 @@
     }
 
     &::after {
-      @apply bg-accent-600/20 absolute bottom-1 left-0 right-0 z-[-1] h-2 origin-bottom scale-y-[.4] transition-transform content-[''];
+      @apply bg-accent-600/20 h-2 origin-bottom scale-y-[.4] transition-transform content-[''];
     }
   }
 
@@ -249,7 +228,6 @@
     }
   }
 }
-
 
 .mdx-contents {
   @apply w-full text-slate-600;
@@ -348,7 +326,7 @@
     @apply relative;
 
     &::before {
-      @apply bg-accent-300 absolute inset-0 -inset-x-2 z-[-1] origin-left scale-x-0 content-[''];
+      @apply bg-accent-300 inset-0 -inset-x-2 origin-left scale-x-0 content-[''];
       @apply dark:bg-accent-400/40;
     }
   }
@@ -595,11 +573,11 @@
         @apply absolute bottom-0 left-0;
 
         &::before {
-          @apply absolute bottom-0 left-[-12px] z-[2] h-3 w-3 rounded-br-md bg-[var(--code-window)] content-[''];
+          @apply absolute bottom-0 left-[-12px] h-3 w-3 rounded-br-md bg-[var(--code-window)] content-[''];
         }
 
         &::after {
-          @apply absolute bottom-0 left-[-12px] z-[1] h-3 w-3 bg-[var(--code-bg)] content-[''];
+          @apply absolute bottom-0 left-[-12px] h-3 w-3 bg-[var(--code-bg)] content-[''];
         }
       }
 
@@ -607,11 +585,11 @@
         @apply absolute bottom-0 right-0;
 
         &::before {
-          @apply absolute bottom-0 right-[-12px] z-[2] h-3 w-3 rounded-bl-md bg-[var(--code-window)] content-[''];
+          @apply absolute bottom-0 right-[-12px] h-3 w-3 rounded-bl-md bg-[var(--code-window)] content-[''];
         }
 
         &::after {
-          @apply absolute bottom-0 right-[-12px] z-[1] h-3 w-3 bg-[var(--code-bg)] content-[''];
+          @apply absolute bottom-0 right-[-12px] h-3 w-3 bg-[var(--code-bg)] content-[''];
         }
       }
     }
@@ -688,7 +666,7 @@
     th,
     td {
       &:first-child {
-        @apply sticky left-0 z-10 w-[120px] min-w-[120px] rounded-l-lg bg-white sm:w-[200px] sm:min-w-[200px];
+        @apply sticky left-0 w-[120px] min-w-[120px] rounded-l-lg bg-white sm:w-[200px] sm:min-w-[200px];
         @apply dark:bg-slate-900;
       }
     }
@@ -814,9 +792,6 @@
     transform: scaleX(1);
   }
 }
-
-
-
 
 :root {
   /* background color */

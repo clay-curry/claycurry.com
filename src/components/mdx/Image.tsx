@@ -23,7 +23,7 @@ export default function Image({
         <div
           style={{ backgroundImage: `url(${image})` }}
           className={clsx(
-            'absolute -inset-8 z-[-1] rounded-[20%] bg-[length:180%_180%] bg-center opacity-25 blur-2xl',
+            'absolute -inset-8 rounded-[20%] bg-[length:180%_180%] bg-center opacity-25 blur-2xl',
             'hidden', // disable immersive on light mode
             'dark:block'
           )}

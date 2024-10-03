@@ -23,7 +23,7 @@ export default function ImageSensitive({
       <button
         type="button"
         className={clsx(
-          'border-divider-light absolute bottom-4 right-4 z-20 mt-4 flex h-8 items-center rounded-full border bg-white/70 px-4 text-sm',
+          'border-divider-light absolute bottom-4 right-4 mt-4 flex h-8 items-center rounded-full border bg-white/70 px-4 text-sm',
           'md:bottom-6 md:right-6',
           'dark:border-divider-dark dark:bg-slate-900/80'
         )}
@@ -34,7 +34,7 @@ export default function ImageSensitive({
       {!isShown && (
         <div
           className={clsx(
-            'border-divider-light background-grid absolute inset-0 z-10 flex items-center justify-center rounded-lg border',
+            'border-divider-light background-grid absolute inset-0 flex items-center justify-center rounded-lg border',
             'dark:border-divider-dark'
           )}
         >

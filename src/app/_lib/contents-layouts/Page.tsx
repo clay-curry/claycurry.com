@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 
-import SkipNavigation from '@/components/navigations/SkipNavigation';
 import PageHeader from '@/components/PageHeader';
 import type { TPageFrontMatter } from '@/utils/types';
 import type { PropsWithChildren, ReactNode } from 'react';
@@ -18,7 +17,6 @@ function Page({
 
   return (
     <>
-      <SkipNavigation skipTableOfContents={false} />
       <PageHeader
         title={title}
         description={description}

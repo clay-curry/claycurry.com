@@ -6,6 +6,7 @@ import { ToastBar, Toaster } from 'react-hot-toast';
 function Toast() {
   return (
     <div
+      id="toaster"
       className={clsx(
         'pointer-events-none fixed inset-8 z-[9999] overflow-hidden'
       )}
