@@ -6,7 +6,7 @@ import QuickAccess from '@/components/QuickAccess';
 import Shortcuts from '@/components/Shortcuts';
 import Toaster from '@/components/Toaster';
 import type { Metadata } from 'next';
-import Provider from '@/app/_lib/providers';
+import Provider from '@/providers';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 import clsx from 'clsx';
@@ -63,6 +63,9 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html>
+      <head>
+        <script src="http://localhost:8097"></script>
+      </head>
       <body
         id="__root"
         className={clsx([jetbrainsMono.variable, plusJakartaSans.variable])}
@@ -73,7 +76,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <QuickAccess />
           <Shortcuts />
           <Navigation />
-          <main className="top-18">{children}</main>
+          <main>
+            {children}
+          </main>
           <Toaster />
           <Footer />
         </Provider>

@@ -1,5 +1,5 @@
-import dayjs from './utils/dayjs';
-import type { TPostFrontMatter } from './utils/types';
+import dayjs from './dayjs';
+import type { TPostFrontMatter } from './types';
 
 export const formatDate = (date: string) => {
   if (dayjs(date).isValid()) {

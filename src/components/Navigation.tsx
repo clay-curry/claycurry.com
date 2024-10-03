@@ -34,16 +34,16 @@ export default function Navbar() {
   return (
     <header
       className={clsx(
-        'h-18 fixed top-0 right-0 left-0 z-[1000] fm:absolute',
+        'h-18 sticky'
+      )}
+    >
+      <div className={clsx('content-wrapper-max h-18 fixed top-0 right-0 left-0 z-[1000] fm:absolute',
         [
           isScrolled === true && [
             'border-divider-light border-b bg-white/70 backdrop-blur',
             'dark:border-divider-dark dark:bg-slate-900/80'
           ]
-        ]
-      )}
-    >
-      <div className={clsx('content-wrapper-max')}>
+        ])}>
         <div
           className={clsx(
             'relative z-50 flex h-16 items-center justify-between px-2 text-sm',
@@ -52,53 +52,67 @@ export default function Navbar() {
         >
           <nav className={clsx('flex', 'md:gap-2')}>
             <NavLogo href="/" title="Home" />
-            <ul className={clsx('flex items-center', 'md:gap-1')}>
-              {
-                mainLinks.map((link) => (
-                  <li key={link.href}>
-                    <NavLink href={link.href} title={link.title} />
-                  </li>
-                ))
-              }
-              <li className={clsx('block lg:hidden')}>
-                <NavLinkDropdown title="More" items={moreLinks} />
-              </li>
-              <li className={clsx('hidden lg:block')}>
-                <NavLinkExpanded title="More" items={moreLinks} />
-              </li>
-            </ul>
+            <NavButtons />
           </nav>
           <ul className={clsx('flex items-center')}>
-            <li className={clsx('hidden', 'sm:block')}>
-              <NavIcon
-                href="https://twitter.com/claycurry_"
-                icon={<TwitterIcon className={clsx('h-5 w-5')} />}
-                title="Twitter"
-              />
-            </li>
-            <li className={clsx('hidden', 'sm:block')}>
-              <NavIcon
-                href="https://github.com/clay-curry"
-                icon={<GitHubIcon className={clsx('h-5 w-5')} />}
-                title="GitHub"
-              />
-            </li>
-            <li className={clsx('hidden', 'sm:block')}>
-              <div
-                className={clsx(
-                  'ml-2 mr-4 h-3 w-[1px] bg-slate-200',
-                  'dark:bg-slate-700'
-                )}
-              />
-            </li>
-            <li className={clsx('mr-2')}>
-              <NavIconQuickAccess />
-            </li>
+            <NavTwitter />
+            <NavGitHub />
+            <NavSeparator />
+            <NavIconQuickAccess />
           </ul>
         </div>
       </div>
     </header>
   );
+}
+
+function NavButtons() {
+  return (
+    <ul className={clsx('flex items-center', 'md:gap-1')}>
+      {
+        mainLinks.map((link) => (
+          <li key={link.href}>
+            <NavLink href={link.href} title={link.title} />
+          </li>
+        ))
+      }
+      <NavMore />
+    </ul>
+  )
+}
+
+function NavMore() {
+  return (
+    <>
+      <li className={clsx('block lg:hidden')}>
+        <NavLinkDropdown title="More" items={moreLinks} />
+      </li>
+      <li className={clsx('hidden lg:block')}>
+        <NavLinkExpanded title="More" items={moreLinks} />
+      </li></>
+  )
+}
+
+function NavTwitter() {
+  return (
+    <li className={clsx('hidden', 'sm:block')}>
+      <NavIcon
+        href="https://twitter.com/claycurry_"
+        icon={<TwitterIcon className={clsx('h-5 w-5')} />}
+        title="Twitter"
+      />
+    </li>
+  )
+}
+
+function NavGitHub() {
+  return <li className={clsx('hidden', 'sm:block')}>
+    <NavIcon
+      href="https://github.com/clay-curry"
+      icon={<GitHubIcon className={clsx('h-5 w-5')} />}
+      title="GitHub"
+    />
+  </li>
 }
 
 type NavLink = {
@@ -174,32 +188,34 @@ function NavIconQuickAccess() {
   const { setQuickAccessOpen } = useGlobal();
 
   return (
-    <button
-      type="button"
-      className={clsx(
-        'ml-1 flex h-9 w-9 items-center justify-center gap-2 rounded-xl bg-slate-300/50 text-slate-800',
-        'xl:w-auto xl:px-3',
-        'hover:bg-slate-300/70 sm:ml-0',
-        'dark:bg-slate-800/50 dark:text-slate-100 dark:hover:bg-slate-700/50'
-      )}
-      aria-label="Open Quick Access"
-      title="Open Quick Access"
-      onClick={() => {
-        setQuickAccessOpen(true);
-      }}
-    >
-      <QuickAccessIcon className={clsx('h-5 w-5')} />
-      <div
+    <li className={clsx('mr-2')}>
+      <button
+        type="button"
         className={clsx(
-          'hidden items-center gap-2 text-xs font-bold',
-          'xl:flex',
-          'dark:font-normal'
+          'ml-1 flex h-9 w-9 items-center justify-center gap-2 rounded-xl bg-slate-300/50 text-slate-800',
+          'xl:w-auto xl:px-3',
+          'hover:bg-slate-300/70 sm:ml-0',
+          'dark:bg-slate-800/50 dark:text-slate-100 dark:hover:bg-slate-700/50'
         )}
+        aria-label="Open Quick Access"
+        title="Open Quick Access"
+        onClick={() => {
+          setQuickAccessOpen(true);
+        }}
       >
-        Quick Access
-        <Kbd>Q</Kbd>
-      </div>
-    </button>
+        <QuickAccessIcon className={clsx('h-5 w-5')} />
+        <div
+          className={clsx(
+            'hidden items-center gap-2 text-xs font-bold',
+            'xl:flex',
+            'dark:font-normal'
+          )}
+        >
+          Quick Access
+          <Kbd>Q</Kbd>
+        </div>
+      </button>
+    </li>
   );
 }
 
@@ -311,3 +327,14 @@ function NavLogo({ href, title }: NavLogoProps) {
   );
 }
 
+function NavSeparator() {
+  return <li className={clsx('hidden', 'sm:block')}>
+    <div
+      className={clsx(
+        'ml-2 mr-4 h-3 w-[1px]',
+        'bg-slate-200 dark:bg-slate-700'
+      )}
+    />
+  </li>
+
+}

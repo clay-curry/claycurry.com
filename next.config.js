@@ -13,7 +13,7 @@ const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
 
   experimental: {
-    ppr: true,
+    
     turbo: {
       moduleIdStrategy: 'named',
     },

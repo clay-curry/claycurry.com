@@ -124,7 +124,7 @@ function ButtonResume() {
     <a
       target="_blank"
       rel="noreferrer nofollow"
-      href="https://github.com/clay-curry"
+      href="/claycurry-resume.pdf"
       className={clsx('button button--ghost px-2', 'md:button--big md:px-2')}
     >
       <DocumentIcon className={clsx('h-5 w-5')} />
@@ -241,8 +241,7 @@ function Hero() {
             'text-pretty',
             'tracking-wide',
             'md:text-xl',
-            'text-slate-600',
-            'dark:text-slate-400'
+            'text-slate-600 dark:text-slate-400'
           )}
         >
           a{' '}
@@ -255,7 +254,7 @@ function Hero() {
           >
             builder
           </strong>{' '}
-          who empowers other builders through programming language design and tooling.
+          focused on making tools used by other builders to create a positive impact.
         </SlideIn>
 
         <div className={clsx('w-fit mt-6 md:mt-8')}>

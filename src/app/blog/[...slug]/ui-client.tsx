@@ -1,17 +1,15 @@
-'use client'
+'use ui'
 
 const PINNED_POST = 'the-2024-retrospective';
 
 import clsx from 'clsx';
 import Link from 'next/link';
 import { m } from 'framer-motion';
-import { useState, useEffect, use, Suspense } from 'react';
+import { use, Suspense } from 'react';
 
 import Page from '@/app/_lib/contents-layouts/Page';
 import { formatDateRelative, formatLang } from '@/utils/post';
 import { ChevronRightIcon, PinIcon } from '@/components/Icons';
-
-export type BlogContentType = { slug: string; category: string; title: string; description: string; date: string; lang: string; tags: string[]; views: number; shares: number; }
 
 export function BlogHome({ posts }: { posts: Promise<BlogContentType[]> }) {
 
@@ -20,11 +18,10 @@ export function BlogHome({ posts }: { posts: Promise<BlogContentType[]> }) {
     <Page
       frontMatter={{
         title: 'Blog',
-        description: `My personal impression of developments at the interface of tech, computer science, and higher mathematics.`
+        description: `My personal impression of interesting developments in programming languages, industry patterns, and other topics.`
       }}
       headerImage={<HeaderImage />}
     >
-
       <div className={clsx('content-wrapper')}>
         <div
           className={clsx(
@@ -57,7 +54,6 @@ function RenderPosts({ contentPromise }: { contentPromise: Promise<BlogContentTy
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-
       {pinnedPost[0] ? (
         <div
           key={pinnedPost[0].slug}
@@ -107,6 +103,54 @@ function RenderPosts({ contentPromise }: { contentPromise: Promise<BlogContentTy
     </Suspense>
   );
 }
+
+function HeaderImage() {
+
+  const animation = {
+    hide: { pathLength: 0.3 },
+    show: (i) => {
+      const delay = 0.4 + i * 0.1;
+      return {
+        pathLength: 1.2,
+        transition: {
+          pathLength: { delay, duration: 0.5 },
+        },
+      };
+    },
+  };
+
+  return (
+    <m.svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      fill="none"
+      initial="hide"
+      animate="show"
+      strokeWidth={0.1}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={clsx(
+        'stroke-accent-500 -mt-7 h-full opacity-60',
+        'dark:opacity-40'
+      )}
+    >
+      <m.circle cx="5" cy="6" r="2" variants={animation} custom={1} initial={{ pathLength: 1.2 }} />
+      <m.circle cx="12" cy="6" r="2" variants={animation} custom={2} />
+      <m.circle cx="19" cy="6" r="2" variants={animation} custom={3} />
+      <m.circle cx="5" cy="18" r="2" variants={animation} custom={4} />
+      <m.circle cx="12" cy="18" r="2" variants={animation} custom={5} />
+      <m.line x1="5" y1="8" x2="5" y2="16" variants={animation} custom={6} />
+      <m.line x1="12" y1="8" x2="12" y2="16" variants={animation} custom={7} />
+      <m.path d="M19 8v2a2 2 0 0 1 -2 2h-12" variants={animation} custom={8} />
+    </m.svg>
+  );
+}
+
+export type BlogContentType = { slug: string; category: string; title: string; description: string; date: string; lang: string; tags: string[]; views: number; shares: number; }
+
+/* Individual Post */
+import React from 'react';
 
 function PostPreview(props: BlogContentType & {
   pinned?: boolean
@@ -203,7 +247,6 @@ function PostPreview(props: BlogContentType & {
         >
           {description}
         </p>
-
         <div
           className={clsx(
             'text-accent-600 items-center gap-1 text-sm font-semibold',
@@ -217,75 +260,4 @@ function PostPreview(props: BlogContentType & {
       </Link>
     </article>
   );
-}
-
-function HeaderImage() {
-
-  const animation = {
-    hide: { pathLength: 0.3 },
-    show: (i) => {
-      const delay = 0.4 + i * 0.1;
-      return {
-        pathLength: 1.2,
-        transition: {
-          pathLength: { delay, duration: 0.5 },
-        },
-      };
-    },
-  };
-
-
-  return (
-    <m.svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      fill="none"
-      initial="hide"
-      animate="show"
-      strokeWidth={0.1}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={clsx(
-        'stroke-accent-500 -mt-7 h-full opacity-60',
-        'dark:opacity-40'
-      )}
-    >
-      <m.circle
-        cx="5"
-        cy="6"
-        r="2"
-        variants={animation}
-        custom={1}
-        initial={{ pathLength: 1.2 }}
-      />
-      <m.circle cx="12" cy="6" r="2" variants={animation} custom={2} />
-      <m.circle cx="19" cy="6" r="2" variants={animation} custom={3} />
-      <m.circle cx="5" cy="18" r="2" variants={animation} custom={4} />
-      <m.circle cx="12" cy="18" r="2" variants={animation} custom={5} />
-      <m.line x1="5" y1="8" x2="5" y2="16" variants={animation} custom={6} />
-      <m.line x1="12" y1="8" x2="12" y2="16" variants={animation} custom={7} />
-      <m.path d="M19 8v2a2 2 0 0 1 -2 2h-12" variants={animation} custom={8} />
-    </m.svg>
-  );
-}
-
-
-
-/* Individual Post */
-
-import React from 'react';
-import { components } from './mdx';
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote/rsc'
-
-export function BlogContentsClient({ children }) {
-
-  console.log(source)
-
-  return (
-    <div>
-      <h1>Blog Contents Client</h1>
-      <MDXRemote {...source} compiledSource={source.compiledSource} components={components} />
-    </div>
-  )
 }

@@ -4,10 +4,10 @@ import { SWRConfig } from 'swr';
 import { MDXProvider } from '@mdx-js/react';
 import { ThemeProvider } from 'next-themes';
 
-import FocusModeProvider from '@/app/_lib/providers/FocusModeProvider';
-import ColorAccentProvider from '@/app/_lib/providers/ColorAccentProvider';
-import GlobalStateProvider from '@/app/_lib/providers/GlobalStateProvider';
-import FramerMotionProvider from '@/app/_lib/providers/FramerMotionProvider';
+import FocusModeProvider from '@/providers/FocusModeProvider';
+import ColorAccentProvider from '@/providers/ColorAccentProvider';
+import GlobalStateProvider from '@/providers/GlobalStateProvider';
+import FramerMotionProvider from '@/providers/FramerMotionProvider';
 import mdxCustomComponents from '@/components/mdx/custom-components';
 
 import type { PropsWithChildren } from 'react';

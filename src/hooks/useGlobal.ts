@@ -1,7 +1,7 @@
 "use client"
 import { useContext } from 'react';
 
-import { GlobalStateContext } from '@/app/_lib/providers/GlobalStateProvider';
+import { GlobalStateContext } from '@/providers/GlobalStateProvider';
 
 function useGlobal() {
   return useContext(GlobalStateContext);

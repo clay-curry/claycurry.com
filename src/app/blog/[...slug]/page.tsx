@@ -3,10 +3,8 @@
 import fs from 'fs';
 import path, { basename } from 'path';
 import React from 'react';
-import { BlogHome } from './client';
-import { MDXRemote } from 'next-mdx-remote/rsc';
 
-const slug_dir = 'src/app/blog'
+const slug_dir = 'src/app/blog/[...slug]/'
 
 // we'll prerender only the params from `generateStaticParams` at build time,
 // then attach the page to the server module graph
@@ -58,29 +56,11 @@ const getPosts = (dir: string) => {
 export default async function Page({ params }: { params: { slug?: string[] } }) {
   const isBlogHome = params.slug === undefined
 
-  if (isBlogHome) {
-    // this will not cause network waterfall because the module is statically generated at build time
-    const posts = await getPosts(path.join(process.cwd(), slug_dir))
-    const paths = posts.map(p => path.join(process.cwd(), `${slug_dir}/${p}`))
-    const data = Promise.all(paths.map(p => getPostData(p)))
-
-    return (<div>
-      <BlogHome posts={data} />
-    </div>)
+  //const postData = getPostData({ path: params.slug[0] });
+  // return <MDXRemote source={postData} />;
+  return <div>TEST PAGE</div>
 
 
-    // return <BlogPost slug={params.slug[0]} />
-  } else if (params.slug && params.slug.length > 0) {
-
-
-    //const postData = getPostData({ path: params.slug[0] });
-    // return <MDXRemote source={postData} />;
-    return <div>TEST PAGE</div>
-
-  } else {
-    // 404 page, fixme
-    return <div>404</div>
-  }
 }
 
 
