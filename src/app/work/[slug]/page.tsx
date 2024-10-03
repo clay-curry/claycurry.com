@@ -1,10 +1,39 @@
-function WorkPage({ params }) {
-  return <div>
-    work/{params.slug}
-  </div>
+'use server'
+
+import React from 'react';
+import Contact from './contact.mdx'
+import Experience from './experience.mdx'
+import SkillsAndTools from './skills-and-tools.mdx'
+import Studio from './studio.mdx'
+
+// we'll prerender only the params from `generateStaticParams` at build time,
+// then attach the page to the server module graph
+
+export default async function Page({ params }: { params: { slug: string } }) {
+
+  if (params.slug == 'contact') {
+    return <Contact />
+  }
+  if (params.slug == 'experience') {
+    return <Experience />
+  }
+  if (params.slug == 'skills-and-tools') {
+    return <SkillsAndTools />
+  }
+
+  if (params.slug == 'studio') {
+    return <Studio />
+  }
+
+
+  //const postData = getPostData({ path: params.slug[0] });
+  // return <MDXRemote source={postData} />;
+  return <div>TEST PAGE {params.slug}</div>
 }
 
-export default WorkPage;
+
+
+
 
 
 /*

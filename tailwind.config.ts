@@ -16,32 +16,15 @@ module.exports = {
         mono: ['var(--font-mono, "")', ...defaultTheme.fontFamily.mono],
       },
       colors: {
+        accent: colors.red,
         divider: {
           light: colors.slate[200],
           dark: colors.slate[800],
         },
-      },
-      animation: {
-        'bounce-x': 'bounce-x 1s infinite',
-      },
-      keyframes: {
-        'bounce-x': {
-          '0%, 100%': {
-            transform: 'translateX(25%)',
-            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
-          },
-          '50%': {
-            transform: 'translateX(0)',
-            animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
-          },
-        },
-      },
-    },
+      }
+    }
   },
   plugins: [
-    function ({ addVariant }) {
-      addVariant('fm', '.fm &');
-    },
     function ({ matchUtilities, theme }) {
       matchUtilities(
         {
@@ -54,10 +37,6 @@ module.exports = {
         { values: flattenColorPalette(theme('backgroundColor')), type: 'color' }
       );
     },
-    require('@headlessui/tailwindcss'),
-    require('tailwindcss-accent')({
-      colors: ['red', 'blue'],
-      root: 'red',
-    }),
-  ],
+    require('@headlessui/tailwindcss')
+  ]
 };

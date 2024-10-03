@@ -15,12 +15,12 @@ import { useScroll, useGlobal } from '@/hooks';
 
 const mainLinks = [
   { title: 'About', href: '/about' },
+  { title: 'Projects', href: '/projects' },
   { title: 'Blog', href: '/blog' },
   { title: 'Contact', href: '/work/contact' },
 ];
 
 const moreLinks = [
-  { title: 'Projects', href: '/projects' },
   { title: 'Skills & Tools', href: '/work/skills-and-tools' },
   { title: 'Experience', href: '/work/experience' },
   { title: 'Studio', href: '/work/studio' },

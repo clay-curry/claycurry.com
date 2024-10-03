@@ -36,7 +36,7 @@ function PageHeaderA({
       )}
     >
       {headerImage && (
-        <div className={clsx('absolute right-0 top-8 bottom-0')}>
+        <div className={clsx('absolute size-96 right-0 top-16 bottom-0')}>
           {headerImage}
         </div>
       )}

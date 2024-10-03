@@ -263,6 +263,8 @@ function Hero() {
   );
 }
 
+
+
 function HeaderTechStack() {
   const animation = {
     hide: { x: -8, opacity: 0 },
@@ -292,8 +294,8 @@ function HeaderTechStack() {
         transition={{ delayChildren: 0.8, staggerChildren: 0.025 }}
       >
         <m.li variants={animation}>
-          <div className={clsx('transition duration-200 hover:text-[#3178C6]')}>
-            <WebpackIcon className={clsx('h-6 w-6')} />
+          <div className={clsx('transition duration-200 group')}>
+            <WebpackIcon className={clsx('h-6 w-6 transition duration-200 [filter:brightness(0.5)_saturate(0.45)] group-hover:filter-none')} />
           </div>
         </m.li>
         <m.li variants={animation}>
@@ -458,7 +460,7 @@ function QuoteSection() {
       <blockquote
         className={clsx(
           'flex gap-2',
-          'pt-2 lg:pt-0',
+          'pt-24 lg:pt-36',
           'text-3xl md:text-4xl lg:text-5xl',
           'text-slate-500 dark:text-slate-400'
         )}
@@ -471,15 +473,18 @@ function QuoteSection() {
           )}
         />
         <span className={clsx('flex flex-col')}>
+          { /* row 1*/}
           <span className={clsx('leading-[1.15]')}>
             Excellent design{' '}
           </span>
+          { /* row 2*/}
           <span
             className={clsx(
               'flex items-center gap-2 leading-[1.15]',
               'lg:gap-4'
             )}
           >
+            {/* - */}
             <span
               className={clsx(
                 'mt-1 h-0.5 w-8 rounded-full bg-slate-400',
@@ -514,13 +519,16 @@ function QuoteSection() {
               )}
             />
           </span>
+
+          { /* row 3 */}
           <span className={clsx('leading-[1.15]')}>
             <strong
               className={clsx(
-                'relative font-extrabold text-slate-600',
-                'dark:text-slate-300'
+                'relative font-extrabold',
+                'text-slate-600 dark:text-slate-300'
               )}
             >
+              signifies
               <span
                 className={clsx(
                   'absolute -left-0.5 right-0 top-1 bottom-0 rounded-md bg-slate-100 px-1',

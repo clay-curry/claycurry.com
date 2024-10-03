@@ -19,8 +19,9 @@ export default function AboutPage() {
       <h1>
         Heritage
       </h1>
+
       My family roots in the United States go at least back to the original
-      13 colonies (<span className='italic'>build a family tree</span>), but the knowledge from where my ancestors actually emigrated
+      colonies (<span className='italic'>TODO: build a family tree</span>), but the knowledge from where my ancestors actually emigrated
       before arriving in the Western world is currently lost. This is all the knowledge I currently have about my ancestors.
 
 

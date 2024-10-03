@@ -12,13 +12,11 @@ import { formatDateRelative, formatLang } from '@/utils/post';
 import { ChevronRightIcon, PinIcon } from '@/components/Icons';
 
 export function BlogHome({ posts }: { posts: BlogContentMeta[] }) {
-
-
   return (<div>
     <Page
       frontMatter={{
         title: 'Blog',
-        description: `My personal impression of interesting developments in programming languages, industry patterns, and other topics.`
+        description: `My impression of interesting developments in programming languages, industry patterns, and other topics.`
       }}
       headerImage={<HeaderImage />}
     >
@@ -254,7 +252,7 @@ function PostPreview(props: BlogContentMeta & {
           )}
         >
           read more{' '}
-          <ChevronRightIcon className="group-hover:animate-bounce-x mt-1 h-3 w-3 transition" />
+          <ChevronRightIcon className="mt-1 h-3 w-3" />
         </div>
       </Link>
     </article>
