@@ -33,8 +33,7 @@ export default function Page() {
     <section
       className={clsx(
         'pt-20 lg:pt-52',
-        'pb-20 lg:pb-28',
-        'background-grid background-grid--fade-out',
+        'pb-20 lg:pb-28'
       )}
     >
       <div className={clsx('content-wrapper')}>
