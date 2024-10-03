@@ -26,6 +26,6 @@
     "strictNullChecks": true,
     "typeRoots": ["node_modules/@types"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/work/page.mdx", "next.config.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/work/page.mdx", "next.config.mjs"],
   "exclude": ["node_modules"]
 }

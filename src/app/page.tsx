@@ -31,12 +31,9 @@ import SectionTitle from '@/components/sections/SectionTitle';
 
 export default function Page() {
   return (<main>
-    <section
-      className={clsx(
-        'pt-20 lg:pt-52',
-        'pb-20 lg:pb-28'
-      )}
-    >
+    <section className={clsx(
+      'background-grid background-grid--fade-in',
+      'pt-20 lg:pt-52', 'pb-20 lg:pb-28')}>
       <div className={clsx('content-wrapper')}>
         <div className={clsx('relative')}>
           <Hero />
@@ -81,22 +78,24 @@ function AvailableForHire() {
   return (
     <div
       className={clsx(
-        'button button--ghost text-accent-500 pointer-events-none gap-2.5 px-2.5',
-        'md:button--big md:px-2.5',
-        'dark:text-accent-400'
+        'button button--ghost md:button--big',
+        'pointer-events-none',
+        'gap-2.5 px-2.5',
+        'text-accent-500 dark:text-accent-400'
       )}
     >
-      <span className={clsx('relative flex h-2 w-2')}>
+      <span className={clsx('relative flex size-2')}>
         <span
           className={clsx(
-            'bg-accent-600 absolute inline-flex -translate-y-0.5 -translate-x-0.5 size-[11px] animate-ping rounded-full opacity-75',
-            'dark:bg-accent-300'
+            'size-[11px] animate-ping rounded-full opacity-75',
+            'absolute inline-flex -translate-y-0.5 -translate-x-0.5',
+            'bg-accent-600 dark:bg-accent-300'
           )}
         />
         <span
           className={clsx(
-            'bg-accent-500 relative inline-flex h-2 w-2 rounded-full',
-            'dark:bg-accent-400'
+            'relative inline-flex size-2 rounded-full',
+            'bg-accent-500 dark:bg-accent-400'
           )}
         />
       </span>
@@ -123,7 +122,10 @@ function ButtonResume() {
       target="_blank"
       rel="noreferrer nofollow"
       href="/claycurry-resume.pdf"
-      className={clsx('button button--ghost px-2', 'md:button--big md:px-2')}
+      className={clsx(
+        'button button--ghost px-2',
+        'md:button--big md:px-2'
+      )}
     >
       <DocumentIcon className={clsx('h-5 w-5')} />
       Resume
@@ -248,9 +250,9 @@ function Hero() {
               'dark:text-slate-300'
             )}
           >
-            builder
+            software developer
           </strong>{' '}
-          making tools for other builders to create a positive impact.
+          building and contributing to projects used by other developers to create a positive impact.
         </SlideIn>
 
         <div className={clsx('w-fit mt-6 md:mt-8')}>
@@ -278,7 +280,7 @@ function HeaderTechStack() {
         animate={animation.show}
         transition={{ delay: 0.8 }}
       >
-        current favorite tech stack/tools: (TypeScript, Webpack, React, NextJS, TailwindCSS, Framer, VSCode, Figma))
+        current favorite tech stack/tools:
       </m.p>
       <m.ul
         className={clsx(
@@ -455,21 +457,22 @@ function QuoteSection() {
     return (
       <blockquote
         className={clsx(
-          'flex gap-2 pt-2 text-3xl text-slate-500',
-          'md:text-4xl lg:pt-0 lg:text-5xl',
-          'dark:text-slate-400'
+          'flex gap-2',
+          'pt-2 lg:pt-0',
+          'text-3xl md:text-4xl lg:text-5xl',
+          'text-slate-500 dark:text-slate-400'
         )}
       >
         <QuoteIcon
           className={clsx(
-            '-mt-1 h-10 text-slate-300',
-            'md:-mt-3 md:h-16 lg:h-24',
-            'dark:text-slate-800'
+            '-mt-1 md:-mt-3',
+            'h-10 md:h-16 lg:h-24',
+            'text-slate-300 dark:text-slate-800'
           )}
         />
         <span className={clsx('flex flex-col')}>
           <span className={clsx('leading-[1.15]')}>
-            <em>Excellent design</em>{' '}
+            Excellent design{' '}
           </span>
           <span
             className={clsx(
@@ -524,7 +527,9 @@ function QuoteSection() {
                   'lg:-left-1.5 lg:-right-0.5 lg:top-2 lg:bottom-0',
                   'dark:bg-slate-800'
                 )}
-              />signifies
+              >
+                signifies
+              </span>
             </strong>{' '}
             purpose
           </span>

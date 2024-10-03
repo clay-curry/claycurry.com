@@ -6,8 +6,9 @@ function SectionContent({ children }: PropsWithChildren) {
   return (
     <div
       className={clsx(
-        'background-grid background-grid--fade-out mt-20 border-t border-divider-light',
-        'dark:border-divider-dark'
+        'mt-20 border-t',
+        //'background-grid background-grid--fade-out',
+        'border-divider-light dark:border-divider-dark'
       )}
     >
       <div className={clsx('content-wrapper pb-20')}>{children}</div>

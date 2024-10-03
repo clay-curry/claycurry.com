@@ -1,17 +1,17 @@
-'use ui'
+'use client'
 
 const PINNED_POST = 'the-2024-retrospective';
 
 import clsx from 'clsx';
 import Link from 'next/link';
 import { m } from 'framer-motion';
-import { use, Suspense } from 'react';
+import { Suspense } from 'react';
 
 import Page from '@/app/_lib/contents-layouts/Page';
 import { formatDateRelative, formatLang } from '@/utils/post';
 import { ChevronRightIcon, PinIcon } from '@/components/Icons';
 
-export function BlogHome({ posts }: { posts: Promise<BlogContentType[]> }) {
+export function BlogHome({ posts }: { posts: BlogContentMeta[] }) {
 
 
   return (<div>
@@ -37,7 +37,7 @@ export function BlogHome({ posts }: { posts: Promise<BlogContentType[]> }) {
           <div className={clsx('flex-1')}>
 
             {/* pinned post goes first */}
-            <RenderPosts contentPromise={posts} />
+            <RenderPosts content={posts} />
           </div>
         </div>
       </div>
@@ -46,8 +46,7 @@ export function BlogHome({ posts }: { posts: Promise<BlogContentType[]> }) {
   );
 }
 
-function RenderPosts({ contentPromise }: { contentPromise: Promise<BlogContentType[]> }) {
-  const content = use(contentPromise);
+function RenderPosts({ content }: { content: BlogContentMeta[] }) {
   const pinnedPost = content.filter(post => post.slug === PINNED_POST);
   const postsPreview = content.filter(post => post.slug !== PINNED_POST);
 
@@ -147,12 +146,12 @@ function HeaderImage() {
   );
 }
 
-export type BlogContentType = { slug: string; category: string; title: string; description: string; date: string; lang: string; tags: string[]; views: number; shares: number; }
+export type BlogContentMeta = { slug: string; category: string; title: string; description: string; date: string; lang: string; tags: string[]; views: number; shares: number; }
 
 /* Individual Post */
 import React from 'react';
 
-function PostPreview(props: BlogContentType & {
+function PostPreview(props: BlogContentMeta & {
   pinned?: boolean
 }
 ) {

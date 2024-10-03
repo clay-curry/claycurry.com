@@ -14,17 +14,14 @@ export default function AboutPage() {
 
 
   return (
-    <main className='mt-20'>
+    <main>
       <BioTable />
       <h1>
         Heritage
       </h1>
-      I am fortunate to my to know my that
-      familial roots in the United States go at least back to the original
+      My family roots in the United States go at least back to the original
       13 colonies (<span className='italic'>build a family tree</span>), but the knowledge from where my ancestors actually emigrated
-      before arriving in the Western world is currently lost. The pigment of my skin and
-      facial features suggest I inherit Nordic or Irish diaspora, but this is all the knowledge
-      I have about my ancestors.
+      before arriving in the Western world is currently lost. This is all the knowledge I currently have about my ancestors.
 
 
       Childhood: I should like to imagine that the village who raised me nurtured an
@@ -61,58 +58,10 @@ function BioTable() {
       </tr>
       <tr>
         <td>
-          Pronouns
-        </td>
-        <td>
-          He / Him / His
-        </td>
-      </tr>
-      <tr>
-        <td>
           Home
         </td>
         <td>
           Oklahoma City, OK
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Pronouns
-        </td>
-        <td>
-          He / Him / His
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Pronouns
-        </td>
-        <td>
-          He / Him / His
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Pronouns
-        </td>
-        <td>
-          He / Him / His
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Pronouns
-        </td>
-        <td>
-          He / Him / His
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Pronouns
-        </td>
-        <td>
-          He / Him / His
         </td>
       </tr>
     </table>)

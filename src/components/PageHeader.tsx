@@ -25,7 +25,7 @@ function PageHeaderA({
   headerImage = null,
 }: PageHeaderProps) {
   return (
-    <header
+    <section
       className={clsx(
         'pt-32 md:pt-40',
         'pb-40 md:pb-50',
@@ -36,20 +36,8 @@ function PageHeaderA({
       )}
     >
       {headerImage && (
-        <div
-          className={clsx('content-wrapper absolute inset-0 overflow-hidden')}
-        >
-          <div
-            className={clsx(
-              'background-image background-image--fade-out pointer-events-none absolute inset-0 select-none'
-            )}
-          >
-            <div className={clsx('content-wrapper relative h-full')}>
-              <div className={clsx('absolute right-0 -top-24 bottom-0')}>
-                {headerImage}
-              </div>
-            </div>
-          </div>
+        <div className={clsx('absolute right-0 top-8 bottom-0')}>
+          {headerImage}
         </div>
       )}
       <div className={clsx('content-wrapper')}>
@@ -102,7 +90,7 @@ function PageHeaderA({
           </p>
         </m.div>
       </div>
-    </header>
+    </section>
   );
 }
 

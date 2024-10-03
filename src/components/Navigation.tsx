@@ -34,12 +34,13 @@ export default function Navbar() {
   return (
     <header
       className={clsx(
-        'h-[72px]'
+        'h-16'
       )}
     >
       <div
         className={clsx(
-          'h-[72px]', // size
+          'h-16', // size
+          'bg-slate-100 dark:bg-[#0c1222]',
           'fixed top-0 right-0 left-0 z-[1000]', // position
           'mx-auto max-w-[120rem]', // content wrapper
           [
