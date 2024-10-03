@@ -21,7 +21,8 @@ import {
   HeartIcon,
   SparklesIcon,
   CalendarIcon,
-  DocumentIcon
+  DocumentIcon,
+  WebpackIcon
 } from '@/components/Icons';
 import { SectionButton } from '@/components/sections/SectionButton';
 import SectionContent from '@/components/sections/SectionContent';
@@ -290,7 +291,7 @@ function HeaderTechStack() {
       >
         <m.li variants={animation}>
           <div className={clsx('transition duration-200 hover:text-[#3178C6]')}>
-            <TypeScriptIcon className={clsx('h-6 w-6')} />
+            <WebpackIcon className={clsx('h-6 w-6')} />
           </div>
         </m.li>
         <m.li variants={animation}>
@@ -301,6 +302,11 @@ function HeaderTechStack() {
         <m.li variants={animation}>
           <div className={clsx('transition duration-200 hover:text-[#06B6D4]')}>
             <TailwindCssIcon className={clsx('h-6 w-6')} />
+          </div>
+        </m.li>
+        <m.li variants={animation}>
+          <div className={clsx('transition duration-200 hover:text-[#3178C6]')}>
+            <TypeScriptIcon className={clsx('h-6 w-6')} />
           </div>
         </m.li>
         <m.li variants={animation}>
