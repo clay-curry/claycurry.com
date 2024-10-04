@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { GitHubIcon, NpmIcon } from '@/components/Icons';
+import { GitHubIcon, NpmIcon } from '@/app/Icons';
 
 import { TProjectFrontMatter } from '@/utils/types';
 

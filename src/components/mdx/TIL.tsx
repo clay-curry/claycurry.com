@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { CheckCircleIcon, XCircleIcon } from '@/components/Icons';
+import { CheckCircleIcon, XCircleIcon } from '@/app/Icons';
 
 import { formatDate } from '@/utils/post';
 
@@ -128,7 +128,7 @@ interface ItemsProps {
 
 export function Items({
   date,
-  children = null,
+  children,
 }: PropsWithChildren<ItemsProps>) {
   return (
     <div className={clsx('flex flex-row gap-6', 'md:gap-12 lg:gap-24')}>

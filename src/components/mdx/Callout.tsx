@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { ErrorIcon, InfoIcon, NoteIcon, WarningIcon } from '@/components/Icons';
+import { ErrorIcon, InfoIcon, NoteIcon, WarningIcon } from '@/app/Icons';
 
 import type { PropsWithChildren, ReactElement } from 'react';
 
@@ -19,13 +19,7 @@ function Callout({
   };
 
   switch (variant) {
-    case 'neutral':
-      data = {
-        title: 'Note',
-        icon: <NoteIcon />,
-        modifier: '',
-      };
-      break;
+    
     case 'info':
       data = {
         title: 'Info',
@@ -48,6 +42,13 @@ function Callout({
       };
       break;
     default:
+      // case 'neutral':
+      data = {
+        title: 'Note',
+        icon: <NoteIcon />,
+        modifier: '',
+      };
+      break;
   }
 
   return (

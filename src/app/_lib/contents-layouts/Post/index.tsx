@@ -1,8 +1,7 @@
 import { PropsWithChildren } from 'react';
 
-import WithReactions from '@/components/layouts/WithReactions';
-import WithTableOfContents from '@/components/layouts/WithTableOfContents';
-import PageHeader from '@/components/PageHeader';
+import WithTableOfContents from '@/app/WithTableOfContents';
+import PageHeader from '@/app/PageHeader';
 
 import { getPostOgImageUrl, getPostStructuredData } from '@/utils/post';
 
@@ -55,7 +54,6 @@ function Post({
         {children}
         <PostFooter tags={tags} category={category} />
       </WithTableOfContents>
-      <WithReactions contentTitle={title} contentType="POST" />
     </>
   );
 }

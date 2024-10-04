@@ -23,7 +23,7 @@ import {
   CalendarIcon,
   DocumentIcon,
   WebpackIcon
-} from '@/components/Icons';
+} from '@/app/Icons';
 import { SectionButton } from '@/components/sections/SectionButton';
 import SectionContent from '@/components/sections/SectionContent';
 import SectionTitle from '@/components/sections/SectionTitle';

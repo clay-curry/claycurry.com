@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 
-import { ExternalLink } from '@/components/Icons';
+import { ExternalLink } from '@/app/Icons';
 
 import type { LinkProps } from 'next/link';
 
@@ -21,8 +21,9 @@ export function QuickView({ href, children }: QuickViewProps) {
       title,
       `width=${width},height=${height},left=${left},top=${top}`
     );
-
-    newWindow.focus();
+    
+    if (newWindow)
+      newWindow.focus();
   };
 
   return (

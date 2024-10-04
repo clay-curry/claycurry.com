@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { CalendarIcon, LanguageIcon } from '@/components/Icons';
+import { CalendarIcon, LanguageIcon } from '@/app/Icons';
 
 import { formatDate, formatDateISO, formatLang } from '@/utils/post';
 

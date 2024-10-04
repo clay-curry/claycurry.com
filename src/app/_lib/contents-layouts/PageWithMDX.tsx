@@ -1,5 +1,5 @@
-import WithTableOfContents from '@/components/layouts/WithTableOfContents';
-import PageHeader from '@/components/PageHeader';
+import WithTableOfContents from '@/app/WithTableOfContents';
+import PageHeader from '@/app/PageHeader';
 
 import type { TPageFrontMatter, TTableOfContents } from '@/utils/types';
 import type { PropsWithChildren } from 'react';

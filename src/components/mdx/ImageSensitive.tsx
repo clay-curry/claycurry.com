@@ -1,9 +1,10 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-props-no-spreading */
 
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import { EyeSlash } from '@/components/Icons';
+import { EyeSlash } from '@/app/Icons';
 import Image from '@/components/mdx/Image';
 
 import type { ImageProps } from '@/components/mdx/Image';
@@ -53,7 +54,7 @@ export default function ImageSensitive({
           </div>
         </div>
       )}
-      <Image alt={" "} immersive={isShown} {...props} />
+      <Image immersive={isShown} {...props} />
     </div>
   );
 }

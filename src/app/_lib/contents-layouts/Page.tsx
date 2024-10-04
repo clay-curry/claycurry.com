@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import PageHeader from '@/components/PageHeader';
+import PageHeader from '@/app/PageHeader';
 import type { TPageFrontMatter } from '@/utils/types';
 import type { PropsWithChildren, ReactNode } from 'react';
 

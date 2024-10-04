@@ -1,6 +1,5 @@
-import WithReactions from '@/components/layouts/WithReactions';
-import WithTableOfContents from '@/components/layouts/WithTableOfContents';
-import PageHeader from '@/components/PageHeader';
+import WithTableOfContents from '@/app/WithTableOfContents';
+import PageHeader from '@/app/PageHeader';
 import ProjectFooter from '@/app/_lib/contents-layouts/Project/ProjectFooter';
 import ProjectMeta from '@/app/_lib/contents-layouts/Project/ProjectMeta';
 
@@ -25,7 +24,6 @@ function ProjectLayout({
         {children}
         <ProjectFooter githubUrl={githubUrl} />
       </WithTableOfContents>
-      <WithReactions contentTitle={title} contentType="PROJECT" />
     </>
   );
 }

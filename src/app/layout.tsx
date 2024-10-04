@@ -1,10 +1,9 @@
 import './main.css';
 
-import Footer from '@/components/Footer';
-import Navigation from '@/components/Navigation';
-import QuickAccess from '@/components/QuickAccess';
-import Shortcuts from '@/components/Shortcuts';
-import Toaster from '@/components/Toaster';
+import Footer from '@/app/Footer';
+import Navigation from '@/app/Navigation';
+import QuickAccess from '@/app/QuickAccess';
+import Toaster from '@/app/Toaster';
 import type { Metadata } from 'next';
 import Provider from '@/providers';
 import { GoogleAnalytics } from '@next/third-parties/google';
@@ -82,7 +81,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         <Provider>
           <QuickAccess />
-          <Shortcuts />
+
           <Navigation />
           {children}
           <Toaster />
