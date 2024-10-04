@@ -40,12 +40,11 @@
   }
 
   .background-grid {
-    @apply bg-slate-100;
-    @apply dark:bg-[#0c1222];
+    @apply bg-slate-100 dark:bg-[#0c1222];
 
     &::before {
-      @apply bg-grid-slate-200/80 absolute inset-0 content-[''];
-      @apply dark:bg-grid-slate-50/[.025];
+      @apply absolute inset-0 content-[''];
+      @apply bg-grid-slate-200/80 dark:bg-grid-slate-50/[.025];
 
       mask-image: linear-gradient(transparent, black, transparent);
     }
