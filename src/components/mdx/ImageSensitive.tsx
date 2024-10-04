@@ -4,7 +4,7 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import { EyeSlash } from '@/app/Icons';
+import { EyeSlash } from '@/app/(site)/Icons';
 import Image from '@/components/mdx/Image';
 
 import type { ImageProps } from '@/components/mdx/Image';

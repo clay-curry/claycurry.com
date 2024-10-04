@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 
-import { ChevronRightIcon } from '@/app/Icons';
+import { ChevronRightIcon } from '@/app/(site)/Icons';
 
 import type { ReactNode } from 'react';
 

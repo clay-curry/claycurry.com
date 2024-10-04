@@ -229,6 +229,9 @@
   }
 }
 
+@tailwind utilities;
+
+
 .mdx-contents {
   @apply w-full text-slate-600;
   @apply dark:text-slate-400;

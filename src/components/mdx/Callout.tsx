@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { ErrorIcon, InfoIcon, NoteIcon, WarningIcon } from '@/app/Icons';
+import { ErrorIcon, InfoIcon, NoteIcon, WarningIcon } from '@/app/(site)/Icons';
 
 import type { PropsWithChildren, ReactElement } from 'react';
 

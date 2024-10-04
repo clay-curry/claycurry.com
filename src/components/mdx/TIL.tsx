@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { CheckCircleIcon, XCircleIcon } from '@/app/Icons';
+import { CheckCircleIcon, XCircleIcon } from '@/app/(site)/Icons';
 
 import { formatDate } from '@/utils/post';
 

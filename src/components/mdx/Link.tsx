@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 
-import { ExternalLink } from '@/app/Icons';
+import { ExternalLink } from '@/app/(site)/Icons';
 
 import type { LinkProps } from 'next/link';
 

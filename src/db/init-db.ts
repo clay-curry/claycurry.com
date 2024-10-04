@@ -1,19 +1,23 @@
 import { sql } from './postgres';
+import { dropGuestbookTable, createGuestbookTable } from './guestbook';
 
-const init = async () => {
-  try {
+export const drop = async () => {
     // Drop tables if they already exist (in the correct order to avoid FK issues)
     await sql`DROP TABLE IF EXISTS reaction;`;
     await sql`DROP TABLE IF EXISTS share;`;
     await sql`DROP TABLE IF EXISTS views;`;
     await sql`DROP TABLE IF EXISTS content_meta;`;
-    await sql`DROP TABLE IF EXISTS guestbook;`;
+    await dropGuestbookTable();
 
     // Drop types if they already exist
     await sql`DROP TYPE IF EXISTS content_type;`;
     await sql`DROP TYPE IF EXISTS share_type;`;
     await sql`DROP TYPE IF EXISTS reaction_type;`;
 
+}
+
+export const init = async () => {
+  try {
     // Enum for ContentType
     await sql`CREATE TYPE content_type AS ENUM ('PAGE', 'POST', 'PROJECT');`;
 
@@ -63,16 +67,9 @@ const init = async () => {
       );
     `;
 
-    // Table for Guestbook
-    await sql`
-      CREATE TABLE guestbook (
-        id SERIAL PRIMARY KEY,
-        email VARCHAR(255) NOT NULL,
-        body TEXT NOT NULL,
-        created_by VARCHAR(255) NOT NULL,
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-      );
-    `;
+    await createGuestbookTable();
+
+
 
     console.log('Database initialized successfully.');
   } catch (error) {

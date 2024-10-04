@@ -1,10 +1,10 @@
 "use client"
 
 
-import { HashtagIcon } from '@/app/Icons';
+import { HashtagIcon } from '@/app/(site)/Icons';
 import NextLink from 'next/link';
 
-import { ExternalLink, MailIcon } from '@/app/Icons';
+import { ExternalLink, MailIcon } from '@/app/(site)/Icons';
 
 import slug from 'slug';
 import { ReactNode } from 'react';
@@ -20,7 +20,7 @@ import type { DetailedHTMLProps, HTMLAttributes } from 'react';
 
 import type { MDXComponents } from 'mdx/types';
 
-import { NpmIcon, PnpmIcon, YarnIcon } from '@/app/Icons';
+import { NpmIcon, PnpmIcon, YarnIcon } from '@/app/(site)/Icons';
 import type { ComponentProps } from 'react';
 
 export function JavaScriptIcon(props: ComponentProps<'svg'>) {
@@ -154,7 +154,7 @@ import type { AnchorHTMLAttributes, ReactElement } from 'react';
 
 import { PropsWithChildren, useRef, useState } from 'react';
 
-import { ClipboardIcon } from '@/app/Icons';
+import { ClipboardIcon } from '@/app/(site)/Icons';
 
 const getSlug = (children: ReactNode) => {
   if (typeof children === 'string') {
