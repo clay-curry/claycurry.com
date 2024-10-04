@@ -1,11 +1,11 @@
 "use client"
+// TODO: implement me
+//import useSWR from 'swr';
 
-import useSWR from 'swr';
-
-import fetcher from '@/utils/fetcher';
+//import fetcher from '@/utils/fetcher';
 
 export default function useNewPosts() {
-  const {
+  /*const {
     data,
     error: isError,
     isLoading,
@@ -18,10 +18,10 @@ export default function useNewPosts() {
   >('/api/content/latest', fetcher, {
     fallbackData: [],
   });
-
+  */
   return {
-    isLoading,
-    isError,
-    data,
+    isLoading: false,
+    isError: false,
+    data: [],
   };
 }

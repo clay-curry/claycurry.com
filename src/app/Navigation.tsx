@@ -281,7 +281,6 @@ function NavLinkExpanded({ title, items }: NavLinkExpandedProps) {
     <div className={clsx('flex')}>
       <div
         className={clsx(
-          'text-white',
           'nav-link nav-link--label pointer-events-none ml-2 mr-2'
         )}
       >
