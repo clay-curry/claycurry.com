@@ -1,14 +1,20 @@
 import React from "react"
+import ClayCurry from './claycurry-com.mdx'
+import { CodeGroup } from 'src/components/mdx/custom-components'
+import { InlineHighlight } from 'src/components/mdx/InlineHighlight'
+import Callout from 'src/components/mdx/Callout'
+import AccentDemo from "src/components/mdx/AccentDemo"
 
 export default function DocsPage({ params }) {
-  return <div>
-    work/{params.slug}
-  </div>
+  switch (params.slug) {
+    case 'claycurry-com': return <ClayCurry components={{ CodeGroup, Callout, InlineHighlight, AccentDemo }} />
+    default: return <div>work/{params.slug}</div>
+  }
 }
 
 export async function generateStaticParams() {
   return [{
-    slug: 'tailwindcss-accent'
+    slug: 'claycurry-com'
   }]
 }
 

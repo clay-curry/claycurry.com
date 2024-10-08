@@ -2,27 +2,28 @@
  
 import { useState } from 'react';
 import { m } from 'framer-motion';
+import clsx from 'clsx';
+
+import { SkeletonSm } from '@/components/Skeletons';
 
 import Page from '@/components/contents-layouts/Page';
-import { GitHubIcon, NpmIcon } from '@/app/(site)/Icons';
+import { TypeScriptIcon, GitHubIcon, NpmIcon } from '@/app/(site)/Icons';
 import { SectionButton } from '@/components/sections/SectionButton';
 import SectionContent from '@/components/sections/SectionContent';
 import SectionTitle from '@/components/sections/SectionTitle';
 import AppWindow from '@/components/AppWindow';
  
-interface GithubWireframeProps {
-  author?: string;
-  license?: string;
-  repository: string;
-  description: string;
-}
-
 function GitHubWireframe({
   author = '',
   license = '',
   repository,
   description,
-}: GithubWireframeProps) {
+}: {
+  author?: string;
+  license?: string;
+  repository: string;
+  description: string;
+}) {
   return (
     <div
       className={clsx(
@@ -168,22 +169,16 @@ function GitHubWireframe({
     </div>
   );
 } 
-import clsx from 'clsx';
-
-import { TypeScriptIcon } from '@/app/(site)/Icons';
-import { SkeletonSm } from '@/components/Skeletons';
-
-interface NpmWireframeProps {
-  packageName: string;
-  description: string;
-  isWithTypeScript?: boolean;
-}
 
 function NpmWireframe({
   packageName,
   description,
   isWithTypeScript = false,
-}: NpmWireframeProps) {
+}: {
+  packageName: string;
+  description: string;
+  isWithTypeScript?: boolean;
+}) {
   return (
     <div
       className={clsx(
@@ -293,12 +288,12 @@ function ProjectsContents() {
   return (
     <>
       <SectionTitle
-        title="The dynamic accent colors."
-        caption="tailwindcss-accent"
-        description="Add accent colors for dynamic, flexible color use in your Tailwind CSS project."
+        title="This portfolio website."
+        caption="claycurry.com"
+        description="Showcases modern React 19 / Next.js 15 patterns for building declarative UI."
         button={{
           title: 'learn more',
-          href: '/docs/tailwindcss-accent',
+          href: '/projects/claycurry-com',
         }}
       />
       <SectionContent>
@@ -329,12 +324,12 @@ function ProjectsContents() {
                   browserTabs={[
                     {
                       icon: <GitHubIcon className="h-4 w-4" />,
-                      title: 'clay-curry/tailwindcss-accent - GitHub',
+                      title: 'clay-curry/claycurry.com',
                       isActive: currentState === 'github',
                     },
                     {
                       icon: <NpmIcon className="h-4 w-4" />,
-                      title: 'tailwindcss-accent - npm',
+                      title: 'claycurry.com - npm',
                       isActive: currentState === 'npm',
                     },
                   ]}
@@ -343,8 +338,8 @@ function ProjectsContents() {
                     <GitHubWireframe
                       author="clay-curry"
                       license="MIT"
-                      repository="tailwindcss-accent"
-                      description="Adds accent colors for more dynamic and flexible color utilization."
+                      repository="claycurry.com"
+                      description="Showcases modern, declarative programming patterns for building UI in React 19 / Next.js 15."
                     />
                   )}
                   {currentState === 'npm' && (

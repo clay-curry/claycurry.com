@@ -525,7 +525,7 @@ interface CodeGroupProps {
   variant?: 'tab' | 'files';
 }
 
-function CodeGroup({ variant = 'tab', children }: CodeGroupProps) {
+export function CodeGroup({ variant = 'tab', children }: CodeGroupProps) {
   const tab: Array<{
     icon: ReactElement;
     title: string;
@@ -599,6 +599,10 @@ const CustomComponents = {
   hr: Hr,
   pre: Pre,
   table: Table,
+  CodeGroup: CodeGroup,
+  CodeGroupFile: CodeGroupFile,
+  CodeGroupTab: CodeGroupTab,
+  Table: Table,
 }
 
 export default CustomComponents;

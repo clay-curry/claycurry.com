@@ -4,24 +4,24 @@
 // - add support for reduced motion
 
 import clsx from 'clsx';
+import { m, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import { ReactElement, useState } from 'react';
-import { m, useReducedMotion } from 'framer-motion';
 
 import {
+  CalendarIcon,
+  CodeIcon,
+  DocumentIcon,
   FigmaIcon,
   FramerMotionIcon,
+  HeartIcon,
   NextJsIcon,
+  QuoteIcon,
   ReactIcon,
+  SparklesIcon,
   TailwindCssIcon,
   TypeScriptIcon,
   VSCodeIcon,
-  QuoteIcon,
-  CodeIcon,
-  HeartIcon,
-  SparklesIcon,
-  CalendarIcon,
-  DocumentIcon,
   WebpackIcon
 } from '@/app/(site)/Icons';
 import { SectionButton } from '@/components/sections/SectionButton';
@@ -252,7 +252,7 @@ function Hero() {
           >
             software developer
           </strong>{' '}
-          building and contributing to projects used by other developers to create a positive impact.
+          bridging the gap between software design and development at [your company here].
         </SlideIn>
 
         <div className={clsx('w-fit mt-6 md:mt-8')}>
@@ -418,8 +418,8 @@ function FeaturedCardSection() {
               <SparklesIcon className={clsx('h-5 w-5 text-white')} />
             </div>
           }
-          title="Clean & Intuitive"
-          desc="Keep the UI clean with a modern touch without compromising UX."
+          title="Design Oriented"
+          desc="Building tools that streamline program generation and verification without compromising UX."
         />
         <FeaturedCard
           icon={
