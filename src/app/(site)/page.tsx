@@ -31,6 +31,18 @@ import SectionTitle from '@/components/sections/SectionTitle';
 
 export default function Page() {
   return (<main>
+    <HomeHero />
+    <FeaturedCardSection />
+    <QuoteSection />
+    <CleanIntuitive />
+    <DetailOriented />
+    <PrettyOptimized />
+  </main >
+  );
+}
+
+function HomeHero() {
+  return (
     <section className={clsx(
       'background-grid background-grid--fade-in',
       'pt-20 lg:pt-52', 'pb-20 lg:pb-28')}>
@@ -43,25 +55,8 @@ export default function Page() {
         </div>
       </div>
     </section>
-    <section className={clsx('hidden', 'lg:-mt-16 lg:mb-24 lg:block')}>
-      <FeaturedCardSection />
-    </section>
-    <section className={clsx('-mt-12 mb-12', 'md:mt-0 md:mb-24')}>
-      <QuoteSection />
-    </section>
-    <section className={clsx('mb-12', 'lg:mb-24')}>
-      <CleanIntuitive />
-    </section>
-    <section className={clsx('mb-12', 'lg:mb-24')}>
-      <DetailOriented />
-    </section>
-    <section className={clsx('mb-12', 'lg:mb-24')}>
-      <PrettyOptimized />
-    </section>
-  </main>
   );
 }
-
 function WaveILY() {
   return (
     <m.div
@@ -153,7 +148,7 @@ function HeroCta({
       >
         <ButtonResume />
       </m.div>
-
+      {/*}
       <m.div
         variants={{
           hide: { x: -16, opacity: 0 },
@@ -163,6 +158,8 @@ function HeroCta({
       >
         <LetsWorkTogetherButton />
       </m.div>
+*/}
+
 
       <m.a
         href="https://github.com/clay-curry"
@@ -355,7 +352,7 @@ function FeaturedCardSection() {
     title: string;
     desc: string;
   }) {
-    return (
+    return (<section className={clsx('hidden', 'lg:-mt-16 lg:mb-24 lg:block')}>
       <div
         className={clsx(
           'border-divider-light flex-1 rounded-2xl border bg-white',
@@ -401,6 +398,7 @@ function FeaturedCardSection() {
           {desc}
         </div>
       </div>
+    </section>
     );
   }
 
@@ -456,7 +454,9 @@ function FeaturedCardSection() {
 
 function QuoteSection() {
   function Quote() {
-    return (
+    return (<section className={clsx('-mt-12 mb-12', 'md:mt-0 md:mb-24')}>
+
+
       <blockquote
         className={clsx(
           'flex gap-2',
@@ -546,6 +546,7 @@ function QuoteSection() {
           </span>
         </span>
       </blockquote>
+    </section>
     );
   }
 
@@ -765,7 +766,9 @@ function CleanIntuitive() {
   }
 
   return (
-    <>
+    <section className={clsx('mb-12', 'lg:mb-24')}>
+
+
       <header className={clsx('mb-8')}>
         <SectionTitle
           caption="Communication. Results."
@@ -822,18 +825,20 @@ function CleanIntuitive() {
           </div>
         </div>
       </SectionContent>
-    </>
+    </section>
   );
 }
 
 function DetailOriented() {
   return (
-    <header className={clsx('mb-8')}>
-      <SectionTitle
-        title="Historical Compass"
-        caption="Honoring Heritage."
-        description="Studying particular epiphanies, challenges, and solutions that mark previous ages in computer programming not only honors our common heritage but forecasts its arc."
-      />
+    <section className={clsx('mb-12', 'lg:mb-24')}>
+      <header className={clsx('mb-8')}>
+        <SectionTitle
+          title="Historical Compass"
+          caption="Honoring Heritage."
+          description="Studying particular epiphanies, challenges, and solutions that mark previous ages in computer programming not only honors our common heritage but forecasts its arc."
+        />
+      </header>
       {/*
         1. origins
         ada lovelace discussed ...
@@ -841,19 +846,21 @@ function DetailOriented() {
         2. reception
       
       
-      */}
-    </header>
+          */}
+    </section>
   );
 }
 
 function PrettyOptimized() {
   return (
-    <header className={clsx('mb-8')}>
-      <SectionTitle
-        title="Comprehensible and Optimized Code."
-        caption="Pretty & Optimized"
-        description="Writing clean code is a top priority while keeping it as optimized as possible."
-      />
-    </header>
+    <section className={clsx('mb-12', 'lg:mb-24')}>
+      <header className={clsx('mb-8')}>
+        <SectionTitle
+          title="Comprehensible and Optimized Code."
+          caption="Pretty & Optimized"
+          description="Writing clean code is a top priority while keeping it as optimized as possible."
+        />
+      </header>
+    </section>
   );
 }

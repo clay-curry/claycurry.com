@@ -14,17 +14,19 @@ import Kbd from '@/components/Kbd';
 import { useScroll, useGlobal } from '@/hooks';
 
 const mainLinks = [
-  { title: 'About', href: '/about' },
+  //{ title: 'About', href: '/about' },
   { title: 'Projects', href: '/projects' },
   { title: 'Blog', href: '/blog' },
-  { title: 'Contact', href: '/work/contact' },
+  //{ title: 'Contact', href: '/work/contact' },
+  { title: 'Credits', href: '/credits' },
 ];
 
 const moreLinks = [
-  { title: 'Skills & Tools', href: '/work/skills-and-tools' },
-  { title: 'Experience', href: '/work/experience' },
-  { title: 'T.I.L', href: '/today-i-learned' },
-  { title: 'Credits', href: '/credits' },
+  { title: 'Contact', href: '/work/contact' },
+  //{ title: 'Skills & Tools', href: '/work/skills-and-tools' },
+  //{ title: 'Experience', href: '/work/experience' },
+  //{ title: 'T.I.L', href: '/today-i-learned' },
+  //{ title: 'Credits', href: '/credits' },
 ];
 
 export default function Navbar() {

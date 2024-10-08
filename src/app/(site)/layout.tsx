@@ -60,25 +60,26 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-      <body
-        className={clsx(
-          'h-full',
-          'bg-white text-slate-900',
-          'dark:bg-slate-900 dark:text-slate-200 dark:[color-scheme:dark]',
-          'flex flex-col',
-          'font-sans',
-          [jetbrainsMono.variable, plusJakartaSans.variable]
-        )}
-      >
-        <Provider>
-          <QuickAccess />
 
-          <Navigation />
-          {children}
-          <Toaster />
-          <Footer />
-        </Provider>
+
+    <body
+      className={clsx(
+        'h-full',
+        'bg-white dark:bg-slate-900',
+        'text-slate-900 dark:text-slate-200 dark:[color-scheme:dark]',
+        'flex flex-col',
+        'font-sans',
+        [jetbrainsMono.variable, plusJakartaSans.variable]
+      )}
+    >
+      <Provider>
+        <QuickAccess />
+        <Navigation />
+        {children}
+        <Toaster />
+        <Footer />
         <GoogleAnalytics gaId="" />
-      </body>
+      </Provider>
+    </body>
   );
 }
