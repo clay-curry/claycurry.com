@@ -199,7 +199,7 @@ function SlideIn({
 function Hero() {
   return (
     <div className={clsx('max-w-xl')}>
-      <div className={clsx('text-slate-700', 'dark:text-slate-300')}>
+      <div className={clsx('text-slate-700', 'dark:text-slate-300', 'mx-2')}>
         {/* hero text line 1*/}
         <SlideIn
           className={clsx(
@@ -219,8 +219,9 @@ function Hero() {
         <SlideIn
           className={clsx(
             'w-fit',
+            'text-4xl md:text-7xl',
             'mb-4 block text-[2.5rem] font-[1000] leading-none',
-            'md:mb-6 md:text-7xl'
+            'md:mb-6'
           )}
         >
           I&apos;m{' '}
@@ -234,8 +235,8 @@ function Hero() {
         <SlideIn
           className={clsx(
             'text-pretty',
-            'tracking-wide',
-            'md:text-xl',
+            'tracking-normalmd:tracking-wide',
+            'text-lg md:text-xl',
             'text-slate-600 dark:text-slate-400'
           )}
         >
@@ -249,7 +250,7 @@ function Hero() {
           >
             software developer
           </strong>{' '}
-          bridging the gap between software design and development at [your company here].
+          building the next technology evolution of [company].
         </SlideIn>
 
         <div className={clsx('w-fit mt-6 md:mt-8')}>

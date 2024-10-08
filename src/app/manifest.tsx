@@ -9,8 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Clay Curry',
     start_url: '/',
     display: 'standalone',
-    background_color: '#fff',
-    theme_color: '#fff',
+    theme_color: '#0f172a ',
     icons: [
       {
         src: '/favicon.ico',
