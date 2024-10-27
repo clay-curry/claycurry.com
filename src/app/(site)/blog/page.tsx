@@ -1,26 +1,30 @@
-const tailwindMetadata = {
-  slug: "tailwindcss-best-practices",
-  title: "Tailwindcss Best Practices",
+import { BlogHome } from './ui-client'
+
+const understandingWebpack = {
+  slug: "understanding-webpack",
+  title: "Understanding Webpack",
   lang:  'id',
   date: '2024-02-25',
-  description:  'How programming language design will address the rise of indie developers, the limitations of large language models, and the vulnerabilities of front-end cloud. ',
+  description:  'Modern websites are founded on the ability to ship massive artifacts of code at scale. Monolith codebases are ' +
+   'easier to distribute but significantly harder to understand, maintain, and iterate.',
   tags:  ['endofyear', ''],
   category: 'story',
   views: 13,
   shares: 1
 }
+
 const retrospectiveMetadata = {
-  slug: "the-2024-retrospective",
-  title: "The 2024 Retrospective",
+  slug: "refactoring-to-react-patterns",
+  title: "Refactoring to (React 19) Patterns",
   lang:  'id',
   date: '2024-02-25',
-  description:  'How programming language design will address the rise of indie developers, the limitations of large language models, and the vulnerabilities of front-end cloud. ',
+  description:  'Offers a catalog of modern design-level refactorings in the spirit of ' + 
+  'Kerievsky\'s "Refactoring to Patterns" book. Updated for React 19.',
   tags:  ['endofyear', ''],
   category: 'story',
   views: 9,
   shares: 0
 }
-import { BlogHome } from './ui-client'
 
 export default function Blog() {
   // network waterfall avoided because the module is statically generated at build time
@@ -29,6 +33,6 @@ export default function Blog() {
   // const data = Promise.all(paths.map(p => getPostData(p)))
 
   return (
-    <BlogHome posts={[tailwindMetadata, retrospectiveMetadata]} />
+    <BlogHome posts={[understandingWebpack, retrospectiveMetadata]} />
   )
 }

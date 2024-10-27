@@ -54,12 +54,12 @@ export default function Page() {
               'dark:bg-amber-900'
             )}
           >
-            <HeartIcon className={clsx('h-5 w-5 text-white')} />
+            <CodeIcon className={clsx('h-5 w-5 text-white')} />
           </div>
         }
       />
-      <FeaturedCard title="Pretty & Optimized"
-        desc="Writing clean code is a top priority while keeping it as optimized as possible."
+      <FeaturedCard title="Design Patterns"
+        desc="Reusable blueprints that can be customized to solve a particular design problem."
         icon={
           <div
             className={clsx(
@@ -67,15 +67,14 @@ export default function Page() {
               'dark:bg-sky-900'
             )}
           >
-            <CodeIcon className={clsx('h-5 w-5 text-white')} />
+            <HeartIcon className={clsx('h-5 w-5 text-white')} />
           </div>
         }
       />
     </FeaturedCardSection>
     <QuoteSection />
     <CleanIntuitive />
-    <DetailOriented />
-    <PrettyOptimized />
+    <DetailOriented />    
   </main >
   );
 }
@@ -292,7 +291,7 @@ function Hero() {
           >
             software engineer
           </strong>{' '}
-          in Greater Seattle collaborating with elite developers and stakeholders at Amazon.
+          based in Greater Seattle building software at Amazon.
         </SlideIn>
 
         <div className={clsx('w-fit mt-6 md:mt-8')}>
@@ -479,7 +478,7 @@ function QuoteSection() {
         <span className={clsx('flex flex-col')}>
           { /* row 1*/}
           <span className={clsx('leading-[1.15]')}>
-            Excellent design{' '}
+            The grand aim{' '}
           </span>
           { /* row 2*/}
           <span
@@ -488,65 +487,12 @@ function QuoteSection() {
               'lg:gap-4'
             )}
           >
-            {/* - */}
-            <span
-              className={clsx(
-                'mt-1 h-0.5 w-8 rounded-full bg-slate-400',
-                'lg:h-1 lg:w-24',
-                'dark:bg-slate-600'
-              )}
-            />
-            <span>
-              <strong
-                className={clsx(
-                  'font-extrabold text-slate-600',
-                  'dark:text-slate-300'
-                )}
-              >
-                inside
-              </strong>{' '}
-              and{' '}
-              <strong
-                className={clsx(
-                  'font-extrabold text-slate-600',
-                  'dark:text-slate-300'
-                )}
-              >
-                out{' '}
-              </strong>
-            </span>
-            <span
-              className={clsx(
-                'mt-1 h-0.5 w-6 rounded-full bg-slate-400',
-                'lg:h-1 lg:w-14',
-                'dark:bg-slate-600'
-              )}
-            />
+            of computer science
           </span>
 
           { /* row 3 */}
           <span className={clsx('leading-[1.15]')}>
-            <strong
-              className={clsx(
-                'relative font-extrabold',
-                'text-slate-600 dark:text-slate-300'
-              )}
-            >
-              signifies
-              <span
-                className={clsx(
-                  'absolute -left-0.5 right-0 top-1 bottom-0 rounded-md bg-slate-100 px-1',
-                  'lg:-left-1.5 lg:-right-0.5 lg:top-2 lg:bottom-0',
-                  'dark:bg-slate-800'
-                )}
-              >
-                signifies
-              </span>
-            </strong>{' '}
-            purpose
-          </span>
-          <span className={clsx('leading-[1.15]')}>
-            then achieves it.
+            is information abundance.
           </span>
         </span>
       </blockquote>
@@ -860,7 +806,7 @@ function PrettyOptimized() {
     <section className={clsx('mb-12', 'lg:mb-24')}>
       <header className={clsx('mb-8')}>
         <SectionTitle
-          title="Comprehensible and Optimized Code."
+          title="Clean Code"
           caption="Pretty & Optimized"
           description="Writing clean code is a top priority while keeping it as optimized as possible."
         />

@@ -1,6 +1,6 @@
 'use client'
 
-const PINNED_POST = 'the-2024-retrospective';
+const PINNED_POST = 'understanding-webpack';
 
 import clsx from 'clsx';
 import Link from 'next/link';
