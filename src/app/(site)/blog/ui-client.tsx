@@ -16,7 +16,7 @@ export function BlogHome({ posts }: { posts: BlogContentMeta[] }) {
     <Page
       frontMatter={{
         title: 'Blog',
-        description: `My impression of interesting developments in programming languages, industry patterns, and other topics.`
+        description: `Connecting dots along my trajectory into the abyss.`
       }}
       headerImage={<HeaderImage />}
     >

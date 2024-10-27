@@ -101,13 +101,16 @@ function AvailableForHire() {
 
 function LetsWorkTogetherButton() {
   return (
-    <Link
-      href="https://github.com/clay-curry"
-      className={clsx('button min-w-[128px]', 'md:button--big')}
-    >
-      <CodeIcon className={clsx('h-5 w-5')} />
+    <div
+
+    className={clsx(
+      'button button--ghost px-2',
+      'md:button--big md:px-2'
+    )}
+  >
+    <CodeIcon className={clsx('h-5 w-5')} />
       Collaborate
-    </Link>
+    </div>
   );
 }
 
@@ -169,7 +172,7 @@ function HeroCta({
         }}
         transition={{ delay: 0.5 }}
       >
-        <AvailableForHire />
+        <LetsWorkTogetherButton />
       </m.a>
     </m.div>
   );
@@ -248,9 +251,9 @@ function Hero() {
               'dark:text-slate-300'
             )}
           >
-            software developer
+            software engineer
           </strong>{' '}
-          building the next technology evolution of [company].
+          in Greater Seattle collaborating with elite developers and stakeholders at Amazon.
         </SlideIn>
 
         <div className={clsx('w-fit mt-6 md:mt-8')}>
@@ -344,7 +347,8 @@ function HeaderTechStack() {
 }
 
 function FeaturedCardSection() {
-  function FeaturedCard({
+  
+  const FeaturedCard = ({
     icon,
     title,
     desc,
@@ -352,8 +356,7 @@ function FeaturedCardSection() {
     icon: ReactElement;
     title: string;
     desc: string;
-  }) {
-    return (<section className={clsx('hidden', 'lg:-mt-16 lg:mb-24 lg:block')}>
+  }) => <section className={clsx('hidden', 'lg:-mt-16 lg:mb-24 lg:block')}>
       <div
         className={clsx(
           'border-divider-light flex-1 rounded-2xl border bg-white',
@@ -400,8 +403,6 @@ function FeaturedCardSection() {
         </div>
       </div>
     </section>
-    );
-  }
 
   return (
     <div className={clsx('content-wrapper')}>
@@ -410,30 +411,31 @@ function FeaturedCardSection() {
           icon={
             <div
               className={clsx(
-                'rounded-full bg-amber-300 p-3.5',
-                'dark:bg-amber-900'
+                'rounded-full bg-pink-300 p-3.5',
+                'dark:bg-pink-900'
               )}
             >
-              <SparklesIcon className={clsx('h-5 w-5 text-white')} />
+             <SparklesIcon className={clsx('h-5 w-5 text-white')} /> 
             </div>
           }
-          title="Design Oriented"
-          desc="Building tools that streamline program generation and verification without compromising UX."
+          title="Programming Languages"
+          desc="Are the grammar for framing problems and solutions "
         />
         <FeaturedCard
           icon={
             <div
               className={clsx(
-                'rounded-full bg-pink-300 p-3.5',
-                'dark:bg-pink-900'
+                'rounded-full bg-amber-300 p-3.5',
+                'dark:bg-amber-900'
               )}
             >
               <HeartIcon className={clsx('h-5 w-5 text-white')} />
             </div>
           }
-          title="Detail Oriented"
-          desc="Awareness to ease of access, UI consistency, and improved UX."
+          title="Tooling"
+          desc="Streamline program generation + correctness without compromising DX."
         />
+
         <FeaturedCard
           icon={
             <div
