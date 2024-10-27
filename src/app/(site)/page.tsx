@@ -5,7 +5,6 @@
 
 import clsx from 'clsx';
 import { m, useReducedMotion } from 'framer-motion';
-import Link from 'next/link';
 import { ReactElement, useState } from 'react';
 
 import {
@@ -32,7 +31,47 @@ import SectionTitle from '@/components/sections/SectionTitle';
 export default function Page() {
   return (<main>
     <HomeHero />
-    <FeaturedCardSection />
+    <FeaturedCardSection>
+      <FeaturedCard title="Programming Languages"
+        desc="Are the grammar for framing software solutions to system-facing problems."
+        icon={
+          <div
+            className={clsx(
+              'rounded-full bg-pink-300 p-3.5',
+              'dark:bg-pink-900'
+            )}
+          >
+            <SparklesIcon className={clsx('h-5 w-5 text-white')} /> 
+          </div>
+        }
+      />
+      <FeaturedCard title="Tooling"
+        desc="Streamline program generation + correctness without compromising DX."
+        icon={
+          <div
+            className={clsx(
+              'rounded-full bg-amber-300 p-3.5',
+              'dark:bg-amber-900'
+            )}
+          >
+            <HeartIcon className={clsx('h-5 w-5 text-white')} />
+          </div>
+        }
+      />
+      <FeaturedCard title="Pretty & Optimized"
+        desc="Writing clean code is a top priority while keeping it as optimized as possible."
+        icon={
+          <div
+            className={clsx(
+              'rounded-full bg-sky-300 p-3.5',
+              'dark:bg-sky-900'
+            )}
+          >
+            <CodeIcon className={clsx('h-5 w-5 text-white')} />
+          </div>
+        }
+      />
+    </FeaturedCardSection>
     <QuoteSection />
     <CleanIntuitive />
     <DetailOriented />
@@ -346,110 +385,72 @@ function HeaderTechStack() {
   );
 }
 
-function FeaturedCardSection() {
-  
-  const FeaturedCard = ({
-    icon,
-    title,
-    desc,
-  }: {
-    icon: ReactElement;
-    title: string;
-    desc: string;
-  }) => <section className={clsx('hidden', 'lg:-mt-16 lg:mb-24 lg:block')}>
+
+function FeaturedCard({
+  icon,
+  title,
+  desc,
+}: {
+  icon: ReactElement;
+  title: string;
+  desc: string;
+}) { 
+  return (
+  <section className={clsx('hidden', 'lg:-mt-16 lg:mb-24 lg:block')}>
+    <div
+      className={clsx(
+        'border-divider-light flex-1 rounded-2xl border bg-white',
+        'dark:border-divider-dark dark:bg-slate-900'
+      )}
+    >
       <div
         className={clsx(
-          'border-divider-light flex-1 rounded-2xl border bg-white',
-          'dark:border-divider-dark dark:bg-slate-900'
+          'border-divider-light inset-x-0 inset-y-8 border-t',
+          'dark:border-divider-dark'
         )}
-      >
+      />
+      <div
+        className={clsx(
+          'border-divider-light inset-y-0 inset-x-8 border-l',
+          'dark:border-divider-dark'
+        )}
+      />
+      <div className={clsx('-mt-0.5')}>
         <div
           className={clsx(
-            'border-divider-light inset-x-0 inset-y-8 border-t',
-            'dark:border-divider-dark'
-          )}
-        />
-        <div
-          className={clsx(
-            'border-divider-light inset-y-0 inset-x-8 border-l',
-            'dark:border-divider-dark'
-          )}
-        />
-        <div className={clsx('-mt-0.5')}>
-          <div
-            className={clsx(
-              'mt-4 mr-2 ml-4 flex items-center gap-6 rounded-full bg-slate-100',
-              'dark:bg-slate-800'
-            )}
-          >
-            <div className={clsx('-m-2')}>{icon}</div>
-            <div
-              className={clsx(
-                'truncate py-2 pr-4 text-sm font-bold text-slate-700',
-                'dark:text-slate-300'
-              )}
-            >
-              {title}
-            </div>
-          </div>
-        </div>
-        <div
-          className={clsx(
-            'p-4 pl-12 text-sm text-slate-600',
-            'dark:text-slate-400'
+            'mt-4 mr-2 ml-4 flex items-center gap-6 rounded-full bg-slate-100',
+            'dark:bg-slate-800'
           )}
         >
-          {desc}
+          <div className={clsx('-m-2')}>{icon}</div>
+          <div
+            className={clsx(
+              'truncate py-2 pr-4 text-sm font-bold text-slate-700',
+              'dark:text-slate-300'
+            )}
+          >
+            {title}
+          </div>
         </div>
       </div>
-    </section>
+      <div
+        className={clsx(
+          'p-4 pl-12 text-sm text-slate-600',
+          'dark:text-slate-400'
+        )}
+      >
+        {desc}
+      </div>
+    </div>
+  </section>)
+}
 
+function FeaturedCardSection({ children }) {
+  
   return (
     <div className={clsx('content-wrapper')}>
       <div className={clsx('flex flex-col gap-4', 'lg:flex-row lg:gap-8')}>
-        <FeaturedCard
-          icon={
-            <div
-              className={clsx(
-                'rounded-full bg-pink-300 p-3.5',
-                'dark:bg-pink-900'
-              )}
-            >
-             <SparklesIcon className={clsx('h-5 w-5 text-white')} /> 
-            </div>
-          }
-          title="Programming Languages"
-          desc="Are the grammar for framing problems and solutions "
-        />
-        <FeaturedCard
-          icon={
-            <div
-              className={clsx(
-                'rounded-full bg-amber-300 p-3.5',
-                'dark:bg-amber-900'
-              )}
-            >
-              <HeartIcon className={clsx('h-5 w-5 text-white')} />
-            </div>
-          }
-          title="Tooling"
-          desc="Streamline program generation + correctness without compromising DX."
-        />
-
-        <FeaturedCard
-          icon={
-            <div
-              className={clsx(
-                'rounded-full bg-sky-300 p-3.5',
-                'dark:bg-sky-900'
-              )}
-            >
-              <CodeIcon className={clsx('h-5 w-5 text-white')} />
-            </div>
-          }
-          title="Pretty & Optimized"
-          desc="Writing clean code is a top priority while keeping it as optimized as possible."
-        />
+        {children}
       </div>
     </div>
   );
