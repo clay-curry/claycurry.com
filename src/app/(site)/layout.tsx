@@ -80,6 +80,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Footer />
         <GoogleAnalytics gaId="" />
       </Provider>
+      
     </body>
   );
 }

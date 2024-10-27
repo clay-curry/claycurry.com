@@ -7,7 +7,7 @@ import { m } from 'framer-motion';
 import { Menu } from '@headlessui/react';
 import { usePathname } from 'next/navigation';
 import type { ReactElement, ReactNode } from 'react';
-import { ChevronRightIcon, GitHubIcon, QuickAccessIcon, TwitterIcon } from '@/app/(site)/Icons';
+import { BskyIcon, ChevronRightIcon, GitHubIcon, QuickAccessIcon, TwitterIcon } from '@/app/(site)/Icons';
 
 import Kbd from '@/components/Kbd';
 
@@ -64,7 +64,8 @@ export default function Navbar() {
             <NavLogo href="/" title="Home" />
             <NavButtons />
           </nav>
-          <ul className={clsx('flex items-center')}>
+          <ul className={clsx('flex gap-2 items-center')}>
+            <NavBsky />
             <NavTwitter />
             <NavGitHub />
             <NavSeparator />
@@ -147,6 +148,20 @@ function NavTwitter() {
         title="Twitter"
       />
     </li>
+  )
+}
+
+
+function NavBsky() {
+  return (
+    <li className={clsx('hidden', 'sm:block')}>
+    <NavIcon
+      href="https://bsky.app/profile/claycurry.com"
+      icon={<BskyIcon className={clsx('h-5 w-5')} />}
+      title="Bluesky"
+    />
+  </li>
+    
   )
 }
 

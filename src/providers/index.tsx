@@ -1,4 +1,8 @@
 "use client"
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+ 
+ 
 
 import { SWRConfig } from 'swr';
 import { MDXProvider } from '@mdx-js/react';
@@ -25,7 +29,11 @@ function Provider({ children = null }: PropsWithChildren) {
             <GlobalStateProvider>
               <FramerMotionProvider>
                 <FocusModeProvider>
+                  <>
                   {children as React.ReactElement}
+                  <Analytics mode={'production'} />;
+                  <SpeedInsights />
+                  </>
                 </FocusModeProvider>
               </FramerMotionProvider>
             </GlobalStateProvider>

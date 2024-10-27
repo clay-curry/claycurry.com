@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import {
+  BskyIcon,
   ExternalLink,
   FigmaIcon,
   GitHubIcon,
@@ -116,6 +117,18 @@ function FooterDescription() {
         I&apos;m Clay, a <strong>software development engineer</strong> building on behalf of builders.
       </p>
       <ul className={clsx('-ml-2 flex gap-1')}>
+      <li>
+          <a
+            href="https://bsky.app/profile/claycurry.com"
+            target="_blank"
+            rel="noreferrer nofollow"
+            className={clsx('flex h-9 w-9 items-center justify-center')}
+            aria-label="My Bluesky profile"
+            title="My Bluesky profile"
+          >
+            <BskyIcon className={clsx('h-5 w-5')} />
+          </a>
+        </li>
         <li>
           <a
             href="https://twitter.com/claycurry_"
