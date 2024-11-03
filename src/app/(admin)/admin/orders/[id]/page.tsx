@@ -5,11 +5,20 @@ import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/componen
 import { Divider } from '@/components/divider'
 import { Heading, Subheading } from '@/components/heading'
 import { Link } from '@/components/link'
-import { getOrder } from '@/data'
+import { getOrder, getOrders } from '@/data'
 import { BanknotesIcon, CalendarIcon, ChevronLeftIcon, CreditCardIcon } from '@heroicons/react/16/solid'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { RefundOrder } from './refund'
+
+export async function generateStaticParams() {
+  let orders = await getOrders()
+
+  return orders.map((order) => ({
+    id: order.id.toString(),
+  }))
+}
+
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   let order = await getOrder(params.id)

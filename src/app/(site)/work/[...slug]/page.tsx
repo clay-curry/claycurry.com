@@ -1,5 +1,3 @@
-'use server'
-
 import React from 'react';
 import Contact from './contact.mdx'
 import Experience from './experience.mdx'

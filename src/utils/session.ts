@@ -1,5 +1,3 @@
-import "server-only"; // never client
-
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies, headers } from "next/headers";
 
@@ -34,7 +32,6 @@ export async function decrypt(session: string | undefined = '') {
 }
 
 export async function setSessionId() {
-  "use server"
 
   function IP() {
     const FALLBACK_IP_ADDRESS = '0.0.0.0'
@@ -58,7 +55,6 @@ export async function setSessionId() {
 
 
 export async function getSessionId() {
-  "use server"
 
   if (!cookies().has('session_id'))
     await setSessionId();

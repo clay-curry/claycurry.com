@@ -4,10 +4,18 @@ import { Button } from '@/components/button'
 import { Heading, Subheading } from '@/components/heading'
 import { Link } from '@/components/link'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table'
-import { getEvent, getEventOrders } from '@/data'
+import { getEvent, getEventOrders, getEvents } from '@/data'
 import { ChevronLeftIcon } from '@heroicons/react/16/solid'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+
+export async function generateStaticParams() {
+  let events = await getEvents()
+
+  return events.map((e) => ({
+      id: e.id.toString()
+  }))
+}
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   let event = await getEvent(params.id)
