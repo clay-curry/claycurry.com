@@ -293,7 +293,7 @@ function ProjectsContents() {
         description="Showcases modern React 19 / Next.js 15 patterns for building declarative UI."
         button={{
           title: 'learn more',
-          href: '/projects/claycurry-com',
+          href: '/',
         }}
       />
       <SectionContent>
