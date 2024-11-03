@@ -31,7 +31,7 @@ function PageHeaderA({
         'pb-40 md:pb-50',
         'mb-10 md:mb-0',
         'border-b md:border-none',
-        'background-grid background-grid--fade-out border-divider-light',
+        // 'background-grid background-grid--fade-out border-divider-light',
         'dark:border-divider-dark'
       )}
     >

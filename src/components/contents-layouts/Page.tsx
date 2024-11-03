@@ -4,16 +4,15 @@ import PageHeader from '@/app/(site)/PageHeader';
 import type { TPageFrontMatter } from '@/utils/types';
 import type { PropsWithChildren, ReactNode } from 'react';
 
-interface PageProps {
-  frontMatter: TPageFrontMatter;
-  headerImage?: ReactNode;
-}
-
-function Page({
-  frontMatter: { title, description, caption },
+export default function Page({
+  frontMatter,
   children = null,
   headerImage = null,
-}: PropsWithChildren<PageProps>) {
+}: PropsWithChildren<{
+  frontMatter: TPageFrontMatter;
+  headerImage?: ReactNode;
+}>) {
+  const { title, description, caption } = frontMatter;
 
   return (
     <>
@@ -29,5 +28,3 @@ function Page({
     </>
   );
 }
-
-export default Page;

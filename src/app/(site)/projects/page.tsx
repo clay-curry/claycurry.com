@@ -432,7 +432,8 @@ function HeaderImage() {
   );
 }
 
-function Projects() {
+
+export default function Projects() {
   return (
     <Page
       frontMatter={{
@@ -445,5 +446,3 @@ function Projects() {
     </Page>
   );
 }
-
-export default Projects;
