@@ -31,47 +31,7 @@ import SectionTitle from '@/components/sections/SectionTitle';
 export default function Page() {
   return (<main>
     <HomeHero />
-    <FeaturedCardSection>
-      <FeaturedCard title="Programming Languages"
-        desc="Are the grammar for framing software solutions to system-facing problems."
-        icon={
-          <div
-            className={clsx(
-              'rounded-full bg-pink-300 p-3.5',
-              'dark:bg-pink-900'
-            )}
-          >
-            <SparklesIcon className={clsx('h-5 w-5 text-white')} /> 
-          </div>
-        }
-      />
-      <FeaturedCard title="Tooling"
-        desc="Streamline program generation + correctness without compromising DX."
-        icon={
-          <div
-            className={clsx(
-              'rounded-full bg-amber-300 p-3.5',
-              'dark:bg-amber-900'
-            )}
-          >
-            <CodeIcon className={clsx('h-5 w-5 text-white')} />
-          </div>
-        }
-      />
-      <FeaturedCard title="Design Patterns"
-        desc="Reusable blueprints that can be customized to solve a particular design problem."
-        icon={
-          <div
-            className={clsx(
-              'rounded-full bg-sky-300 p-3.5',
-              'dark:bg-sky-900'
-            )}
-          >
-            <HeartIcon className={clsx('h-5 w-5 text-white')} />
-          </div>
-        }
-      />
-    </FeaturedCardSection>
+    <FeaturedCardSection />
     <QuoteSection />
     <CleanIntuitive />
     <DetailOriented />    
@@ -80,6 +40,141 @@ export default function Page() {
 }
 
 function HomeHero() {
+  
+  
+  const Hero = () => {
+    
+    const SlideIn = ({
+      delay = 0.0,
+      className,
+      children,
+    }: {
+      delay?: number;
+      className?: string;
+      children: React.ReactNode;
+    }) => (<m.span
+          className={className}
+          initial={{ x: -32, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay }}
+        >
+          {children}
+      </m.span>);
+
+  const HeroCta = ({
+  isFree = true,
+  isFreeAnimationDuration = 4,
+}: {
+  isFree?: boolean;
+  isFreeAnimationDuration?: number;
+}) => {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <m.div className={clsx('flex gap-6')} initial="hide" animate="show">
+      {/*
+      <m.div
+        variants={{
+          hide: { x: -16, opacity: 0 },
+          show: { x: 0, opacity: 1 },
+        }}
+        transition={{ delay: 0.2 }}
+      >
+        <ButtonResume />
+      </m.div>
+      <m.div
+        variants={{
+          hide: { x: -16, opacity: 0 },
+          show: { x: 0, opacity: 1 },
+        }}
+        transition={{ delay: 0.3 }}
+      >
+        <LetsWorkTogetherButton />
+      </m.div>
+      */}
+
+
+      <m.a
+        href="https://github.com/clay-curry"
+        variants={{
+          hide: { x: -16, opacity: 0 },
+          show: { x: 0, opacity: 1 },
+        }}
+        transition={{ delay: 0.5 }}
+      >
+        <LetsWorkTogetherButton />
+      </m.a>
+    </m.div>
+  );
+}
+
+
+    return (
+      <div className={clsx('max-w-xl')}>
+        <div className={clsx('text-slate-700', 'dark:text-slate-300', 'mx-2')}>
+          {/* hero text line 1*/}
+          <SlideIn
+            className={clsx(
+              'w-[90%] flex items-center justify-between',
+              'text-2xl md:text-4xl',
+              'mb-1 md:mb-2',
+              'text-slate-600 dark:text-slate-400'
+            )}
+          >
+            <div className={clsx('flex items-center gap-2')}>
+              <span>hi!</span>
+              <WaveILY /> {/* wave 🤟 emoji */}
+            </div>
+          </SlideIn>
+  
+          {/* hero text line 2*/}
+          <SlideIn
+            className={clsx(
+              'w-fit',
+              'text-4xl md:text-7xl',
+              'mb-4 block text-[2.5rem] font-[1000] leading-none',
+              'md:mb-6'
+            )}
+          >
+            I&apos;m{' '}
+            <span className={clsx('text-accent-600', 'dark:text-accent-500')}>
+              Clay
+            </span>{' '}
+            Curry,{' '}
+          </SlideIn>
+  
+          {/* hero text line 3*/}
+          <SlideIn
+            className={clsx(
+              'text-pretty',
+              'tracking-normalmd:tracking-wide',
+              'text-lg md:text-xl',
+              'text-slate-600 dark:text-slate-400'
+            )}
+          >
+            a{' '}
+            <strong
+              className={clsx(
+                'font-bold lowercase',
+                'text-slate-700',
+                'dark:text-slate-300'
+              )}
+            >
+              software engineer
+            </strong>{' '}
+            based in Greater Seattle building software at Amazon.
+          </SlideIn>
+  
+          <div className={clsx('w-fit mt-6 md:mt-8')}>
+            <HeroCta />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+
+
   return (
     <section className={clsx(
       'background-grid background-grid--fade-in',
@@ -169,138 +264,6 @@ function ButtonResume() {
   );
 }
 
-function HeroCta({
-  isFree = true,
-  isFreeAnimationDuration = 4,
-}: {
-  isFree?: boolean;
-  isFreeAnimationDuration?: number;
-}) {
-  const shouldReduceMotion = useReducedMotion();
-
-  return (
-    <m.div className={clsx('flex gap-6')} initial="hide" animate="show">
-      <m.div
-        variants={{
-          hide: { x: -16, opacity: 0 },
-          show: { x: 0, opacity: 1 },
-        }}
-        transition={{ delay: 0.2 }}
-      >
-        <ButtonResume />
-      </m.div>
-      {/*}
-      <m.div
-        variants={{
-          hide: { x: -16, opacity: 0 },
-          show: { x: 0, opacity: 1 },
-        }}
-        transition={{ delay: 0.3 }}
-      >
-        <LetsWorkTogetherButton />
-      </m.div>
-*/}
-
-
-      <m.a
-        href="https://github.com/clay-curry"
-        variants={{
-          hide: { x: -16, opacity: 0 },
-          show: { x: 0, opacity: 1 },
-        }}
-        transition={{ delay: 0.5 }}
-      >
-        <LetsWorkTogetherButton />
-      </m.a>
-    </m.div>
-  );
-}
-
-function SlideIn({
-  delay = 0.0,
-  className,
-  children,
-}: {
-  delay?: number;
-  className?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <m.span
-      className={className}
-      initial={{ x: -32, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ delay }}
-    >
-      {children}
-    </m.span>
-  );
-}
-
-function Hero() {
-  return (
-    <div className={clsx('max-w-xl')}>
-      <div className={clsx('text-slate-700', 'dark:text-slate-300', 'mx-2')}>
-        {/* hero text line 1*/}
-        <SlideIn
-          className={clsx(
-            'w-[90%] flex items-center justify-between',
-            'text-2xl md:text-4xl',
-            'mb-1 md:mb-2',
-            'text-slate-600 dark:text-slate-400'
-          )}
-        >
-          <div className={clsx('flex items-center gap-2')}>
-            <span>hi!</span>
-            <WaveILY /> {/* wave 🤟 emoji */}
-          </div>
-        </SlideIn>
-
-        {/* hero text line 2*/}
-        <SlideIn
-          className={clsx(
-            'w-fit',
-            'text-4xl md:text-7xl',
-            'mb-4 block text-[2.5rem] font-[1000] leading-none',
-            'md:mb-6'
-          )}
-        >
-          I&apos;m{' '}
-          <span className={clsx('text-accent-600', 'dark:text-accent-500')}>
-            Clay
-          </span>{' '}
-          Curry,{' '}
-        </SlideIn>
-
-        {/* hero text line 3*/}
-        <SlideIn
-          className={clsx(
-            'text-pretty',
-            'tracking-normalmd:tracking-wide',
-            'text-lg md:text-xl',
-            'text-slate-600 dark:text-slate-400'
-          )}
-        >
-          a{' '}
-          <strong
-            className={clsx(
-              'font-bold lowercase',
-              'text-slate-700',
-              'dark:text-slate-300'
-            )}
-          >
-            software engineer
-          </strong>{' '}
-          based in Greater Seattle building software at Amazon.
-        </SlideIn>
-
-        <div className={clsx('w-fit mt-6 md:mt-8')}>
-          <HeroCta />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 
 
@@ -444,12 +407,50 @@ function FeaturedCard({
   </section>)
 }
 
-function FeaturedCardSection({ children }) {
+function FeaturedCardSection() {
   
   return (
     <div className={clsx('content-wrapper')}>
       <div className={clsx('flex flex-col gap-4', 'lg:flex-row lg:gap-8')}>
-        {children}
+      <FeaturedCard title="Programming Languages"
+        desc="Are the grammar for framing software solutions to system-facing problems."
+        icon={
+          <div
+            className={clsx(
+              'rounded-full bg-pink-300 p-3.5',
+              'dark:bg-pink-900'
+            )}
+          >
+            <SparklesIcon className={clsx('h-5 w-5 text-white')} /> 
+          </div>
+        }
+      />
+      <FeaturedCard title="Tooling"
+        desc="Streamline program generation + correctness without compromising DX."
+        icon={
+          <div
+            className={clsx(
+              'rounded-full bg-amber-300 p-3.5',
+              'dark:bg-amber-900'
+            )}
+          >
+            <CodeIcon className={clsx('h-5 w-5 text-white')} />
+          </div>
+        }
+      />
+      <FeaturedCard title="Design Patterns"
+        desc="Reusable blueprints that can be customized to solve a particular design problem."
+        icon={
+          <div
+            className={clsx(
+              'rounded-full bg-sky-300 p-3.5',
+              'dark:bg-sky-900'
+            )}
+          >
+            <HeartIcon className={clsx('h-5 w-5 text-white')} />
+          </div>
+        }
+      />
       </div>
     </div>
   );
