@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import UnderstandingWebpack from '../understanding-webpack.mdx'
-import RefactoringToReactPatterns from '../refactoring-to-react-patterns.mdx'
+import UnderstandingWebpack from '../understanding-webpack/page.mdx'
+import RefactoringToReactPatterns from '../refactoring-to-react-patterns/page.mdx'
 
 // we'll prerender only the params from `generateStaticParams` at build time,
 // then attach the page to the server module graph
