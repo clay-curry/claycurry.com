@@ -162,7 +162,7 @@ function HomeHero() {
             >
               software development engineer 
             </strong>{' '}
-            building software at Amazon.com. in Seattle, WA.
+            building software at Amazon.com in Seattle, WA.
           </SlideIn>
   
           <div className={clsx('w-fit mt-6 md:mt-8')}>
