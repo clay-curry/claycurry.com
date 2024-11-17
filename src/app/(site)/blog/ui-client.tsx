@@ -18,7 +18,7 @@ export function BlogHome({ posts }: { posts: BlogContentMeta[] }) {
         title: 'Blog',
         description: `Connecting dots along my trajectory into the abyss.`
       }}
-      headerImage={<HeaderImage />}
+      headerImage={<ConnetingDotsSVG />}
     >
       <div className={clsx('mx-auto max-w-[75rem] px-4 sm:px-12 md:px-10 lg:px-16 xl:px-6')}>
         <div
@@ -27,11 +27,6 @@ export function BlogHome({ posts }: { posts: BlogContentMeta[] }) {
             'md:flex-row md:gap-8 lg:gap-24'
           )}
         >
-          <div className={clsx('md:w-64')}>
-            {
-              // TODO: Filter Posts
-            }
-          </div>
           <div className={clsx('flex-1')}>
 
             {/* pinned post goes first */}
@@ -68,7 +63,7 @@ function RenderPosts({ content }: { content: BlogContentMeta[] }) {
             )}
           />
           <div className={clsx('flex-1')}>
-            <PostPreview
+            <IndividualPostPreview
               pinned={true}
               {...pinnedPost[0]}
             />
@@ -92,7 +87,7 @@ function RenderPosts({ content }: { content: BlogContentMeta[] }) {
               )}
             />
             <div className={clsx('flex-1')}>
-              <PostPreview {...props} />
+              <IndividualPostPreview {...props} />
             </div>
           </div>
         )
@@ -101,7 +96,7 @@ function RenderPosts({ content }: { content: BlogContentMeta[] }) {
   );
 }
 
-function HeaderImage() {
+function ConnetingDotsSVG() {
 
   const animation = {
     hide: { pathLength: 0.3 },
@@ -149,9 +144,8 @@ export type BlogContentMeta = { slug: string; category: string; title: string; d
 /* Individual Post */
 import React from 'react';
 
-function PostPreview(props: BlogContentMeta & {
-  pinned?: boolean
-}
+function IndividualPostPreview(
+  props: BlogContentMeta & { pinned?: boolean }
 ) {
   const { title,
     description,
