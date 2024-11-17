@@ -17,7 +17,7 @@ const retrospectiveMetadata = {
   slug: "refactoring-to-react-patterns",
   title: "Refactoring to (React 19) Patterns",
   lang:  'id',
-  date: '2024-02-25',
+  date: '2024-05-19',
   description:  'Offers a catalog of modern design-level refactorings in the spirit of ' + 
   'Kerievsky\'s "Refactoring to Patterns" book. Updated for React 19.',
   tags:  ['endofyear', ''],
