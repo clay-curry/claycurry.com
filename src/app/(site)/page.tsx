@@ -160,9 +160,9 @@ function HomeHero() {
                 'dark:text-slate-300'
               )}
             >
-              software engineer
+              software development engineer
             </strong>{' '}
-            based in Seattle, WA building software at Amazon.
+            based in Seattle, WA building software at Amazon.com.
           </SlideIn>
   
           <div className={clsx('w-fit mt-6 md:mt-8')}>
