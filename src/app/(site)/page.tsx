@@ -284,7 +284,7 @@ function HeaderTechStack() {
         animate={animation.show}
         transition={{ delay: 0.8 }}
       >
-        preferred tech stack/tools:
+        preferred tech stack:
       </m.p>
       <m.ul
         className={clsx(
