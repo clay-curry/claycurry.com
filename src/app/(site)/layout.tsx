@@ -5,7 +5,6 @@ import QuickAccess from '@/app/(site)/QuickAccess';
 import Toaster from '@/app/(site)/Toaster';
 import type { Metadata } from 'next';
 import Provider from '@/providers';
-import { GoogleAnalytics } from '@next/third-parties/google';
 
 import clsx from 'clsx';
 
@@ -78,7 +77,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <Toaster />
         <Footer />
-        <GoogleAnalytics gaId="" />
       </Provider>
       
     </body>
