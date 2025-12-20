@@ -9,7 +9,7 @@ export default function ComponentsPage() {
   return (
     <div className="max-w-3xl mx-auto flex flex-col min-h-svh px-4 py-8 gap-8">
       <header className="flex flex-col gap-1">
-        <h1 className="text-3xl font-bold tracking-tight">Custom Registry</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Registry</h1>
         <p className="text-muted-foreground">
           Component registry for <Link href="/" className="underline">claycurry.com</Link>.
         </p>

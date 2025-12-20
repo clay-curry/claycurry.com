@@ -1,6 +1,7 @@
 import FilterIcon from "@/components/icons/filter"
 
 import { Button } from "@/components/ui/button";
+import UnderConstruction from "@/components/under-construction";
 
 const projects = [
   { slug: 'flappy', date: '20 Mar 2023', title: "Flappy Borg", subtitle: "A Flappy Bird agent trained by reinforcement learning.", prefix: "'The Elements of Style' by William Strunk Jr. provides practical advice on how to improve your writing.", tags: ['Book Review'] },
@@ -20,12 +21,7 @@ export default function WorkPage() {
         </div>
       </section>
 
-      <div>
-        Pinned
-      </div>
-      <div>
-        Activity
-      </div>     
+      <UnderConstruction />
     </main>
 }
 

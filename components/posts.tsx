@@ -8,18 +8,23 @@ import FilterIcon from "@/components/icons/filter";
 
 export function Posts({
     filterEntries = true,
+    pinnedOnly = false,
+    nonPinnedOnly = false,
     entries
 }: {
     filterEntries?: boolean;
+    pinnedOnly?: boolean,
+    nonPinnedOnly?: boolean,
     entries: Array<{
         slug: string;
+        pinned?: boolean;
         date: string;
         title: string;
         subtitle: string;
         prefix: string;
         tags: string[];
-    }>;
-}) { 
+    }>
+}) {
 
     const filterTags = extractTags(entries);
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -118,18 +123,27 @@ export function Posts({
       >
         {
           entries
+            .filter(post => {
+              if (pinnedOnly) {
+                return post.pinned === true;
+              }
+              if (nonPinnedOnly) {
+                return post.pinned !== true;
+              }
+              return true;
+            })
             .filter(post => selectedTags.length === 0 || post.tags.some(tag => selectedTags.includes(tag)))
             .map((post, index) => 
-            <PostEntry
-              key={index}
-              slug={post.slug}
-              date={post.date}
-              title={post.title}
-              subtitle={post.subtitle}
-              prefix={post.prefix}
-              tags={post.tags}
-            />
-          )
+              <PostEntry
+                key={index}
+                slug={post.slug}
+                date={post.date}
+                title={post.title}
+                subtitle={post.subtitle}
+                prefix={post.prefix}
+                tags={post.tags}
+              />
+            )
         }
       </div>
     </section>
@@ -163,7 +177,7 @@ function PostEntry(
       <Link 
         className={
           `relative flex h-full w-full flex-col justify-between rounded-lg border border-gray-200 `+
-          `p-3 py-3 transition-shadow duration-300 hover:shadow-md dark:border-neutral-800 `+
+          `p-6 transition-shadow duration-300 hover:shadow-md dark:border-neutral-800 `+
           `dark:bg-background md:p-6`
         }
         href={`/blog/${slug}`}

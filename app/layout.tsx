@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   title: "Clay Curry",
   description: 
   "Clay Curry is a software engineer specializing in software assembly, federated programming, and " + 
-  "DevOps—building scalable systems that lower the barrier to contribution and accelerate delivery.",
-  
+  "DevOps — building scalable systems that lower the barrier to contribution and accelerate delivery.",
+  metadataBase: new URL("https://claycurry.com")
 };
 
 

@@ -41,10 +41,10 @@ export function Footer({ className }: { className?: string }) {
           <ul className="flex flex-row gap-6">
           <li>
               <Link
-                href="/components"
+                href="/registry"
                 className="hover:underline text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
               >
-                Components
+                Registry
               </Link>
             </li>
             <li>
@@ -65,7 +65,7 @@ export function Footer({ className }: { className?: string }) {
             </li>
             <li>
               <Link
-                href="/admin"
+                href="/"
                 className="hover:underline text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
               >
                 Admin

@@ -130,12 +130,27 @@ export function Header() {
               sideOffset={8}
               aria-label="Mobile navigation"
             >
-              <DropdownMenuItem asChild>
-                <Link href="/blog">Blog</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/work">Work</Link>
-              </DropdownMenuItem>
+
+<DropdownMenuItem>
+              
+              <Link
+                  href="/blog"
+                  className="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-accent text-sm"
+                  tabIndex={0}
+                >
+                  Blog
+                </Link>
+                </DropdownMenuItem>
+              <DropdownMenuItem>
+              
+              <Link
+                  href="/work"
+                  className="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-accent text-sm"
+                  tabIndex={0}
+                >
+                  Work
+                </Link>
+                </DropdownMenuItem>
               <DropdownMenuItem>
               
     <Link
