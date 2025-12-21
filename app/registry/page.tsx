@@ -1,6 +1,6 @@
-import Link from "next/link"
-import { Footer } from "@/components/footer"
-import { Header } from "@/components/header"
+import Link from "next/link";
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
 
 // This page displays items from the custom registry.
 // You are free to implement this with your own design as needed.
@@ -11,7 +11,11 @@ export default function ComponentsPage() {
       <header className="flex flex-col gap-1">
         <h1 className="text-3xl font-bold tracking-tight">Registry</h1>
         <p className="text-muted-foreground">
-          Component registry for <Link href="/" className="underline">claycurry.com</Link>.
+          Component registry for{" "}
+          <Link href="/" className="underline">
+            claycurry.com
+          </Link>
+          .
         </p>
       </header>
       <main className="flex flex-col flex-1 gap-8">
@@ -20,7 +24,6 @@ export default function ComponentsPage() {
             <h2 className="text-sm text-muted-foreground sm:pl-3">
               A navigation bar with theme selection.
             </h2>
-
           </div>
           <div className="flex items-center justify-center min-h-[400px] relative">
             <Header />
@@ -32,14 +35,12 @@ export default function ComponentsPage() {
             <h2 className="text-sm text-muted-foreground sm:pl-3">
               A footer component for inspecting metadate.
             </h2>
-
           </div>
           <div className="flex items-center justify-center min-h-[400px] relative">
             <Footer />
           </div>
         </div>
-
       </main>
     </div>
-  )
+  );
 }

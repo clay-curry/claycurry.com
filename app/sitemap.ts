@@ -1,16 +1,16 @@
-import type { MetadataRoute } from 'next'
- 
+import type { MetadataRoute } from "next";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://claycurry.com',
+      changeFrequency: "hourly",
       lastModified: new Date().toISOString(),
-      changeFrequency: 'hourly',
+      url: "https://claycurry.com",
     },
     {
-        url: 'https://claycurry.com/blog',
-        lastModified: new Date().toISOString(),
-        changeFrequency: 'hourly',
+      changeFrequency: "hourly",
+      lastModified: new Date().toISOString(),
+      url: "https://claycurry.com/blog",
     },
-  ]
+  ];
 }
