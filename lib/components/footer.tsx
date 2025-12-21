@@ -65,7 +65,7 @@ export function Footer({ className }: { className?: string }) {
             </li>
             <li>
               <Link
-                href="/"
+                href="/admin"
                 className="hover:underline text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
               >
                 Admin

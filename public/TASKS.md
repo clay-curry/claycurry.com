@@ -5,6 +5,7 @@
 - [x] implement [registry](../app/components/page.tsx)
 - [x] extend [header](../components/header.tsx) for `sm:` variant
 - [x] implement [OG preview, X metadata](https://nextjs.org/docs/app/getting-started/metadata-and-og-images)
+- [ ] implement [page counter](https://www.maxrohowsky.com/) based on [isr](https://nextjs.org/docs/app/guides/incremental-static-regeneration).
 - [ ] implement markdown rules
 - [ ] implement blog aside
 - [ ] implement page counter

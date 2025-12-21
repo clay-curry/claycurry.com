@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "biome check && next build",
     "start": "next start",
-    "lint": "eslint"
+    "check": "biome check"
   },
   "dependencies": {
+    "@biomejs/biome": "^2.3.10",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^16.0.10",
