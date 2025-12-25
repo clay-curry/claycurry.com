@@ -1,7 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import Image, { type ImageProps } from "next/image";
-import Summary from "@/components/summary";
-import UnderConstruction from "@/components/under-construction";
+import Summary from "@/src/lib/components/summary";
+import UnderConstruction from "@/src/lib/components/under-construction";
 
 // This file allows you to provide custom React components
 // to be used in MDX files. You can import and use any

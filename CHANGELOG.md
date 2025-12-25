@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2025-12-25
+
+### Added
+- Email contact functionality
+- Resume section with education and experience
+
+### Changed
+- Homepage styling and layout improvements
+
 ## 2025-12-24
 
 ### Added
