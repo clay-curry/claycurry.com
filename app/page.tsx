@@ -82,17 +82,6 @@ export default function HomePage() {
 
             </a>
 
-            <a
-
-              href="https://claycurry.com"
-
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-
-            >
-
-              Website
-
-            </a>
 
           </div>
 
