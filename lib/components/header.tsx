@@ -58,14 +58,6 @@ export function Header() {
                   <Link href="/blog">Blog</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <Link href="/work">Work</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
 
               <div
                 className="border-l h-6 mx-2 self-center"
@@ -137,15 +129,6 @@ export function Header() {
                   tabIndex={0}
                 >
                   Blog
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href="/work"
-                  className="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-accent text-sm"
-                  tabIndex={0}
-                >
-                  Work
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
