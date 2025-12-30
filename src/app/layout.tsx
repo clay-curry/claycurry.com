@@ -1,9 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
 
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Footer } from "@/src/lib/components/footer";
+import { Header } from "@/src/lib/components/header";
+import { ThemeProvider } from "@/src/lib/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Clay Curry",

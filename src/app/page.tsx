@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/src/lib/components/ui/accordion";
 
 const home_page = 'https://www.amazon.com'
 const detail_page = "https://www.amazon.com/dp/0471417432"

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import Github from "./icons/github";
 
 export function Footer({ className }: { className?: string }) {
