@@ -40,19 +40,7 @@ export default function HomePage() {
 
           <p className="mt-4 text-lg text-gray-700 dark:text-gray-200">
 
-            Seattle, Washington | +1 (405) 301-1055 |{" "}
-
-            <a
-
-              href="mailto:me@claycurry.com"
-
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-
-            >
-
-              me@claycurry.com
-
-            </a>
+            Seattle, Washington | +1 (405) 301-1055 | me@claycurry.com
 
           </p>
 
