@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BlogBreadcrumb } from "@/src/lib/components/blog-breadcrumb";
+import { PageViews } from "@/src/lib/components/page-views";
 import { Posts } from "@/src/lib/components/posts";
 
 export const dynamicParams = false;
@@ -53,7 +54,9 @@ export default async function BlogSlugPage({
   if (!Array.isArray(slug) || slug.length === 0) {
     return (
       <main className="flex-1">
-        <div className="w-full h-8"></div> {/* vertical space */}
+        <div className="w-full flex justify-end px-4 pt-4">
+          <PageViews />
+        </div>
         <section className="hero-section flex flex-col items-start justify-center min-h-[30vh] py-8 px-4">
           <div className="text-left space-y-4 animate-fade-in-left">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
@@ -82,7 +85,9 @@ export default async function BlogSlugPage({
 
     return (
       <main className="flex-1">
-        <div className="w-full h-8" />
+        <div className="w-full flex justify-end px-4 pt-4">
+          <PageViews />
+        </div>
 
         <div className="flex max-w-full flex-row justify-between md:items-start">
           <article className="w-full text-pretty m-6 md:max-w-xl">

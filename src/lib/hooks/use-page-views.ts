@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface UsePageViewsOptions {
   /** Whether to increment the view count (default: true) */
@@ -25,14 +25,24 @@ export function usePageViews(
   const [count, setCount] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  
+  // Prevent double-incrementing in React Strict Mode
+  const hasTracked = useRef(false);
 
   useEffect(() => {
+    // Skip if we've already tracked this slug in this component instance
+    if (increment && hasTracked.current) {
+      return;
+    }
+
     const trackView = async () => {
       try {
         setIsLoading(true);
         setError(null);
 
         if (increment) {
+          hasTracked.current = true;
+          
           // Increment and get count
           const response = await fetch("/api/views", {
             method: "POST",

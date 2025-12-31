@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link"
+import { PageViews } from "@/src/lib/components/page-views";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/src/lib/components/ui/accordion";
 
 const home_page = 'https://www.amazon.com'
@@ -8,6 +8,8 @@ const buybox = "https://www.helium10.com/blog/what-is-the-amazon-buy-box/#what-i
 
 
 export default function HomePage() {
+
+  
 
   return (
 
@@ -93,6 +95,11 @@ export default function HomePage() {
 
       {/* Content Section - Centered and Full Width */}
       <section className="w-full flex flex-col items-center px-4">
+
+        {/* Page Views Counter */}
+        <div className="w-full max-w-6xl flex justify-end mt-4">
+          <PageViews />
+        </div>
 
         {/* Candidate Profile Summary */}
 

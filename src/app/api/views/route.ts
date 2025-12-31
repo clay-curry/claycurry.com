@@ -1,27 +1,57 @@
 import { NextRequest, NextResponse } from "next/server";
-import { kv } from "@vercel/kv";
+import { createClient } from "redis";
 
-// In-memory fallback for local development (when KV is not configured)
+// In-memory fallback for local development (when Redis is not configured)
 const inMemoryStore = new Map<string, number>();
+
+// Lazy Redis client initialization
+let redisClient: ReturnType<typeof createClient> | null = null;
+
+async function getRedisClient() {
+  if (!process.env.KV_REST_API_REDIS_URL) {
+    return null;
+  }
+  
+  if (!redisClient) {
+    redisClient = createClient({
+      url: process.env.KV_REST_API_REDIS_URL,
+    });
+    redisClient.on("error", (err) => console.error("Redis Client Error", err));
+    await redisClient.connect();
+  }
+  
+  return redisClient;
+}
 
 async function getViewCount(slug: string): Promise<number> {
   try {
-    // Try Vercel KV first
-    const count = await kv.get<number>(`pageviews:${slug}`);
-    return count ?? 0;
-  } catch {
-    // Fallback to in-memory store for local dev
+    const client = await getRedisClient();
+    if (!client) {
+      return inMemoryStore.get(slug) ?? 0;
+    }
+    
+    const count = await client.get(`pageviews:${slug}`);
+    return count ? parseInt(count, 10) : 0;
+  } catch (err) {
+    console.error("Redis get error:", err);
     return inMemoryStore.get(slug) ?? 0;
   }
 }
 
 async function incrementViewCount(slug: string): Promise<number> {
   try {
-    // Try Vercel KV first
-    const count = await kv.incr(`pageviews:${slug}`);
+    const client = await getRedisClient();
+    if (!client) {
+      const current = inMemoryStore.get(slug) ?? 0;
+      const newCount = current + 1;
+      inMemoryStore.set(slug, newCount);
+      return newCount;
+    }
+    
+    const count = await client.incr(`pageviews:${slug}`);
     return count;
-  } catch {
-    // Fallback to in-memory store for local dev
+  } catch (err) {
+    console.error("Redis incr error:", err);
     const current = inMemoryStore.get(slug) ?? 0;
     const newCount = current + 1;
     inMemoryStore.set(slug, newCount);
