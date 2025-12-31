@@ -2,9 +2,9 @@
 
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/src/lib/components/ui/button";
+import { Input } from "@/src/lib/components/ui/input";
+import { Textarea } from "@/src/lib/components/ui/textarea";
 import {
   Field,
   FieldContent,
@@ -12,8 +12,8 @@ import {
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field";
-import { Checkbox } from "@/components/ui/checkbox";
+} from "@/src/lib/components/ui/field";
+import { Checkbox } from "@/src/lib/components/ui/checkbox";
 import Link from "next/link";
 
 const formSchema = z.object({

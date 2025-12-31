@@ -2,26 +2,26 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import BlueskyIcon from "@/components/icons/bluesky";
-import CIcon from "@/components/icons/c";
-import GitHubIcon from "@/components/icons/github";
-import LinkedInIcon from "@/components/icons/linkedin";
-import XIcon from "@/components/icons/x";
-import { Button } from "@/components/ui/button";
+import BlueskyIcon from "@/src/lib/components/icons/bluesky";
+import CIcon from "@/src/lib/components/icons/c";
+import GitHubIcon from "@/src/lib/components/icons/github";
+import LinkedInIcon from "@/src/lib/components/icons/linkedin";
+import XIcon from "@/src/lib/components/icons/x";
+import { Button } from "@/src/lib/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { ModeToggle, ModeToggleMobile } from "@/components/ui/mode-toggle";
+} from "@/src/lib/components/ui/dropdown-menu";
+import { ModeToggle, ModeToggleMobile } from "@/src/lib/components/ui/mode-toggle";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+} from "@/src/lib/components/ui/navigation-menu";
 
 export function Header() {
   // Dropdown open state for mobile menu (for a11y controlled via state)

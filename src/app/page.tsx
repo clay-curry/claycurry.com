@@ -1,6 +1,6 @@
 "use client";
-import Link from "next/link"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { PageViews } from "@/src/lib/components/page-views";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/src/lib/components/ui/accordion";
 
 const home_page = 'https://www.amazon.com'
 const detail_page = "https://www.amazon.com/dp/0471417432"
@@ -8,6 +8,8 @@ const buybox = "https://www.helium10.com/blog/what-is-the-amazon-buy-box/#what-i
 
 
 export default function HomePage() {
+
+  
 
   return (
 
@@ -94,6 +96,11 @@ export default function HomePage() {
       {/* Content Section - Centered and Full Width */}
       <section className="w-full flex flex-col items-center px-4">
 
+        {/* Page Views Counter */}
+        <div className="w-full max-w-6xl flex justify-end mt-4">
+          <PageViews />
+        </div>
+
         {/* Candidate Profile Summary */}
 
         <div
@@ -112,47 +119,27 @@ export default function HomePage() {
 
           <h2 className="text-2xl font-semibold underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600 mb-4">
 
-            Candidate Profile Summary
+            About Me
 
           </h2>
 
-          <ul className="space-y-2 list-disc ml-6 text-gray-700 dark:text-gray-300">
-
-            <li>
-
-              4 years of experience administering or contributing to distributed
-
-              software systems.
-
-            </li>
-
-            <li>
-
-              Proven record of integrating customer research into product design
-
-              using A/B test-driven deployment to measure business impact for
-
-              software upgrades.
-
-            </li>
-
-          </ul>
-
-          <div className="mt-4 text-gray-800 dark:text-gray-200">
+          <div className="space-y-3 text-gray-700 dark:text-gray-300">
 
             <p>
 
-              <span className="font-semibold">Skills:</span> Technical writing,
+              I love building highly visible, impactful software used by people. There's something deeply satisfying about 
 
-              computer programming, system design
+              building systems that operate at scale and tracking their business impact.
 
             </p>
 
-            <p className="mt-2">
+            <p>
 
-              <span className="font-semibold">Technologies:</span> AWS, Python, C,
-
-              C++, SQL, Kubernetes, Docker, Web application frameworks
+              I'm very comfortable with Python, TypeScript, and Java—I've used them extensively on passion projects and 
+              
+              within large distributed systems, A/B testing frameworks, and customer-facing features. I work well with 
+              
+              building out cloud services end-to-end.
 
             </p>
 
@@ -292,18 +279,6 @@ export default function HomePage() {
 
           </Accordion>
 
-
-          <div>
-
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-
-
-
-            </h3>
-
-
-          </div>
-
         </div>
 
 
@@ -330,27 +305,23 @@ export default function HomePage() {
 
           </h2>
 
-          <div>
+          <Accordion type="single" collapsible>
 
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+            <AccordionItem value="edu-1">
+              <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+                <div className="flex flex-1 justify-between items-start">
+                  <span>Computer Science, B.S.</span>
+                  <span className="font-normal text-gray-600 dark:text-gray-400">Dec 2023</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="text-gray-700 dark:text-gray-300">
+                  <p>University of Oklahoma. Mathematics minor.</p>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
 
-              University of Oklahoma
-
-            </h3>
-
-            <p className="text-gray-600 dark:text-gray-400 italic">
-
-              Graduation: Dec 2023
-
-            </p>
-
-            <p className="mt-2 text-gray-700 dark:text-gray-300">
-
-              Bachelor of Science, Computer Science — Minor: Mathematics
-
-            </p>
-
-          </div>
+          </Accordion>
 
         </div>
 
@@ -378,32 +349,28 @@ export default function HomePage() {
 
           </h2>
 
-          <div>
+          <Accordion type="single" collapsible>
 
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+            <AccordionItem value="cert-1">
+              <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+                <div className="flex flex-1 justify-between items-start">
+                  <span>AWS Solutions Architect – Professional</span>
+                  <span className="font-normal text-gray-600 dark:text-gray-400">Nov 2025</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="text-gray-700 dark:text-gray-300">
+                  <a 
+                    href="https://www.credly.com/badges/c4d07372-5471-409a-a842-950f6b94dab4/public_url" 
+                    className="text-blue-600 dark:text-blue-400 underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600"
+                  >
+                    Proof of Certification
+                  </a>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
 
-              AWS Solutions Architect – Professional
-
-            </h3>
-
-            <p className="text-gray-600 dark:text-gray-400 italic">
-
-              November 2025
-
-            </p>
-
-            <p className="mt-2">
-
-              <a 
-                href="https://www.credly.com/badges/c4d07372-5471-409a-a842-950f6b94dab4/public_url" 
-                className="text-blue-600 dark:text-blue-400 underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600"
-              >
-                Proof of Certification
-              </a>
-
-            </p>
-
-          </div>
+          </Accordion>
 
         </div>
 
@@ -528,18 +495,15 @@ export default function HomePage() {
             <AccordionItem value="test-1">
               <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
                 <div className="flex flex-1 justify-between items-start">
-                  <span>ACT – College Readiness Standardized Test</span>
-                  <span className="font-normal text-gray-600 dark:text-gray-400">May 2017</span>
+                  <span>ACT exam: 34 / 36</span>
+                  <span className="font-normal text-gray-600 dark:text-gray-400">Sep 2016</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent>
                 <div className="flex justify-between text-gray-900 dark:text-gray-100">
                   <div>
                     <p className="text-gray-700 dark:text-gray-300">
-                      <span className="font-bold">Score:</span> 34 / 36
-                    </p>
-                    <p className="mt-2 text-gray-700 dark:text-gray-300">
-                      Associated with University of Oklahoma
+                      <span className="font-bold">College Readiness Exam:</span> University of Oklahoma
                     </p>
                   </div>
                   <span className="text-gray-700 dark:text-gray-300">
