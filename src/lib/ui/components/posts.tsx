@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import FilterIcon from "@/src/lib/components/icons/filter";
-import RightArrow from "@/src/lib/components/icons/right-arrow";
+import FilterIcon from "@/src/lib/ui/icons/filter";
+import RightArrow from "@/src/lib/ui/icons/right-arrow";
 
 export function Posts({
   filterEntries = true,
