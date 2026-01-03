@@ -2,41 +2,11 @@ import Link from "next/link";
 import { BlogBreadcrumb } from "@/src/lib/ui/components/blog-breadcrumb";
 import { PageViews } from "@/src/lib/ui/widgets/page-views";
 import { Posts } from "@/src/lib/ui/components/posts";
+import { getAllPostsMetadata, getPostMetadata } from "@/src/lib/blog/metadata";
 
 export const dynamicParams = false;
 
-const postMetadata = [
-  {
-    slug: "readme-portfolio-site",
-    pinned: true,
-    date: "18 Dec 2025",
-    title: "README - portfolio",
-    subtitle: "UI design objectives, evaluation, and iteration process.",
-    prefix:
-      "This article expresses design objectives for this portfolio website, metrics to evaluate its effectiveness, criteria for refining it.",
-    tags: ["UI", "Technical"],
-  },
-  {
-    slug: "bundling-mathjax-nextjs",
-    pinned: true,
-    date: "16 Oct 2025",
-    title: "Bundling MathJax with NextJS",
-    subtitle: "Self-hosted and CDN-distributed MathJax in Next.js.",
-    prefix:
-      "MathJax is a markup library for rendering mathematics in web browsers. It supports a variety of grammars.",
-    tags: ["Technical"],
-  },
-  {
-    slug: "my-workout-routine",
-    pinned: false,
-    date: "29 Aug 2025",
-    title: "My Workout Routine",
-    subtitle: "The weekly routine that keeps me in shape",
-    prefix:
-      "This post outlines my workout routine, which consists of four sessions per week. It has all the details including the excercises, sets, reps, and weight.",
-    tags: ["Health", "Lifestyle"],
-  },
-];
+const postMetadata = getAllPostsMetadata();
 
 export function generateStaticParams() {
   // Include base route with empty array for /blog

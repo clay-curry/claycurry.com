@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-03
+
+### Changed
+- Moved blog post metadata from page.tsx to MDX frontmatter
+
 ## 2026-01-02
 
 ### Changed
