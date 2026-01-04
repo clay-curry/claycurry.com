@@ -1,0 +1,155 @@
+---
+slug: readme-portfolio-site
+pinned: true
+date: "18 Dec 2025"
+title: README - portfolio
+subtitle: UI design objectives, evaluation, and iteration process.
+prefix: This article expresses design objectives for this portfolio website, metrics to evaluate its effectiveness, criteria for refining it.
+tags:
+  - UI
+  - Technical
+---
+
+# README - claycurry.com
+
+<Summary>
+
+This portfolio website is built with **Next.js 16**, **Tailwind CSS**, and **MDX** for content authoring. It serves as both a professional showcase and a playground for experimenting with modern web technologies.
+
+</Summary>
+
+## Project Overview
+
+This site was created to accomplish several goals:
+
+1. **Professional presence** — A central hub for my work and experience
+2. **Technical blog** — Share knowledge and document learnings
+3. **Design experimentation** — Test UI patterns and interactions
+4. **Performance benchmark** — Maintain excellent Core Web Vitals
+
+> "Design is not just what it looks like and feels like. Design is how it works." — Steve Jobs
+
+## Technical Stack
+
+### Core Technologies
+
+| Technology | Purpose | Version |
+|------------|---------|---------|
+| Next.js | React framework | 16.x |
+| Tailwind CSS | Styling | 4.x |
+| MDX | Content authoring | 3.x |
+| TypeScript | Type safety | 5.x |
+| Vercel | Hosting & deployment | — |
+
+### Key Features
+
+- **App Router** — Leveraging Next.js 16's app directory structure
+- **Server Components** — Optimized rendering strategy
+- **Dark Mode** — System preference detection with manual toggle
+- **MDX Blog** — Write posts in Markdown with React components
+- **View Counter** — Track page popularity with serverless functions
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── (site)/
+│   │   ├── page.tsx          # Homepage
+│   │   └── blog/
+│   │       ├── _content/     # MDX blog posts
+│   │       ├── _lib/         # Blog utilities
+│   │       └── [[...slug]]/  # Dynamic routes
+│   └── api/
+│       └── views/            # View counter API
+├── lib/
+│   ├── ui/
+│   │   ├── blocks/           # Layout components
+│   │   ├── components/       # Reusable UI
+│   │   ├── controls/         # Interactive elements
+│   │   ├── icons/            # SVG icons
+│   │   └── widgets/          # Complex components
+│   └── utils.ts              # Helper functions
+└── mdx.d.ts                  # MDX type definitions
+```
+
+## Design Principles
+
+### Visual Hierarchy
+
+The design follows a clear information hierarchy:
+
+- **Primary**: Name, title, key actions
+- **Secondary**: Section headers, navigation
+- **Tertiary**: Body content, metadata
+
+### Color System
+
+```css
+/* Light mode */
+--background: #ffffff;
+--foreground: #171717;
+--accent: #3b82f6;
+
+/* Dark mode */
+--background: #0a0a0a;
+--foreground: #ededed;
+--accent: #60a5fa;
+```
+
+### Typography
+
+- **Headings**: Bold, tight tracking
+- **Body**: Regular weight, comfortable line height
+- **Code**: Monospace, slightly reduced size
+
+## Performance Goals
+
+Core Web Vitals targets:
+
+- **LCP** (Largest Contentful Paint): < 2.5s
+- **FID** (First Input Delay): < 100ms
+- **CLS** (Cumulative Layout Shift): < 0.1
+
+### Optimization Strategies
+
+1. Image optimization with `next/image`
+2. Font subsetting and preloading
+3. Route prefetching for navigation
+4. Static generation where possible
+
+## Development Workflow
+
+### Getting Started
+
+```bash
+# Install dependencies
+bun install
+
+# Start development server
+bun run dev
+
+# Build for production
+bun run build
+```
+
+### Code Quality
+
+- **Biome** for linting and formatting
+- **TypeScript** for type checking
+- **Conventional commits** for version history
+
+## Future Roadmap
+
+Planned improvements:
+
+- [ ] Add search functionality
+- [ ] Implement RSS feed
+- [ ] Create project showcase section
+- [ ] Add reading time estimates
+- [ ] Improve accessibility (WCAG AA)
+- [ ] Add syntax highlighting themes
+
+---
+
+*This site is open source. Feel free to explore the [repository on GitHub](https://github.com/clay-curry/claycurry.com).*

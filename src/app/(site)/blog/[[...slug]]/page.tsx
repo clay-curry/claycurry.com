@@ -2,7 +2,7 @@ import Link from "next/link";
 import { BlogBreadcrumb } from "@/src/lib/ui/components/blog-breadcrumb";
 import { PageViews } from "@/src/lib/ui/widgets/page-views";
 import { Posts } from "@/src/lib/ui/components/posts";
-import { getAllPostsMetadata, getPostMetadata } from "@/src/lib/blog/metadata";
+import { getAllPostsMetadata } from "@/src/app/(site)/blog/_lib/metadata";
 
 export const dynamicParams = false;
 
@@ -50,7 +50,7 @@ export default async function BlogSlugPage({
     );
   } else {
     const postMeta = postMetadata.filter((o) => o.slug === slug[0])[0];
-    const { default: BlogArticle } = await import(`@/src/app/blog/${slug}.mdx`);
+    const { default: BlogArticle } = await import(`@/src/app/(site)/blog/_content/${slug}.mdx`);
     const { title } = postMeta;
 
     return (
@@ -59,8 +59,8 @@ export default async function BlogSlugPage({
           <PageViews />
         </div>
 
-        <div className="flex max-w-full flex-row justify-between md:items-start">
-          <article className="w-full text-pretty m-6 md:max-w-xl">
+        <div className="flex max-w-full flex-row gap-14 md:items-start px-6">
+          <article className="w-full text-pretty md:max-w-2xl">
             <div>
               <BlogBreadcrumb slug={slug[0]} title={title || "title missing"} />
               <div>
@@ -68,65 +68,30 @@ export default async function BlogSlugPage({
               </div>
             </div>
           </article>
-          <aside className="sticky top-40 hidden max-h-[calc(100vh-10rem)] w-72 md:block">
+          <aside className="sticky top-40 hidden max-h-[calc(100vh-10rem)] w-72 shrink-0 md:block">
             <div className="flex max-h-[calc(100vh-10rem)] flex-col gap-4 transition-all duration-300">
               <div className="w-full flex flex-row gap-2">
                 <span className="block pb-2 font-semibold">Published:</span>
-                <p>5 June 2025</p>
+                <p>{postMeta.date}</p>
               </div>
-              <nav className="flex min-h-0 flex-1 flex-col">
-                <span className="block pb-2 font-semibold">
-                  Table of Contents
-                </span>
-                <ul className="scrollbar overflow-y-auto">
-                  <li className="py-1 flex items-center gap-2 ml-0">
-                    <a className="cursor-pointer" href="#workout-routine">
-                      Workout Routine
-                    </a>
-                  </li>
-                  <li className="py-1 flex items-center gap-2 ml-0">
-                    <a className="cursor-pointer" href="#monday">
-                      Monday
-                    </a>
-                  </li>
-                  <li className="py-1 flex items-center gap-2 ml-0">
-                    <a className="cursor-pointer" href="#wednesday">
-                      Wednesday
-                    </a>
-                  </li>
-                  <li className="py-1 flex items-center gap-2 ml-0">
-                    <a className="cursor-pointer" href="#friday">
-                      Friday
-                    </a>
-                  </li>
-                  <li className="py-1 flex items-center gap-2 ml-0">
-                    <a className="cursor-pointer" href="#sunday">
-                      Sunday
-                    </a>
-                  </li>
-                  <li className="py-1 flex items-center gap-2 ml-0">
-                    <a className="cursor-pointer" href="#useful-links">
-                      Useful Links
-                    </a>
-                  </li>
-                </ul>
-              </nav>
               <div>
                 <span className="block pb-2 font-semibold">Tags</span>
                 <div className="flex flex-wrap gap-4">
-                  <span className="rounded bg-gray-200 px-2 py-1.5 text-sm font-semibold text-gray-800 dark:bg-neutral-800 dark:text-neutral-200">
-                    Health
-                  </span>
-                  <span className="rounded bg-gray-200 px-2 py-1.5 text-sm font-semibold text-gray-800 dark:bg-neutral-800 dark:text-neutral-200">
-                    Lifestyle
-                  </span>
+                  {postMeta.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded bg-gray-200 px-2 py-1.5 text-sm font-semibold text-gray-800 dark:bg-neutral-800 dark:text-neutral-200"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
               <div className="w-full">
                 <span className="block pb-2 font-semibold">Share</span>
                 <div className="flex gap-4">
                   <Link
-                    href="https://x.com/intent/tweet?text=%22My%20Workout%20Routine%22%20by%20%40maxrohowsky&amp;url=https%3A%2F%2Fmaxrohowsky.com%2Fblog%2Fworkout-routine"
+                    href={`https://x.com/intent/tweet?text=${encodeURIComponent(`"${title}"`)}&url=${encodeURIComponent(`https://claycurry.com/blog/${slug[0]}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:opacity-80"
@@ -149,7 +114,7 @@ export default async function BlogSlugPage({
                     </svg>
                   </Link>
                   <Link
-                    href="https://bsky.app/intent/compose?text=%22My%20Workout%20Routine%22%20by%20%40maxrohowsky.com%0A%0Ahttps%3A%2F%2Fmaxrohowsky.com%2Fblog%2Fworkout-routine"
+                    href={`https://bsky.app/intent/compose?text=${encodeURIComponent(`"${title}"\n\nhttps://claycurry.com/blog/${slug[0]}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:opacity-80"
@@ -172,7 +137,7 @@ export default async function BlogSlugPage({
                     </svg>
                   </Link>
                   <Link
-                    href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fmaxrohowsky.com%2Fblog%2Fworkout-routine"
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://claycurry.com/blog/${slug[0]}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:opacity-80"
@@ -195,7 +160,7 @@ export default async function BlogSlugPage({
                     </svg>
                   </Link>
                   <Link
-                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmaxrohowsky.com%2Fblog%2Fworkout-routine"
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://claycurry.com/blog/${slug[0]}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:opacity-80"
