@@ -1,53 +1,29 @@
 "use client";
+import { cva } from "class-variance-authority";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger
 } from "@/src/lib/ui/components/accordion";
-import UnderConstruction from "@/src/lib/ui/components/under-construction";
+import ComingSoon from "@/src/lib/ui/components/under-construction";
 import { PageViews } from "@/src/lib/ui/widgets/page-views";
-import type { ReactNode } from "react";
 import Link from "next/link";
+import { ReactNode } from "react";
 
 export default () => (
-  <>
-    <style jsx>{`
-      @keyframes fadeInEffect {
-        to {
-          opacity: 1;
-        }
-      }
-    `}</style>
-
-    <section className="w-full flex flex-col items-center px-4">
-      <div className="w-full max-w-6xl flex justify-end mt-4">
-        <PageViews />
-      </div>
-
+  <HomeLayout>
       {/* Header */}
-      <div className="w-full max-w-6xl text-center py-12">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-          Clay Curry
-        </h1>
-        <p className="mt-4 text-xl md:text-2xl text-gray-700 dark:text-gray-300">
-          Software Development Engineer
-        </p>
-        <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
-          Seattle, WA •{" "}
-          <a href="mailto:me@claycurry.com" className="text-blue-600 dark:text-blue-400 hover:underline">
-            me@claycurry.com
-          </a>{" "}
-          •{" "}
-          <a href="https://github.com/clay-curry" className="text-blue-600 dark:text-blue-400 hover:underline">
-            GitHub
-          </a>{" "}
-          •{" "}
-          <a href="https://linkedin.com/in/clay-curry" className="text-blue-600 dark:text-blue-400 hover:underline">
-            LinkedIn
-          </a>
-        </p>
-      </div>
+      <HeaderSection
+        name="Clay Curry"
+        title="Software Engineer"
+        addressList={[
+          { text: "Seattle, WA" },
+          { text: "me@claycurry.com", href: "mailto:me@claycurry.com" },
+          { text: "GitHub", href: "https://github.com/claycurry" },
+          { text: "LinkedIn", href: "https://www.linkedin.com/in/clay-curry/" },
+        ]}
+      />
        
       {/* About Me */}
       <AboutMeSection>
@@ -55,97 +31,113 @@ export default () => (
           About Me
         </AboutMeHeader>
         <AboutMeContent>
-          I enjoy building <i>useful</i> software features (and removing unuseful ones) within large legacy systems. My 
-          passion lies in learning how systems create value for customers and expanding their impact, preferrably at scale.
+          I enjoy building useful—and removing ineffective—software in large legacy systems. My passion lies in 
+          learning how systems create value for customers and expanding their impact using first principles thinking.
         </AboutMeContent>
       </AboutMeSection>
 
-      {/* Contributions */}
-      <Card delay=".3s">
-        <SectionHeading>Contributions</SectionHeading>
-        <UnderConstruction />
-      </Card>
-
       {/* Professional Experience */}
-      <AccordionSection delay=".4s">
-        <AccordionSectionHeader>Professional Experience</AccordionSectionHeader>
+      <AccordionSection delay=".3s">
+        <AccordionSectionHeader>Experience</AccordionSectionHeader>
         <AccordionSectionContent defaultValue="item-1">
           <AccordionItem value="item-1">
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-              <AccordionHeader title="Amazon.com — Software Development Engineer" date="Nov 2024 – Current" />
+              <AccordionHeader title="Amazon.com. Software Dev Engineer." date="Nov 2024 – Current" />
             </AccordionTrigger>
             <AccordionContent>
-              <OrgLocationRow
-                org="Core Shopping"
-                location="Seattle, WA"
-                links={[
-                  { label: "Detail Page", href: "https://www.amazon.com/dp/0471417432" },
-                  { label: "Buybox", href: "https://www.helium10.com/blog/what-is-the-amazon-buy-box/#what-is-the-buy-box-on-amazon" },
-                ]}
-              />
-              <BulletList items={[
-                "Owned a Buybox ranking upgrade for used book offers, producing affordability savings for customers resulting in 9.7MM lift in annualized units sold and $30.2 MM lift in annualized OPS",
-                "Expanded the Buybox \"Join Prime\" accordion button to 24 countries, producing 5 additional service and business metrics.",
-                "Participated in a 24x7 engineering on-call rotation for Buybox to ensure service uptime and subject matter expert availability.",
-              ]} />
+              <AccordionContentBody>
+                <OrgLocationRow
+                  location="Seattle, WA"
+                >
+                  <>
+                  Core Shopping, Detail Page, <Link href={"https://www.helium10.com/blog/what-is-the-amazon-buy-box/"}>BuyBox</Link>
+                  </>
+                </OrgLocationRow>
+                <BulletList items={[
+                  "Drove the launch of a BuyBox ranking updgrade that produced $30.2 MM revenue growth and 9.7MM lift in annualized units sold.",
+                  "Expanded the \"Join Prime\" BuyBox button to 24 countries, producing 5 additional service and business metrics.",
+                  "Participated in a 24x7 engineering on-call rotation for BuyBox to ensure service uptime and subject matter expert availability.",
+                ]} />
+              </AccordionContentBody>
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="item-2">
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-              <AccordionHeader title="University of Oklahoma — Linux System Administrator" date="Feb 2021 – Jan 2023" />
+              <AccordionHeader title="University of Oklahoma. Linux System Administrator." date="Feb 2021 – Dec 2023" />
             </AccordionTrigger>
             <AccordionContent>
-              <OrgLocationRow org="Department of Physics" location="Norman, OK" />
+              <OrgLocationRow location="Norman, OK">Department of Physics</OrgLocationRow>
               <BulletList items={[
-                "Administered 72 research Red Hat Enterprise Linux workstations for numerical computing workloads.",
+                "Securely administered 150+ Linux lab workstations and servers used by 2,000+ students and faculty members.",
+                "Reduced system downtime by 18% by implementing automated monitoring and alerting for critical services.",
                 "Saved 4 weeks of annual IT operational effort by streamlining inventory-taking procedures using background jobs.",
                 "Ported legacy department website content to modern content management software, leveraging Python to automate the transfer of 120 pages of structured data.",
+              ]} />
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-3">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader title="University of Oklahoma. Computer Vision Research Assistant." date="Nov 2021 – Jan 2023" />
+            </AccordionTrigger>
+            <AccordionContent>
+              <OrgLocationRow location="Norman, OK">Department of Computer Science</OrgLocationRow>
+              <BulletList items={[
+                "Provisioned 12 workstations for GPU-accelerated deep learning research, improving model training times by 80%.",
+                "Scraped and preprocessed 90GB+ of FAA aircraft transponder data collected by crowdsourced receivers.",
+                "Trained and evaluated multiple machine learning models (Random Forest, CNN, LSTM) to classify aircraft trajectories with 92% accuracy.",
               ]} />
             </AccordionContent>
           </AccordionItem>
         </AccordionSectionContent>
       </AccordionSection>
 
-      {/* Select Courses & Frameworks */}
-      <Card delay=".6s">
-        <SectionHeading>Selected Topics</SectionHeading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <GridCard
-            title="Refactoring - Premium"
-            subtitle="Refactoring Guru"
-            href="https://refactoring.guru/refactoring"
-          />
-          <GridCard
-            title="Webpack Fundamentals"
-            subtitle="Frontend Masters"
-            href="https://frontendmasters.com/courses/webpack-fundamentals/"
-          />
-          <GridCard
-            title="Search Engine Optimization"
-            subtitle="Next.js"
-            href="https://nextjs.org/learn/seo"
-          />
-          <GridCard
-            title="Utility-First CSS Framework"
-            subtitle="TailwindCSS"
-            href="https://tailwindcss.com/"
-          />
-          <GridCard
-            title="Component Library"
-            subtitle="Shadcn/UI"
-            href="https://ui.shadcn.com/"
-          />
-        </div>
-      </Card>
-
-      {/* Certifications */}
-      <AccordionSection delay=".8s">
-        <AccordionSectionHeader>Certifications</AccordionSectionHeader>
+      {/* Contributions */}
+      <Card delay=".4s">
+        <ComingSoon>
+          <SectionHeading>Contributions</SectionHeading>
+        </ComingSoon>
+        </Card>
+  
+      {/* Education */}
+      <AccordionSection delay=".8">
+        <AccordionSectionHeader>Education</AccordionSectionHeader>
         <AccordionSectionContent>
-          <AccordionItem value="cert-1">
+          <AccordionItem value="edu-1">
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-              <AccordionHeader title="AWS Solutions Architect – Professional" date="Nov 2025" />
+              <AccordionHeader title="University of Oklahoma. Computer Science, B.S." date="Dec 2023" />
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="text-gray-700 dark:text-gray-300">
+                <p>Mathematics minor.</p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="edu-2">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader title="Choctaw High School. Diploma." date="May 2017" />
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="text-gray-700 dark:text-gray-300">
+                <p className="mb-2">
+                  <span className="font-bold text-gray-900 dark:text-gray-100">Valedictorian</span> • <span className="font-bold text-gray-900 dark:text-gray-100">ACT Scholar</span>
+                </p>
+                <p className="mb-2">
+                  <span className="font-bold">ACT Score:</span> 34 / 36
+                </p>
+                <p>
+                  <PrimaryLink href="/highschool-transcript.jpeg">transcript</PrimaryLink>
+                </p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+
+          <AccordionItem value="edu-3">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader title="Certification: AWS Solutions Architect – Professional" date="Nov 2025" />
             </AccordionTrigger>
             <AccordionContent>
               <div className="text-gray-700 dark:text-gray-300">
@@ -155,23 +147,8 @@ export default () => (
               </div>
             </AccordionContent>
           </AccordionItem>
-        </AccordionSectionContent>
-      </AccordionSection>
 
-      {/* Education */}
-      <AccordionSection delay=".6s">
-        <AccordionSectionHeader>Education</AccordionSectionHeader>
-        <AccordionSectionContent>
-          <AccordionItem value="edu-1">
-            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-              <AccordionHeader title="Computer Science, B.S." date="Dec 2023" />
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="text-gray-700 dark:text-gray-300">
-                <p>University of Oklahoma. Mathematics minor.</p>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+
         </AccordionSectionContent>
       </AccordionSection>
 
@@ -249,10 +226,27 @@ export default () => (
           </AccordionItem>
         </AccordionSectionContent>
       </AccordionSection>
+  </HomeLayout>
+);
+
+const HomeLayout = (props: { children: ReactNode }) => (
+  <>
+    <style jsx>{`
+      @keyframes fadeInEffect {
+        to {
+          opacity: 1;
+        }
+      }
+    `}</style>
+
+    <section className="w-full flex flex-col items-center px-1 md:px-3">
+      <div className="w-full max-w-6xl flex justify-end mt-4">
+        <PageViews />
+      </div>
+      {props.children}
     </section>
   </>
 );
-
 
 // Reusable link component for external/internal links
 const PrimaryLink = ({ href, children }: { href: string; children: ReactNode }) => (
@@ -276,7 +270,10 @@ const Card = ({
   className?: string;
 }) => (
   <div
-    className={`w-full max-w-6xl mt-8 p-6 rounded-xl bg-white dark:bg-zinc-900 shadow-md border border-gray-100 dark:border-zinc-800 opacity-0 transition-opacity duration-700 ${className}`}
+    className={cva(
+      "w-full max-w-6xl mt-6 md:mt-8 p-3 md:p-4 rounded-xl bg-white dark:bg-zinc-900 shadow-md border border-gray-100 dark:border-zinc-800 opacity-0 transition-opacity duration-700"
+    )({ className })
+    }
     style={{
       animation: "fadeInEffect 0.5s forwards",
       animationDelay: delay,
@@ -286,44 +283,117 @@ const Card = ({
   </div>
 );
 
+// Header section with name, title, and address
+const HeaderSection = ({
+  name,
+  title,
+  addressList
+}: {
+  name: string;
+  title: string;
+  addressList: { text: string; href?: string }[];
+}) => (
+  <div className="w-full max-w-6xl text-center py-12">
+    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+      {name}
+    </h1>
+    <p className="mt-4 text-xl md:text-2xl text-gray-700 dark:text-gray-300">
+      {title}
+    </p>
+    <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
+      <AddressList items={addressList} />
+    </p>
+  </div>
+);
+
+const AddressList = ({ items }: { items: { text: string; href?: string }[] }) => {
+  return items
+    .map(
+      (element) => element.href ? <a href={element.href} key={element.href} className="text-blue-600 dark:text-blue-400 hover:underline">{element.text}</a> : element.text
+    )
+    .flatMap(
+      (element, index, array) => {
+        const separators = [" ", "•", " "];
+        return index < array.length - 1 ? [element, ...separators] : [element];
+      }
+    );
+};
+
 // Section heading with underline decoration
 const SectionHeading = ({ children }: { children: ReactNode }) => (
-  <h2 className="text-2xl font-semibold underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600 mb-4">
+  <h2 className="text-xl md:text-2xl font-semibold underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600 mb-2 md:mb-4">
     {children}
   </h2>
 );
 
 // Accordion trigger header with title and date
-const AccordionHeader = ({ title, date }: { title: string; date: string }) => (
-  <div className="flex flex-1 justify-between items-start">
-    <span>{title}</span>
-    <span className="font-normal text-gray-600 dark:text-gray-400">{date}</span>
+const AccordionHeader = ({ title, date }: { title: string; date: string }) => {
+  // Split date range like "Nov 2024 – Current" into parts
+  const dateParts = date.split(/\s*[–-]\s*/);
+  
+  return (
+    <>
+      <span className="text-left flex-1">{title}</span>
+      <span className="font-normal text-gray-600 dark:text-gray-400 shrink-0 text-center md:text-right leading-tight md:leading-normal">
+        {dateParts.length > 1 ? (
+          <>
+            <span className="whitespace-nowrap block md:inline">{dateParts[0]}</span>
+            <span className="hidden md:inline"> – </span>
+            <span className="block md:hidden text-xs leading-none">–</span>
+            <span className="whitespace-nowrap block md:inline">{dateParts[1]}</span>
+          </>
+        ) : (
+          <span className="whitespace-nowrap">{date}</span>
+        )}
+      </span>
+    </>
+  );
+};
+
+const AccordionContentBody = ({ children }: { children: ReactNode }) => (
+  <AccordionContentWrapper>
+    <AccordionContentTopBorder />
+    <AccordionContentSideBorders>
+      {children}
+    </AccordionContentSideBorders>
+  </AccordionContentWrapper>
+);
+
+const AccordionContentWrapper = ({ children }: { children: ReactNode }) => (
+  <div className="mt-2 text-gray-700 dark:text-gray-300">
+    {children}
+  </div>
+);
+
+const AccordionContentTopBorder = () => (
+  <div className="border-t border-gray-300 dark:border-gray-600 w-8 mb-2 mx-auto" />
+);
+
+const AccordionContentSideBorders = ({ children }: { children: ReactNode }) => (
+  <div className="border-l border-r border-gray-300 dark:border-gray-600 my-0.5 px-2 py-3">
+    {children}
   </div>
 );
 
 // Organization/location row in accordion content
 const OrgLocationRow = ({
-  org,
   location,
-  links
+  children,
 }: {
-  org: string;
   location: string;
-  links?: { label: string; href: string }[];
+  children?: ReactNode;
 }) => (
-  <div className="flex justify-between text-gray-900 dark:text-gray-100">
+  <div className="flex flex-col sm:flex-row sm:justify-between text-gray-900 dark:text-gray-100">
     <span>
-      <span className="font-bold">Organization:</span> {org}
-      {links && links.length > 0 && (
-        <> ({links.map((link, i) => (
-          <span key={link.href}>
-            {i > 0 && ", "}
-            <PrimaryLink href={link.href}>{link.label}</PrimaryLink>
-          </span>
-        ))})</>
-      )}
+      <span className="font-bold">
+        org:
+      </span> {children}
     </span>
-    <span>{location}</span>
+    <span>
+      <span className="font-bold">
+        location:
+      </span> {location}
+    </span>
   </div>
 );
 
