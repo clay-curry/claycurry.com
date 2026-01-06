@@ -5,25 +5,26 @@ export default function ComingSoon({ children }: { children?: ReactNode }) {
     <div className="relative min-h-[120px]">
       {/* Grayed out children content */}
       {children && (
-        <div className="opacity-30 grayscale pointer-events-none select-none" aria-hidden="true">
+        <div
+          className="opacity-30 grayscale pointer-events-none select-none"
+          aria-hidden="true"
+        >
           {children}
         </div>
       )}
-      
+
       {/* Overlay with coming soon message */}
-      <div 
+      <section
         className={`${children ? "absolute inset-0 z-10" : ""} flex flex-col items-center justify-center text-center gap-4 min-h-[120px]`}
         aria-label="Coming soon message"
       >
         <div>
-          <h2 className="text-lg font-semibold mb-1">
-            Coming soon
-          </h2>
+          <h2 className="text-lg font-semibold mb-1">Coming soon</h2>
           <p className="text-sm text-muted-foreground">
             This widget is currently a work in progress. Check back soon!
           </p>
         </div>
-                <svg
+        <svg
           className="shrink-0"
           xmlns="http://www.w3.org/2000/svg"
           width="48"
@@ -132,7 +133,7 @@ export default function ComingSoon({ children }: { children?: ReactNode }) {
             d="M 256 178 L 258 179 L 263 186 L 263 189 L 263 186 L 261 182 L 257 178 Z"
           />
         </svg>
-      </div>
+      </section>
     </div>
   );
 }

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-06
+
+### Added
+- Playwright test infrastructure
+- MDX publish flag for draft posts
+
+### Changed
+- Moved blog content to src directory
+- Refactored blog architecture
+
 ## 2026-01-05
 
 ### Fixed

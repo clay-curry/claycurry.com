@@ -1,8 +1,8 @@
 "use client";
 
-import { usePageViews } from "@/src/lib/hooks/use-page-views";
-import { usePathname } from "next/navigation";
 import { Eye } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { usePageViews } from "@/src/lib/hooks/use-page-views";
 
 interface PageViewsProps {
   /** Custom slug to track (defaults to current pathname) */
@@ -17,10 +17,16 @@ interface PageViewsProps {
  * Displays the page view count for the current page or a custom slug.
  * Automatically increments the count on mount.
  */
-export function PageViews({ slug, increment = true, className = "" }: PageViewsProps) {
+export function PageViews({
+  slug,
+  increment = true,
+  className = "",
+}: PageViewsProps) {
   const pathname = usePathname();
   const effectiveSlug = slug ?? pathname;
-  const { count, isLoading, error } = usePageViews(effectiveSlug, { increment });
+  const { count, isLoading, error } = usePageViews(effectiveSlug, {
+    increment,
+  });
 
   if (error) {
     return null; // Silently fail - don't break the page for analytics
