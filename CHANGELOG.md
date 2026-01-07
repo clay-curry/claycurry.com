@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-07
+
+### Added
+- Sitemap generation
+- Page view tracking
+- Syntax highlighting for code blocks
+- Dynamic OG image generation
+
+### Changed
+- Revised mathematical typography in blog posts
+
 ## 2026-01-06
 
 ### Added

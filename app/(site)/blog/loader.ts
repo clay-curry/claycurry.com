@@ -1,0 +1,61 @@
+import fs from "node:fs";
+import path from "node:path";
+import matter from "gray-matter";
+
+export type PostMetadata = {
+  slug: string;
+  pinned: boolean;
+  published?: boolean;
+  date: string;
+  title: string;
+  subtitle: string;
+  prefix: string;
+  tags: string[];
+};
+
+const BLOG_DIR = path.join(process.cwd(), "blog");
+
+export function getPostMetadata(slug: string): PostMetadata {
+  const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  const { data } = matter(fileContents);
+  return data as PostMetadata;
+}
+
+let cachedPosts: PostMetadata[] | null = null;
+
+export function getAllPostsMetadata(): PostMetadata[] {
+  if (cachedPosts) {
+    return cachedPosts;
+  }
+
+  const files = fs
+    .readdirSync(BLOG_DIR)
+    .filter((file) => file.endsWith(".mdx"));
+
+  const posts = files
+    .map((file) => {
+      const slug = file.replace(/\.mdx$/, "");
+      return getPostMetadata(slug);
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  // In production, filter out posts with published: false
+  // Posts with published: true or published missing are shown
+  if (process.env.NODE_ENV === "production") {
+    cachedPosts = posts.filter((post) => post.published !== false);
+  } else {
+    cachedPosts = posts;
+  }
+
+  return cachedPosts;
+}
+
+export async function getPost(slug: string) {
+  const metadata = getAllPostsMetadata().find((o) => o.slug === slug);
+  if (!metadata) {
+    throw new Error(`Post not found: ${slug}`);
+  }
+  const { default: Content } = await import(`@/blog/${slug}.mdx`);
+  return { metadata, Content };
+}
