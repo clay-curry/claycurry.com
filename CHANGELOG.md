@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-08
+
+### Added
+- LICENSE.md with WTFPL license
+- Unit tests for MDX frontmatter parsing
+- Copyright 2026 notice
+
 ## 2026-01-07
 
 ### Added
