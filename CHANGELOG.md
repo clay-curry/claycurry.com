@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-10
+
+### Added
+- Turborepo monorepo configuration with pnpm workspaces
+- turbo.json with build, check, and test task pipelines
+
+### Changed
+- Migrated app files into apps/ directory structure
+
 ## 2026-01-09
 
 ### Added
