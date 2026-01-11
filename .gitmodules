@@ -1,0 +1,3 @@
+[submodule "packages/linkinator"]
+	path = packages/linkinator
+	url = git@github.com:clay-curry/linkinator.git

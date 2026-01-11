@@ -3,32 +3,11 @@ import Image, { type ImageProps } from "next/image";
 import type { ReactNode } from "react";
 import Summary from "@/lib/ui/components/summary";
 import UnderConstruction from "@/lib/ui/components/under-construction";
+import { slugify } from "@/lib/utils";
 
-// This file declares custom React components for injecting into MDX when compiling to JSX. You can
+// This file declares custom React components for transforming MDX components when compiling to JSX. You can
 // import and use any React component you want, including inline styles, components from other
 // libraries, and more.
-//
-//
-// The components defined here will be used automatically by MDX files in the project. You can
-// also override or extend these components on a per-file basis by passing a `components` prop
-// to the MDX component.
-//
-// For more information, see:
-// - https://mdxjs.com/guides/injecting-components/
-// - https://mdxjs.com/docs/using-mdx/react/#custom-components
-
-function slugify(children: ReactNode): string {
-  const text =
-    typeof children === "string"
-      ? children
-      : Array.isArray(children)
-        ? children.map((c) => (typeof c === "string" ? c : "")).join("")
-        : "";
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
 
 const components = {
   // Allows customizing built-in components, e.g. to add styling.

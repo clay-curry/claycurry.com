@@ -5,6 +5,7 @@ import { compile } from "@mdx-js/mdx";
 import type { Root } from "mdast";
 import type { Plugin } from "unified";
 import { visit } from "unist-util-visit";
+import { slugify } from "../../../apps/site/lib/utils";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,13 +14,6 @@ interface TocEntry {
   depth: number;
   text: string;
   slug: string;
-}
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
 }
 
 let extractedToc: TocEntry[] = [];

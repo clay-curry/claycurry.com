@@ -21,7 +21,7 @@ dist
 # misc
 .DS_Store
 *.pem
-.vscode
+cspell.json
 
 # debug
 npm-debug.log*
@@ -41,8 +41,8 @@ next-env.d.ts
 
 # Playwright
 node_modules/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+playwright/.auth/
