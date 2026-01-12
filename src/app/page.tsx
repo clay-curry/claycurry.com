@@ -2,99 +2,63 @@
 import { PageViews } from "@/src/lib/components/page-views";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/src/lib/components/ui/accordion";
 
-const home_page = 'https://www.amazon.com'
-const detail_page = "https://www.amazon.com/dp/0471417432"
-const buybox = "https://www.helium10.com/blog/what-is-the-amazon-buy-box/#what-is-the-buy-box-on-amazon"
-
-
-export default function HomePage() {
-
-  
-
-  return (
-
+export default () =>
     <>
-
       <style jsx>{`
-
         @keyframes fadeInEffect {
-
           to {
-
             opacity: 1;
-
           }
-
         }
-
       `}</style>
 
       {/* Contact Section */}
-      <section className="hero-section flex flex-col items-start justify-center px-4">
-
-        <div className="text-left pl-4 space-y-4 animate-fade-in-left min-h-[30vh] pt-24">
-
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
-
+      <section 
+        className="hero-section flex flex-col items-start justify-center px-4"
+      >
+        <div 
+          className="text-left pl-4 space-y-4 animate-fade-in-left min-h-[30vh] pt-24"
+        >
+          <h1 
+            className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight"
+          >
             Clay Curry
-
           </h1>
-
-          <p className="mt-4 text-lg text-gray-700 dark:text-gray-200">
-
-            Seattle, Washington | +1 (405) 301-1055 |{" "}
-
+          <p 
+            className="mt-4 text-lg text-gray-700 dark:text-gray-200"
+          >
+            Seattle, Washington |{" "}
             <a
-
               href="mailto:me@claycurry.com"
-
               className="text-blue-600 dark:text-blue-400 hover:underline"
-
             >
-
               me@claycurry.com
-
             </a>
-
           </p>
 
           <div className="flex gap-4 text-lg">
-
             <a
-
               href="https://github.com/clay-curry"
-
               className="text-blue-600 dark:text-blue-400 hover:underline"
-
             >
-
               GitHub
-
             </a>
-
             <a
-
               href="https://linkedin.com/in/clay-curry"
-
               className="text-blue-600 dark:text-blue-400 hover:underline"
-
             >
-
               LinkedIn
-
             </a>
-
-
           </div>
-
         </div>
-
       </section>
 
 
 
       {/* Content Section - Centered and Full Width */}
-      <section className="w-full flex flex-col items-center px-4">
+      <section 
+        className="w-full flex flex-col items-center px-4"
+      >
 
         {/* Page Views Counter */}
         <div className="w-full max-w-6xl flex justify-end mt-4">
@@ -102,77 +66,42 @@ export default function HomePage() {
         </div>
 
         {/* Candidate Profile Summary */}
-
         <div
-
           className="w-full max-w-6xl mt-12 p-6 rounded-xl bg-white dark:bg-zinc-900 shadow-md border border-gray-100 dark:border-zinc-800 opacity-0 transition-opacity duration-700"
-
           style={{
-
             animation: "fadeInEffect 0.5s forwards",
-
             animationDelay: ".2s",
-
           }}
-
         >
-
           <h2 className="text-2xl font-semibold underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600 mb-4">
-
             About Me
-
           </h2>
-
           <div className="space-y-3 text-gray-700 dark:text-gray-300">
-
             <p>
-
-              I love building highly visible, impactful software used by people. There's something deeply satisfying about 
-
-              building systems that operate at scale and tracking their business impact.
-
+              I enjoy building highly visible software within large, legacy systems at scale, finding tremendous 
+              satisfaction in learning how systems produce value for users to grow their impact.
             </p>
 
             <p>
-
-              I'm very comfortable with Python, TypeScript, and Java—I've used them extensively on passion projects and 
-              
-              within large distributed systems, A/B testing frameworks, and customer-facing features. I work well with 
-              
-              building out cloud services end-to-end.
-
+              I am very comfortable with Python, JavaScript, Golang; talking to caches, databases, queues, and web 
+              servers; and building out systems end-to-end. 
             </p>
 
           </div>
-
         </div>
 
-
-
         {/* Professional Experience */}
-
         <div
-
           className="w-full max-w-6xl mt-8 p-6 rounded-xl bg-white dark:bg-zinc-900 shadow-md border border-gray-100 dark:border-zinc-800 opacity-0 transition-opacity duration-700"
-
           style={{
-
             animation: "fadeInEffect 0.5s forwards",
-
             animationDelay: ".4s",
-
           }}
-
         >
-
           <h2 className="text-2xl font-semibold underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600 mb-4">
-
             Professional Experience
-
           </h2>
-
           <Accordion type="single" collapsible>
-
             <AccordionItem value="item-1">
               <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
                 <div className="flex flex-1 justify-between items-start">
@@ -182,54 +111,43 @@ export default function HomePage() {
               </AccordionTrigger>
               <AccordionContent>
                 <div className="flex justify-between text-gray-900 dark:text-gray-100">
-                  <span><span className="font-bold">Organization:</span> Core Shopping (<a href={home_page} className="text-blue-600 dark:text-blue-400 underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600">Homepage</a>, <a href={detail_page} className="text-blue-600 dark:text-blue-400 underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600">Detail Page</a>, <a href={buybox} className="text-blue-600 dark:text-blue-400 underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600">Buybox</a>)</span>
+                  <span><span className="font-bold">Organization:</span> Core Shopping (
+                    <a 
+                      href="https://www.amazon.com/dp/0471417432"
+                      className="text-blue-600 dark:text-blue-400 underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600"
+                    >
+                        Detail Page
+                    </a>, <a 
+                      href="https://www.helium10.com/blog/what-is-the-amazon-buy-box/#what-is-the-buy-box-on-amazon"
+                      className="text-blue-600 dark:text-blue-400 underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600"
+                    >
+                        Buybox
+                    </a>)
+                  </span>
                   <span>Seattle, WA</span>
                 </div>
 
                 <ul className="mt-2 space-y-2 list-disc ml-6 text-gray-700 dark:text-gray-300">
-
                   <li>
-
-                    Owned the design and implementation of a Buybox ranking upgrade for used book offers,
-
-                    yielding affordability savings for customers resulting in 9.7MM
-
-                    lift in annualized units sold and $30.2 MM lift in annualized OPS 
-
+                    Owned a Buybox ranking upgrade for used book offers, producing affordability savings for customers 
+                    resulting in 9.7MM lift in annualized units sold and $30.2 MM lift in annualized OPS 
                   </li>
 
 
                   <li>
-
-                    Expanded the "Join Prime" accordion button to 24 countries on the
-
-                    product overview page, collecting 5 additional service and
-
-                    business metrics.
-
+                    Expanded the Buybox "Join Prime" accordion button to 24 countries, producing 5 additional service 
+                    and business metrics.
                   </li>
 
                   <li>
-
-                    Participated in a 24x7 engineering on-call rotation to ensure
-
+                    Participated in a 24x7 engineering on-call rotation for Buybox to ensure
                     service uptime and subject matter expert availability.
-
-                  </li>
-
-                  <li>
-
-                    Circulated 8 technical demos to generate visibility on my work
-
-                    across the business.
-
                   </li>
 
                 </ul>
 
               </AccordionContent>
             </AccordionItem>
-
             <AccordionItem value="item-2">
               <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
                 <div className="flex flex-1 justify-between items-start">
@@ -276,37 +194,23 @@ export default function HomePage() {
 
               </AccordionContent>
             </AccordionItem>
-
           </Accordion>
-
         </div>
 
-
-
         {/* Education */}
-
         <div
-
           className="w-full max-w-6xl mt-8 p-6 rounded-xl bg-white dark:bg-zinc-900 shadow-md border border-gray-100 dark:border-zinc-800 opacity-0 transition-opacity duration-700"
-
           style={{
-
             animation: "fadeInEffect 0.5s forwards",
-
             animationDelay: ".6s",
-
           }}
-
         >
 
           <h2 className="text-2xl font-semibold underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600 mb-4">
-
             Education
-
           </h2>
 
           <Accordion type="single" collapsible>
-
             <AccordionItem value="edu-1">
               <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
                 <div className="flex flex-1 justify-between items-start">
@@ -320,37 +224,21 @@ export default function HomePage() {
                 </div>
               </AccordionContent>
             </AccordionItem>
-
           </Accordion>
-
         </div>
 
-
-
         {/* Certifications */}
-
         <div
-
           className="w-full max-w-6xl mt-8 p-6 rounded-xl bg-white dark:bg-zinc-900 shadow-md border border-gray-100 dark:border-zinc-800 opacity-0 transition-opacity duration-700"
-
           style={{
-
             animation: "fadeInEffect 0.5s forwards",
-
             animationDelay: ".8s",
-
           }}
-
         >
-
           <h2 className="text-2xl font-semibold underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600 mb-4">
-
             Certifications
-
           </h2>
-
           <Accordion type="single" collapsible>
-
             <AccordionItem value="cert-1">
               <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
                 <div className="flex flex-1 justify-between items-start">
@@ -519,8 +407,4 @@ export default function HomePage() {
 
       </section>
 
-    </>
-
-  );
-
-}
+    </>;
