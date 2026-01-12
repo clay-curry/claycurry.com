@@ -79,7 +79,7 @@ export default () =>
           <div className="space-y-3 text-gray-700 dark:text-gray-300">
             <p>
               I enjoy building highly visible software within large, legacy systems at scale, finding tremendous 
-              satisfaction in learning how systems produce value for users to grow their impact.
+              satisfaction in learning they create value for users and growing their impact.
             </p>
 
             <p>
