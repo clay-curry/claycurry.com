@@ -17,7 +17,7 @@ export function Posts({
   entries: Array<{
     slug: string;
     pinned?: boolean;
-    date: string;
+    publishedDate: string;
     title: string;
     subtitle: string;
     prefix: string;
@@ -134,7 +134,7 @@ export function Posts({
             <PostEntry
               key={post.slug}
               slug={post.slug}
-              date={post.date}
+              publishedDate={post.publishedDate}
               title={post.title}
               subtitle={post.subtitle}
               prefix={post.prefix}
@@ -158,14 +158,14 @@ function extractTags(posts: Array<{ tags: string[] }>) {
 
 function PostEntry({
   slug,
-  date,
+  publishedDate,
   title,
   subtitle,
   prefix,
   tags,
 }: {
   slug: string;
-  date: string;
+  publishedDate: string;
   title: string;
   subtitle: string;
   prefix: string;
@@ -187,7 +187,7 @@ function PostEntry({
             `px-2 py-1 dark:bg-neutral-900 dark:text-neutral-200`
           }
         >
-          {date}
+          {publishedDate}
         </div>
         <div className="flex">
           <div>
