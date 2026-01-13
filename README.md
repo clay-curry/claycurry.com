@@ -2,12 +2,12 @@
 
 # claycurry.com
 
-[![Declared using Next.js](https://img.shields.io/badge/Declared_using-Next.js-000000?style=flat&logo=nextdotjs)](https://nextjs.org/)
-[![Styled in Tailwind CSS](https://img.shields.io/badge/Styled_in-Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 [![Coded with Claude](https://img.shields.io/badge/Coded_with-Claude-D97757?style=flat&logo=anthropic)](https://www.anthropic.com/)
+[![Formatted using Biome](https://img.shields.io/badge/Formatted_using-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
+[![Declared in Next.js](https://img.shields.io/badge/Declared_in-Next.js-000000?style=flat&logo=nextdotjs)](https://nextjs.org/)
+[![Styled with TailwindCSS](https://img.shields.io/badge/Styled_with-Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 [![Cached inside Redis](https://img.shields.io/badge/Cached_inside-Redis-DC382D?style=flat&logo=redis)](https://redis.io/)
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed_with-Vercel-000000?style=flat&logo=vercel)](https://vercel.com/)
-[![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=flat&logo=vercel)](https://vercel.com/)
 
 My resume and portfolio.
 
