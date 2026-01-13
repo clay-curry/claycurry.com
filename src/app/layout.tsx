@@ -11,6 +11,18 @@ export const metadata: Metadata = {
     "Clay Curry is a software engineer specializing in software assembly, federated programming, and " +
     "DevOps — building scalable systems that lower the barrier to contribution and accelerate delivery.",
   metadataBase: new URL("https://claycurry.com"),
+  icons: {
+    icon: [
+      {
+        url: "/favicon.svg",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/favicon-light.svg",
+        media: "(prefers-color-scheme: light)",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

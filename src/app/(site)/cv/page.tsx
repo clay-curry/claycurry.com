@@ -8,8 +8,8 @@ import {
 } from "@/src/lib/ui/components/accordion";
 import ComingSoon from "@/src/lib/ui/components/under-construction";
 import { PageViews } from "@/src/lib/ui/widgets/page-views";
-import { Children, type ReactNode } from "react";
 import Link from "next/link";
+import { ReactNode } from "react";
 
 export default () => (
   <HomeLayout>
@@ -31,8 +31,8 @@ export default () => (
           About Me
         </AboutMeHeader>
         <AboutMeContent>
-          I enjoy building <i>useful</i> (and obliterating <i>unuseful</i>) software inside large legacy systems. My 
-          passion lies in learning how systems create value for customers to expand their impact using first principles.
+          I enjoy building useful—and removing ineffective—software in large legacy systems. My passion lies in 
+          learning how systems create value for customers and expanding their impact using first principles thinking.
         </AboutMeContent>
       </AboutMeSection>
 
@@ -45,19 +45,20 @@ export default () => (
               <AccordionHeader title="Amazon.com. Software Dev Engineer." date="Nov 2024 – Current" />
             </AccordionTrigger>
             <AccordionContent>
-              <OrgLocationRow
-                org="Core Shopping"
-                location="Seattle, WA"
-                links={[
-                  { label: "Detail Page", href: "https://www.amazon.com/dp/0471417432" },
-                  { label: "Buy Baox", href: "https://www.helium10.com/blog/what-is-the-amazon-buy-box/#what-is-the-buy-box-on-amazon" },
-                ]}
-              />
-              <BulletList items={[
-                "Owned a Buy Box ranking upgrade producing affordability savings for customers resulting in 9.7MM lift in annualized units sold and $30.2 MM lift in annualized OPS",
-                "Expanded the Buybox \"Join Prime\" accordion button to 24 countries, producing 5 additional service and business metrics.",
-                "Participated in a 24x7 engineering on-call rotation for Buybox to ensure service uptime and subject matter expert availability.",
-              ]} />
+              <AccordionContentBody>
+                <OrgLocationRow
+                  location="Seattle, WA"
+                >
+                  <>
+                  Core Shopping, Detail Page, <Link href={""}>BuyBox</Link>
+                  </>
+                </OrgLocationRow>
+                <BulletList items={[
+                  "Drove the launch of a BuyBox ranking updgrade that produced $30.2 MM revenue growth and 9.7MM lift in annualized units sold.",
+                  "Expanded the \"Join Prime\" BuyBox button to 24 countries, producing 5 additional service and business metrics.",
+                  "Participated in a 24x7 engineering on-call rotation for BuyBox to ensure service uptime and subject matter expert availability.",
+                ]} />
+              </AccordionContentBody>
             </AccordionContent>
           </AccordionItem>
 
@@ -130,26 +131,7 @@ export default () => (
           />
         </div>
       </Card>
-
-      {/* Certifications */}
-      <AccordionSection delay=".6s">
-        <AccordionSectionHeader>Certifications</AccordionSectionHeader>
-        <AccordionSectionContent>
-          <AccordionItem value="cert-1">
-            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-              <AccordionHeader title="AWS Solutions Architect – Professional" date="Nov 2025" />
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="text-gray-700 dark:text-gray-300">
-                <PrimaryLink href="https://www.credly.com/badges/c4d07372-5471-409a-a842-950f6b94dab4/public_url">
-                  Proof of Certification
-                </PrimaryLink>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </AccordionSectionContent>
-      </AccordionSection>
-
+      
       {/* Education */}
       <AccordionSection delay=".8">
         <AccordionSectionHeader>Education</AccordionSectionHeader>
@@ -183,6 +165,22 @@ export default () => (
               </div>
             </AccordionContent>
           </AccordionItem>
+
+
+          <AccordionItem value="edu-3">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader title="Certification: AWS Solutions Architect – Professional" date="Nov 2025" />
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="text-gray-700 dark:text-gray-300">
+                <PrimaryLink href="https://www.credly.com/badges/c4d07372-5471-409a-a842-950f6b94dab4/public_url">
+                  Proof of Certification
+                </PrimaryLink>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+
         </AccordionSectionContent>
       </AccordionSection>
 
@@ -384,29 +382,50 @@ const AccordionHeader = ({ title, date }: { title: string; date: string }) => {
   );
 };
 
+const AccordionContentBody = ({ children }: { children: ReactNode }) => (
+  <AccordionContentWrapper>
+    <AccordionContentTopBorder />
+    <AccordionContentSideBorders>
+      {children}
+    </AccordionContentSideBorders>
+  </AccordionContentWrapper>
+);
+
+const AccordionContentWrapper = ({ children }: { children: ReactNode }) => (
+  <div className="mt-2 text-gray-700 dark:text-gray-300">
+    {children}
+  </div>
+);
+
+const AccordionContentTopBorder = () => (
+  <div className="border-t border-gray-300 dark:border-gray-600 w-8 mb-2 mx-auto" />
+);
+
+const AccordionContentSideBorders = ({ children }: { children: ReactNode }) => (
+  <div className="border-l border-r border-gray-300 dark:border-gray-600 my-0.5 px-2 py-3">
+    {children}
+  </div>
+);
+
 // Organization/location row in accordion content
 const OrgLocationRow = ({
-  org,
   location,
-  links
+  children,
 }: {
-  org: string;
   location: string;
-  links?: { label: string; href: string }[];
+  children?: ReactNode;
 }) => (
-  <div className="flex justify-between text-gray-900 dark:text-gray-100">
+  <div className="flex flex-col sm:flex-row sm:justify-between text-gray-900 dark:text-gray-100">
     <span>
-      <span className="font-bold">Organization:</span> {org}
-      {links && links.length > 0 && (
-        <> ({links.map((link, i) => (
-          <span key={link.href}>
-            {i > 0 && ", "}
-            <PrimaryLink href={link.href}>{link.label}</PrimaryLink>
-          </span>
-        ))})</>
-      )}
+      <span className="font-bold">
+        org:
+      </span> {children}
     </span>
-    <span>{location}</span>
+    <span>
+      <span className="font-bold">
+        location:
+      </span> {location}
+    </span>
   </div>
 );
 
