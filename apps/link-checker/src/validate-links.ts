@@ -5,9 +5,10 @@ import { spawn, type ChildProcess } from 'child_process';
 import { readFileSync, existsSync, unlinkSync } from 'fs';
 
 /*
-  This script validates 
+  This script validates every links reachable  in a next.js application.
+  It uses the following procedure:
 
-  1. collect statically declared page routes under the `prerender-manifest.json` 
+  1. read routes serialized in the `prerender-manifest.json` 
   manifest file, produced at build-("prerender")-time   
   2. mock-start a Next.js production server configured with bindings to a Unix 
   (rather than TCP) socket to prevent port collisions

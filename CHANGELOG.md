@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-13
+
+### Added
+- Combobox-style navigation component
+- Color palette system
+
+### Changed
+- Extracted theme toggle into standalone component
+- Improved OG image and spacing
+
 ## 2026-01-12
 
 ### Added

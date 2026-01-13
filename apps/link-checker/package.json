@@ -16,7 +16,6 @@
     "typescript": "5.5.4"
   },
   "dependencies": {
-    "@claycurry/linkinator": "workspace:*",
     "github-slugger": "2.0.0",
     "gray-matter": "4.0.3",
     "hast-util-select": "6.0.3",
