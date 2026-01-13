@@ -60,9 +60,9 @@ export default () => (
         </AboutMeContent>
       </AboutMeSection>
 
-      {/* Open Source Contributions */}
+      {/* Contributions */}
       <Card delay=".3s">
-        <SectionHeading>Open Source Contributions</SectionHeading>
+        <SectionHeading>Contributions</SectionHeading>
         <UnderConstruction />
       </Card>
 
