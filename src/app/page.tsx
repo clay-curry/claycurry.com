@@ -83,8 +83,7 @@ export default () =>
           </h2>
           <div className="space-y-3 text-gray-700 dark:text-gray-300">
             <p>
-              I enjoy building highly visible software within large, legacy systems at scale, finding tremendous 
-              satisfaction in learning they create value for users and growing their impact.
+              I build highly visible features within large software systems at scale. My passion lies in learning how legacy systems create value for users and expanding their impact.
             </p>
           </div>
         </div>
