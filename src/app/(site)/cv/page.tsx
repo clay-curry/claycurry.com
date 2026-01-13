@@ -72,7 +72,7 @@ export default () => (
         <AccordionSectionContent defaultValue="item-1">
           <AccordionItem value="item-1">
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-              <AccordionHeader title="Amazon.com — Software Development Engineer" date="Nov 2024 – Current" />
+              <AccordionHeader title="Amazon.com. Software Development Engineer." date="Nov 2024 – Current" />
             </AccordionTrigger>
             <AccordionContent>
               <OrgLocationRow
@@ -93,23 +93,41 @@ export default () => (
 
           <AccordionItem value="item-2">
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-              <AccordionHeader title="University of Oklahoma — Linux System Administrator" date="Feb 2021 – Jan 2023" />
+              <AccordionHeader title="University of Oklahoma. Linux System Administrator." date="Feb 2021 – Dec 2023" />
             </AccordionTrigger>
             <AccordionContent>
               <OrgLocationRow org="Department of Physics" location="Norman, OK" />
               <BulletList items={[
-                "Administered 72 research Red Hat Enterprise Linux workstations for numerical computing workloads.",
+                "Securely administered 150+ Linux lab workstations and servers used by 2,000+ students and faculty members.",
+                "Reduced system downtime by 18% by implementing automated monitoring and alerting for critical services.",
                 "Saved 4 weeks of annual IT operational effort by streamlining inventory-taking procedures using background jobs.",
                 "Ported legacy department website content to modern content management software, leveraging Python to automate the transfer of 120 pages of structured data.",
               ]} />
             </AccordionContent>
           </AccordionItem>
+
+          <AccordionItem value="item-2">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader title="University of Oklahoma. Computer Vision Research Assistant." date="Nov 2021 – Jan 2023" />
+            </AccordionTrigger>
+            <AccordionContent>
+              <OrgLocationRow org="Department of Computer Science" location="Norman, OK" />
+              <BulletList items={[
+                "Provisioned 12 workstations for GPU-accelerated deep learning research, improving model training times by 80%.",
+                "Scraped and preprocessed 90GB+ of FAA aircraft transponder data collected by crowdsourced receivers.",
+                "Trained and evaluated multiple machine learning models (Random Forest, CNN, LSTM) to classify aircraft trajectories with 92% accuracy.",
+              ]} />
+            </AccordionContent>
+          </AccordionItem>
+
+
+
         </AccordionSectionContent>
       </AccordionSection>
 
       {/* Select Courses & Frameworks */}
       <Card delay=".6s">
-        <SectionHeading>Selected Topics</SectionHeading>
+        <SectionHeading>Selected Courses / Topics</SectionHeading>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <GridCard
             title="Refactoring - Premium"
@@ -164,11 +182,30 @@ export default () => (
         <AccordionSectionContent>
           <AccordionItem value="edu-1">
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-              <AccordionHeader title="Computer Science, B.S." date="Dec 2023" />
+              <AccordionHeader title="University of Oklahoma. Computer Science, B.S." date="Dec 2023" />
             </AccordionTrigger>
             <AccordionContent>
               <div className="text-gray-700 dark:text-gray-300">
-                <p>University of Oklahoma. Mathematics minor.</p>
+                <p>Mathematics minor.</p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="edu-2">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader title="Choctaw High School. Diploma." date="May 2017" />
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="text-gray-700 dark:text-gray-300">
+                <p className="mb-2">
+                  <span className="font-bold text-gray-900 dark:text-gray-100">Valedictorian</span> • <span className="font-bold text-gray-900 dark:text-gray-100">ACT Scholar</span>
+                </p>
+                <p className="mb-2">
+                  <span className="font-bold">ACT Score:</span> 34 / 36
+                </p>
+                <p>
+                  <PrimaryLink href="/highschool-transcript.jpeg">transcript</PrimaryLink>
+                </p>
               </div>
             </AccordionContent>
           </AccordionItem>
