@@ -43,20 +43,37 @@ export function Header() {
         <nav className="hidden sm:flex items-center">
           <NavigationMenu>
             <NavigationMenuList>
+
               <NavigationMenuItem>
                 <NavigationMenuLink
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <Link href="/">Home</Link>
+                  <Link href="/">
+                    Home
+                  </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
+
               <NavigationMenuItem>
                 <NavigationMenuLink
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <Link href="/blog">Blog</Link>
+                  <Link href="/resume">
+                    Resume
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link href="/blog">
+                    Blog
+                  </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
@@ -140,7 +157,8 @@ export function Header() {
                   className="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-accent text-sm"
                   tabIndex={0}
                 >
-                  <GitHubIcon /> GitHub
+                  <GitHubIcon />
+                  GitHub
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>

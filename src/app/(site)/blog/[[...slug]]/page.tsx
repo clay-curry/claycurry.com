@@ -59,8 +59,8 @@ export default async function BlogSlugPage({
           <PageViews />
         </div>
 
-        <div className="flex max-w-full flex-row justify-between md:items-start">
-          <article className="w-full text-pretty m-6 md:max-w-xl">
+        <div className="flex max-w-full flex-row gap-14 md:items-start px-6">
+          <article className="w-full text-pretty md:max-w-2xl">
             <div>
               <BlogBreadcrumb slug={slug[0]} title={title || "title missing"} />
               <div>
@@ -68,7 +68,7 @@ export default async function BlogSlugPage({
               </div>
             </div>
           </article>
-          <aside className="sticky top-40 hidden max-h-[calc(100vh-10rem)] w-72 md:block">
+          <aside className="sticky top-40 hidden max-h-[calc(100vh-10rem)] w-72 shrink-0 md:block">
             <div className="flex max-h-[calc(100vh-10rem)] flex-col gap-4 transition-all duration-300">
               <div className="w-full flex flex-row gap-2">
                 <span className="block pb-2 font-semibold">Published:</span>
