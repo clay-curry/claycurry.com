@@ -41,9 +41,8 @@ export default () => (
           About Me
         </AboutMeHeader>
         <AboutMeContent>
-          I enjoy building <i>useful</i> features (and removing unuseful ones) within large legacy software systems. 
-          My passion lies in learning how systems create value for users and expanding their impact, preferrably at 
-          scale.
+          I enjoy building <i>useful</i> software features (and removing unuseful ones) within large legacy systems. My 
+          passion lies in learning how systems create value for users and expanding their impact, preferrably at scale.
         </AboutMeContent>
       </AboutMeSection>
 
