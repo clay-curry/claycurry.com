@@ -1,6 +1,6 @@
 <div align="center">
 
-# claycurry.com
+# [claycurry.com](https://claycurry.com)
 
 [![Coded with Claude](https://img.shields.io/badge/Coded_with-Claude-D97757?style=flat&logo=anthropic)](https://www.anthropic.com/)
 [![Formatted using Biome](https://img.shields.io/badge/Formatted_using-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
