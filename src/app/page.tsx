@@ -1,6 +1,11 @@
 "use client";
-import { PageViews } from "@/src/lib/components/page-views";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/src/lib/components/ui/accordion";
+import { 
+  Accordion, 
+  AccordionContent, 
+  AccordionItem, 
+  AccordionTrigger 
+} from "@/src/lib/ui/components/accordion";
+import { PageViews } from "@/src/lib/ui/widgets/page-views";
 
 export default () =>
     <>
@@ -81,12 +86,6 @@ export default () =>
               I enjoy building highly visible software within large, legacy systems at scale, finding tremendous 
               satisfaction in learning they create value for users and growing their impact.
             </p>
-
-            <p>
-              I am very comfortable with Python, JavaScript, Golang; talking to caches, databases, queues, and web 
-              servers; and building out systems end-to-end. 
-            </p>
-
           </div>
         </div>
 

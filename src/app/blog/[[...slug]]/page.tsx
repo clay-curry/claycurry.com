@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { BlogBreadcrumb } from "@/src/lib/components/blog-breadcrumb";
-import { PageViews } from "@/src/lib/components/page-views";
-import { Posts } from "@/src/lib/components/posts";
+import { BlogBreadcrumb } from "@/src/lib/ui/components/blog-breadcrumb";
+import { PageViews } from "@/src/lib/ui/widgets/page-views";
+import { Posts } from "@/src/lib/ui/components/posts";
 
 export const dynamicParams = false;
 

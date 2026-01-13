@@ -5,7 +5,7 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "@/src/lib/components/ui/breadcrumb";
+} from "@/src/lib/ui/components/breadcrumb";
 
 export function BlogBreadcrumb({
   slug,

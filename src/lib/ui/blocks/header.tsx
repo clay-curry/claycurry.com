@@ -1,27 +1,30 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
-import BlueskyIcon from "@/src/lib/components/icons/bluesky";
-import CIcon from "@/src/lib/components/icons/c";
-import GitHubIcon from "@/src/lib/components/icons/github";
-import LinkedInIcon from "@/src/lib/components/icons/linkedin";
-import XIcon from "@/src/lib/components/icons/x";
-import { Button } from "@/src/lib/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/src/lib/components/ui/dropdown-menu";
-import { ModeToggle, ModeToggleMobile } from "@/src/lib/components/ui/mode-toggle";
+} from "@/src/lib/ui/components/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@/src/lib/components/ui/navigation-menu";
+} from "@/src/lib/ui/components/navigation-menu";
+
+import { ModeToggle, ModeToggleMobile } from "@/src/lib/ui/controls/mode-toggle";
+import { Button } from "@/src/lib/ui/controls/button";
+
+import BlueskyIcon from "@/src/lib/ui/icons/bluesky";
+import CIcon from "@/src/lib/ui/icons/c";
+import GitHubIcon from "@/src/lib/ui/icons/github";
+import LinkedInIcon from "@/src/lib/ui/icons/linkedin";
+import XIcon from "@/src/lib/ui/icons/x";
+
+import { useState } from "react";
+import Link from "next/link";
 
 export function Header() {
   // Dropdown open state for mobile menu (for a11y controlled via state)
