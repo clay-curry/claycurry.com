@@ -60,8 +60,8 @@ export function Header() {
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <Link href="/resume">
-                    Resume
+                  <Link href="/cv">
+                    CV
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>

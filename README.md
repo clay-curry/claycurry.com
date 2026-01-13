@@ -9,7 +9,7 @@
 [![Cached inside Redis](https://img.shields.io/badge/Cached_inside-Redis-DC382D?style=flat&logo=redis)](https://redis.io/)
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=flat&logo=vercel)](https://vercel.com/)
 
-My resume and portfolio.
+My corner of the internet.
 
 </div>
 
