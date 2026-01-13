@@ -55,22 +55,6 @@ export function Footer({ className }: { className?: string }) {
                 Sitemap
               </Link>
             </li>
-            <li>
-              <Link
-                href="/rss.xml"
-                className="hover:underline text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
-              >
-                RSS
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/admin"
-                className="hover:underline text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
-              >
-                Admin
-              </Link>
-            </li>
           </ul>
         </nav>
       </div>

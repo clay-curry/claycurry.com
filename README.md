@@ -1,5 +1,10 @@
 # claycurry.com
 
+[![Declared using Next.js](https://img.shields.io/badge/Declared_using-Next.js-000000?style=flat&logo=nextdotjs)](https://nextjs.org/)
+[![Styled in Tailwind CSS](https://img.shields.io/badge/Styled_in-Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
+[![Coded with Claude](https://img.shields.io/badge/Coded_with-Claude-D97757?style=flat&logo=anthropic)](https://www.anthropic.com/)
+[![Cached inside Redis](https://img.shields.io/badge/Cached_inside-Redis-DC382D?style=flat&logo=redis)](https://redis.io/)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed_with-Vercel-000000?style=flat&logo=vercel)](https://vercel.com/)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 
 My resume and portfolio.
