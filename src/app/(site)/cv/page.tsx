@@ -50,7 +50,7 @@ export default () => (
                   location="Seattle, WA"
                 >
                   <>
-                  Core Shopping, Detail Page, <Link href={""}>BuyBox</Link>
+                  Core Shopping, Detail Page, <Link href={"https://www.helium10.com/blog/what-is-the-amazon-buy-box/"}>BuyBox</Link>
                   </>
                 </OrgLocationRow>
                 <BulletList items={[
@@ -67,7 +67,7 @@ export default () => (
               <AccordionHeader title="University of Oklahoma. Linux System Administrator." date="Feb 2021 – Dec 2023" />
             </AccordionTrigger>
             <AccordionContent>
-              <OrgLocationRow org="Department of Physics" location="Norman, OK" />
+              <OrgLocationRow location="Norman, OK">Department of Physics</OrgLocationRow>
               <BulletList items={[
                 "Securely administered 150+ Linux lab workstations and servers used by 2,000+ students and faculty members.",
                 "Reduced system downtime by 18% by implementing automated monitoring and alerting for critical services.",
@@ -82,7 +82,7 @@ export default () => (
               <AccordionHeader title="University of Oklahoma. Computer Vision Research Assistant." date="Nov 2021 – Jan 2023" />
             </AccordionTrigger>
             <AccordionContent>
-              <OrgLocationRow org="Department of Computer Science" location="Norman, OK" />
+              <OrgLocationRow location="Norman, OK">Department of Computer Science</OrgLocationRow>
               <BulletList items={[
                 "Provisioned 12 workstations for GPU-accelerated deep learning research, improving model training times by 80%.",
                 "Scraped and preprocessed 90GB+ of FAA aircraft transponder data collected by crowdsourced receivers.",
