@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "check": "biome check"
   },
@@ -30,6 +30,7 @@
     "react": "19.2.1",
     "react-dom": "19.2.1",
     "redis": "^5.10.0",
+    "remark-frontmatter": "^5.0.0",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.2.1"
   },
