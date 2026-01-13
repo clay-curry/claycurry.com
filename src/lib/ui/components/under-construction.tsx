@@ -2,13 +2,13 @@ export default function UnderConstruction() {
   return (
     <section
       aria-label="Under construction message"
-      className="flex flex-col items-center justify-center min-h-[40vh] text-center px-4"
+      className="flex flex-col md:flex-row items-center justify-center min-h-[10vh] text-center md:text-left px-4 gap-6"
     >
       <svg
-        className="my-8"
+        className="my-4 md:my-0 shrink-0"
         xmlns="http://www.w3.org/2000/svg"
-        width="128"
-        height="128"
+        width="48"
+        height="48"
         viewBox="0 0 512 512"
       >
         <title>construction</title>
@@ -113,12 +113,14 @@ export default function UnderConstruction() {
           d="M 256 178 L 258 179 L 263 186 L 263 189 L 263 186 L 261 182 L 257 178 Z"
         />
       </svg>
-      <h2 className="text-2xl font-semibold mb-2">
-        Please excuse this construction.
-      </h2>
-      <p className="text-muted-foreground">
-        This area is currently a work in progress. Check back soon for updates!
-      </p>
+      <div>
+        <h2 className="text-2xl font-semibold mb-2">
+          Please excuse this construction.
+        </h2>
+        <p className="text-muted-foreground">
+          This area is currently a work in progress. Check back soon for updates!
+        </p>
+      </div>
     </section>
   );
 }

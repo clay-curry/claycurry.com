@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Footer } from "@/src/lib/components/footer";
-import { Header } from "@/src/lib/components/header";
+import { Footer } from "@/src/lib/ui/blocks/footer";
+import { Header } from "@/src/lib/ui/blocks/header";
 
 // This page displays items from the custom registry.
 // You are free to implement this with your own design as needed.

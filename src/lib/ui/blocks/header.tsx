@@ -2,26 +2,27 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import BlueskyIcon from "@/src/lib/components/icons/bluesky";
-import CIcon from "@/src/lib/components/icons/c";
-import GitHubIcon from "@/src/lib/components/icons/github";
-import LinkedInIcon from "@/src/lib/components/icons/linkedin";
-import XIcon from "@/src/lib/components/icons/x";
-import { Button } from "@/src/lib/components/ui/button";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/src/lib/components/ui/dropdown-menu";
-import { ModeToggle, ModeToggleMobile } from "@/src/lib/components/ui/mode-toggle";
+} from "@/src/lib/ui/components/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@/src/lib/components/ui/navigation-menu";
+} from "@/src/lib/ui/components/navigation-menu";
+import { Button } from "@/src/lib/ui/controls/button";
+import { ModeToggle, ModeToggleMobile } from "@/src/lib/ui/controls/mode-toggle";
+import BlueskyIcon from "@/src/lib/ui/icons/bluesky";
+import CIcon from "@/src/lib/ui/icons/c";
+import GitHubIcon from "@/src/lib/ui/icons/github";
+import LinkedInIcon from "@/src/lib/ui/icons/linkedin";
+import XIcon from "@/src/lib/ui/icons/x";
 
 export function Header() {
   // Dropdown open state for mobile menu (for a11y controlled via state)
@@ -42,20 +43,37 @@ export function Header() {
         <nav className="hidden sm:flex items-center">
           <NavigationMenu>
             <NavigationMenuList>
+
               <NavigationMenuItem>
                 <NavigationMenuLink
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <Link href="/">Home</Link>
+                  <Link href="/">
+                    Home
+                  </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
+
               <NavigationMenuItem>
                 <NavigationMenuLink
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <Link href="/blog">Blog</Link>
+                  <Link href="/cv">
+                    CV
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link href="/blog">
+                    Blog
+                  </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
@@ -139,7 +157,8 @@ export function Header() {
                   className="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-accent text-sm"
                   tabIndex={0}
                 >
-                  <GitHubIcon /> GitHub
+                  <GitHubIcon />
+                  GitHub
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>

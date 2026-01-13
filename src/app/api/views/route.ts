@@ -1,4 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { 
+  type NextRequest, 
+  NextResponse 
+} from "next/server";
+
 import { createClient } from "redis";
 
 // In-memory fallback for local development (when Redis is not configured)
@@ -8,6 +12,7 @@ const inMemoryStore = new Map<string, number>();
 let redisClient: ReturnType<typeof createClient> | null = null;
 
 async function getRedisClient() {
+  
   if (!process.env.KV_REST_API_REDIS_URL) {
     return null;
   }
@@ -24,6 +29,7 @@ async function getRedisClient() {
 }
 
 async function getViewCount(slug: string): Promise<number> {
+  
   try {
     const client = await getRedisClient();
     if (!client) {
