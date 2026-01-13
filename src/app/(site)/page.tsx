@@ -179,7 +179,9 @@ export default () => (
         <SectionHeading>About Me</SectionHeading>
         <div className="space-y-3 text-gray-700 dark:text-gray-300">
           <p>
-            I enjoy building <i>useful</i> features within large software systems at scale. My passion lies in learning how legacy systems create value for users and expanding their impact.
+            I enjoy building <i>useful</i> features (and removing unuseful ones) within large legacy software systems. 
+            My passion lies in learning how systems create value for users and expanding their impact, preferrably at 
+            scale.
           </p>
         </div>
       </Card>
