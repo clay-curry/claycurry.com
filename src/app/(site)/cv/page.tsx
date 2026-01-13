@@ -99,39 +99,7 @@ export default () => (
           <SectionHeading>Contributions</SectionHeading>
         </ComingSoon>
         </Card>
-
-      {/* Select Courses & Frameworks */}
-      <Card delay=".6s">
-        <SectionHeading>Selected Courses / Topics</SectionHeading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <GridCard
-            title="Refactoring - Premium"
-            subtitle="Refactoring Guru"
-            href="https://refactoring.guru/refactoring"
-          />
-          <GridCard
-            title="Webpack Fundamentals"
-            subtitle="Frontend Masters"
-            href="https://frontendmasters.com/courses/webpack-fundamentals/"
-          />
-          <GridCard
-            title="Search Engine Optimization"
-            subtitle="Next.js"
-            href="https://nextjs.org/learn/seo"
-          />
-          <GridCard
-            title="Utility-First CSS Framework"
-            subtitle="TailwindCSS"
-            href="https://tailwindcss.com/"
-          />
-          <GridCard
-            title="Component Library"
-            subtitle="Shadcn/UI"
-            href="https://ui.shadcn.com/"
-          />
-        </div>
-      </Card>
-      
+  
       {/* Education */}
       <AccordionSection delay=".8">
         <AccordionSectionHeader>Education</AccordionSectionHeader>
