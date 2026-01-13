@@ -1,3 +1,5 @@
+<div align="center">
+
 # claycurry.com
 
 [![Declared using Next.js](https://img.shields.io/badge/Declared_using-Next.js-000000?style=flat&logo=nextdotjs)](https://nextjs.org/)
@@ -8,6 +10,39 @@
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 
 My resume and portfolio.
+
+</div>
+
+---
+
+## Project Structure
+
+```text
+├── public/                 # Static assets
+│
+├── src/
+│   ├── app/                # Next.js App Router pages
+│   │   ├── (site)/         # Site routes (grouped)
+│   │   │   └── blog/
+│   │   │       ├── _content/   # MDX blog post content
+│   │   │       └── _lib/       # Blog utilities (loaders, types)
+│   │   │
+│   │   └── api/            # API routes
+│   │
+│   ├── lib/                # Shared utilities
+│   │   ├── components/     # React components
+│   │   ├── hooks/          # Custom React hooks
+│   │   └── blog/           # Blog-related utilities
+│   │
+│   └── styles/             # Global styles
+│
+├── biome.json              # Biome linter/formatter config
+├── components.json         # shadcn/ui configuration
+├── mdx-components.tsx      # Custom MDX component mappings
+├── next.config.ts          # Next.js configuration
+├── package.json            # Dependencies and scripts
+└── tsconfig.json           # TypeScript configuration
+```
 
 ---
 

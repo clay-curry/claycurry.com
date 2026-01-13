@@ -12,7 +12,7 @@ export type PostMetadata = {
   tags: string[];
 };
 
-const BLOG_DIR = path.join(process.cwd(), "src/app/blog");
+const BLOG_DIR = path.join(process.cwd(), "src/app/(site)/blog/_content");
 
 export function getPostMetadata(slug: string): PostMetadata {
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
