@@ -91,5 +91,5 @@ export {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbSeparator,
-  BreadcrumbEllipsis,
+  // BreadcrumbEllipsis,
 };

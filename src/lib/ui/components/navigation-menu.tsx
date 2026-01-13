@@ -159,10 +159,10 @@ export {
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
-  NavigationMenuContent,
+  // NavigationMenuContent,
   NavigationMenuTrigger,
   NavigationMenuLink,
-  NavigationMenuIndicator,
-  NavigationMenuViewport,
+  // NavigationMenuIndicator,
+  // NavigationMenuViewport,
   navigationMenuTriggerStyle,
 };
