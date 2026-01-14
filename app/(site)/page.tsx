@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { PageViews } from "@/lib/ui/widgets/page-views";
 
 export default () => (
-  <main>
+  <article>
     <style jsx>{`
       @keyframes fadeInEffect {
         to {
@@ -27,7 +27,7 @@ export default () => (
         <SocialLink href="mailto:me@claycurry.com">me@claycurry.com</SocialLink>
       </p>
     </HeroSection>
-  </main>
+  </article>
 );
 
 // Hero section for page header

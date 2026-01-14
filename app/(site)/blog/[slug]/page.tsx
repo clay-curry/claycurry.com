@@ -24,7 +24,7 @@ export default async function BlogPostPage({
   const { title } = postMeta;
 
   return (
-    <main className="flex-1">
+    <article>
       <div className="w-full flex justify-end px-4 pt-4">
         <PageViews />
       </div>
@@ -37,7 +37,7 @@ export default async function BlogPostPage({
 
         <ArticleAside slug={slug} title={title} postMeta={postMeta} />
       </div>
-    </main>
+    </article>
   );    
 }
 

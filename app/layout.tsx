@@ -38,35 +38,26 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head />
-      <body className="w-full max-w-5xl min-h-[100vh] m-auto">
+      {
+        /* Root layout 
+          - header stays at top
+          - main content grows to fill space
+          – footer stays below content
+          - footer sticks to bottom if content is short 
+        */
+      }
+      <body className="flex flex-col min-h-screen w-full max-w-5xl mx-auto">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-
-          {
-          /* Root layout 
-            - header stays at top
-            - main content grows to fill space
-            – footer stays below content
-            - footer sticks to bottom if content is short 
-          */
-          }
-          <div className={cn(
-            "flex flex-col justify-between items-center", 
-            "w-full h-[100vh]",
-            "text-foreground antialiased"
-          )}>
-              <div className="w-full max-w-5xl">
-                  <Header className="w-full"/>
-                  {children}
-              </div>
-              <Footer className={cn(
-                  "w-full border-t border-border bg-background px-4 py-6 mt-20 mb-5 text-sm"
-              )}/>
-          </div>
+          <Header className="flex-none"/>
+          <main className="flex-1">
+            {children}
+          </main>            
+          <Footer className="flex-none"/>
         </ThemeProvider>
       </body>
     </html>

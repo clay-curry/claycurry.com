@@ -6,7 +6,7 @@ const postMetadata = getAllPostsMetadata();
 
 export default function BlogPage() {
   return (
-    <main className="flex-1">
+    <article>
       <div className="w-full flex justify-end px-4 pt-4">
         <PageViews />
       </div>
@@ -29,6 +29,6 @@ export default function BlogPage() {
         <h2 className="text-lg py-4">Recent</h2>
         <Posts entries={postMetadata} nonPinnedOnly={true} />
       </div>
-    </main>
+    </article>
   );
 }

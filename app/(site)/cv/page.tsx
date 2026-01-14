@@ -12,7 +12,7 @@ import ComingSoon from "@/lib/ui/components/under-construction";
 import { PageViews } from "@/lib/ui/widgets/page-views";
 
 export default () => (
-  <main>
+  <article>
     <style jsx>{`
       @keyframes fadeInEffect {
         to {
@@ -295,7 +295,7 @@ export default () => (
       </AccordionSectionContent>
     </AccordionSection>
     </section>
-  </main>
+  </article>
 );
 
 

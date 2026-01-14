@@ -7,7 +7,7 @@ import { Header } from "@/lib/ui/blocks/header";
 
 export default function ComponentsPage() {
   return (
-    <main className="max-w-3xl mx-auto flex flex-col min-h-svh px-4 py-8 gap-8">
+    <article className="max-w-3xl mx-auto flex flex-col min-h-svh px-4 py-8 gap-8">
       <header className="flex flex-col gap-1">
         <h1 className="text-3xl font-bold tracking-tight">Registry</h1>
         <p className="text-muted-foreground">
@@ -41,6 +41,6 @@ export default function ComponentsPage() {
           </div>
         </div>
       </main>
-    </main>
+    </article>
   );
 }
