@@ -40,11 +40,14 @@ const HeroSection = ({ children }: { children: ReactNode }) => (
 );
 
 // Social/contact link (no underline by default, shows on hover)
-const SocialLink = ({ href, children }: { href: string; children: ReactNode }) => (
-  <a
-    href={href}
-    className="text-blue-600 dark:text-blue-400 hover:underline"
-  >
+const SocialLink = ({
+  href,
+  children,
+}: {
+  href: string;
+  children: ReactNode;
+}) => (
+  <a href={href} className="text-blue-600 dark:text-blue-400 hover:underline">
     {children}
   </a>
 );

@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import matter from "gray-matter";
 
 export type PostMetadata = {
@@ -22,7 +22,9 @@ export function getPostMetadata(slug: string): PostMetadata {
 }
 
 export function getAllPostsMetadata(): PostMetadata[] {
-  const files = fs.readdirSync(BLOG_DIR).filter((file) => file.endsWith(".mdx"));
+  const files = fs
+    .readdirSync(BLOG_DIR)
+    .filter((file) => file.endsWith(".mdx"));
 
   return files.map((file) => {
     const slug = file.replace(/\.mdx$/, "");

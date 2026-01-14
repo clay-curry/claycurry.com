@@ -19,13 +19,13 @@ interface UsePageViewsReturn {
  */
 export function usePageViews(
   slug: string,
-  options: UsePageViewsOptions = {}
+  options: UsePageViewsOptions = {},
 ): UsePageViewsReturn {
   const { increment = true } = options;
   const [count, setCount] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  
+
   // Prevent double-incrementing in React Strict Mode
   const hasTracked = useRef(false);
 
@@ -42,7 +42,7 @@ export function usePageViews(
 
         if (increment) {
           hasTracked.current = true;
-          
+
           // Increment and get count
           const response = await fetch("/api/views", {
             method: "POST",
@@ -58,7 +58,9 @@ export function usePageViews(
           setCount(data.count);
         } else {
           // Just get count without incrementing
-          const response = await fetch(`/api/views?slug=${encodeURIComponent(slug)}`);
+          const response = await fetch(
+            `/api/views?slug=${encodeURIComponent(slug)}`,
+          );
 
           if (!response.ok) {
             throw new Error("Failed to fetch page views");

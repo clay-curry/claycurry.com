@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { BlogBreadcrumb } from "@/src/lib/ui/components/blog-breadcrumb";
-import { PageViews } from "@/src/lib/ui/widgets/page-views";
-import { Posts } from "@/src/lib/ui/components/post";
 import { getAllPostsMetadata } from "@/src/app/(site)/blog/metadata";
+import { BlogBreadcrumb } from "@/src/lib/ui/components/blog-breadcrumb";
+import { Posts } from "@/src/lib/ui/components/post";
+import { PageViews } from "@/src/lib/ui/widgets/page-views";
 
 export const dynamicParams = false;
 
@@ -50,7 +50,9 @@ export default async function BlogSlugPage({
     );
   } else {
     const postMeta = postMetadata.filter((o) => o.slug === slug[0])[0];
-    const { default: BlogArticle } = await import(`@/src/app/(site)/blog/_content/${slug}.mdx`);
+    const { default: BlogArticle } = await import(
+      `@/src/app/(site)/blog/_content/${slug}.mdx`
+    );
     const { title } = postMeta;
 
     return (
