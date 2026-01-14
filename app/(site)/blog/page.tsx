@@ -1,4 +1,4 @@
-import { getAllPostsMetadata } from "@/blog/utils";
+import { getAllPostsMetadata } from "@/app/(site)/blog/loader";
 import { Posts } from "@/lib/ui/components/post";
 import { PageViews } from "@/lib/ui/widgets/page-views";
 

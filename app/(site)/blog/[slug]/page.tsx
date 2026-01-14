@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllPostsMetadata, getPost, type PostMetadata } from "@/blog/utils";
+import { getAllPostsMetadata, getPost, type PostMetadata } from "@/app/(site)/blog/loader";
 import { BlogBreadcrumb } from "@/lib/ui/components/blog-breadcrumb";
 import BlueskyIcon from "@/lib/ui/icons/bluesky";
 import FacebookIcon from "@/lib/ui/icons/facebook";
