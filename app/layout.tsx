@@ -1,8 +1,5 @@
 import "./globals.css";
 import type { Metadata } from "next";
-
-import { Footer } from "@/lib/ui/blocks/footer";
-import { Header } from "@/lib/ui/blocks/header";
 import { ThemeProvider } from "@/lib/ui/theme-provider";
 
 export const metadata: Metadata = {
@@ -37,24 +34,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head />
-      <body
-        className={
-          // `${geistSans.variable} ${geistMono.variable} ` +
-          `mx-0 flex flex-col items-center ` +
-          `justify-start min-h-screen w-full text-foreground antialiased`
-        }
-      >
+      <body className="w-full max-w-5xl min-h-[100vh] m-auto">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col flex-1 w-full max-w-5xl">
-            <Header />
-            <main className="min-h-[85vh]">{children}</main>
-            <Footer />
-          </div>
+          {children}
         </ThemeProvider>
       </body>
     </html>

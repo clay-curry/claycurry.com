@@ -12,7 +12,19 @@ import ComingSoon from "@/lib/ui/components/under-construction";
 import { PageViews } from "@/lib/ui/widgets/page-views";
 
 export default () => (
-  <HomeLayout>
+  <main>
+    <style jsx>{`
+      @keyframes fadeInEffect {
+        to {
+          opacity: 1;
+        }
+      }
+    `}</style>
+
+    <section className="w-full flex flex-col items-center px-1 md:px-3">
+      <div className="w-full max-w-6xl flex justify-end mt-4">
+        <PageViews />
+      </div>
     {/* Header */}
     <HeaderSection
       name="Clay Curry"
@@ -282,27 +294,10 @@ export default () => (
         </AccordionItem>
       </AccordionSectionContent>
     </AccordionSection>
-  </HomeLayout>
-);
-
-const HomeLayout = (props: { children: ReactNode }) => (
-  <>
-    <style jsx>{`
-      @keyframes fadeInEffect {
-        to {
-          opacity: 1;
-        }
-      }
-    `}</style>
-
-    <section className="w-full flex flex-col items-center px-1 md:px-3">
-      <div className="w-full max-w-6xl flex justify-end mt-4">
-        <PageViews />
-      </div>
-      {props.children}
     </section>
-  </>
+  </main>
 );
+
 
 // Reusable link component for external/internal links
 const PrimaryLink = ({

@@ -27,12 +27,12 @@ import GitHubIcon from "@/lib/ui/icons/github";
 import LinkedInIcon from "@/lib/ui/icons/linkedin";
 import XIcon from "@/lib/ui/icons/x";
 
-export function Header() {
+export function Header({ className }: { className?: string }) {
   // Dropdown open state for mobile menu (for a11y controlled via state)
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header>
+    <header className={className}>
       <div className="flex justify-between mt-3 py-2 px-2 w-full border-b">
         <Link
           className="flex items-center gap-2 py-2 px-2 sm:px-12"

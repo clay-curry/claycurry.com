@@ -1,14 +1,10 @@
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import Github from "../icons/github";
 
 export function Footer({ className }: { className?: string }) {
   return (
     <footer
-      className={cn(
-        "w-full border-t border-border bg-background px-4 py-6 my-20 text-sm",
-        className,
-      )}
+      className={className}
     >
       <div className="mx-auto flex flex-col-reverse sm:flex-row gap-4 max-w-7xl items-center justify-between">
         <div>
