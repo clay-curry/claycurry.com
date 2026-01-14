@@ -105,6 +105,8 @@ const components = {
   img: (props) => (
     <Image
       sizes="100vw"
+      width={800}
+      height={600}
       style={{ width: "100%", height: "auto" }}
       {...(props as ImageProps)}
     />

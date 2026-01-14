@@ -10,18 +10,30 @@ tags:
   - Technical
 ---
 
-# README - claycurry.com
+# readme
 
 <Summary>
 
-This portfolio was built to stay out of the way and let the work shine for technical folks: scientisits, mathematicians, 
-engineers, and developers. It leverages modern web technologies, particularly **Next.js 16**, **Tailwind CSS**, and 
-**MDX** for content authoring. It serves as both a professional showcase and a playground for experimenting with modern 
-web technologies.
+This portfolio website presents me, Clay Curry. Its intended audience – colleagues, collaborators, and fellow developers
+interested in similar things – can scrutinize my work, opinions, and technical interests. This post helps you understand
+the design goals, technology stack, and future plans for the site.
+
 
 </Summary>
 
-## Project Overview
+## Getting Started
+
+Before starting a producive collaboration with me, we need a few prerequisites.
+
+### Installation
+
+```{bash}
+git clone
+cd claycurry.com
+bun install
+```
+
+## Overview
 
 This site was created to accomplish several goals:
 
@@ -88,7 +100,7 @@ The design follows a clear information hierarchy:
 
 ### Color System
 
-```css
+```{css}
 /* Light mode */
 --background: #ffffff;
 --foreground: #171717;
@@ -121,31 +133,27 @@ Core Web Vitals targets:
 3. Route prefetching for navigation
 4. Static generation where possible
 
-## Development Workflow
 
-### Getting Started
-
-```bash
-# Install dependencies
-bun install
-
-# Start development server
-bun run dev
-
-# Build for production
-bun run build
-```
-
-### Code Quality
-
-- **Biome** for linting and formatting
-- **TypeScript** for type checking
-- **Conventional commits** for version history
 
 ## Future Roadmap
 
 Planned improvements:
 
+- [x] implement [routes](../public/route_design.png)
+- [x] implement [footer](../components/footer.tsx)
+- [x] implement [registry](../app/components/page.tsx)
+- [x] extend [header](../components/header.tsx) for `sm:` variant
+- [x] implement [OG preview, X metadata](https://nextjs.org/docs/app/getting-started/metadata-and-og-images)
+- [x] implement [page counter](https://www.maxrohowsky.com/) based on [isr](https://nextjs.org/docs/app/guides/incremental-static-regeneration).
+- [x] implement blog aside
+- [ ] add support for page readers
+- [ ] implement markdown rules
+- [ ] integrate [seo](https://nextjs.org/learn/seo)
+- [ ] implement [alpine](https://alpine-registry.vercel.app/)
+- [ ] implement [lambda functions](../lib/lambda/README.md)
+- [ ] implement [api/activity](../public/api_design.png)
+- [ ] implement [slug api](../public/api_design.png)
+- [ ] implement authentication [workflows](https://useworkflow.dev/) (Google + GitHub)
 - [ ] Add cookie support for view counting
 - [ ] Write an article introducing Laplace and Fourier Transform
 - [ ] Add LaTeX support for technical posts
@@ -154,7 +162,6 @@ Planned improvements:
   - [ ] Allow users to choose to show / hide table of contents
   - [ ] Construct table of contents based on style, theme, color
 - [ ] Implement RSS feed
-- [ ] Implement SEO
 - [ ] Add search functionality
 - [ ] Create project showcase section
 - [ ] Add reading time estimates
