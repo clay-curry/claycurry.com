@@ -11,7 +11,7 @@ tags:
 
 <Summary>
 
-This companion article to `latex-mdx-next` reviews the challenges involved in hosting technical and scientific content over the web. After translating problems into requirements, the article compares trade-off characterizing alternative technology stacks and shares guidance on intrgrating [KaTeX](https://katex.org/) and the
+This companion article to [latex-mdx-next](https://github.com/claycurry/latex-mdx-next) reviews the challenges involved in hosting technical and scientific content over the web. After translating problems into requirements, the article compares trade-off characterizing alternative technology stacks and shares guidance on intrgrating [KaTeX](https://katex.org/) and the
 [unified](https://unifiedjs.com/) ecosystem for serving technical and scientific content in Next.js applications.
 
 </Summary>
@@ -873,23 +873,8 @@ Start with KaTeX. If you hit its limitations—unsupported commands, insufficien
 
 *This article is part of a series on building technical documentation with Next.js. Next up: a hands-on walkthrough implementing everything described here.*
 
-## Footnotes
+[^1]: The effectiveness of pre-fetching is attributed to the process of storing and reading frequently accessed content from in-memory cache makes use of the [locality-of-reference](https://en.wikipedia.org/wiki/Locality_of_reference) principle. Consequently, pre-fetching has added benefit of reducing load on servers and networks, preserving functionality during network outages, and reducing failure points during application usage.
 
-[^1] The effectiveness of pre-fetching is attributed to the process of storing and reading frequently accessed content
-from in-memory cache makes use of the [locality-of-reference](https://en.wikipedia.org/wiki/Locality_of_reference) 
-principle. Consequently, pre-fetching has added benefit of reducing load on servers and networks, preserving 
-functionality during network outages, and reducing failure points during application usage.
+[^2]: Pre-rendering technique contrasts with server-side rendering and client-side rendering in the following ways: **Pre-rendering (SSG)** produces content at build-time[^3] on the developer's machine or CI server before deployment, so the server serves fully-formed pages. **Server-side rendering (SSR)** produces content at request-time on the server when a user requests a page. **Client-side rendering (CSR)** produces content at load-time in the client's browser after the initial HTML shell is loaded.
 
-[^2] Pre-rendering technique contrasts with server-side rendering and client-side rendering in the following ways:
-
-| Rendering Technique | When Content is Produced | Where Content is Produced | Description |
-| ------------------- | ----------------------- | ------------------------ | ----------- |
-| Pre-rendering (SSG) | build-time[^3] | Developer's machine / CI server | Content is produced before deployment, so the server serves fully-formed pages to the client. |
-| Server-side rendering (SSR) | request-time | Server | Content is produced on the server when a user requests a page, so the server sends fully-formed pages to the client. |
-| Client-side rendering (CSR) | load-time | Client's browser | Content is produced in the browser after the initial HTML shell is loaded, so the server sends minimal HTML and JavaScript to the client. |
-
-^[3]  This article uses the terms ***build-time***, ***request-time***, and ***load-time*** refer to distinct moments in the lifecycle of web content delivery:
-
-- ***build-time*** refers to the moment in time when the developer compiles and deploys the site to the server. This happens before artifacts are uploaded to a web server. 
-- ***request-time*** refers to moment in time when a web server software (e.g., Apache, Nginx) establishes a TCP connection. This happens immediately after the web server host machine consumes packets from a client.
-- ***load-time*** refers to the moment in time a browser client fires the [load event](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event). This happens after the browser has parsed all resources required to render a page and completed the [compositing stage](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/How_browsers_work#compositing) of the rendering pipeline.
+[^3]: This article uses the terms *build-time*, *request-time*, and *load-time* to refer to distinct moments in the lifecycle of web content delivery. *Build-time* refers to when the developer compiles and deploys the site (before artifacts are uploaded to a web server). *Request-time* refers to when a web server establishes a TCP connection (immediately after consuming packets from a client). *Load-time* refers to when a browser fires the [load event](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event) (after parsing all resources and completing the [compositing stage](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/How_browsers_work#compositing)).

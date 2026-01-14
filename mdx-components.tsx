@@ -113,12 +113,12 @@ const components = {
   pre: ({ children, ...props }) => (
     <pre
       {...props}
-      className="my-6 overflow-x-auto rounded-lg p-4 text-sm [&>code]:grid [&>code]:gap-0 [counter-reset:line]"
+      className="my-6 overflow-x-auto rounded-lg p-4 text-sm [&>code]:grid [&>code]:gap-0 [counter-reset:line] [&_[data-line]]:border-l-2 [&_[data-line]]:border-transparent [&_[data-line]]:pl-2 [&_[data-line]]:before:mr-4 [&_[data-line]]:before:inline-block [&_[data-line]]:before:w-4 [&_[data-line]]:before:text-right [&_[data-line]]:before:text-gray-500 [&_[data-line]]:before:content-[counter(line)] [&_[data-line]]:[counter-increment:line] [&_[data-highlighted-line]]:border-blue-400"
     >
       {children}
     </pre>
   ),
-  // Code line with line numbers and highlighting
+  // Code line with highlighting (line numbers applied via pre styles)
   span: ({ children, ...props }) => {
     // rehype-pretty-code adds data-line to each line span
     if ("data-line" in props) {
@@ -126,11 +126,7 @@ const components = {
       return (
         <span
           {...props}
-          className={`border-l-2 pl-2 before:mr-4 before:inline-block before:w-4 before:text-right before:text-gray-500 before:content-[counter(line)] [counter-increment:line] ${
-            isHighlighted
-              ? "border-blue-400 bg-blue-500/10"
-              : "border-transparent"
-          }`}
+          className={isHighlighted ? "bg-blue-500/10" : ""}
         >
           {children}
         </span>

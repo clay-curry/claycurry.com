@@ -39,7 +39,9 @@ export function Header({ className }: { className?: string }) {
           <CIcon />
         </Link>
 
-        {/* Desktop nav */}
+        {/* Desktop nav 
+          TODO: consider refactoring to a loop over nav items
+        */}
         <nav className="hidden sm:flex items-center">
           <NavigationMenu>
             <NavigationMenuList>
@@ -57,18 +59,19 @@ export function Header({ className }: { className?: string }) {
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <Link href="/cv">CV</Link>
+                  <Link href="/blog">Blog</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-
+    
               <NavigationMenuItem>
                 <NavigationMenuLink
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <Link href="/blog">Blog</Link>
+                  <Link href="/cv">CV</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
+
 
               <div
                 className="border-l h-6 mx-2 self-center"
