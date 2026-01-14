@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Footer } from "@/lib/ui/blocks/footer";
 import { Header } from "@/lib/ui/blocks/header";
 import { ThemeProvider } from "@/lib/ui/theme-provider";
-import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Clay Curry",
@@ -25,7 +24,6 @@ export const metadata: Metadata = {
   },
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,14 +36,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head />
-      {
-        /* Root layout 
+      {/* Root layout 
           - header stays at top
           - main content grows to fill space
           – footer stays below content
           - footer sticks to bottom if content is short 
-        */
-      }
+        */}
       <body className="flex flex-col min-h-screen w-full max-w-5xl mx-auto">
         <ThemeProvider
           attribute="class"
@@ -53,11 +49,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header className="flex-none"/>
-          <main className="flex-1">
-            {children}
-          </main>            
-          <Footer className="flex-none"/>
+          <Header className="flex-none" />
+          <main className="flex-1">{children}</main>
+          <Footer className="flex-none" />
         </ThemeProvider>
       </body>
     </html>

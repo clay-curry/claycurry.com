@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllPostsMetadata, getPost, PostMetadata } from "@/blog/utils";
+import { getAllPostsMetadata, getPost, type PostMetadata } from "@/blog/utils";
 import { BlogBreadcrumb } from "@/lib/ui/components/blog-breadcrumb";
 import BlueskyIcon from "@/lib/ui/icons/bluesky";
 import FacebookIcon from "@/lib/ui/icons/facebook";
@@ -25,12 +25,9 @@ export default async function BlogPostPage({
 
   return (
     <article>
-      <div className="w-full flex justify-end px-4 pt-4">
-        <PageViews />
-      </div>
+      <PageViews />
 
       <div className="flex max-w-full flex-row gap-14 md:items-start px-6">
-        
         <ArticleContent slug={slug} title={title}>
           <BlogArticle />
         </ArticleContent>
@@ -38,24 +35,37 @@ export default async function BlogPostPage({
         <ArticleAside slug={slug} title={title} postMeta={postMeta} />
       </div>
     </article>
-  );    
+  );
 }
 
-function ArticleContent({ title, slug, children }: { title: string; slug: string; children: React.ReactNode }) {
+function ArticleContent({
+  title,
+  slug,
+  children,
+}: {
+  title: string;
+  slug: string;
+  children: React.ReactNode;
+}) {
   return (
     <article className="w-full text-pretty md:max-w-2xl">
       <div>
         <BlogBreadcrumb slug={slug} title={title} />
-        <div>
-          {children}
-        </div>
+        <div>{children}</div>
       </div>
     </article>
   );
 }
 
-
-function ArticleAside({ slug, title, postMeta }: { slug: string; title: string; postMeta: PostMetadata }) {
+function ArticleAside({
+  slug,
+  title,
+  postMeta,
+}: {
+  slug: string;
+  title: string;
+  postMeta: PostMetadata;
+}) {
   return (
     <aside className="sticky top-40 hidden max-h-[calc(100vh-10rem)] w-72 shrink-0 md:block">
       <div className="flex max-h-[calc(100vh-10rem)] flex-col gap-4 transition-all duration-300">

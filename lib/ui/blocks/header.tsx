@@ -17,10 +17,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/lib/ui/components/navigation-menu";
 import { Button } from "@/lib/ui/controls/button";
-import {
-  ModeToggle,
-  ModeToggleMobile,
-} from "@/lib/ui/controls/mode-toggle";
+import { ModeToggle, ModeToggleMobile } from "@/lib/ui/controls/mode-toggle";
 import BlueskyIcon from "@/lib/ui/icons/bluesky";
 import CIcon from "@/lib/ui/icons/c";
 import GitHubIcon from "@/lib/ui/icons/github";

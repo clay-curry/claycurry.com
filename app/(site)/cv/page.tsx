@@ -22,282 +22,282 @@ export default () => (
     `}</style>
 
     <section className="w-full flex flex-col items-center px-1 md:px-3">
-      <div className="w-full max-w-6xl flex justify-end mt-4">
-        <PageViews />
-      </div>
-    {/* Header */}
-    <HeaderSection
-      name="Clay Curry"
-      title="Software Engineer"
-      addressList={[
-        { text: "Seattle, WA" },
-        { text: "me@claycurry.com", href: "mailto:me@claycurry.com" },
-        { text: "GitHub", href: "https://github.com/claycurry" },
-        { text: "LinkedIn", href: "https://www.linkedin.com/in/clay-curry/" },
-      ]}
-    />
+      <PageViews />
 
-    {/* About Me */}
-    <AboutMeSection>
-      <AboutMeHeader>About Me</AboutMeHeader>
-      <AboutMeContent>
-        I enjoy building useful software inside large legacy ecosystems. My passion lies in simplifying complexity, 
-        understanding how systems empower users, and expanding their impact using first principles thinking.
-      </AboutMeContent>
-    </AboutMeSection>
+      {/* Header */}
+      <HeaderSection
+        name="Clay Curry"
+        title="Software Engineer"
+        addressList={[
+          { text: "Seattle, WA" },
+          { text: "me@claycurry.com", href: "mailto:me@claycurry.com" },
+          { text: "GitHub", href: "https://github.com/claycurry" },
+          { text: "LinkedIn", href: "https://www.linkedin.com/in/clay-curry/" },
+        ]}
+      />
 
-    {/* Professional Experience */}
-    <AccordionSection delay=".3s">
-      <AccordionSectionHeader>Experience</AccordionSectionHeader>
-      <AccordionSectionContent defaultValue="item-1">
-        <AccordionItem value="item-1">
-          <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-            <AccordionHeader
-              title="Amazon.com. Software Dev Engineer."
-              date="Nov 2024 – Current"
-            />
-          </AccordionTrigger>
-          <AccordionContent>
-            <AccordionContentBody>
-              <OrgLocationRow location="Seattle, WA">
-                Core Shopping, Detail Page,{" "}
-                <Link
-                  href={
-                    "https://www.helium10.com/blog/what-is-the-amazon-buy-box/"
-                  }
-                >
-                  BuyBox
-                </Link>
+      {/* About Me */}
+      <AboutMeSection>
+        <AboutMeHeader>About Me</AboutMeHeader>
+        <AboutMeContent>
+          I enjoy building useful software inside large legacy ecosystems. My
+          passion lies in simplifying complexity, understanding how systems
+          empower users, and expanding their impact using first principles
+          thinking.
+        </AboutMeContent>
+      </AboutMeSection>
+
+      {/* Professional Experience */}
+      <AccordionSection delay=".3s">
+        <AccordionSectionHeader>Experience</AccordionSectionHeader>
+        <AccordionSectionContent defaultValue="item-1">
+          <AccordionItem value="item-1">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader
+                title="Amazon.com. Software Dev Engineer."
+                date="Nov 2024 – Current"
+              />
+            </AccordionTrigger>
+            <AccordionContent>
+              <AccordionContentBody>
+                <OrgLocationRow location="Seattle, WA">
+                  Core Shopping, Detail Page,{" "}
+                  <Link
+                    href={
+                      "https://www.helium10.com/blog/what-is-the-amazon-buy-box/"
+                    }
+                  >
+                    BuyBox
+                  </Link>
+                </OrgLocationRow>
+                <BulletList
+                  items={[
+                    "Drove the launch of a BuyBox ranking updgrade that produced $30.2 MM revenue growth and 9.7MM lift in annualized units sold.",
+                    'Expanded the "Join Prime" BuyBox button to 24 countries, producing 5 additional service and business metrics.',
+                    "Participated in a 24x7 engineering on-call rotation for BuyBox to ensure service uptime and subject matter expert availability.",
+                  ]}
+                />
+              </AccordionContentBody>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-2">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader
+                title="University of Oklahoma. Linux System Administrator."
+                date="Feb 2021 – Dec 2023"
+              />
+            </AccordionTrigger>
+            <AccordionContent>
+              <OrgLocationRow location="Norman, OK">
+                Department of Physics
               </OrgLocationRow>
               <BulletList
                 items={[
-                  "Drove the launch of a BuyBox ranking updgrade that produced $30.2 MM revenue growth and 9.7MM lift in annualized units sold.",
-                  'Expanded the "Join Prime" BuyBox button to 24 countries, producing 5 additional service and business metrics.',
-                  "Participated in a 24x7 engineering on-call rotation for BuyBox to ensure service uptime and subject matter expert availability.",
+                  "Securely administered 150+ Linux lab workstations and servers used by 2,000+ students and faculty members.",
+                  "Reduced system downtime by 18% by implementing automated monitoring and alerting for critical services.",
+                  "Saved 4 weeks of annual IT operational effort by streamlining inventory-taking procedures using background jobs.",
+                  "Ported legacy department website content to modern content management software, leveraging Python to automate the transfer of 120 pages of structured data.",
                 ]}
               />
-            </AccordionContentBody>
-          </AccordionContent>
-        </AccordionItem>
+            </AccordionContent>
+          </AccordionItem>
 
-        <AccordionItem value="item-2">
-          <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-            <AccordionHeader
-              title="University of Oklahoma. Linux System Administrator."
-              date="Feb 2021 – Dec 2023"
-            />
-          </AccordionTrigger>
-          <AccordionContent>
-            <OrgLocationRow location="Norman, OK">
-              Department of Physics
-            </OrgLocationRow>
-            <BulletList
-              items={[
-                "Securely administered 150+ Linux lab workstations and servers used by 2,000+ students and faculty members.",
-                "Reduced system downtime by 18% by implementing automated monitoring and alerting for critical services.",
-                "Saved 4 weeks of annual IT operational effort by streamlining inventory-taking procedures using background jobs.",
-                "Ported legacy department website content to modern content management software, leveraging Python to automate the transfer of 120 pages of structured data.",
-              ]}
-            />
-          </AccordionContent>
-        </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader
+                title="University of Oklahoma. Computer Vision Research Assistant."
+                date="Nov 2021 – Jan 2023"
+              />
+            </AccordionTrigger>
+            <AccordionContent>
+              <OrgLocationRow location="Norman, OK">
+                Department of Computer Science
+              </OrgLocationRow>
+              <BulletList
+                items={[
+                  "Provisioned 12 workstations for GPU-accelerated deep learning research, improving model training times by 80%.",
+                  "Scraped and preprocessed 90GB+ of FAA aircraft transponder data collected by crowdsourced receivers.",
+                  "Trained and evaluated multiple machine learning models (Random Forest, CNN, LSTM) to classify aircraft trajectories with 92% accuracy.",
+                ]}
+              />
+            </AccordionContent>
+          </AccordionItem>
+        </AccordionSectionContent>
+      </AccordionSection>
 
-        <AccordionItem value="item-3">
-          <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-            <AccordionHeader
-              title="University of Oklahoma. Computer Vision Research Assistant."
-              date="Nov 2021 – Jan 2023"
-            />
-          </AccordionTrigger>
-          <AccordionContent>
-            <OrgLocationRow location="Norman, OK">
-              Department of Computer Science
-            </OrgLocationRow>
-            <BulletList
-              items={[
-                "Provisioned 12 workstations for GPU-accelerated deep learning research, improving model training times by 80%.",
-                "Scraped and preprocessed 90GB+ of FAA aircraft transponder data collected by crowdsourced receivers.",
-                "Trained and evaluated multiple machine learning models (Random Forest, CNN, LSTM) to classify aircraft trajectories with 92% accuracy.",
-              ]}
-            />
-          </AccordionContent>
-        </AccordionItem>
-      </AccordionSectionContent>
-    </AccordionSection>
+      {/* Contributions */}
+      <Card delay=".4s">
+        <ComingSoon>
+          <SectionHeading>Contributions</SectionHeading>
+        </ComingSoon>
+      </Card>
 
-    {/* Contributions */}
-    <Card delay=".4s">
-      <ComingSoon>
-        <SectionHeading>Contributions</SectionHeading>
-      </ComingSoon>
-    </Card>
+      {/* Education */}
+      <AccordionSection delay=".8">
+        <AccordionSectionHeader>Education</AccordionSectionHeader>
+        <AccordionSectionContent>
+          <AccordionItem value="edu-1">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader
+                title="University of Oklahoma. Computer Science, B.S."
+                date="Dec 2023"
+              />
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="text-gray-700 dark:text-gray-300">
+                <p>Mathematics minor.</p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
 
-    {/* Education */}
-    <AccordionSection delay=".8">
-      <AccordionSectionHeader>Education</AccordionSectionHeader>
-      <AccordionSectionContent>
-        <AccordionItem value="edu-1">
-          <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-            <AccordionHeader
-              title="University of Oklahoma. Computer Science, B.S."
-              date="Dec 2023"
-            />
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className="text-gray-700 dark:text-gray-300">
-              <p>Mathematics minor.</p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+          <AccordionItem value="edu-2">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader
+                title="Choctaw High School. Diploma."
+                date="May 2017"
+              />
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="text-gray-700 dark:text-gray-300">
+                <p className="mb-2">
+                  <span className="font-bold text-gray-900 dark:text-gray-100">
+                    Valedictorian
+                  </span>{" "}
+                  •{" "}
+                  <span className="font-bold text-gray-900 dark:text-gray-100">
+                    ACT Scholar
+                  </span>
+                </p>
+                <p className="mb-2">
+                  <span className="font-bold">ACT Score:</span> 34 / 36
+                </p>
+                <p>
+                  <PrimaryLink href="/assets/cv/highschool-transcript.jpeg">
+                    transcript
+                  </PrimaryLink>
+                </p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
 
-        <AccordionItem value="edu-2">
-          <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-            <AccordionHeader
-              title="Choctaw High School. Diploma."
-              date="May 2017"
-            />
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className="text-gray-700 dark:text-gray-300">
-              <p className="mb-2">
-                <span className="font-bold text-gray-900 dark:text-gray-100">
-                  Valedictorian
-                </span>{" "}
-                •{" "}
-                <span className="font-bold text-gray-900 dark:text-gray-100">
-                  ACT Scholar
+          <AccordionItem value="edu-3">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader
+                title="Certification: AWS Solutions Architect – Professional"
+                date="Nov 2025"
+              />
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="text-gray-700 dark:text-gray-300">
+                <PrimaryLink href="https://www.credly.com/badges/c4d07372-5471-409a-a842-950f6b94dab4/public_url">
+                  Proof of Certification
+                </PrimaryLink>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </AccordionSectionContent>
+      </AccordionSection>
+
+      {/* Awards and Honors */}
+      <AccordionSection delay="1.0s">
+        <AccordionSectionHeader>Awards and Honors</AccordionSectionHeader>
+        <AccordionSectionContent>
+          <AccordionItem value="award-1">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader
+                title="Association for Computing Machinery (ACM), Oklahoma Student Chapter"
+                date="Sep 2021 – Sep 2022"
+              />
+            </AccordionTrigger>
+            <AccordionContent>
+              <PositionAdvisorRow
+                position="President, Chair"
+                advisor={{
+                  name: "Rafal Jabrzemski",
+                  href: "https://www.linkedin.com/in/rafal-jabrzemski-0546464/",
+                }}
+              />
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="award-2">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader
+                title="Association for Women in Computing (Student Chapter)"
+                date="Apr 2021 – Sep 2022"
+              />
+            </AccordionTrigger>
+            <AccordionContent>
+              <PositionAdvisorRow
+                position="Treasurer"
+                advisor={{
+                  name: "Sridhar Radhakrishnan",
+                  href: "https://www.linkedin.com/in/sridhar-radhakrishnan-b3591817/",
+                }}
+              />
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="award-3">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader
+                title="Oklahoma Rising Scholars Award (formerly Academic Scholars Program)"
+                date="May 2017"
+              />
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="flex justify-between text-gray-900 dark:text-gray-100">
+                <div>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    <span className="font-bold">Issued by:</span> Oklahoma State
+                    Regents for Higher Education
+                  </p>
+                  <p className="mt-2 text-gray-700 dark:text-gray-300">
+                    Oklahoma students can automatically qualify for the program
+                    by scoring at or above the 99.5 percentile on the ACT or SAT
+                  </p>
+                </div>
+                <span className="text-gray-700 dark:text-gray-300">
+                  <PrimaryLink href="/assets/cv/highschool-transcript.jpeg">
+                    Proof
+                  </PrimaryLink>
                 </span>
-              </p>
-              <p className="mb-2">
-                <span className="font-bold">ACT Score:</span> 34 / 36
-              </p>
-              <p>
-                <PrimaryLink href="/assets/cv/highschool-transcript.jpeg">
-                  transcript
-                </PrimaryLink>
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="edu-3">
-          <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-            <AccordionHeader
-              title="Certification: AWS Solutions Architect – Professional"
-              date="Nov 2025"
-            />
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className="text-gray-700 dark:text-gray-300">
-              <PrimaryLink href="https://www.credly.com/badges/c4d07372-5471-409a-a842-950f6b94dab4/public_url">
-                Proof of Certification
-              </PrimaryLink>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </AccordionSectionContent>
-    </AccordionSection>
-
-    {/* Awards and Honors */}
-    <AccordionSection delay="1.0s">
-      <AccordionSectionHeader>Awards and Honors</AccordionSectionHeader>
-      <AccordionSectionContent>
-        <AccordionItem value="award-1">
-          <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-            <AccordionHeader
-              title="Association for Computing Machinery (ACM), Oklahoma Student Chapter"
-              date="Sep 2021 – Sep 2022"
-            />
-          </AccordionTrigger>
-          <AccordionContent>
-            <PositionAdvisorRow
-              position="President, Chair"
-              advisor={{
-                name: "Rafal Jabrzemski",
-                href: "https://www.linkedin.com/in/rafal-jabrzemski-0546464/",
-              }}
-            />
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="award-2">
-          <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-            <AccordionHeader
-              title="Association for Women in Computing (Student Chapter)"
-              date="Apr 2021 – Sep 2022"
-            />
-          </AccordionTrigger>
-          <AccordionContent>
-            <PositionAdvisorRow
-              position="Treasurer"
-              advisor={{
-                name: "Sridhar Radhakrishnan",
-                href: "https://www.linkedin.com/in/sridhar-radhakrishnan-b3591817/",
-              }}
-            />
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="award-3">
-          <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-            <AccordionHeader
-              title="Oklahoma Rising Scholars Award (formerly Academic Scholars Program)"
-              date="May 2017"
-            />
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className="flex justify-between text-gray-900 dark:text-gray-100">
-              <div>
-                <p className="text-gray-700 dark:text-gray-300">
-                  <span className="font-bold">Issued by:</span> Oklahoma State
-                  Regents for Higher Education
-                </p>
-                <p className="mt-2 text-gray-700 dark:text-gray-300">
-                  Oklahoma students can automatically qualify for the program by
-                  scoring at or above the 99.5 percentile on the ACT or SAT
-                </p>
               </div>
-              <span className="text-gray-700 dark:text-gray-300">
-                <PrimaryLink href="/assets/cv/highschool-transcript.jpeg">
-                  Proof
-                </PrimaryLink>
-              </span>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </AccordionSectionContent>
-    </AccordionSection>
+            </AccordionContent>
+          </AccordionItem>
+        </AccordionSectionContent>
+      </AccordionSection>
 
-    {/* Test Scores */}
-    <AccordionSection delay="1.2s" className="mb-16">
-      <AccordionSectionHeader>Test Scores</AccordionSectionHeader>
-      <AccordionSectionContent>
-        <AccordionItem value="test-1">
-          <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-            <AccordionHeader title="ACT exam: 34 / 36" date="Sep 2016" />
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className="flex justify-between text-gray-900 dark:text-gray-100">
-              <div>
-                <p className="text-gray-700 dark:text-gray-300">
-                  <span className="font-bold">College Readiness Exam:</span>{" "}
-                  University of Oklahoma
-                </p>
+      {/* Test Scores */}
+      <AccordionSection delay="1.2s" className="mb-16">
+        <AccordionSectionHeader>Test Scores</AccordionSectionHeader>
+        <AccordionSectionContent>
+          <AccordionItem value="test-1">
+            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
+              <AccordionHeader title="ACT exam: 34 / 36" date="Sep 2016" />
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="flex justify-between text-gray-900 dark:text-gray-100">
+                <div>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    <span className="font-bold">College Readiness Exam:</span>{" "}
+                    University of Oklahoma
+                  </p>
+                </div>
+                <span className="text-gray-700 dark:text-gray-300">
+                  <PrimaryLink href="/assets/cv/highschool-transcript.jpeg">
+                    Proof
+                  </PrimaryLink>
+                </span>
               </div>
-              <span className="text-gray-700 dark:text-gray-300">
-                <PrimaryLink href="/assets/cv/highschool-transcript.jpeg">
-                  Proof
-                </PrimaryLink>
-              </span>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </AccordionSectionContent>
-    </AccordionSection>
+            </AccordionContent>
+          </AccordionItem>
+        </AccordionSectionContent>
+      </AccordionSection>
     </section>
   </article>
 );
-
 
 // Reusable link component for external/internal links
 const PrimaryLink = ({
