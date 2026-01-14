@@ -1,3 +1,5 @@
+/// <reference types="react/canary" />
+
 declare module "*.mdx" {
   import type { ComponentType } from "react";
 
