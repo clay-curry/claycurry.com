@@ -9,22 +9,22 @@ tags:
   - Technical
 ---
 
-# Developer's Guide to Mathematical Typography in MDX
-
 <Summary>
 
-Distributing mathematical content on the web at scale requires explicit tooling. This guide explores the [unified](https://unifiedjs.com/)
-plugin ecosystem for processing LaTeX in MDX, compares output formats and rendering engines, and recommends a stack for
-Next.js applications focused on build-time performance.
+This companion article to `latex-mdx-next` reviews the challenges involved in hosting technical and scientific content over the web. After translating problems into requirements, the article compares trade-off characterizing alternative technology stacks and shares guidance on intrgrating [KaTeX](https://katex.org/) and the
+[unified](https://unifiedjs.com/) ecosystem for serving technical and scientific content in Next.js applications.
 
 </Summary>
+
+> NOTE
+> 
+> This article was updated in January 2026 to reflect the release of [React 19.2](https://react.dev/blog/2025/10/01/react-19-2) and [Next.js 16](https://nextjs.org/blog/next-16), which introduce new features and improvements and also a few ([notable](https://nextjs.org/blog/next-16#turbopack-stable)) breaking changes. Make sure to follow the official docs for the latest updates and best practices.
 
 ## Introduction
 
 The goal is straightforward: write LaTeX inside MDX files, see beautifully rendered equations on your site. 
 
 This means whenever authors write:
-
 
 ```mdx {6-8}
 ## Pythagorean Theorem
@@ -48,7 +48,6 @@ they should see:
 > $$
 > x \perp y \iff \lVert x + y \rVert ^2 = \lVert x \rVert^2 + \lVert y \rVert^2
 > $$
-
 
 Getting there is less straightforward - to distribute mathematical content at scale, is exponentially hard. This 
 companion article to `next-tex` explores one approach to mathematical content delivery at scale.
@@ -77,7 +76,6 @@ mathematics produces significant rendering overhead.
 
 - **MDX doesn't support math by default.**  
 MDX follows the CommonMark specification, which has no syntax for mathematical notation.
-
 
 It takes inspiration from previous work, particularly:
 
@@ -110,11 +108,9 @@ Pre-fetching[^1] content is the process of delivering content from pages reachab
 non-blocking fashion before users actually navigate to them. Pre-rendering[^2]  (or "[static-site generation](https://en.wikipedia.org/wiki/Static_site_generator)") is the process of translating 
 content and source code into browser-ready, target content before uploading the content to the server.
 
-
 *KaTeX vs. $\LaTeX$*
 
 ![KaTeX vs LaTeX comparison](/assets/blog/mathematics-in-mdx/katex-comparison.gif)
-
 
 ## The Unified Pipeline
 
@@ -877,8 +873,6 @@ Start with KaTeX. If you hit its limitations—unsupported commands, insufficien
 
 *This article is part of a series on building technical documentation with Next.js. Next up: a hands-on walkthrough implementing everything described here.*
 
-
-
 ## Footnotes
 
 [^1] The effectiveness of pre-fetching is attributed to the process of storing and reading frequently accessed content
@@ -896,6 +890,6 @@ functionality during network outages, and reducing failure points during applica
 
 ^[3]  This article uses the terms ***build-time***, ***request-time***, and ***load-time*** refer to distinct moments in the lifecycle of web content delivery:
 
- - ***build-time*** refers to the moment in time when the developer compiles and deploys the site to the server. This happens before artifacts are uploaded to a web server.
- - ***request-time*** refers to moment in time when a web server software (e.g., Apache, Nginx) establishes a TCP connection. This happens immediately after the web server host machine consumes packets from a client.
- - ***load-time*** refers to the moment in time a browser client fires the [load event](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event). This happens after the browser has parsed all resources required to render a page and completed the [compositing stage](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/How_browsers_work#compositing) of the rendering pipeline.
+- ***build-time*** refers to the moment in time when the developer compiles and deploys the site to the server. This happens before artifacts are uploaded to a web server. 
+- ***request-time*** refers to moment in time when a web server software (e.g., Apache, Nginx) establishes a TCP connection. This happens immediately after the web server host machine consumes packets from a client.
+- ***load-time*** refers to the moment in time a browser client fires the [load event](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event). This happens after the browser has parsed all resources required to render a page and completed the [compositing stage](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/How_browsers_work#compositing) of the rendering pipeline.
