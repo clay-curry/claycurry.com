@@ -1,7 +1,6 @@
 ---
 slug: mathematics-in-mdx
 pinned: true
-published: false
 date: "15 Jan 2026"
 title: Mathematics at Scale in MDX
 subtitle: Developer's Guide to Mathematical Typography in MDX
@@ -24,7 +23,7 @@ Next.js applications focused on build-time performance.
 
 The goal is straightforward: write LaTeX inside MDX files, see beautifully rendered equations on your site. 
 
-When authors write this:
+This means whenever authors write:
 
 
 ```mdx {6-8}
@@ -39,7 +38,7 @@ $$
 
 ```
 
-they should see this:
+they should see:
 
 > ## Pythagorean Theorem
 > 
@@ -49,6 +48,7 @@ they should see this:
 > $$
 > x \perp y \iff \lVert x + y \rVert ^2 = \lVert x \rVert^2 + \lVert y \rVert^2
 > $$
+
 
 Getting there is less straightforward - to distribute mathematical content at scale, is exponentially hard. This 
 companion article to `next-tex` explores one approach to mathematical content delivery at scale.
