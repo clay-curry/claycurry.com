@@ -160,7 +160,7 @@ export default () => (
                 <span className="font-bold">ACT Score:</span> 34 / 36
               </p>
               <p>
-                <PrimaryLink href="/highschool-transcript.jpeg">
+                <PrimaryLink href="/assets/cv/highschool-transcript.jpeg">
                   transcript
                 </PrimaryLink>
               </p>
@@ -246,7 +246,7 @@ export default () => (
                 </p>
               </div>
               <span className="text-gray-700 dark:text-gray-300">
-                <PrimaryLink href="/highschool-transcript.jpeg">
+                <PrimaryLink href="/assets/cv/highschool-transcript.jpeg">
                   Proof
                 </PrimaryLink>
               </span>
@@ -273,7 +273,7 @@ export default () => (
                 </p>
               </div>
               <span className="text-gray-700 dark:text-gray-300">
-                <PrimaryLink href="/highschool-transcript.jpeg">
+                <PrimaryLink href="/assets/cv/highschool-transcript.jpeg">
                   Proof
                 </PrimaryLink>
               </span>
