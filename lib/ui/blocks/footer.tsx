@@ -33,7 +33,7 @@ export function Footer({ className }: { className?: string }) {
               target="_blank"
               rel="noopener"
             >
-              © Clay Curry, 2025 - License
+              © Clay Curry, 2026 - License
             </Link>
           </span>
         </div>
