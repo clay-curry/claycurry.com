@@ -3,10 +3,18 @@ import Image, { type ImageProps } from "next/image";
 import Summary from "@/src/lib/ui/components/summary";
 import UnderConstruction from "@/src/lib/ui/components/under-construction";
 
-// This file allows you to provide custom React components
-// to be used in MDX files. You can import and use any
-// React component you want, including inline styles,
-// components from other libraries, and more.
+// This file declares custom React components for injecting into MDX when compiling to JSX. You can 
+// import and use any React component you want, including inline styles, components from other 
+// libraries, and more.
+//
+//
+// The components defined here will be used automatically by MDX files in the project. You can
+// also override or extend these components on a per-file basis by passing a `components` prop
+// to the MDX component.
+//
+// For more information, see:
+// - https://mdxjs.com/guides/injecting-components/
+// - https://mdxjs.com/docs/using-mdx/react/#custom-components
 
 const components = {
   // Allows customizing built-in components, e.g. to add styling.

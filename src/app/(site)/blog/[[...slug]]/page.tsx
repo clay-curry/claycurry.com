@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { BlogBreadcrumb } from "@/src/lib/ui/components/blog-breadcrumb";
 import { PageViews } from "@/src/lib/ui/widgets/page-views";
-import { Posts } from "@/src/lib/ui/components/posts";
-import { getAllPostsMetadata } from "@/src/app/(site)/blog/_lib/metadata";
+import { Posts } from "@/src/lib/ui/components/post";
+import { getAllPostsMetadata } from "@/src/app/(site)/blog/metadata";
 
 export const dynamicParams = false;
 
