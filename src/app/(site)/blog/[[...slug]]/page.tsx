@@ -51,7 +51,7 @@ export default async function BlogSlugPage({
   } else {
     const postMeta = postMetadata.filter((o) => o.slug === slug[0])[0];
     const { default: BlogArticle } = await import(
-      `@/src/app/(site)/blog/_content/${slug}.mdx`
+      `@/src/blog/${slug}.mdx`
     );
     const { title } = postMeta;
 
