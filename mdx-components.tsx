@@ -1,5 +1,6 @@
 import type { MDXComponents } from "mdx/types";
 import Image, { type ImageProps } from "next/image";
+import type { ReactNode } from "react";
 import Summary from "@/lib/ui/components/summary";
 import UnderConstruction from "@/lib/ui/components/under-construction";
 
@@ -16,23 +17,63 @@ import UnderConstruction from "@/lib/ui/components/under-construction";
 // - https://mdxjs.com/guides/injecting-components/
 // - https://mdxjs.com/docs/using-mdx/react/#custom-components
 
+function slugify(children: ReactNode): string {
+  const text =
+    typeof children === "string"
+      ? children
+      : Array.isArray(children)
+        ? children.map((c) => (typeof c === "string" ? c : "")).join("")
+        : "";
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 const components = {
   // Allows customizing built-in components, e.g. to add styling.
-  h1: ({ children }) => (
-    <h1 className="text-3xl md:text-4xl font-extrabold mt-9 mb-4 text-blue-500 transition-all duration-300 group-hover:text-blue-500 sm:text-black sm:dark:text-white">
-      {children}
-    </h1>
-  ),
-  h2: ({ children }) => (
-    <h2 className="text-2xl md:text-3xl font-bold mt-9 md:mt-12 mb-4 dark:text-gray-200">
-      {children}
-    </h2>
-  ),
-  h3: ({ children }) => (
-    <h3 className="text-xl md:text-2xl font-semibold mt-6 mb-3 dark:text-gray-200">
-      {children}
-    </h3>
-  ),
+  h1: ({ children }) => {
+    const id = slugify(children);
+    return (
+      <h1
+        id={id}
+        className="group text-3xl md:text-4xl font-extrabold mt-9 mb-4 text-blue-500 transition-all duration-300 hover:text-blue-500 sm:text-black sm:dark:text-white"
+      >
+        <a href={`#${id}`} className="no-underline">
+          <span className="opacity-0 group-hover:opacity-100 text-gray-400 mr-2 transition-opacity">#</span>
+          {children}
+        </a>
+      </h1>
+    );
+  },
+  h2: ({ children }) => {
+    const id = slugify(children);
+    return (
+      <h2
+        id={id}
+        className="group text-2xl md:text-3xl font-bold mt-9 md:mt-12 mb-4 dark:text-gray-200"
+      >
+        <a href={`#${id}`} className="no-underline">
+          <span className="opacity-0 group-hover:opacity-100 text-gray-400 mr-2 transition-opacity">#</span>
+          {children}
+        </a>
+      </h2>
+    );
+  },
+  h3: ({ children }) => {
+    const id = slugify(children);
+    return (
+      <h3
+        id={id}
+        className="group text-xl md:text-2xl font-semibold mt-6 mb-3 dark:text-gray-200"
+      >
+        <a href={`#${id}`} className="no-underline">
+          <span className="opacity-0 group-hover:opacity-100 text-gray-400 mr-2 transition-opacity">#</span>
+          {children}
+        </a>
+      </h3>
+    );
+  },
   p: ({ children }) => (
     <p className="my-4 leading-7 text-gray-700 dark:text-gray-300">
       {children}
@@ -50,7 +91,7 @@ const components = {
   ),
   li: ({ children }) => <li className="leading-7">{children}</li>,
   blockquote: ({ children }) => (
-    <blockquote className="my-6 border-l-4 border-blue-400 pl-4 italic text-gray-600 dark:text-gray-400">
+    <blockquote className="my-6 border-l-4 border-blue-400 pl-4 text-gray-600 dark:text-gray-400">
       {children}
     </blockquote>
   ),
@@ -111,10 +152,6 @@ const components = {
       {...(props as ImageProps)}
     />
   ),
-
-  // TODO: remove itallic style from quote blocks
-
-  // TODO: add support for section header links (anchor links)
 
   // TODO: add support for "On this Page"
   
