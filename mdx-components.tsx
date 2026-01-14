@@ -1,7 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import Image, { type ImageProps } from "next/image";
-import Summary from "@/src/lib/ui/components/summary";
-import UnderConstruction from "@/src/lib/ui/components/under-construction";
+import Summary from "@/lib/ui/components/summary";
+import UnderConstruction from "@/lib/ui/components/under-construction";
 
 // This file declares custom React components for injecting into MDX when compiling to JSX. You can
 // import and use any React component you want, including inline styles, components from other
