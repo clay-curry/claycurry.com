@@ -111,6 +111,23 @@ const components = {
       {...(props as ImageProps)}
     />
   ),
+
+  // TODO: remove itallic style from quote blocks
+
+  // TODO: add support for section header links (anchor links)
+
+  // TODO: add support for "On this Page"
+  
+  // TODO: add support for footnote references and footnote section
+
+  // TODO: add component for hoverable footnote popups
+
+  // TODO: add support for GH markdown alert (callout, note, warning, etc.) 
+
+  // TODO: fix styling for tables
+  // TODO: add componets to support code blocks with syntax highlighting
+
+  // Custom components
   Summary,
   UnderConstruction,
 } satisfies MDXComponents;

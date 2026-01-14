@@ -1,6 +1,9 @@
 "use client";
-import type { ReactNode } from "react";
+import { HeroSection } from "@/lib/ui/components/hero-section";
+import { PrimaryLink } from "@/lib/ui/components/link";
 import { PageViews } from "@/lib/ui/widgets/page-views";
+
+const ContactLink = PrimaryLink;
 
 export default () => (
   <article>
@@ -22,30 +25,9 @@ export default () => (
       </h1>
       <p className="mt-4 text-lg text-gray-700 dark:text-gray-200">
         Seattle, WA •{" "}
-        <SocialLink href="mailto:me@claycurry.com">me@claycurry.com</SocialLink>
+        <ContactLink href="mailto:me@claycurry.com">me@claycurry.com</ContactLink>
+        {/* TODO: insert a row of Icons linking to social accounts */}
       </p>
     </HeroSection>
   </article>
-);
-
-// Hero section for page header
-const HeroSection = ({ children }: { children: ReactNode }) => (
-  <section className="hero-section flex flex-col items-start justify-center px-4">
-    <div className="text-left pl-4 space-y-4 animate-fade-in-left min-h-[30vh] pt-24">
-      {children}
-    </div>
-  </section>
-);
-
-// Social/contact link (no underline by default, shows on hover)
-const SocialLink = ({
-  href,
-  children,
-}: {
-  href: string;
-  children: ReactNode;
-}) => (
-  <a href={href} className="text-blue-600 dark:text-blue-400 hover:underline">
-    {children}
-  </a>
 );

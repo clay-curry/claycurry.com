@@ -1,13 +1,34 @@
+/**
+ * API Route: Page View Counter
+ *
+ * Tracks and retrieves page view counts for blog posts and other content.
+ * Uses Redis for persistent storage in production, with an in-memory fallback
+ * for local development when Redis is not configured.
+ *
+ * Endpoints:
+ * - GET /api/views?slug=<slug> - Retrieve the current view count for a page
+ * - POST /api/views { slug: "<slug>" } - Increment and return the view count
+ *
+ * Environment Variables:
+ * - KV_REST_API_REDIS_URL: Redis connection URL (optional, falls back to in-memory)
+ *
+ * @see https://nextjs.org/docs/app/building-your-application/routing/route-handlers
+ */
 import { type NextRequest, NextResponse } from "next/server";
 
 import { createClient } from "redis";
 
-// In-memory fallback for local development (when Redis is not configured)
+/** In-memory fallback store for local development when Redis is not configured */
 const inMemoryStore = new Map<string, number>();
 
-// Lazy Redis client initialization
+/** Lazily initialized Redis client singleton */
 let redisClient: ReturnType<typeof createClient> | null = null;
 
+/**
+ * Gets or initializes the Redis client connection.
+ *
+ * @returns The Redis client if configured, or null for in-memory fallback
+ */
 async function getRedisClient() {
   if (!process.env.KV_REST_API_REDIS_URL) {
     return null;
@@ -24,6 +45,12 @@ async function getRedisClient() {
   return redisClient;
 }
 
+/**
+ * Retrieves the current view count for a given page slug.
+ *
+ * @param slug - The unique identifier for the page (e.g., blog post slug)
+ * @returns The current view count, or 0 if not found
+ */
 async function getViewCount(slug: string): Promise<number> {
   try {
     const client = await getRedisClient();
@@ -39,6 +66,12 @@ async function getViewCount(slug: string): Promise<number> {
   }
 }
 
+/**
+ * Atomically increments the view count for a given page slug.
+ *
+ * @param slug - The unique identifier for the page (e.g., blog post slug)
+ * @returns The new view count after incrementing
+ */
 async function incrementViewCount(slug: string): Promise<number> {
   try {
     const client = await getRedisClient();
@@ -60,7 +93,21 @@ async function incrementViewCount(slug: string): Promise<number> {
   }
 }
 
-// GET: Fetch view count without incrementing
+/**
+ * GET /api/views
+ *
+ * Fetches the current view count for a page without incrementing it.
+ *
+ * @param request - The incoming request with `slug` query parameter
+ * @returns JSON response with `{ slug, count }` or error
+ *
+ * @example
+ * // Request
+ * GET /api/views?slug=my-blog-post
+ *
+ * // Response
+ * { "slug": "my-blog-post", "count": 42 }
+ */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get("slug");
@@ -76,7 +123,24 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ slug, count });
 }
 
-// POST: Increment and return view count
+/**
+ * POST /api/views
+ *
+ * Increments and returns the view count for a page. Used when a user
+ * visits a page to track the view.
+ *
+ * @param request - The incoming request with `{ slug }` in the JSON body
+ * @returns JSON response with `{ slug, count }` or error
+ *
+ * @example
+ * // Request
+ * POST /api/views
+ * Content-Type: application/json
+ * { "slug": "my-blog-post" }
+ *
+ * // Response
+ * { "slug": "my-blog-post", "count": 43 }
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

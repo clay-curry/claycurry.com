@@ -1,3 +1,12 @@
+/**
+ * Generates the sitemap.xml file for the site.
+ *
+ * A sitemap helps search engines discover and index all pages on the site.
+ * This includes static pages (home, blog index) and dynamic blog post URLs.
+ *
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
+ * @see https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview
+ */
 import type { MetadataRoute } from "next";
 import { getAllPostsMetadata } from "@/app/(site)/blog/loader";
 

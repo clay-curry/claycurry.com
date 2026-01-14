@@ -1,15 +1,49 @@
+/**
+ * API Route: Dynamic Open Graph Image Generator
+ *
+ * Generates dynamic Open Graph (OG) images for social media sharing.
+ * Fetches the page at the given path, extracts OG metadata, and renders
+ * a styled image with the title, description, and section information.
+ *
+ * Endpoint:
+ * - GET /api/og?path=<path> - Generate an OG image for the specified page path
+ *
+ * The generated images are 1200x630 pixels (standard OG image dimensions)
+ * and use Inter and Geist Mono fonts loaded dynamically from Google Fonts.
+ *
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/metadata/opengraph-image
+ * @see https://vercel.com/docs/functions/og-image-generation
+ */
 import { ImageResponse } from "next/og";
 import { type NextRequest, NextResponse } from "next/server";
 import openGraphScraper from "open-graph-scraper-lite";
 
+/** Standard Open Graph image width in pixels */
 const WIDTH = 1200;
+/** Standard Open Graph image height in pixels */
 const HEIGHT = 630;
 
+/** Base URL for fetching page content (localhost in dev, production URL otherwise) */
 const HOST =
   process.env.NODE_ENV === "development"
     ? `http://localhost:3000`
     : `https://claycurry.com`;
 
+/**
+ * GET /api/og
+ *
+ * Generates a dynamic Open Graph image for social media previews.
+ * Fetches the target page, extracts OG metadata, and renders a styled image.
+ *
+ * @param req - The incoming request with `path` query parameter
+ * @returns An ImageResponse with the generated OG image, or an error response
+ *
+ * @example
+ * // Request
+ * GET /api/og?path=/blog/my-post
+ *
+ * // Returns a 1200x630 PNG image with the post's title and description
+ */
 export async function GET(req: NextRequest) {
   const requestUrl = new URL(req.url);
   let path = requestUrl.searchParams.get("path")?.replace(/\/+$/, "") ?? "";
@@ -136,12 +170,30 @@ export async function GET(req: NextRequest) {
   );
 }
 
+/**
+ * Fetches the HTML content of a URL.
+ *
+ * @param url - The URL to fetch
+ * @returns An object containing the response body and status code
+ */
 async function get(url: string) {
   const res = await fetch(url);
   const body = await res.text();
   return { body, statusCode: res.status };
 }
 
+/**
+ * Dynamically loads a Google Font subset for the given text.
+ *
+ * Uses the Google Fonts CSS API to fetch only the glyphs needed for the
+ * provided text, minimizing download size for OG image generation.
+ *
+ * @param font - The font family name (e.g., "Inter", "Geist Mono")
+ * @param text - The text content that will be rendered (used for subsetting)
+ * @param weight - The font weight (default: 400)
+ * @returns ArrayBuffer containing the font data
+ * @throws Error if the font fails to load
+ */
 async function loadGoogleFont(
   font: string,
   text: string,
