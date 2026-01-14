@@ -29,9 +29,8 @@ export default () => (
     <AboutMeSection>
       <AboutMeHeader>About Me</AboutMeHeader>
       <AboutMeContent>
-        I enjoy building useful—and removing ineffective—software in large
-        legacy systems. My passion lies in learning how systems create value for
-        customers and expanding their impact using first principles thinking.
+        I enjoy building useful software inside large legacy ecosystems. My passion lies in simplifying complexity, 
+        understanding how systems empower users, and expanding their impact using first principles thinking.
       </AboutMeContent>
     </AboutMeSection>
 
