@@ -1,6 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Footer } from "@/lib/ui/blocks/footer";
+import { Header } from "@/lib/ui/blocks/header";
 import { ThemeProvider } from "@/lib/ui/theme-provider";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Clay Curry",
@@ -22,6 +25,7 @@ export const metadata: Metadata = {
   },
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="html-root overflow-y-scroll px-1"
+      className="html-root overflow-y-scroll"
       suppressHydrationWarning
     >
       <head />
@@ -41,7 +45,28 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+
+          {
+          /* Root layout 
+            - header stays at top
+            - main content grows to fill space
+            – footer stays below content
+            - footer sticks to bottom if content is short 
+          */
+          }
+          <div className={cn(
+            "flex flex-col justify-between items-center", 
+            "w-full h-[100vh]",
+            "text-foreground antialiased"
+          )}>
+              <div className="w-full max-w-5xl">
+                  <Header className="w-full"/>
+                  {children}
+              </div>
+              <Footer className={cn(
+                  "w-full border-t border-border bg-background px-4 py-6 mt-20 mb-5 text-sm"
+              )}/>
+          </div>
         </ThemeProvider>
       </body>
     </html>

@@ -30,9 +30,11 @@ export default async function BlogPostPage({
       </div>
 
       <div className="flex max-w-full flex-row gap-14 md:items-start px-6">
+        
         <ArticleContent slug={slug} title={title}>
           <BlogArticle />
         </ArticleContent>
+
         <ArticleAside slug={slug} title={title} postMeta={postMeta} />
       </div>
     </main>
