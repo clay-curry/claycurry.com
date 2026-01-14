@@ -1,0 +1,133 @@
+---
+slug: rendering-mathjax-in-nextjs
+pinned: true
+published: false
+date: "15 Jan 2025"
+title: Rendering MathJax in Next.js (Elegantly)
+subtitle: Self-hosted and CDN-distributed MathJax in Next.js.
+prefix: MathJax is a markup library for rendering mathematics in web browsers. It supports a variety of grammars.
+tags:
+  - Technical
+---
+
+# Rendering MathJax in Next.js (Elegantly)
+
+<Summary>
+
+MathJax is a JavaScript library for typesetting mathematical content in web browsers. This guide covers both **self-hosted** and **CDN-distributed** approaches for integrating MathJax with Next.js applications.
+
+</Summary>
+
+## Introduction
+
+When building technical documentation or educational content, you often need to render mathematical equations. MathJax supports multiple input formats:
+
+- **LaTeX** - The most popular format for mathematical typesetting
+- **MathML** - W3C standard for mathematical markup
+- **AsciiMath** - A simpler, more readable syntax
+
+> MathJax is trusted by thousands of websites including Stack Exchange, Wikipedia, and academic journals worldwide.
+
+## Installation Methods
+
+There are two primary ways to include MathJax in your Next.js project:
+
+### Method 1: CDN Distribution
+
+The simplest approach is to load MathJax from a CDN. Add the following script to your `_document.tsx`:
+
+```tsx
+import Script from 'next/script'
+
+export default function Document() {
+  return (
+    <Html>
+      <Head>
+        <Script
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+          strategy="lazyOnload"
+        />
+      </Head>
+      <body>
+        <Main />
+        <NextScript />
+      </body>
+    </Html>
+  )
+}
+```
+
+### Method 2: Self-Hosted Bundle
+
+For better performance and offline support, you can bundle MathJax with your application:
+
+```bash
+npm install mathjax@3
+```
+
+Then create a configuration file:
+
+```javascript
+// lib/mathjax-config.js
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+  },
+};
+```
+
+## Configuration Options
+
+Here's a comparison of the two approaches:
+
+| Feature | CDN | Self-Hosted |
+|---------|-----|-------------|
+| Initial Load | Faster (cached) | Slower (bundled) |
+| Offline Support | No | Yes |
+| Version Control | Limited | Full |
+| Bundle Size | 0 KB | ~500 KB |
+| Customization | Limited | Full |
+
+## Performance Considerations
+
+1. **Lazy Loading** - Only load MathJax when mathematical content is present
+2. **Tree Shaking** - Import only the components you need
+3. **Caching** - Leverage browser caching for repeated visits
+4. **SSR Compatibility** - Consider server-side rendering implications
+
+### Code Example: Dynamic Import
+
+```tsx
+import dynamic from 'next/dynamic'
+
+const MathComponent = dynamic(() => import('../components/Math'), {
+  ssr: false,
+  loading: () => <span>Loading equation...</span>,
+})
+
+export default function Page() {
+  return <MathComponent equation="E = mc^2" />
+}
+```
+
+## Troubleshooting
+
+Common issues and their solutions:
+
+- **Equations not rendering**: Ensure MathJax script loads before your content
+- **Flickering on load**: Use CSS to hide content until MathJax processes it
+- **SSR hydration errors**: Disable SSR for MathJax components
+
+---
+
+*For more information, visit the [official MathJax documentation](https://docs.mathjax.org/).*
+
+## Conclusion
+
+Integrating MathJax with Next.js can be achieved through CDN distribution or self-hosting. Choose the method that best 
+fits your application's needs, considering factors like performance, offline support, and customization. With proper 
+configuration and optimization, you can deliver high-quality mathematical content to your users seamlessly.

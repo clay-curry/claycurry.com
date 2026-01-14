@@ -10,17 +10,17 @@ const nextConfig = {
     return [
       // Basic redirect
       {
-        source: '/about-me',
-        destination: '/',
+        source: "/about-me",
+        destination: "/",
         permanent: true,
       },
       // Wildcard path matching
       {
-        source: '/blogg/:slug',
-        destination: '/news/:slug',
+        source: "/blogg/:slug",
+        destination: "/news/:slug",
         permanent: true,
       },
-    ]
+    ];
   },
   // Optionally, add any other Next.js config below
 };

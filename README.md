@@ -85,6 +85,13 @@ Push to `main` branch to trigger automatic deployment on Vercel.
 
 ## Backend
 
+### Environment Variables
+
+```
+KV_REST_API_REDIS_URL=
+VERCEL_OIDC_TOKEN=
+```
+
 ### Page Views API
 
 A simple API for tracking page view counts across the site.

@@ -3,10 +3,18 @@ import Image, { type ImageProps } from "next/image";
 import Summary from "@/src/lib/ui/components/summary";
 import UnderConstruction from "@/src/lib/ui/components/under-construction";
 
-// This file allows you to provide custom React components
-// to be used in MDX files. You can import and use any
-// React component you want, including inline styles,
-// components from other libraries, and more.
+// This file declares custom React components for injecting into MDX when compiling to JSX. You can
+// import and use any React component you want, including inline styles, components from other
+// libraries, and more.
+//
+//
+// The components defined here will be used automatically by MDX files in the project. You can
+// also override or extend these components on a per-file basis by passing a `components` prop
+// to the MDX component.
+//
+// For more information, see:
+// - https://mdxjs.com/guides/injecting-components/
+// - https://mdxjs.com/docs/using-mdx/react/#custom-components
 
 const components = {
   // Allows customizing built-in components, e.g. to add styling.
@@ -40,11 +48,7 @@ const components = {
       {children}
     </ol>
   ),
-  li: ({ children }) => (
-    <li className="leading-7">
-      {children}
-    </li>
-  ),
+  li: ({ children }) => <li className="leading-7">{children}</li>,
   blockquote: ({ children }) => (
     <blockquote className="my-6 border-l-4 border-blue-400 pl-4 italic text-gray-600 dark:text-gray-400">
       {children}
@@ -68,9 +72,7 @@ const components = {
     </div>
   ),
   thead: ({ children }) => (
-    <thead className="bg-gray-100 dark:bg-zinc-800">
-      {children}
-    </thead>
+    <thead className="bg-gray-100 dark:bg-zinc-800">{children}</thead>
   ),
   th: ({ children }) => (
     <th className="border border-gray-200 dark:border-zinc-700 px-4 py-2 text-left font-semibold text-gray-900 dark:text-gray-100">
@@ -83,13 +85,9 @@ const components = {
     </td>
   ),
   tr: ({ children }) => (
-    <tr className="even:bg-gray-50 dark:even:bg-zinc-800/50">
-      {children}
-    </tr>
+    <tr className="even:bg-gray-50 dark:even:bg-zinc-800/50">{children}</tr>
   ),
-  hr: () => (
-    <hr className="my-8 border-gray-200 dark:border-zinc-700" />
-  ),
+  hr: () => <hr className="my-8 border-gray-200 dark:border-zinc-700" />,
   a: ({ href, children }) => (
     <a
       href={href}
@@ -103,11 +101,7 @@ const components = {
       {children}
     </strong>
   ),
-  em: ({ children }) => (
-    <em className="italic">
-      {children}
-    </em>
-  ),
+  em: ({ children }) => <em className="italic">{children}</em>,
   img: (props) => (
     <Image
       sizes="100vw"
