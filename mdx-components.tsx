@@ -37,10 +37,9 @@ const components = {
     return (
       <h1
         id={id}
-        className="group text-3xl md:text-4xl font-extrabold mt-9 mb-4 text-blue-500 transition-all duration-300 hover:text-blue-500 sm:text-black sm:dark:text-white"
+        className="text-3xl md:text-4xl font-extrabold mt-9 mb-4 text-blue-500 transition-all duration-300 hover:text-blue-500 sm:text-black sm:dark:text-white"
       >
-        <a href={`#${id}`} className="no-underline">
-          <span className="opacity-0 group-hover:opacity-100 text-gray-400 mr-2 transition-opacity">#</span>
+        <a href={`#${id}`} className="no-underline hover:underline">
           {children}
         </a>
       </h1>
@@ -51,10 +50,9 @@ const components = {
     return (
       <h2
         id={id}
-        className="group text-2xl md:text-3xl font-bold mt-9 md:mt-12 mb-4 dark:text-gray-200"
+        className="text-2xl md:text-3xl font-bold mt-9 md:mt-12 mb-4 dark:text-gray-200"
       >
-        <a href={`#${id}`} className="no-underline">
-          <span className="opacity-0 group-hover:opacity-100 text-gray-400 mr-2 transition-opacity">#</span>
+        <a href={`#${id}`} className="no-underline hover:underline">
           {children}
         </a>
       </h2>
@@ -65,10 +63,9 @@ const components = {
     return (
       <h3
         id={id}
-        className="group text-xl md:text-2xl font-semibold mt-6 mb-3 dark:text-gray-200"
+        className="text-xl md:text-2xl font-semibold mt-6 mb-3 dark:text-gray-200"
       >
-        <a href={`#${id}`} className="no-underline">
-          <span className="opacity-0 group-hover:opacity-100 text-gray-400 mr-2 transition-opacity">#</span>
+        <a href={`#${id}`} className="no-underline hover:underline">
           {children}
         </a>
       </h3>
@@ -95,16 +92,63 @@ const components = {
       {children}
     </blockquote>
   ),
-  code: ({ children }) => (
-    <code className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-zinc-800 text-sm font-mono text-gray-800 dark:text-gray-200">
-      {children}
-    </code>
-  ),
-  pre: ({ children }) => (
-    <pre className="my-6 overflow-x-auto rounded-lg bg-gray-900 dark:bg-zinc-800 p-4 text-sm">
+  // Inline code (not inside pre)
+  code: ({ children, ...props }) => {
+    // rehype-pretty-code adds data-theme to code blocks inside pre
+    if ("data-theme" in props) {
+      return (
+        <code {...props} className="text-sm font-mono">
+          {children}
+        </code>
+      );
+    }
+    // Inline code styling
+    return (
+      <code className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-zinc-800 text-sm font-mono text-gray-800 dark:text-gray-200">
+        {children}
+      </code>
+    );
+  },
+  // Code block container
+  pre: ({ children, ...props }) => (
+    <pre
+      {...props}
+      className="my-6 overflow-x-auto rounded-lg p-4 text-sm [&>code]:grid [&>code]:gap-0 [counter-reset:line]"
+    >
       {children}
     </pre>
   ),
+  // Code line with line numbers and highlighting
+  span: ({ children, ...props }) => {
+    // rehype-pretty-code adds data-line to each line span
+    if ("data-line" in props) {
+      const isHighlighted = "data-highlighted-line" in props;
+      return (
+        <span
+          {...props}
+          className={`border-l-2 pl-2 before:mr-4 before:inline-block before:w-4 before:text-right before:text-gray-500 before:content-[counter(line)] [counter-increment:line] ${
+            isHighlighted
+              ? "border-blue-400 bg-blue-500/10"
+              : "border-transparent"
+          }`}
+        >
+          {children}
+        </span>
+      );
+    }
+    return <span {...props}>{children}</span>;
+  },
+  // Figure wrapper for code blocks (rehype-pretty-code)
+  figure: ({ children, ...props }) => {
+    if ("data-rehype-pretty-code-figure" in props) {
+      return (
+        <figure {...props} className="my-6">
+          {children}
+        </figure>
+      );
+    }
+    return <figure {...props}>{children}</figure>;
+  },
   table: ({ children }) => (
     <div className="my-6 overflow-x-auto">
       <table className="min-w-full border-collapse border border-gray-200 dark:border-zinc-700">
@@ -143,6 +187,23 @@ const components = {
     </strong>
   ),
   em: ({ children }) => <em className="italic">{children}</em>,
+  del: ({ children }) => (
+    <del className="text-gray-500 dark:text-gray-500 line-through">
+      {children}
+    </del>
+  ),
+  input: (props) => {
+    if (props.type === "checkbox") {
+      return (
+        <input
+          {...props}
+          disabled
+          className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+        />
+      );
+    }
+    return <input {...props} />;
+  },
   img: (props) => (
     <Image
       sizes="100vw"
@@ -153,16 +214,33 @@ const components = {
     />
   ),
 
+  // Footnote reference (superscript link in text)
+  sup: ({ children }) => (
+    <sup className="text-xs text-blue-600 dark:text-blue-400 ml-0.5">
+      {children}
+    </sup>
+  ),
+  // Footnotes section container
+  section: ({ children, ...props }) => {
+    // Check if this is a footnotes section (remark-gfm adds data-footnotes attribute)
+    if ("data-footnotes" in props) {
+      return (
+        <section className="mt-12 pt-6 border-t border-gray-200 dark:border-zinc-700">
+          <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
+            Footnotes
+          </h2>
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            {children}
+          </div>
+        </section>
+      );
+    }
+    return <section {...props}>{children}</section>;
+  },
+
   // TODO: add support for "On this Page"
-  
-  // TODO: add support for footnote references and footnote section
 
   // TODO: add component for hoverable footnote popups
-
-  // TODO: add support for GH markdown alert (callout, note, warning, etc.) 
-
-  // TODO: fix styling for tables
-  // TODO: add componets to support code blocks with syntax highlighting
 
   // Custom components
   Summary,

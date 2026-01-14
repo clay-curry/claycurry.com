@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { getAllPostsMetadata, getPost, type PostMetadata } from "@/app/(site)/blog/loader";
+import {
+  getAllPostsMetadata,
+  getPost,
+  type PostMetadata,
+} from "@/app/(site)/blog/loader";
 import { BlogBreadcrumb } from "@/lib/ui/components/blog-breadcrumb";
 import BlueskyIcon from "@/lib/ui/icons/bluesky";
 import FacebookIcon from "@/lib/ui/icons/facebook";
@@ -28,7 +32,6 @@ export default async function BlogPostPage({
       <PageViews />
 
       <div className="flex max-w-full flex-row gap-14 px-6">
-
         {/** TODO: generate "On this Page" for blog (may require implementation elsewhere) */}
 
         <ArticleContent slug={slug} title={title}>
@@ -109,7 +112,7 @@ const TagList = ({ tags }: { tags: string[] }) => {
 
 const ShareLinks = ({ slug, title }: { slug: string; title: string }) => {
   const postUrl = `https://claycurry.com/blog/${slug}`;
-  
+
   const shareLinks = [
     {
       name: "X (Twitter)",

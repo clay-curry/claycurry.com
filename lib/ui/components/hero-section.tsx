@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 // Hero section for page header
 export const HeroSection = ({ children }: { children: ReactNode }) => (

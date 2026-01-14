@@ -36,7 +36,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head />
-      
+
       <body className="flex flex-col min-h-screen w-full max-w-5xl mx-auto">
         <ThemeProvider
           attribute="class"
@@ -44,20 +44,18 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-
           {/* Root layout 
           - header stays at top
           - main content grows to fill space
           – footer stays below content
           - footer sticks to bottom if content is short 
           */}
-      
+
           <Header className="flex-none" />
 
           <main className="flex-1">{children}</main>
-          
+
           <Footer className="flex-none" />
-        
         </ThemeProvider>
       </body>
     </html>
