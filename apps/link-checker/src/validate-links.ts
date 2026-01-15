@@ -1,7 +1,8 @@
+import http from 'http';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { spawn, type ChildProcess } from 'child_process';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync, unlinkSync } from 'fs';
 
 /*
   This script validates 
@@ -24,7 +25,7 @@ import { readFileSync } from 'fs';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const siteDir = path.resolve(__dirname, '../../site');
 
-const port = 3456; // Use a non-standard port to avoid conflicts
+const socketPath = '/tmp/nextjs-link-checker.sock';
 
 /**
  * Get routes from the Next.js prerender manifest
@@ -53,20 +54,26 @@ type RouteResult = {
 };
 
 /**
- * Start the Next.js production server as a subprocess
+ * Start the Next.js production server as a subprocess using Unix socket
  */
 async function startServer(): Promise<ChildProcess> {
+  // Clean up any existing socket file
+  if (existsSync(socketPath)) {
+    unlinkSync(socketPath);
+  }
+
   return new Promise((resolve, reject) => {
-    const serverProcess = spawn('npx', ['next', 'start', '-p', String(port)], {
+    const serverProcess = spawn('node', ['server.mjs', socketPath], {
       cwd: siteDir,
       stdio: ['ignore', 'pipe', 'pipe'],
+      env: { ...process.env, NODE_ENV: 'production' },
     });
 
     let started = false;
 
     serverProcess.stdout?.on('data', (data: Buffer) => {
       const output = data.toString();
-      if (!started && (output.includes('Ready') || output.includes('started'))) {
+      if (!started && output.includes('Ready')) {
         started = true;
         resolve(serverProcess);
       }
@@ -75,7 +82,7 @@ async function startServer(): Promise<ChildProcess> {
     serverProcess.stderr?.on('data', (data: Buffer) => {
       const output = data.toString();
       // Next.js sometimes logs to stderr even for non-errors
-      if (!started && (output.includes('Ready') || output.includes('started'))) {
+      if (!started && output.includes('Ready')) {
         started = true;
         resolve(serverProcess);
       }
@@ -94,21 +101,42 @@ async function startServer(): Promise<ChildProcess> {
 }
 
 /**
- * Check all routes via HTTP requests
+ * Make an HTTP request over a Unix socket
  */
-async function checkRoutes(baseUrl: string, routes: string[]): Promise<RouteResult[]> {
+function requestOverSocket(route: string): Promise<{ status: number; ok: boolean }> {
+  return new Promise((resolve, reject) => {
+    const req = http.request(
+      {
+        socketPath,
+        path: route,
+        method: 'GET',
+      },
+      (res) => {
+        // Consume response data to free up memory
+        res.resume();
+        resolve({
+          status: res.statusCode ?? 0,
+          ok: (res.statusCode ?? 0) >= 200 && (res.statusCode ?? 0) < 400,
+        });
+      }
+    );
+
+    req.on('error', reject);
+    req.end();
+  });
+}
+
+/**
+ * Check all routes via HTTP requests over Unix socket
+ */
+async function checkRoutes(routes: string[]): Promise<RouteResult[]> {
   const results: RouteResult[] = [];
 
   for (const route of routes) {
-    const url = `${baseUrl}${route}`;
     try {
-      const response = await fetch(url);
-      results.push({
-        route,
-        status: response.status,
-        ok: response.ok,
-      });
-      console.log(`  ${response.ok ? '✓' : '✗'} ${route} - ${response.status}`);
+      const { status, ok } = await requestOverSocket(route);
+      results.push({ route, status, ok });
+      console.log(`  ${ok ? '✓' : '✗'} ${route} - ${status}`);
     } catch (error) {
       results.push({
         route,
@@ -129,11 +157,10 @@ async function checkRoutes(baseUrl: string, routes: string[]): Promise<RouteResu
 
   console.log('Starting Next.js server...');
   const serverProcess = await startServer();
-  const baseUrl = `http://localhost:${port}`;
 
-  console.log(`> Server running at ${baseUrl}\n`);
+  console.log(`> Server running at ${socketPath}\n`);
   console.log('Checking routes...');
-  const results = await checkRoutes(baseUrl, routes);
+  const results = await checkRoutes(routes);
 
   const passed = results.every((r) => r.ok);
   console.log(`\n${passed ? 'PASSED' : 'FAILED'}: ${results.filter((r) => r.ok).length}/${results.length} routes OK`);
