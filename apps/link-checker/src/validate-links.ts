@@ -1,26 +1,50 @@
-import { createServer, type IncomingMessage, type ServerResponse, type Server } from 'http';
-import next from 'next';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { spawn, type ChildProcess } from 'child_process';
+import { readFileSync } from 'fs';
+
+/*
+  This script validates 
+
+  1. query statically generated routes stored in *-manifest.json application 
+  application building stage.
+  2. mock-start a Next.js production server with binding configured to a Unix 
+  socket (in contrast to a TCP port) to avoid address collisions.
+  3. map static page route to HTTP requests, then initiate a recursive search of
+  dynamic routes.
+  4. note the parent page route and full XPath for every links encounterded 
+  across the DOM. 
+  5. group together broken links according to failure type (e.g., timeout, HTTP
+  code, content mismatch, etc.) and tag them in a structured format.
+  6. invoke a notification system to alert maintainers of broken links via 
+  preferred channels (e.g., GitHub Issues, email, Slack, etc.).
+*/
+
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const siteDir = path.resolve(__dirname, '../../site');
 
-// Change working directory to site so Next.js can resolve its config and dependencies
-process.chdir(siteDir);
+const port = 3456; // Use a non-standard port to avoid conflicts
 
-// Use production mode to avoid MDX loader issues with Bun
-const app = next({ dev: false, dir: siteDir });
-const handle = app.getRequestHandler();
+/**
+ * Get routes from the Next.js prerender manifest
+ */
+function getRoutesFromManifest(): string[] {
+  const manifestPath = path.join(siteDir, '.next', 'prerender-manifest.json');
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
 
-// Hard-coded list of routes to check
-const ROUTES_TO_CHECK = [
-  '/',
-  '/about',
-  '/blog',
-  '/projects',
-  '/contact',
-];
+  // Get all routes from the manifest, filtering out internal routes
+  const routes = Object.keys(manifest.routes).filter(route => {
+    // Skip internal Next.js routes and non-page routes
+    return !route.startsWith('/_') &&
+           !route.endsWith('.txt') &&
+           !route.endsWith('.xml') &&
+           !route.includes('/api/') &&
+           !route.includes('opengraph-image');
+  });
+
+  return routes;
+}
 
 type RouteResult = {
   route: string;
@@ -29,73 +53,68 @@ type RouteResult = {
 };
 
 /**
- * Start the Next.js server on a Unix socket (no port needed)
+ * Start the Next.js production server as a subprocess
  */
-async function startServer(): Promise<{ server: Server; socketPath: string }> {
-  await app.prepare();
-
-  const server = createServer((req: IncomingMessage, res: ServerResponse) => {
-    handle(req, res);
-  });
-
-  // Use a Unix socket instead of a port
-  const socketPath = `/tmp/next-link-checker-${process.pid}.sock`;
-
-  // Remove existing socket file if it exists
-  const fs = await import('fs');
-  if (fs.existsSync(socketPath)) {
-    fs.unlinkSync(socketPath);
-  }
-
-  await new Promise<void>((resolve) => {
-    server.listen(socketPath, () => {
-      console.log(`> Server listening on Unix socket: ${socketPath}`);
-      resolve();
+async function startServer(): Promise<ChildProcess> {
+  return new Promise((resolve, reject) => {
+    const serverProcess = spawn('npx', ['next', 'start', '-p', String(port)], {
+      cwd: siteDir,
+      stdio: ['ignore', 'pipe', 'pipe'],
     });
-  });
 
-  return { server, socketPath };
+    let started = false;
+
+    serverProcess.stdout?.on('data', (data: Buffer) => {
+      const output = data.toString();
+      if (!started && (output.includes('Ready') || output.includes('started'))) {
+        started = true;
+        resolve(serverProcess);
+      }
+    });
+
+    serverProcess.stderr?.on('data', (data: Buffer) => {
+      const output = data.toString();
+      // Next.js sometimes logs to stderr even for non-errors
+      if (!started && (output.includes('Ready') || output.includes('started'))) {
+        started = true;
+        resolve(serverProcess);
+      }
+    });
+
+    serverProcess.on('error', reject);
+
+    // Timeout after 30 seconds
+    setTimeout(() => {
+      if (!started) {
+        serverProcess.kill();
+        reject(new Error('Server failed to start within 30 seconds'));
+      }
+    }, 30000);
+  });
 }
 
 /**
- * Check all routes via HTTP requests over Unix socket
+ * Check all routes via HTTP requests
  */
-async function checkRoutes(socketPath: string): Promise<RouteResult[]> {
+async function checkRoutes(baseUrl: string, routes: string[]): Promise<RouteResult[]> {
   const results: RouteResult[] = [];
-  const http = await import('http');
 
-  for (const route of ROUTES_TO_CHECK) {
+  for (const route of routes) {
+    const url = `${baseUrl}${route}`;
     try {
-      const result = await new Promise<RouteResult>((resolve) => {
-        const req = http.request(
-          {
-            socketPath,
-            path: route,
-            method: 'GET',
-            headers: { host: 'localhost' },
-          },
-          (res) => {
-            // Consume the response body
-            res.on('data', () => {});
-            res.on('end', () => {
-              resolve({
-                route,
-                status: res.statusCode || 0,
-                ok: (res.statusCode || 0) >= 200 && (res.statusCode || 0) < 400,
-              });
-            });
-          }
-        );
-        req.on('error', () => {
-          resolve({ route, status: 0, ok: false });
-        });
-        req.end();
+      const response = await fetch(url);
+      results.push({
+        route,
+        status: response.status,
+        ok: response.ok,
       });
-
-      results.push(result);
-      console.log(`  ${result.ok ? '✓' : '✗'} ${route} - ${result.status}`);
+      console.log(`  ${response.ok ? '✓' : '✗'} ${route} - ${response.status}`);
     } catch (error) {
-      results.push({ route, status: 0, ok: false });
+      results.push({
+        route,
+        status: 0,
+        ok: false,
+      });
       console.log(`  ✗ ${route} - Error: ${error}`);
     }
   }
@@ -105,22 +124,21 @@ async function checkRoutes(socketPath: string): Promise<RouteResult[]> {
 
 // Main entry point
 (async function main() {
-  const { server, socketPath } = await startServer();
+  const routes = getRoutesFromManifest();
+  console.log(`Found ${routes.length} routes in manifest\n`);
 
-  console.log('\nChecking routes...');
-  const results = await checkRoutes(socketPath);
+  console.log('Starting Next.js server...');
+  const serverProcess = await startServer();
+  const baseUrl = `http://localhost:${port}`;
+
+  console.log(`> Server running at ${baseUrl}\n`);
+  console.log('Checking routes...');
+  const results = await checkRoutes(baseUrl, routes);
 
   const passed = results.every((r) => r.ok);
   console.log(`\n${passed ? 'PASSED' : 'FAILED'}: ${results.filter((r) => r.ok).length}/${results.length} routes OK`);
 
-  server.close();
-
-  // Clean up socket file
-  const fs = await import('fs');
-  if (fs.existsSync(socketPath)) {
-    fs.unlinkSync(socketPath);
-  }
-
+  serverProcess.kill();
   process.exit(passed ? 0 : 1);
 })();
 

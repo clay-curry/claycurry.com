@@ -7,11 +7,12 @@
     "src"
   ],
   "scripts": {
-    "check-links:all": "cd ../site && pnpm run link-checker:docs && node --experimental-strip-types ../link-checker/src/validate-links.ts",
-    "check-links:docs": "cd ../site/content && node --experimental-strip-types ../../link-checker/src/validate-docs-links.ts"
+    "check-links": "npx tsx src/validate-links.ts",
+    "check-links:docs": "cd ../site/content && npx tsx ../../link-checker/src/validate-docs-links.ts"
   },
   "devDependencies": {
     "@types/node": "22.7.8",
+    "tsx": "^4.19.0",
     "typescript": "5.5.4"
   },
   "dependencies": {
