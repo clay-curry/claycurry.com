@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { HeroSection } from "@/lib/ui/components/hero-section";
 import { PrimaryLink } from "@/lib/ui/components/link";
 import { PageViews } from "@/lib/ui/widgets/page-views";
@@ -28,8 +29,23 @@ export default () => (
         <ContactLink href="mailto:me@claycurry.com">
           me@claycurry.com
         </ContactLink>
-        {/* TODO: insert a row of Icons linking to social accounts */}
       </p>
+      <div className="flex gap-4 mt-2">
+        <Link
+          href="/blog"
+          className="text-black dark:text-white underline-offset-4 hover:underline"
+        >
+          Blog
+        </Link>
+        <a
+          href="https://github.com/clay-curry"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-black dark:text-white underline-offset-4 hover:underline"
+        >
+          GitHub
+        </a>
+      </div>
     </HeroSection>
   </article>
 );
