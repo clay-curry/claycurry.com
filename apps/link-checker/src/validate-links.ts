@@ -7,13 +7,13 @@ import { readFileSync, existsSync, unlinkSync } from 'fs';
 /*
   This script validates 
 
-  1. query statically generated routes stored in *-manifest.json application 
-  application building stage.
-  2. mock-start a Next.js production server with binding configured to a Unix 
-  socket (in contrast to a TCP port) to avoid address collisions.
-  3. map static page route to HTTP requests, then initiate a recursive search of
-  dynamic routes.
-  4. note the parent page route and full XPath for every links encounterded 
+  1. collect statically declared page routes under the `prerender-manifest.json` 
+  manifest file, produced at build-("prerender")-time   
+  2. mock-start a Next.js production server configured with bindings to a Unix 
+  (rather than TCP) socket to prevent port collisions
+  3. process static routes into HTTP requests to initiate recursive descent
+  until visiting all dynamic routes.
+  4. when encountering links, log the parent page route and full XPath encounterded 
   across the DOM. 
   5. group together broken links according to failure type (e.g., timeout, HTTP
   code, content mismatch, etc.) and tag them in a structured format.
@@ -21,41 +21,29 @@ import { readFileSync, existsSync, unlinkSync } from 'fs';
   preferred channels (e.g., GitHub Issues, email, Slack, etc.).
 */
 
+/** We expect non-2xx HTTP status codes for these routes*/
+const expectedStatusCodes: Record<string, number> = {
+  '/_not-found': 404,
+  '/_global-error': 500,
+};
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const siteDir = path.resolve(__dirname, '../../site');
-
 const socketPath = '/tmp/nextjs-link-checker.sock';
-
-/**
- * Get routes from the Next.js prerender manifest
- */
-function getRoutesFromManifest(): string[] {
-  const manifestPath = path.join(siteDir, '.next', 'prerender-manifest.json');
-  const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
-
-  // Get all routes from the manifest, filtering out internal routes
-  const routes = Object.keys(manifest.routes).filter(route => {
-    // Skip internal Next.js routes and non-page routes
-    return !route.startsWith('/_') &&
-           !route.endsWith('.txt') &&
-           !route.endsWith('.xml') &&
-           !route.includes('/api/') &&
-           !route.includes('opengraph-image');
-  });
-
-  return routes;
-}
-
 type RouteResult = {
   route: string;
   status: number;
   ok: boolean;
 };
 
-/**
- * Start the Next.js production server as a subprocess using Unix socket
- */
+/** reads statically-rendered routes declared in 'prerender-manifest.json' metadata file.*/
+function getStaticRoutesFromManifest(): string[] {
+  const manifestPath = path.join(siteDir, '.next', 'prerender-manifest.json');
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
+  return Object.keys(manifest.routes)
+}
+
+/**Start the Next.js production server as a subprocess using Unix socket*/
 async function startServer(): Promise<ChildProcess> {
   // Clean up any existing socket file
   if (existsSync(socketPath)) {
@@ -100,9 +88,7 @@ async function startServer(): Promise<ChildProcess> {
   });
 }
 
-/**
- * Make an HTTP request over a Unix socket
- */
+/** Make an HTTP request over a Unix socket */
 function requestOverSocket(route: string): Promise<{ status: number; ok: boolean }> {
   return new Promise((resolve, reject) => {
     const req = http.request(
@@ -126,17 +112,16 @@ function requestOverSocket(route: string): Promise<{ status: number; ok: boolean
   });
 }
 
-/**
- * Check all routes via HTTP requests over Unix socket
- */
+/** Check all routes via HTTP requests over Unix socket */
 async function checkRoutes(routes: string[]): Promise<RouteResult[]> {
   const results: RouteResult[] = [];
-
   for (const route of routes) {
     try {
-      const { status, ok } = await requestOverSocket(route);
+      const { status } = await requestOverSocket(route);
+      const ok = (status >= 200 && status < 400 || status === expectedStatusCodes[route]);
+      const statusInfo = expectedStatusCodes[route] ? `${status} (expected ${expectedStatusCodes[route]})` : String(status);
       results.push({ route, status, ok });
-      console.log(`  ${ok ? '✓' : '✗'} ${route} - ${status}`);
+      console.log(`  ${ok ? '✓' : '✗'} ${route} - ${statusInfo}`);
     } catch (error) {
       results.push({
         route,
@@ -146,13 +131,12 @@ async function checkRoutes(routes: string[]): Promise<RouteResult[]> {
       console.log(`  ✗ ${route} - Error: ${error}`);
     }
   }
-
   return results;
 }
 
-// Main entry point
+/** main entry point - IIIFE to allow top-level await */ 
 (async function main() {
-  const routes = getRoutesFromManifest();
+  const routes = getStaticRoutesFromManifest();
   console.log(`Found ${routes.length} routes in manifest\n`);
 
   console.log('Starting Next.js server...');
@@ -189,9 +173,7 @@ const config: CheckOptions = {
     userAgent: 'LinkChecker/1.0 (+https://example.com/link-checker)',
 };
 
-////////////////////////////////////////////////
-// IIIFE to allow top-level await
-////////////////////////////////////////////////
+
 (async function () {
   const result = collectLinkMetrics(config);
   publishLinkMetrics(result);
