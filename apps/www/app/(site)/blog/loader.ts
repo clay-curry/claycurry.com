@@ -1,3 +1,7 @@
+// TODO: Expand BlogPost content by 20%
+// - Review existing blog posts and identify areas for expansion
+// - Add more detailed explanations, examples, or supporting content
+
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
