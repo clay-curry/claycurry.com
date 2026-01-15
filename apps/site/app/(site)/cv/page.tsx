@@ -31,7 +31,7 @@ export default () => (
         addressList={[
           { text: "Seattle, WA" },
           { text: "me@claycurry.com", href: "mailto:me@claycurry.com" },
-          { text: "GitHub", href: "https://github.com/claycurry" },
+          { text: "GitHub", href: "https://github.com/clay-curry" },
           { text: "LinkedIn", href: "https://www.linkedin.com/in/clay-curry/" },
         ]}
       />

@@ -128,12 +128,7 @@ const ShareLinks = ({ slug, title }: { slug: string; title: string }) => {
       name: "LinkedIn",
       href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`,
       icon: <LinkedInIcon />,
-    },
-    {
-      name: "Facebook",
-      href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`,
-      icon: <FacebookIcon />,
-    },
+    }
   ];
 
   return (
