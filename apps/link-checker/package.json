@@ -7,7 +7,7 @@
     "src"
   ],
   "scripts": {
-    "check-links:all": "cd ../site && pnpm link-checker:docs && node --experimental-strip-types ../link-checker/src/validate-links.ts",
+    "check-links:all": "cd ../site && pnpm run link-checker:docs && node --experimental-strip-types ../link-checker/src/validate-links.ts",
     "check-links:docs": "cd ../site/content && node --experimental-strip-types ../../link-checker/src/validate-docs-links.ts"
   },
   "devDependencies": {
@@ -19,6 +19,7 @@
     "github-slugger": "2.0.0",
     "gray-matter": "4.0.3",
     "hast-util-select": "6.0.3",
+    "next": "^16.1.2",
     "rehype-parse": "9.0.1",
     "rehype-raw": "7.0.0",
     "remark-parse": "11.0.0",
