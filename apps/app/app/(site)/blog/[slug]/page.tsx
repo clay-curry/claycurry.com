@@ -39,14 +39,18 @@ export default async function BlogPostPage({
     <article>
       <PageViews />
       <BlogBreadcrumb slug={slug} title={title} />
+      
       <ArticleContent
         slug={slug}
         title={title}
         left={<OnThisPage toc={toc} />}
         right={<ArticleMeta slug={slug} title={title} postMeta={postMeta} readTime={readTime} />}
       >
+      
         <BlogArticle />
+      
       </ArticleContent>
+
     </article>
   );
 }
@@ -68,9 +72,9 @@ const ArticleContent = ({
     <div className="flex max-w-full flex-row">
       {left}
 
-      <article className="text-pretty w-full px-1 md:max-w-2xl md:px-8">
+          <article className="text-pretty w-full md:max-w-2xl">
             {children}
-      </article>
+          </article>
 
       {right}
     </div>
@@ -86,7 +90,7 @@ function OnThisPage({ toc }: { toc: TocItem[] }) {
   }
 
   return (
-    <nav className="hidden md:block py-20 w-50 shrink-0">
+    <nav className="hidden md:block py-20 shrink-0 pr-1.5 w-fit max-w-50">
       <div className="sticky top-20 flex flex-col gap-4 transition-all duration-300">
         <span className="block pb-3 font-semibold text-sm">On this page</span>
         <ul className="flex flex-col gap-3 text-sm text-gray-600 dark:text-neutral-400 tracking-tight">
@@ -98,7 +102,7 @@ function OnThisPage({ toc }: { toc: TocItem[] }) {
               <li key={id}>
                 <a
                   href={href}
-                  className="hover:text-gray-900 dark:hover:text-neutral-200 transition-colors"
+                  className="hover:text-gray-900 dark:hover:text-neutral-200 transition-colors leading-0"
                 >
                   {item.value}
                 </a>
@@ -125,7 +129,7 @@ function ArticleMeta({
   const postUrl = `https://claycurry.com/blog/${slug}`;
 
   return (
-    <aside className="hidden md:block pt-20 w-45 shrink-0 text-sm">
+    <aside className="hidden md:block pt-20 w-48 shrink-0 text-sm pl-1 md:pl-6">
       <div className="sticky top-20 flex flex-col gap-4 transition-all duration-300">
         <div className="flex flex-col gap-2 border border-gray-200 dark:border-neutral-700 rounded-lg p-3">
           <div className="w-full gap-2">
