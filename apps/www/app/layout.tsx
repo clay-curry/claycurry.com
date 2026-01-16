@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { FloatingMenu } from "@/lib/ui/blocks/floating-menu";
 import { Footer } from "@/lib/ui/blocks/footer";
 import { Header } from "@/lib/ui/blocks/header";
 import { ThemeProvider } from "@/lib/ui/theme-provider";
@@ -53,9 +54,11 @@ export default function RootLayout({
 
           <Header className="flex-none" />
 
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 min-h-[65vh] md:min-h-0">{children}</main>
 
           <Footer className="flex-none" />
+
+          <FloatingMenu />
         </ThemeProvider>
       </body>
     </html>

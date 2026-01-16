@@ -347,8 +347,8 @@ const HeaderSection = ({
   title: string;
   addressList: { text: string; href?: string }[];
 }) => (
-  <div className="w-full max-w-6xl text-center py-12">
-    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+  <div className="w-full max-w-6xl text-center py-12 tracking-tight">
+    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
       {name}
     </h1>
     <p className="mt-4 text-xl md:text-2xl text-gray-700 dark:text-gray-300">
