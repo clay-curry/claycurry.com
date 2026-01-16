@@ -56,6 +56,6 @@ export async function getPost(slug: string) {
   if (!metadata) {
     throw new Error(`Post not found: ${slug}`);
   }
-  const { default: Content } = await import(`@/blog/${slug}.mdx`);
-  return { metadata, Content };
+  const { default: Content, toc } = await import(`@/blog/${slug}.mdx`);
+  return { metadata, Content, toc };
 }

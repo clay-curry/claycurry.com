@@ -24,22 +24,21 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { metadata: postMeta, Content: BlogArticle } = await getPost(slug);
+  const { metadata: postMeta, Content: BlogArticle, toc } = await getPost(slug);
   const { title } = postMeta;
+  console.log("TOC:", toc);
 
   return (
     <article>
       <PageViews />
 
-      <div className="flex max-w-full flex-row gap-14 px-6">
-        {/** TODO: generate "On this Page" for blog (may require implementation elsewhere) */}
-
-        <ArticleContent slug={slug} title={title}>
-          <BlogArticle />
-        </ArticleContent>
-
-        <ArticleMeta slug={slug} title={title} postMeta={postMeta} />
-      </div>
+      <ArticleContent
+        slug={slug}
+        title={title}
+        aside={<ArticleMeta slug={slug} title={title} postMeta={postMeta} />}
+      >
+        <BlogArticle />
+      </ArticleContent>
     </article>
   );
 }
@@ -48,18 +47,26 @@ const ArticleContent = ({
   title,
   slug,
   children,
+  aside,
 }: {
   title: string;
   slug: string;
   children: React.ReactNode;
+  aside: React.ReactNode;
 }) => {
   return (
-    <article className="w-full text-pretty md:max-w-2xl">
-      <div>
-        <BlogBreadcrumb slug={slug} title={title} />
-        <div>{children}</div>
-      </div>
-    </article>
+    <div className="flex max-w-full flex-row gap-14 px-6">
+      {/** TODO: generate "On this Page" for blog (may require implementation elsewhere) */}
+
+      <article className="w-full text-pretty md:max-w-2xl">
+        <div>
+          <BlogBreadcrumb slug={slug} title={title} />
+          <div>{children}</div>
+        </div>
+      </article>
+
+      {aside}
+    </div>
   );
 };
 
