@@ -37,7 +37,7 @@ export default () => (
       </h1>
       <span className="inline-flex items-center gap-1.5 px-3 py-1 text-sm font-medium text-green-700 bg-green-100 rounded-full dark:text-green-400 dark:bg-green-900/30">
         <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-        Available to hire
+        Available for hire
       </span>
       <p className="text-lg text-muted-foreground">
         <ContactLink href="mailto:me@claycurry.com">
