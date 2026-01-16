@@ -17,7 +17,6 @@ export default function OGImage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "80px 100px",
         position: "relative",
       }}
     >
@@ -38,15 +37,20 @@ export default function OGImage() {
       {/* Left content */}
       <div
         style={{
+
+          width: 600,
+          height: 630,
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
-          zIndex: 1,
+          alignItems: "center",
+
+          justifyContent: "center",
+
         }}
       >
         <div
           style={{
-            fontSize: 72,
+            fontSize: 108,
             fontWeight: 700,
             color: "#38bdf8",
             letterSpacing: "-0.02em",
@@ -57,7 +61,7 @@ export default function OGImage() {
         </div>
         <div
           style={{
-            fontSize: 36,
+            fontSize: 54,
             fontWeight: 500,
             color: "#22d3ee",
             marginTop: 8,
@@ -69,12 +73,13 @@ export default function OGImage() {
           style={{
             display: "flex",
             marginTop: 40,
+            marginBottom: 20,
             backgroundColor: "#38bdf8",
             color: "#0d1117",
-            fontSize: 24,
-            fontWeight: 600,
+            fontSize: 64,
+            fontWeight: 800,
             padding: "12px 28px",
-            borderRadius: 50,
+            borderRadius: 80,
           }}
         >
           claycurry.com
@@ -84,28 +89,47 @@ export default function OGImage() {
       {/* Right circle with initials */}
       <div
         style={{
+
+          width: 600,
+          height: 630,
+
+
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
+
           justifyContent: "center",
-          width: 200,
-          height: 200,
-          borderRadius: "50%",
-          border: "3px solid #38bdf8",
-          backgroundColor: "rgba(56, 189, 248, 0.1)",
-          zIndex: 1,
+
         }}
       >
+
+
         <div
           style={{
-            fontSize: 64,
-            fontWeight: 600,
-            color: "#38bdf8",
-            letterSpacing: "0.05em",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 400,
+            height: 400,
+            borderRadius: "50%",
+            border: "3px solid #38bdf8",
+            backgroundColor: "rgba(56, 189, 248, 0.1)",
+            zIndex: 1,
           }}
         >
-          CC
+          <div
+            style={{
+              fontSize: 128,
+              fontWeight: 800,
+              color: "#38bdf8",
+              letterSpacing: "0.05em",
+            }}
+          >
+            CC
+          </div>
         </div>
       </div>
+
     </div>,
     {
       ...size,
