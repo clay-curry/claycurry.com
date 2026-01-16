@@ -9,6 +9,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/lib/ui/components/navigation-menu";
+import { ColorPaletteToggle } from "@/lib/ui/controls/color-palette-toggle";
 import { ModeToggle } from "@/lib/ui/controls/mode-toggle";
 import CIcon from "@/lib/ui/icons/c";
 
@@ -47,9 +48,10 @@ export function Header({ className }: { className?: string }) {
               ))}
             </NavigationMenuList>
           </NavigationMenu>
-          <span className="px-4">
+          <div className="flex items-center gap-2 px-4">
+            <ColorPaletteToggle />
             <ModeToggle />
-          </span>
+          </div>
         </nav>
       </div>
     </header>

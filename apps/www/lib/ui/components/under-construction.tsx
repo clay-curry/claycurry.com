@@ -18,12 +18,9 @@ export default function ComingSoon({ children }: { children?: ReactNode }) {
         className={`${children ? "absolute inset-0 z-10" : ""} flex flex-col items-center justify-center text-center gap-4 min-h-[120px]`}
         aria-label="Coming soon message"
       >
-        <div>
-          <h2 className="text-lg font-semibold mb-1">Coming soon</h2>
-          <p className="text-sm text-muted-foreground">
-            This widget is currently a work in progress. Check back soon!
-          </p>
-        </div>
+        <p className="text-sm text-muted-foreground">
+          This section is currently a work in progress. Check back soon!
+        </p>
         <svg
           className="shrink-0"
           xmlns="http://www.w3.org/2000/svg"

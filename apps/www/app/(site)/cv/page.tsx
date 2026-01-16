@@ -8,7 +8,18 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/lib/ui/components/accordion";
+import {
+  CVBulletList,
+  CVContentBody,
+  CVDetailBlock,
+  CVHighlight,
+  CVLink,
+  CVOrgLocation,
+  CVPositionAdvisor,
+  CVSimpleContent,
+} from "@/lib/ui/components/cv";
 import ComingSoon from "@/lib/ui/components/under-construction";
+import StylizedArrow from "@/lib/ui/icons/stylized-arrow";
 import { PageViews } from "@/lib/ui/widgets/page-views";
 
 export default () => (
@@ -21,13 +32,13 @@ export default () => (
       }
     `}</style>
 
-    <section className="w-full flex flex-col items-center px-1 md:px-3">
+    <section className="flex flex-col items-center w-full px-1 md:px-3">
       <PageViews />
 
       {/* Header */}
       <HeaderSection
         name="Clay Curry"
-        title="Software Engineer"
+        title="Full-Stack Developer"
         addressList={[
           { text: "GitHub", href: "https://github.com/clay-curry" },
           { text: "LinkedIn", href: "https://www.linkedin.com/in/clay-curry/" },
@@ -39,44 +50,65 @@ export default () => (
       <AboutMeSection>
         <AboutMeHeader>About Me</AboutMeHeader>
         <AboutMeContent>
-          I enjoy building useful software inside large legacy ecosystems. My
-          passion lies in simplifying complexity, understanding how systems
-          empower users, and expanding their impact using first principles
-          thinking.
+          <p>
+            I'm a Software Engineer from San Francisco, California, specializing in web application development and 
+            creating  innovative digital solutions. I enjoy turning complex problems into simple, beautiful and intuitive 
+            solutions.
+          </p>
+            
+          <p>
+          My job is to build your website or application so that it is functional and user-friendly but at the same time 
+          attractive. Moreover, I add personal touch to your product and make sure that is eye-catching and easy to use. 
+          My aim is to bring across your message and identity in the most creative way. I've worked with various 
+          technologies including React, Next.js, Node.js, and modern cloud platforms.
+          </p>
         </AboutMeContent>
       </AboutMeSection>
 
       {/* Professional Experience */}
       <AccordionSection delay=".3s">
         <AccordionSectionHeader>Experience</AccordionSectionHeader>
-        <AccordionSectionContent defaultValue="item-1">
+        <AccordionSectionContent>
           <AccordionItem value="item-1">
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
               <AccordionHeader
                 title="Amazon.com. Software Dev Engineer."
-                date="Nov 2024 – Current"
+                date="1 year, 2 months"
               />
             </AccordionTrigger>
             <AccordionContent>
-              <AccordionContentBody>
-                <OrgLocationRow location="Seattle, WA">
-                  Core Shopping, Detail Page,{" "}
-                  <Link
-                    href={
-                      "https://www.helium10.com/blog/what-is-the-amazon-buy-box/"
-                    }
-                  >
-                    BuyBox
-                  </Link>
-                </OrgLocationRow>
-                <BulletList
+              <CVContentBody>
+                <CVOrgLocation
+                  org={
+                    <>
+                      <div className="flex flex-col md:flex-row">
+                      <div>
+                        Core Shopping{" "}
+                        <StylizedArrow className="inline-block w-6 h-6 align-middle" />{" "}
+                        <CVLink href="https://www.amazon.com/dp/https://www.amazon.com/dp/0000000000">{" "}
+                        Product Detail Page{" "}
+                        </CVLink>{" "}
+                        <StylizedArrow className="inline-block w-6 h-6 align-middle" />{" "}
+                      </div>
+                      <div>
+                      <CVLink href="https://www.helium10.com/blog/what-is-the-amazon-buy-box/">
+                        BuyBox
+                      </CVLink>{" "}
+                      </div>
+                      </div>
+                      
+                    </>
+                  }
+                  location="Seattle, WA"
+                />
+                <CVBulletList
                   items={[
                     "Drove the launch of a BuyBox ranking updgrade that produced $30.2 MM revenue growth and 9.7MM lift in annualized units sold.",
                     'Expanded the "Join Prime" BuyBox button to 24 countries, producing 5 additional service and business metrics.',
                     "Participated in a 24x7 engineering on-call rotation for BuyBox to ensure service uptime and subject matter expert availability.",
                   ]}
                 />
-              </AccordionContentBody>
+              </CVContentBody>
             </AccordionContent>
           </AccordionItem>
 
@@ -84,21 +116,21 @@ export default () => (
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
               <AccordionHeader
                 title="University of Oklahoma. Linux System Administrator."
-                date="Feb 2021 – Dec 2023"
+                date="2 years, 10 months"
               />
             </AccordionTrigger>
             <AccordionContent>
-              <OrgLocationRow location="Norman, OK">
-                Department of Physics
-              </OrgLocationRow>
-              <BulletList
-                items={[
-                  "Securely administered 150+ Linux lab workstations and servers used by 2,000+ students and faculty members.",
-                  "Reduced system downtime by 18% by implementing automated monitoring and alerting for critical services.",
-                  "Saved 4 weeks of annual IT operational effort by streamlining inventory-taking procedures using background jobs.",
-                  "Ported legacy department website content to modern content management software, leveraging Python to automate the transfer of 120 pages of structured data.",
-                ]}
-              />
+              <CVContentBody>
+                <CVOrgLocation org="Department of Physics" location="Norman, OK" />
+                <CVBulletList
+                  items={[
+                    "Securely administered 150+ Linux lab workstations and servers used by 2,000+ students and faculty members.",
+                    "Reduced system downtime by 18% by implementing automated monitoring and alerting for critical services.",
+                    "Saved 4 weeks of annual IT operational effort by streamlining inventory-taking procedures using background jobs.",
+                    "Ported legacy department website content to modern content management software, leveraging Python to automate the transfer of 120 pages of structured data.",
+                  ]}
+                />
+              </CVContentBody>
             </AccordionContent>
           </AccordionItem>
 
@@ -106,7 +138,7 @@ export default () => (
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
               <AccordionHeader
                 title="University of Oklahoma. Computer Vision Research Assistant."
-                date="Nov 2021 – Jan 2023"
+                date="1 year, 2 months"
               />
             </AccordionTrigger>
             <AccordionContent>
@@ -129,6 +161,7 @@ export default () => (
       <Card delay=".4s">
         <ComingSoon>
           <SectionHeading>Contributions</SectionHeading>
+          <div className="h-48"/>
         </ComingSoon>
       </Card>
 
@@ -206,7 +239,7 @@ export default () => (
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
               <AccordionHeader
                 title="Association for Computing Machinery (ACM), Oklahoma Student Chapter"
-                date="Sep 2021 – Sep 2022"
+                date="1 year"
               />
             </AccordionTrigger>
             <AccordionContent>
@@ -224,7 +257,7 @@ export default () => (
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
               <AccordionHeader
                 title="Association for Women in Computing (Student Chapter)"
-                date="Apr 2021 – Sep 2022"
+                date="1 year, 5 months"
               />
             </AccordionTrigger>
             <AccordionContent>
@@ -308,7 +341,7 @@ const PrimaryLink = ({
 }) => (
   <Link
     href={href}
-    className="text-blue-600 dark:text-blue-400 underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600"
+    className="text-blue-600 underline dark:text-blue-400 underline-offset-4 decoration-blue-400 dark:decoration-blue-600"
   >
     {children}
   </Link>
@@ -347,11 +380,11 @@ const HeaderSection = ({
   title: string;
   addressList: { text: string; href?: string }[];
 }) => (
-  <div className="w-full max-w-6xl text-center py-12 tracking-tight">
-    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
+  <div className="w-full max-w-6xl py-12 tracking-tight text-center">
+    <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">
       {name}
     </h1>
-    <p className="mt-4 text-xl md:text-2xl text-gray-700 dark:text-gray-300">
+    <p className="mt-4 text-xl text-gray-700 md:text-2xl dark:text-gray-300">
       {title}
     </p>
     <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
@@ -387,7 +420,7 @@ const AddressList = ({
 
 // Section heading with underline decoration
 const SectionHeading = ({ children }: { children: ReactNode }) => (
-  <h2 className="text-xl md:text-2xl font-semibold underline underline-offset-4 decoration-blue-400 dark:decoration-blue-600 mb-2 md:mb-4">
+  <h2 className="mb-2 text-xl font-semibold underline md:text-2xl underline-offset-4 decoration-blue-400 dark:decoration-blue-600 md:mb-4">
     {children}
   </h2>
 );
@@ -399,16 +432,16 @@ const AccordionHeader = ({ title, date }: { title: string; date: string }) => {
 
   return (
     <>
-      <span className="text-left flex-1">{title}</span>
-      <span className="font-normal text-gray-600 dark:text-gray-400 shrink-0 text-center md:text-right leading-tight md:leading-normal">
+      <span className="flex-1 text-left">{title}</span>
+      <span className="font-normal leading-tight text-center text-gray-600 dark:text-gray-400 shrink-0 md:text-right md:leading-normal">
         {dateParts.length > 1 ? (
           <>
-            <span className="whitespace-nowrap block md:inline">
+            <span className="block whitespace-nowrap md:inline">
               {dateParts[0]}
             </span>
             <span className="hidden md:inline"> – </span>
-            <span className="block md:hidden text-xs leading-none">–</span>
-            <span className="whitespace-nowrap block md:inline">
+            <span className="block text-xs leading-none md:hidden">–</span>
+            <span className="block whitespace-nowrap md:inline">
               {dateParts[1]}
             </span>
           </>
@@ -432,7 +465,7 @@ const AccordionContentWrapper = ({ children }: { children: ReactNode }) => (
 );
 
 const AccordionContentTopBorder = () => (
-  <div className="border-t border-gray-300 dark:border-gray-600 w-8 mb-2 mx-auto" />
+  <div className="w-8 mx-auto mb-2 border-t border-gray-300 dark:border-gray-600" />
 );
 
 const AccordionContentSideBorders = ({ children }: { children: ReactNode }) => (
@@ -449,7 +482,7 @@ const OrgLocationRow = ({
   location: string;
   children?: ReactNode;
 }) => (
-  <div className="flex flex-col sm:flex-row sm:justify-between text-gray-900 dark:text-gray-100">
+  <div className="flex flex-col text-gray-900 sm:flex-row sm:justify-between dark:text-gray-100">
     <span>
       <span className="font-bold">org:</span> {children}
     </span>
@@ -461,7 +494,7 @@ const OrgLocationRow = ({
 
 // Bullet list for experience items
 const BulletList = ({ items }: { items: string[] }) => (
-  <ul className="mt-2 space-y-2 list-disc ml-6 text-gray-700 dark:text-gray-300">
+  <ul className="mt-2 ml-6 space-y-2 text-gray-700 list-disc dark:text-gray-300">
     {items.map((item) => (
       <li key={item.slice(0, 50)}>{item}</li>
     ))}
@@ -502,7 +535,7 @@ const AboutMeHeader = ({ children }: { children: ReactNode }) => (
 
 const AboutMeContent = ({ children }: { children: ReactNode }) => (
   <div className="space-y-3 text-gray-700 dark:text-gray-300">
-    <p>{children}</p>
+    {children}
   </div>
 );
 

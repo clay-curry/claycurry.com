@@ -1,6 +1,6 @@
 /* Color palette themes using OKLCH color space */
 
-.theme-zinc {
+:root.theme-zinc {
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
@@ -43,7 +43,7 @@
   --ring: oklch(0.552 0.016 285.938);
 }
 
-.theme-stone {
+:root.theme-stone {
   --background: oklch(0.995 0.001 106.424);
   --foreground: oklch(0.147 0.004 49.25);
   --card: oklch(0.995 0.001 106.424);
@@ -86,7 +86,7 @@
   --ring: oklch(0.869 0.005 56.366);
 }
 
-.theme-slate {
+:root.theme-slate {
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
@@ -129,7 +129,7 @@
   --ring: oklch(0.554 0.022 257.417);
 }
 
-.theme-neutral {
+:root.theme-neutral {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -172,7 +172,7 @@
   --ring: oklch(0.556 0 0);
 }
 
-.theme-gray {
+:root.theme-gray {
   --background: oklch(1 0 0);
   --foreground: oklch(0.13 0.028 261.692);
   --card: oklch(1 0 0);
