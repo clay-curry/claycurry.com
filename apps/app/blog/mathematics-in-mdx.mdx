@@ -2,54 +2,23 @@
 slug: mathematics-in-mdx
 pinned: true
 published: false
-date: "15 Jan 2026"
-title: Mathematics at Scale in MDX
+publishedDate: "15 Jan 2026"
+updatedDate: "20 Jun 2026"
+title: Rendering Mathematics in MDX + Next.js
 subtitle: Developer's Guide to Mathematical Typography in MDX
 prefix: How to render mathematical notation in MDX using the unified ecosystem, with a focus on build-time processing and performance tradeoffs.
 tags:
   - Technical
 ---
 
+# Developer's Guide to Mathematical Typography in MDX
+
 <Summary>
-
-This companion article to [latex-mdx-next](https://github.com/claycurry/latex-mdx-next) aims to dissolve the XY problem
-that motivated the creation.
-the root 
-problem solved 
- XY problem 
-describes the fundamental 
-problem 
-
- mathematical content delivery. 
-
-, put simply, because 
-because the topic of technical and scientific communication over the web is utterly fucking fascinating.
-
- explores the challenges (and 
-solutions) encountered in delivering technical and scientific content over the web.
-solutions) encountered in 
-
-
-
-After translating problems into requirements, the article compares trade-off characterizing alternative technology stacks and shares guidance on intrgrating [KaTeX](https://katex.org/) and the
-
-common  encountered
-when spooning out mathematical content on the web. A bespoke Unified plugin presented the most viable API for users to integrate and  extend. Despite shortcomings from a debuggabity standpoint, the plugin behaves trivially.
-
-This companion article to  reviews the challenges involved in hosting technical and scientific content over the web. After translating problems into requirements, the article compares trade-off characterizing alternative technology stacks and shares guidance on intrgrating [KaTeX](https://katex.org/) and the
-[unified](https://unifiedjs.com/) ecosystem for serving technical and scientific content in Next.js applications.
-
+[LaTeX](https://www.latex-project.org/) is a high-quality typesetting system; it includes features designed for the production of technical and scientific documentation. LaTeX is the de facto standard for the communication and publication of scientific documents. LaTeX is available as free software.
+Markdown is a lightweight markup language used to format text. It allows you to write using plain text syntax and convert it to structurally valid HTML. I
 </Summary>
 
-> NOTE
-> 
-> This article was updated in January 2026 to reflect the release of [React 19.2](https://react.dev/blog/2025/10/01/react-19-2) and [Next.js 16](https://nextjs.org/blog/next-16), which introduce new features and improvements and also a few ([notable](https://nextjs.org/blog/next-16#turbopack-stable)) breaking changes. Make sure to follow the official docs for the latest updates and best practices.
-
-## Introduction
-
-The goal is straightforward: write LaTeX inside MDX files, see beautifully rendered equations on your site. 
-
-This means whenever authors write:
+The goal is straightforward: write LaTeX inside MDX files, see beautifully rendered equations on your site. This means this:
 
 ```mdx {6-8}
 ## Pythagorean Theorem
@@ -63,7 +32,7 @@ $$
 
 ```
 
-they should see:
+produces this:
 
 > ## Pythagorean Theorem
 > 
@@ -76,6 +45,25 @@ they should see:
 
 Getting there is less straightforward - to distribute mathematical content at scale, is exponentially hard. This 
 companion article to `next-tex` explores one approach to mathematical content delivery at scale.
+
+
+## Introduction
+
+
+[LaTeX](https://www.latex-project.org/) is a high-quality typesetting system; it includes features designed for the production of technical and scientific documentation. LaTeX is the de facto standard for the communication and publication of scientific documents. LaTeX is available as free software.
+Markdown is a lightweight markup language used to format text. It allows you to write using plain text syntax and convert it to structurally valid HTML. I
+
+A bespoke Unified plugin presented the most viable API for users to integrate and  extend. Despite shortcomings from a debuggabity standpoint, the plugin behaves trivially.
+when spooning out mathematical content on the web. A bespoke Unified plugin presented the most viable API for users to integrate and  extend. Despite shortcomings from a debuggabity standpoint, the plugin behaves trivially.
+
+This companion article to  reviews the challenges involved in hosting technical and scientific content over the web. After translating problems into requirements, the article compares trade-off characterizing alternative technology stacks and shares guidance on intrgrating [KaTeX](https://katex.org/) and the
+[unified](https://unifiedjs.com/) ecosystem for serving technical and scientific content in Next.js applications.
+
+
+> NOTE
+> 
+> This article was updated in January 2026 to reflect the release of [React 19.2](https://react.dev/blog/2025/10/01/react-19-2) and [Next.js 16](https://nextjs.org/blog/next-16), which introduce new features and improvements and also a few ([notable](https://nextjs.org/blog/next-16#turbopack-stable)) breaking changes. Make sure to follow the official docs for the latest updates and best practices.
+
 
 ## Problem
 

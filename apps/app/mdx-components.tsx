@@ -16,7 +16,7 @@ const components = {
     return (
       <h1
         id={id}
-        className="text-3xl md:text-4xl font-extrabold mt-9 mb-4 text-blue-500 transition-all duration-300 hover:text-blue-500 sm:text-black sm:dark:text-white"
+        className="text-3xl md:text-4xl font-extrabold mt-16 mb-4 text-blue-500 transition-all duration-300 hover:text-blue-500 sm:text-black sm:dark:text-white"
       >
         <a href={`#${id}`} className="no-underline hover:underline">
           {children}
@@ -24,12 +24,13 @@ const components = {
       </h1>
     );
   },
-  h2: ({ children }) => {
-    const id = slugify(children);
+  h2: ({ children, id: existingId, ...props }) => {
+    const id = existingId || slugify(children);
     return (
       <h2
         id={id}
         className="text-2xl md:text-3xl font-bold mt-9 md:mt-12 mb-4 dark:text-gray-200"
+        {...props}
       >
         <a href={`#${id}`} className="no-underline hover:underline">
           {children}
@@ -200,13 +201,8 @@ const components = {
     // Check if this is a footnotes section (remark-gfm adds data-footnotes attribute)
     if ("data-footnotes" in props) {
       return (
-        <section className="mt-12 pt-6 border-t border-gray-200 dark:border-zinc-700">
-          <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
-            Footnotes
-          </h2>
-          <div className="text-sm text-gray-600 dark:text-gray-400">
-            {children}
-          </div>
+        <section className="mt-12 pt-6 border-t border-gray-200 dark:border-zinc-700 text-sm text-gray-600 dark:text-gray-400">
+          {children}
         </section>
       );
     }

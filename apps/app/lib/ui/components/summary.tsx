@@ -1,6 +1,6 @@
 export default function Summary({ children }: { children: React.ReactNode }) {
   return (
-    <div className=" mt-9 md:mt-12   ">
+    <div className=" my-9 md:mt-18   ">
       <div className="flex items-center gap-4 mb-4 md:mb-6">
         <span className="text-sm font-semibold text-primary uppercase tracking-wider">
           Summary
