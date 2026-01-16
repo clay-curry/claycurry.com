@@ -179,6 +179,12 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  /* Semantic color tokens */
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-code-bg: var(--code-bg);
+  --color-code-foreground: var(--code-foreground);
+  --color-highlight: var(--highlight);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -208,6 +214,12 @@
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.705 0.015 286.067);
+  /* Semantic colors for links and code */
+  --link: oklch(0.546 0.245 262.881); /* blue-600 */
+  --link-hover: oklch(0.488 0.243 264.376); /* blue-700 */
+  --code-bg: oklch(0.967 0.001 286.375); /* gray-100 equivalent */
+  --code-foreground: oklch(0.37 0.013 285.805); /* gray-700 equivalent */
+  --highlight: oklch(0.546 0.245 262.881 / 10%); /* blue with 10% opacity */
 }
 
 .dark {
@@ -229,6 +241,12 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.552 0.016 285.938);
+  /* Semantic colors for links and code */
+  --link: oklch(0.707 0.165 254.624); /* blue-400 */
+  --link-hover: oklch(0.623 0.214 259.815); /* blue-500 */
+  --code-bg: oklch(0.274 0.006 286.033); /* zinc-800 equivalent */
+  --code-foreground: oklch(0.871 0.006 286.286); /* gray-200 equivalent */
+  --highlight: oklch(0.707 0.165 254.624 / 15%); /* blue with 15% opacity */
 }
 
 @layer base {

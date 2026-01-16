@@ -17,12 +17,8 @@ import {
   navigationMenuTriggerStyle,
 } from "@/lib/ui/components/navigation-menu";
 import { Button } from "@/lib/ui/controls/button";
-import { ModeToggle, ModeToggleMobile } from "@/lib/ui/controls/mode-toggle";
-import BlueskyIcon from "@/lib/ui/icons/bluesky";
+import { ModeToggle } from "@/lib/ui/controls/mode-toggle";
 import CIcon from "@/lib/ui/icons/c";
-import GitHubIcon from "@/lib/ui/icons/github";
-import LinkedInIcon from "@/lib/ui/icons/linkedin";
-import XIcon from "@/lib/ui/icons/x";
 
 export function Header({ className }: { className?: string }) {
   // Dropdown open state for mobile menu (for a11y controlled via state)
@@ -71,26 +67,6 @@ export function Header({ className }: { className?: string }) {
                   <Link href="/cv">CV</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-
-
-              <div
-                className="border-l h-6 mx-2 self-center"
-                aria-hidden="true"
-              ></div>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <CollaborateButton />
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <div
-                className="border-l h-6 mx-2 self-center"
-                aria-hidden="true"
-              ></div>
             </NavigationMenuList>
           </NavigationMenu>
           <span className="px-4">
@@ -99,22 +75,22 @@ export function Header({ className }: { className?: string }) {
         </nav>
 
         {/* Mobile nav, appears on sm: screens */}
-        <nav className="flex sm:hidden items-center">
+        <nav className="flex sm:hidden items-center gap-2">
+          <ModeToggle />
           {/* Hamburger Button */}
           <DropdownMenu open={mobileOpen} onOpenChange={setMobileOpen}>
             <DropdownMenuTrigger asChild>
               <Button
-                variant="ghost"
+                variant="outline"
+                size="icon"
                 aria-label="Open navigation menu"
                 aria-haspopup="menu"
                 aria-expanded={mobileOpen}
-                className="p-2"
               >
                 {/* Hamburger SVG icon with accessible title */}
                 <svg
                   viewBox="0 0 24 24"
-                  width={28}
-                  height={28}
+                  className="h-[1.2rem] w-[1.2rem]"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth={2}
@@ -138,6 +114,15 @@ export function Header({ className }: { className?: string }) {
             >
               <DropdownMenuItem>
                 <Link
+                  href="/"
+                  className="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-accent text-sm"
+                  tabIndex={0}
+                >
+                  Home
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
                   href="/blog"
                   className="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-accent text-sm"
                   tabIndex={0}
@@ -147,113 +132,17 @@ export function Header({ className }: { className?: string }) {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link
-                  href="https://github.com/clay-curry"
-                  target="_blank"
-                  rel="noopener"
+                  href="/cv"
                   className="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-accent text-sm"
                   tabIndex={0}
                 >
-                  <GitHubIcon />
-                  GitHub
+                  CV
                 </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href="https://linkedin.com/in/clay-curry"
-                  target="_blank"
-                  rel="noopener"
-                  className="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-accent text-sm"
-                  tabIndex={0}
-                >
-                  <LinkedInIcon /> LinkedIn
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href="https://x.com/claycurry_"
-                  target="_blank"
-                  rel="noopener"
-                  className="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-accent text-sm"
-                  tabIndex={0}
-                >
-                  <XIcon /> Twitter
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href="https://bsky.app/profile/claycurry.com"
-                  target="_blank"
-                  rel="noopener"
-                  className="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-accent text-sm"
-                  tabIndex={0}
-                >
-                  <BlueskyIcon /> Bluesky
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <span>
-                  <ModeToggleMobile />
-                </span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </nav>
       </div>
     </header>
-  );
-}
-
-function CollaborateButton() {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button type="button" variant="link">
-          Collaborate
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="mt-3 p-0 w-32" align="center">
-        <DropdownMenuItem asChild>
-          <a
-            href="https://github.com/clay-curry"
-            target="_blank"
-            rel="noopener"
-            className="flex items-center justify-center gap-2.5 text-left"
-          >
-            <GitHubIcon /> GitHub
-          </a>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <a
-            href="https://linkedin.com/in/clay-curry"
-            target="_blank"
-            rel="noopener"
-            className="flex items-center justify-center gap-2.5 text-left"
-          >
-            <LinkedInIcon /> LinkedIn
-          </a>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <a
-            href="https://x.com/claycurry_"
-            target="_blank"
-            rel="noopener"
-            className="flex items-center justify-center gap-2.5 text-left"
-          >
-            <XIcon /> Twitter
-          </a>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <a
-            href="https://bsky.app/profile/claycurry.com"
-            target="_blank"
-            rel="noopener"
-            className="flex items-center justify-center gap-2.5 text-left"
-          >
-            <BlueskyIcon /> Bluesky
-          </a>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
   );
 }

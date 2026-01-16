@@ -29,10 +29,9 @@ export default () => (
         name="Clay Curry"
         title="Software Engineer"
         addressList={[
-          { text: "Seattle, WA" },
-          { text: "me@claycurry.com", href: "mailto:me@claycurry.com" },
           { text: "GitHub", href: "https://github.com/clay-curry" },
           { text: "LinkedIn", href: "https://www.linkedin.com/in/clay-curry/" },
+          { text: "me@claycurry.com", href: "mailto:me@claycurry.com" },
         ]}
       />
 

@@ -1,9 +1,21 @@
 "use client";
+import Link from "next/link";
 import { HeroSection } from "@/lib/ui/components/hero-section";
 import { PrimaryLink } from "@/lib/ui/components/link";
 import { PageViews } from "@/lib/ui/widgets/page-views";
+import BlueskyIcon from "@/lib/ui/icons/bluesky";
+import GitHubIcon from "@/lib/ui/icons/github";
+import LinkedInIcon from "@/lib/ui/icons/linkedin";
+import XIcon from "@/lib/ui/icons/x";
 
 const ContactLink = PrimaryLink;
+
+const socialLinks = [
+  { name: "GitHub", href: "https://github.com/clay-curry", icon: <GitHubIcon /> },
+  { name: "LinkedIn", href: "https://linkedin.com/in/clay-curry", icon: <LinkedInIcon /> },
+  { name: "Twitter", href: "https://x.com/claycurry_", icon: <XIcon /> },
+  { name: "Bluesky", href: "https://bsky.app/profile/claycurry.com", icon: <BlueskyIcon /> },
+];
 
 export default () => (
   <article>
@@ -20,16 +32,28 @@ export default () => (
     </section>
 
     <HeroSection>
-      <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+      <h1 className="text-2xl md:text-2xl lg:text-3xl font-bold tracking-tight">
         Clay Curry
       </h1>
-      <p className="mt-4 text-lg text-gray-700 dark:text-gray-200">
-        Seattle, WA •{" "}
+      <p className="text-lg text-muted-foreground">
         <ContactLink href="mailto:me@claycurry.com">
           me@claycurry.com
         </ContactLink>
-        {/* TODO: insert a row of Icons linking to social accounts */}
       </p>
+      <div className="flex items-center gap-4 mt-4">
+        {socialLinks.map((link) => (
+          <Link
+            key={link.name}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors [&_svg]:w-6 [&_svg]:h-6"
+            aria-label={link.name}
+          >
+            {link.icon}
+          </Link>
+        ))}
+      </div>
     </HeroSection>
   </article>
 );

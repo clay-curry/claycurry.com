@@ -7,7 +7,7 @@ export const PrimaryLink = ({
   href: string;
   children: ReactNode;
 }) => (
-  <a href={href} className="text-blue-600 dark:text-blue-400 hover:underline">
+  <a href={href} className="text-link hover:text-link-hover hover:underline">
     {children}
   </a>
 );

@@ -46,7 +46,7 @@ export function PageViews({
   return (
     <div className="w-full flex justify-end px-4 pt-4">
       <div
-        className={`inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 ${className}`}
+        className={`inline-flex items-center gap-1.5 text-sm text-muted-foreground ${className}`}
       >
         <Eye className="h-4 w-4" />
         {isLoading ? (

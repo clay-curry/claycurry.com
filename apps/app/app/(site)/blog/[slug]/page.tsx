@@ -93,7 +93,7 @@ function OnThisPage({ toc }: { toc: TocItem[] }) {
     <nav className="hidden md:block py-20 shrink-0 pr-1.5 w-fit max-w-50">
       <div className="sticky top-20 flex flex-col gap-4 transition-all duration-300">
         <span className="block pb-3 font-semibold text-sm">On this page</span>
-        <ul className="flex flex-col gap-3 text-sm text-gray-600 dark:text-neutral-400 tracking-tight">
+        <ul className="flex flex-col gap-3 text-sm text-muted-foreground tracking-tight">
           {headings.map((item) => {
             // remark-gfm uses "footnote-label" as the ID for the Footnotes heading
             const id = item.id || (item.value.toLowerCase() === "footnotes" ? "footnote-label" : slugify(item.value));
@@ -102,7 +102,7 @@ function OnThisPage({ toc }: { toc: TocItem[] }) {
               <li key={id}>
                 <a
                   href={href}
-                  className="hover:text-gray-900 dark:hover:text-neutral-200 transition-colors leading-0"
+                  className="hover:text-foreground transition-colors leading-0"
                 >
                   {item.value}
                 </a>
@@ -131,7 +131,7 @@ function ArticleMeta({
   return (
     <aside className="hidden md:block pt-20 w-48 shrink-0 text-sm pl-1 md:pl-6">
       <div className="sticky top-20 flex flex-col gap-4 transition-all duration-300">
-        <div className="flex flex-col gap-2 border border-gray-200 dark:border-neutral-700 rounded-lg p-3">
+        <div className="flex flex-col gap-2 border border-border rounded-lg p-3">
           <div className="w-full gap-2">
             <span className="block pb-2 font-semibold">Read time:</span>
             <p className="text-center">{readTime} min</p>
@@ -152,7 +152,7 @@ function ArticleMeta({
               {postMeta.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded bg-gray-200 px-2 py-1.5 text-sm font-semibold text-gray-800 dark:bg-neutral-800 dark:text-neutral-200"
+                  className="rounded bg-secondary px-2 py-1.5 text-sm font-semibold text-secondary-foreground"
                 >
                   {tag}
                 </span>

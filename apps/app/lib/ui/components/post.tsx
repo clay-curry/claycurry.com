@@ -68,7 +68,7 @@ export function Posts({
               aria-haspopup="listbox"
               aria-expanded={isDropdownOpen}
               onClick={toggleDropdown}
-              className="flex items-center gap-1 px-4 py-2 rounded-md border border-gray-300 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-gray-900 dark:text-white hover:shadow transition"
+              className="flex items-center gap-1 px-4 py-2 rounded-md border border-border bg-background text-foreground hover:shadow transition"
             >
               <FilterIcon />
               Filter
@@ -76,7 +76,7 @@ export function Posts({
             {isDropdownOpen && (
               <div
                 tabIndex={-1}
-                className="z-10 absolute right-0 mt-2 min-w-48 max-h-80 overflow-auto rounded-md bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 shadow-lg transition"
+                className="z-10 absolute right-0 mt-2 min-w-48 max-h-80 overflow-auto rounded-md bg-background border border-border shadow-lg transition"
               >
                 <ul className="py-1">
                   {filterTags.map((tag) => {
@@ -84,7 +84,7 @@ export function Posts({
                     return (
                       <li
                         key={tag}
-                        className="flex cursor-pointer items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-neutral-800 transition focus:outline-none"
+                        className="flex cursor-pointer items-center px-4 py-2 hover:bg-accent transition focus:outline-none"
                         onClick={() => {
                           toggleTag(tag);
                         }}
@@ -175,26 +175,25 @@ function PostEntry({
     <div className="group h-full w-full cursor-pointer rounded-sm">
       <Link
         className={
-          `relative flex h-full w-full flex-col justify-between rounded-lg border border-gray-200 ` +
-          `p-6 transition-shadow duration-300 hover:shadow-md dark:border-neutral-800 ` +
-          `dark:bg-background md:p-6`
+          `relative flex h-full w-full flex-col justify-between rounded-lg border border-border ` +
+          `p-6 transition-shadow duration-300 hover:shadow-md bg-background md:p-6`
         }
         href={`/blog/${slug}`}
       >
         <div
           className={
-            `absolute top-[-12px] left-4 text-xs text-gray-500 bg-white rounded-full ` +
-            `px-2 py-1 dark:bg-neutral-900 dark:text-neutral-200`
+            `absolute top-[-12px] left-4 text-xs text-muted-foreground bg-background rounded-full ` +
+            `px-2 py-1`
           }
         >
           {publishedDate}
         </div>
         <div className="flex">
           <div>
-            <h3 className="font-semibold text-blue-500 transition-all duration-300 group-hover:text-blue-500 sm:text-black sm:dark:text-white md:text-xl">
+            <h3 className="font-semibold text-link transition-all duration-300 group-hover:text-link-hover sm:text-foreground md:text-xl">
               {title}
             </h3>
-            <h4 className="md:text-l font-medium text-neutral-500 transition-all duration-300 dark:text-neutral-400">
+            <h4 className="md:text-l font-medium text-muted-foreground transition-all duration-300">
               {subtitle}
             </h4>
           </div>
@@ -204,7 +203,7 @@ function PostEntry({
           {tags.map((t) => (
             <span
               key={t}
-              className="rounded bg-gray-200 px-2 py-1.5 text-xs font-semibold text-gray-800 transition-all duration-300 dark:bg-neutral-900 dark:text-neutral-200"
+              className="rounded bg-secondary px-2 py-1.5 text-xs font-semibold text-secondary-foreground transition-all duration-300"
             >
               {t}
             </span>
