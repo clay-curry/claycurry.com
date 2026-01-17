@@ -32,9 +32,9 @@ import CIcon from "@/lib/ui/icons/c";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { label: "Home", href: "/" },
+  // { label: "Home", href: "/" },
+  { label: "Resume", href: "/resume" },
   { label: "Blog", href: "/blog" },
-  { label: "CV", href: "/cv" },
 ];
 
 export function Header({ className }: { className?: string }) {
@@ -69,13 +69,13 @@ export function Header({ className }: { className?: string }) {
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  className="w-28 justify-between"
+                  className="w-36 justify-between"
                 >
                   {currentPage?.label ?? "Navigate"}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-28 p-0" align="start">
+              <PopoverContent className="w-36 p-0" align="start">
                 <Command>
                   <CommandInput placeholder="Search..." />
                   <CommandList>

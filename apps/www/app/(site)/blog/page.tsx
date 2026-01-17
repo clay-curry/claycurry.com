@@ -9,19 +9,19 @@ export default function BlogPage() {
     <article>
       <PageViews />
 
-      <section className="hero-section flex flex-col items-start justify-center min-h-[30vh] py-2 md:py-8 px-4">
-        <div className="text-left space-y-4 animate-fade-in-left">
+      <section className="flex flex-col items-start justify-center py-2 md:py-8 px-4">
+        <div className="text-left space-y-4">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
             Blog
           </h1>
         </div>
       </section>
       <div className="my-8 mx-4">
-        <h2 className="text-lg py-8">Pinned</h2>
+        <h2 className="text-sm md:text-lg py-4 md:py-8">Pinned</h2>
         <Posts entries={postMetadata} filterEntries={false} pinnedOnly={true} />
       </div>
-      <div className="my-8 mx-4">
-        <h2 className="text-lg py-4">Recent</h2>
+      <div className="mt-8 mx-4">
+        <h2 className="text-sm md:text-lg pt-4 md:pt-8">Recent</h2>
         <Posts entries={postMetadata} nonPinnedOnly={true} />
       </div>
     </article>

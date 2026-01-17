@@ -8,13 +8,12 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/lib/ui/controls/button";
 import { ColorPaletteToggle } from "@/lib/ui/controls/color-palette-toggle";
 import { ModeToggle } from "@/lib/ui/controls/mode-toggle";
-import RightArrow from "@/lib/ui/icons/right-arrow";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Blog", href: "/blog" },
-  { label: "CV", href: "/cv" },
+  { label: "Resume", href: "/resume" },
 ];
 
 type PostEntry = {
