@@ -1,5 +1,12 @@
 /* Color palette themes using OKLCH color space */
 
+/* TODO: Replace these similar neutral palettes with distinct M3 color schemes
+ * Reference: https://m3.material.io/styles/color/roles
+ * - Add vibrant/expressive color schemes (e.g., teal, orange, purple)
+ * - Map M3 color roles: primary, secondary, tertiary, error, surface variants
+ * - Consider dynamic color generation from seed colors
+ */
+
 .theme-zinc:not(.dark) {
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
