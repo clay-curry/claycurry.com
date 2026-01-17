@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useState } from "react";
 import {
   getAllPostsMetadata,
   getPost,
@@ -127,6 +128,17 @@ function ArticleMeta({
   readTime: number;
 }) {
   const postUrl = `https://claycurry.com/blog/${slug}`;
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(postUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch (err) {
+      setCopied(false);
+    }
+  };
 
   return (
     <aside className="hidden md:block pt-20 w-48 shrink-0 text-sm pl-1 md:pl-6">
@@ -161,22 +173,22 @@ function ArticleMeta({
           </div>
           <div className="w-full">
             <span className="block pb-2 font-semibold">Share</span>
-            <div className="flex justify-around py-1 px-4">
+            <div className="flex justify-around py-1 px-4 gap-2">
               {[
                   {
                     name: "X (Twitter)",
                     href: `https://x.com/intent/tweet?text=${encodeURIComponent(`"${title}"`)}&url=${encodeURIComponent(postUrl)}`,
-                    icon: <XIcon />,
+                    icon: <XIcon />, 
                   },
                   {
                     name: "Bluesky",
                     href: `https://bsky.app/intent/compose?text=${encodeURIComponent(`"${title}"\n\n${postUrl}`)}`,
-                    icon: <BlueskyIcon />,
+                    icon: <BlueskyIcon />, 
                   },
                   {
                     name: "LinkedIn",
                     href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`,
-                    icon: <LinkedInIcon />,
+                    icon: <LinkedInIcon />, 
                   }
                 ].map((link) => (
                 <Link
@@ -190,6 +202,14 @@ function ArticleMeta({
                   {link.icon}
                 </Link>
               ))}
+              <button
+                onClick={handleCopy}
+                className="flex items-center gap-1 px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-xs border border-gray-300"
+                aria-label="Copy link to clipboard"
+                type="button"
+              >
+                {copied ? "Copied!" : "Copy Link"}
+              </button>
             </div>
           </div>
         </div>

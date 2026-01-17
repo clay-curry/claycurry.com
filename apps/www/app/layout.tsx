@@ -5,6 +5,7 @@ import { FloatingMenu } from "@/lib/ui/blocks/floating-menu";
 import { Footer } from "@/lib/ui/blocks/footer";
 import { Header } from "@/lib/ui/blocks/header";
 import { ThemeProvider } from "@/lib/ui/theme-provider";
+import Stitch from "@/lib/ui/blocks/stitch";
 
 export const metadata: Metadata = {
   title: "Clay Curry",
@@ -66,6 +67,7 @@ export default function RootLayout({
       </head>
 
       <body className="flex flex-col min-h-screen w-full max-w-5xl mx-auto">
+        <Stitch />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
