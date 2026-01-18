@@ -1,5 +1,10 @@
 "use client";
 
+// TODO: Use the color selector toggle to cycle between completely different color schemes
+// - Replace current neutral palettes with distinct M3 color schemes
+// - Reference: https://m3.material.io/styles/color/roles
+// - Consider schemes like: tonal, vibrant, expressive, content-based
+
 import { Palette } from "lucide-react";
 import { useEffect, useState } from "react";
 

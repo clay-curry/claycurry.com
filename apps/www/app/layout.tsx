@@ -1,3 +1,15 @@
+// TODO: Set up shadcn registry following MCP guidance
+// - Reference: https://ui.shadcn.com/docs/mcp
+// - Create components.json with proper configuration
+// - Configure registry for custom components in lib/ui/
+
+// TODO: Create feedback solicitation component (see apps/www/feedback.png)
+// - Modal/dialog with "Give feedback" title
+// - Textarea for user input
+// - Emoji reaction buttons (sad, neutral, happy)
+// - Cancel and Submit buttons
+// - Consider where to trigger (footer, floating button, etc.)
+
 import "./globals.css";
 import type { Metadata } from "next";
 import { getAllPostsMetadata } from "@/app/(site)/blog/loader";
@@ -5,6 +17,7 @@ import { FloatingMenu } from "@/lib/ui/blocks/floating-menu";
 import { Footer } from "@/lib/ui/blocks/footer";
 import { Header } from "@/lib/ui/blocks/header";
 import { ThemeProvider } from "@/lib/ui/theme-provider";
+import Stitch from "@/lib/ui/blocks/stitch";
 
 export const metadata: Metadata = {
   title: "Clay Curry",
@@ -66,6 +79,7 @@ export default function RootLayout({
       </head>
 
       <body className="flex flex-col min-h-screen w-full max-w-5xl mx-auto">
+        <Stitch />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
