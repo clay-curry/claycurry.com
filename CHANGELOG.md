@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-18
+
+### Added
+- www-tron app with TRON Legacy inspired design system
+- Vercel React best practices agent skills
+- Web design guidelines skill
+
+### Removed
+- next-tex package (consolidated into main app)
+
 ## 2026-01-17
 
 ### Changed
