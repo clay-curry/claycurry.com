@@ -1,34 +1,40 @@
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
+import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
+import { ThemeProvider } from '@/lib/components/theme-provider'
 import './globals.css'
 
-const poppins = Poppins({ 
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-poppins'
 });
 
+const tourney = localFont({
+  src: [
+    { path: '../public/fonts/Tourney-Regular.ttf', weight: '400' },
+    { path: '../public/fonts/Tourney-Medium.ttf', weight: '500' },
+    { path: '../public/fonts/Tourney-SemiBold.ttf', weight: '600' },
+    { path: '../public/fonts/Tourney-Bold.ttf', weight: '700' },
+  ],
+  variable: '--font-tourney',
+});
+
 export const metadata: Metadata = {
   title: 'Clay Curry - Software Engineer',
-  description: 'Portfolio of Clay Curry, a Software Engineer specializing in modern web technologies',
-  generator: 'v0.app',
+  description: 'Portfolio of Clay Curry, a Software Engineer experienced in web technologies',
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
+        url: "/favicon.svg",
+        media: "(prefers-color-scheme: dark)",
       },
       {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: "/favicon-light.svg",
+        media: "(prefers-color-scheme: light)",
       },
     ],
-    apple: '/apple-icon.png',
   },
 }
 
@@ -38,9 +44,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`${poppins.className} font-sans antialiased`}>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${poppins.className} ${tourney.variable} font-sans antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+        >
+          {children}
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

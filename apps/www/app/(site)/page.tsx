@@ -41,8 +41,8 @@ export default () => (
         Available for hire
       </span>
       <p className="text-lg text-muted-foreground">
-        <ContactLink href="mailto:me@claycurry.com">
-          me@claycurry.com
+        <ContactLink href="mailto:claycurry34@gmail.com">
+          claycurry34@gmail.com
         </ContactLink>
       </p>
       <div className="flex items-center gap-4 mt-4">

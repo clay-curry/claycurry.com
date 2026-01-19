@@ -20,13 +20,13 @@
   --card-foreground: oklch(0.12 0.02 220);
   --popover: oklch(0.99 0.005 200);
   --popover-foreground: oklch(0.12 0.02 220);
-  --primary: oklch(0.65 0.2 195);
+  --primary: #A6DEEB;
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.93 0.02 200);
   --secondary-foreground: oklch(0.12 0.02 220);
   --muted: oklch(0.92 0.01 200);
   --muted-foreground: oklch(0.45 0.02 220);
-  --accent: oklch(0.7 0.18 50);
+  --accent: oklch(0.91 0.16 185);
   --accent-foreground: oklch(0.12 0 0);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.99 0 0);
@@ -52,6 +52,7 @@
   --tron-glow: oklch(0.75 0.2 195);
   --tron-orange: oklch(0.7 0.2 50);
   --tron-grid: oklch(0.65 0.2 195 / 0.1);
+  --primary-accent: oklch(0.91 0.16 185);
 }
 
 .dark {
@@ -68,11 +69,11 @@
   --secondary-foreground: oklch(0.85 0.02 195);
   --muted: oklch(0.2 0.02 240);
   --muted-foreground: oklch(0.55 0.05 195);
-  --accent: oklch(0.7 0.2 50);
+  --accent: oklch(0.91 0.16 185);
   --accent-foreground: oklch(0.08 0 0);
   --destructive: oklch(0.6 0.25 25);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.25 0.05 195);
+  --border: #4E7B7A;
   --input: oklch(0.15 0.02 240);
   --ring: oklch(0.75 0.2 195);
   --chart-1: oklch(0.75 0.2 195);
@@ -93,11 +94,13 @@
   --tron-glow: oklch(0.75 0.2 195);
   --tron-orange: oklch(0.7 0.2 50);
   --tron-grid: oklch(0.75 0.2 195 / 0.08);
+  --primary-accent: oklch(0.91 0.16 185);
 }
 
 @theme inline {
   --font-sans: 'Geist', 'Geist Mono', monospace;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-tourney: var(--font-tourney);
   
   /* TRON Custom Colors */
   --color-tron-cyan: oklch(0.75 0.2 195);
@@ -106,6 +109,7 @@
   --color-tron-orange-dim: oklch(0.5 0.15 50);
   --color-tron-void: oklch(0.05 0.02 240);
   --color-tron-grid: oklch(0.12 0.02 240);
+  --color-primary-accent: var(--primary-accent);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

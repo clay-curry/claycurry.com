@@ -38,11 +38,11 @@ export default () => (
       {/* Header */}
       <HeaderSection
         name="Clay Curry"
-        title="Full-Stack Developer"
+        title="Software Engineer"
         addressList={[
           { text: "GitHub", href: "https://github.com/clay-curry" },
           { text: "LinkedIn", href: "https://www.linkedin.com/in/clay-curry/" },
-          { text: "me@claycurry.com", href: "mailto:me@claycurry.com" },
+          { text: "claycurry34@gmail.com", href: "mailto:claycurry34@gmail.com" },
         ]}
       />
 

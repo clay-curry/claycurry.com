@@ -4,11 +4,8 @@ import { Mail, Phone, MapPin, Send } from 'lucide-react'
 import { useState } from 'react'
 import { contactData } from '@/lib/portfolio-data'
 
-interface ContactSectionProps {
-  data?: typeof contactData
-}
-
-export function ContactSection({ data = contactData }: ContactSectionProps) {
+export default function ContactPage() {
+  const data = contactData
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,7 +25,9 @@ export function ContactSection({ data = contactData }: ContactSectionProps) {
         <div className="w-10 h-1 bg-accent rounded-full mb-6" />
       </div>
 
-      <div className="w-full h-64 md:h-80 rounded-xl md:rounded-2xl overflow-hidden border border-border bg-secondary">
+      <div className='mx-4'>
+
+      <div className="w-full h-48 md:h-72 rounded-xl md:rounded-2xl overflow-hidden border border-border bg-secondary">
         <iframe
           src={data.mapEmbedUrl}
           width="100%"
@@ -40,11 +39,13 @@ export function ContactSection({ data = contactData }: ContactSectionProps) {
           title="Office Location"
         />
       </div>
+      </div>
+
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
         <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
           <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-            <Mail className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+            <Mail className="w-5 h-5 md:w-6 md:h-6 dark:text-primary" />
           </div>
           <div className="min-w-0">
             <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Email</h3>
@@ -59,7 +60,7 @@ export function ContactSection({ data = contactData }: ContactSectionProps) {
 
         <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
           <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-            <Phone className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+            <Phone className="w-5 h-5 md:w-6 md:h-6 dark:text-primary" />
           </div>
           <div>
             <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Phone</h3>
@@ -74,7 +75,7 @@ export function ContactSection({ data = contactData }: ContactSectionProps) {
 
         <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
           <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-            <MapPin className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+            <MapPin className="w-5 h-5 md:w-6 md:h-6 dark:text-primary" />
           </div>
           <div>
             <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Location</h3>

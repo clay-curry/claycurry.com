@@ -8,7 +8,7 @@ interface ProfileSidebarProps {
 
 export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
   return (
-    <aside className="w-full lg:w-80 bg-card rounded-2xl border border-border p-4 md:p-6 lg:sticky lg:top-8 h-fit">
+    <aside className="w-full lg:w-80 bg-card border border-border/80 p-4 md:p-6 lg:sticky lg:top-8 h-fit">
       {/* Profile Image */}
       <div className="flex flex-col items-center">
         <div className="relative w-24 h-24 md:w-32 md:h-32 mb-4 md:mb-6">
@@ -33,55 +33,30 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
 
       {/* Contact Info */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 md:gap-4">
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
-            <Mail className="w-5 h-5 text-accent" />
+        {[
+          { icon: Mail, label: 'Email', value: data.email, href: `mailto:${data.email}`, breakAll: true },
+          { icon: Phone, label: 'Phone', value: data.phone, href: `tel:${data.phone.replace(/\s/g, '')}` },
+          { icon: MapPin, label: 'Location', value: data.location },
+        ].map(({ icon: Icon, label, value, href, breakAll }) => (
+          <div key={label} className="flex items-start gap-3 pl-2">
+            <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
+              <Icon className="w-5 h-5 dark:text-primary" />
+            </div>
+            <div className={`flex-1${breakAll ? ' min-w-0' : ''}`}>
+              <p className="text-xs text-muted-foreground uppercase mb-1">{label}</p>
+              {href ? (
+                <a
+                  href={href}
+                  className={`text-sm text-foreground hover:text-accent transition-colors${breakAll ? ' break-all' : ''}`}
+                >
+                  {value}
+                </a>
+              ) : (
+                <p className="text-sm text-foreground">{value}</p>
+              )}
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs text-muted-foreground uppercase mb-1">Email</p>
-            <a
-              href={`mailto:${data.email}`}
-              className="text-sm text-foreground hover:text-accent transition-colors break-all"
-            >
-              {data.email}
-            </a>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
-            <Phone className="w-5 h-5 text-accent" />
-          </div>
-          <div className="flex-1">
-            <p className="text-xs text-muted-foreground uppercase mb-1">Phone</p>
-            <a
-              href={`tel:${data.phone.replace(/\s/g, '')}`}
-              className="text-sm text-foreground hover:text-accent transition-colors"
-            >
-              {data.phone}
-            </a>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
-            <Calendar className="w-5 h-5 text-accent" />
-          </div>
-          <div className="flex-1">
-            <p className="text-xs text-muted-foreground uppercase mb-1">Birthday</p>
-            <p className="text-sm text-foreground">{data.birthday}</p>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
-            <MapPin className="w-5 h-5 text-accent" />
-          </div>
-          <div className="flex-1">
-            <p className="text-xs text-muted-foreground uppercase mb-1">Location</p>
-            <p className="text-sm text-foreground">{data.location}</p>
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Social Links */}

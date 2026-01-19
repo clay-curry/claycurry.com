@@ -1,11 +1,9 @@
 import { Calendar, Clock, ArrowRight } from 'lucide-react'
 import { blogData } from '@/lib/portfolio-data'
 
-interface BlogSectionProps {
-  data?: typeof blogData
-}
+export default function BlogPage() {
+  const data = blogData
 
-export function BlogSection({ data = blogData }: BlogSectionProps) {
   return (
     <div className="space-y-6 md:space-y-8">
       <div>
@@ -44,7 +42,7 @@ export function BlogSection({ data = blogData }: BlogSectionProps) {
                 {post.title}
               </h3>
               <p className="text-xs md:text-sm text-muted-foreground leading-relaxed mb-4">{post.excerpt}</p>
-              
+
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {post.tags.map((tag, i) => (
