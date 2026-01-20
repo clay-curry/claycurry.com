@@ -19,13 +19,15 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="space-y-6 md:space-y-8">
-      <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Contact</h2>
-        <div className="w-10 h-1 bg-accent rounded-full mb-6" />
+    <div className="py-8 md:py-12 space-y-12 md:space-y-14">
+      <div className="mt-10 mb-20">
+        <div className="flex items-center gap-4 mb-6">
+          <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">Contact</span>
+          <div className="w-3 h-px bg-foreground rounded-full" />
+        </div>
       </div>
 
-      <div className='mx-4'>
+      <div className='mx-0 sm:mx-4'>
 
       <div className="w-full h-48 md:h-72 rounded-xl md:rounded-2xl overflow-hidden border border-border bg-secondary">
         <iframe

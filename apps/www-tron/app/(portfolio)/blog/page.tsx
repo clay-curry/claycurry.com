@@ -5,13 +5,14 @@ export default function BlogPage() {
   const data = blogData
 
   return (
-    <div className="space-y-6 md:space-y-8">
-      <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Blog</h2>
-        <div className="w-10 h-1 bg-accent rounded-full mb-6" />
-      </div>
+    <div className="py-8 md:py-12 space-y-12 md:space-y-14">
+      <div className="mt-10 mb-20">
+        <div className="flex items-center gap-4 mb-12">
+          <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">Blog</span>
+          <div className="w-3 h-px bg-foreground rounded-full" />
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
         {data.posts.map((post, index) => (
           <article
             key={index}
@@ -66,6 +67,7 @@ export default function BlogPage() {
             </div>
           </article>
         ))}
+        </div>
       </div>
     </div>
   )

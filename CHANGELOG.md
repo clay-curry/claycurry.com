@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-20
+
+### Added
+- MDX blog support with gray-matter frontmatter
+- Syntax highlighting via rehype-pretty-code and shiki
+- Table of contents generation via rehype-mdx-toc
+
 ## 2026-01-19
 
 ### Added
