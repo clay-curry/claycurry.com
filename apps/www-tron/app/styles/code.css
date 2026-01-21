@@ -1,0 +1,45 @@
+@reference "../globals.css";
+
+/* Shiki dual-theme support */
+/* Light mode: use --shiki-light variables */
+pre.shiki,
+pre.shiki span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+/* Dark mode: use --shiki-dark variables */
+.dark pre.shiki,
+.dark pre.shiki span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
+/* Code block styling */
+pre[data-language] {
+  @apply overflow-x-auto py-3;
+}
+
+pre[data-language] code {
+  @apply grid;
+  counter-reset: line;
+}
+
+pre[data-language] [data-line] {
+  @apply border-l-2 border-transparent px-4 py-0.5;
+}
+
+pre[data-language] [data-line]::before {
+  @apply mr-4 inline-block w-4 text-right text-muted-foreground;
+  content: counter(line);
+  counter-increment: line;
+}
+
+pre[data-language] [data-highlighted-line] {
+  @apply bg-primary/10 border-l-primary;
+}
+
+/* Code block title/caption styling */
+[data-rehype-pretty-code-title] {
+  @apply font-mono text-sm text-muted-foreground px-4 py-2 border-b border-border bg-muted/50;
+}

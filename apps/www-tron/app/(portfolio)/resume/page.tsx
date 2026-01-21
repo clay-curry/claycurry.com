@@ -39,7 +39,7 @@ export default function ResumePage() {
         {/* About Me */}
         <AboutMeSection
           paragraphs={[
-            "I'm a Software Engineer from Oklahoma City, OKlifornia, experienced in web technologies and user experience design.",
+            "I'm a Software Engineer from Oklahoma City, Oklahoma, experienced in web technologies and user experience design.",
             "My superpower is turning complex problems into simple, beautiful and intuitive applications. This means building products that not only bring across your message and identity but grow and refine it by integrating user feedback.",
           ]}
         />
@@ -276,7 +276,7 @@ const Card = ({
 }) => (
   <div
     className={cva(
-      'w-full mt-6 md:mt-8 p-2 md:p-4 rounded-xl bg-card border border-border/45'
+      'w-full mt-10 md:mt-14 p-2 md:p-4 rounded-xl bg-card border border-border/45'
     )({ className })}
   >
     {children}

@@ -3,7 +3,7 @@ import { PageViews } from '@/lib/components/page-views'
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex-1 w-full h-full border border-border/80 pb-16 bg-card overflow-auto">
+    <div className="w-full bg-card border border-border/80 pb-16 overflow-auto lg:my-8 lg:mr-8">
       <PortfolioNav />
 
       {/* Page Views - absolute so it doesn't shift content */}

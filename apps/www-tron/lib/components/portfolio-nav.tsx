@@ -1,19 +1,29 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Menu } from 'lucide-react'
 import { ThemeToggle } from './theme-toggle'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from '@/lib/components/ui/sheet'
 
 const sections = [
-  'about', 
+  'about',
   'resume',
-  'writing', 
-  'contact', 
+  'writing',
+  'contact',
 ]
 
 export function PortfolioNav() {
   const pathname = usePathname()
   const activeSection = pathname.split('/')[1] || 'about'
+  const [open, setOpen] = useState(false)
 
   return (
     <div className='w-full overflow-hidden'>
@@ -28,13 +38,53 @@ export function PortfolioNav() {
         }
       `}</style>
 
-      {/* Navigation */}
-      <nav className="flex items-center gap-1 sm:gap-2 md:gap-4 pt-[30px] pb-2 px-3 sm:px-4 md:px-6 overflow-x-auto scrollbar-hide">
+      {/* Mobile Navigation */}
+      <nav className="lg:hidden flex items-center justify-end pt-[30px] pb-2 px-3 sm:px-4 md:px-6">
+        <Sheet open={open} onOpenChange={setOpen} modal={false}>
+          <SheetTrigger asChild>
+            <button
+              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              aria-label="Open menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-64" showOverlay={false}>
+            <VisuallyHidden>
+              <SheetTitle>Navigation menu</SheetTitle>
+            </VisuallyHidden>
+            <div className="flex flex-col gap-6 mt-12">
+              <nav className="flex flex-col gap-2">
+                {sections.map((section) => (
+                  <Link
+                    key={section}
+                    href={`/${section}`}
+                    onClick={() => setOpen(false)}
+                    className={`px-4 py-3 rounded-lg text-sm font-medium capitalize transition-colors ${
+                      activeSection === section
+                        ? 'text-foreground bg-accent/10'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+                    }`}
+                  >
+                    {section}
+                  </Link>
+                ))}
+              </nav>
+              <div className="px-4">
+                <ThemeToggle />
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </nav>
+
+      {/* Desktop Navigation */}
+      <nav className="hidden lg:flex items-center gap-4 pt-[30px] pb-2 px-6">
         {sections.map((section) => (
           <Link
             key={section}
             href={`/${section}`}
-            className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium capitalize transition-colors whitespace-nowrap flex-shrink-0 ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition-colors whitespace-nowrap ${
               activeSection === section
                 ? 'text-foreground bg-accent/10'
                 : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
@@ -43,7 +93,7 @@ export function PortfolioNav() {
             {section}
           </Link>
         ))}
-        <div className="ml-auto flex-shrink-0">
+        <div className="ml-auto mr-4">
           <ThemeToggle />
         </div>
       </nav>
