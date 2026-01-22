@@ -14,7 +14,7 @@ const components = {
     return (
       <h1
         id={id}
-        className="text-3xl md:text-4xl font-extrabold mt-16 mb-4 text-primary transition-all duration-300 hover:text-primary/80"
+        className="text-3xl md:text-4xl font-extrabold mt-20 mb-6 text-primary transition-all duration-300 hover:text-primary/80"
       >
         <a href={`#${id}`} className="no-underline hover:underline">
           {children}
@@ -27,7 +27,7 @@ const components = {
     return (
       <h2
         id={id}
-        className="text-2xl md:text-3xl font-bold mt-9 md:mt-12 mb-4 text-foreground"
+        className="text-2xl md:text-3xl font-bold mt-16 md:mt-16 mb-4 text-foreground"
         {...props}
       >
         <a href={`#${id}`} className="no-underline hover:underline">
@@ -41,7 +41,7 @@ const components = {
     return (
       <h3
         id={id}
-        className="text-xl md:text-2xl font-semibold mt-6 mb-3 text-foreground"
+        className="text-xl md:text-2xl font-semibold mt-13 mb-6 text-foreground"
       >
         <a href={`#${id}`} className="no-underline hover:underline">
           {children}
@@ -55,18 +55,18 @@ const components = {
     </p>
   ),
   ul: ({ children }: { children: React.ReactNode }) => (
-    <ul className="my-4 ml-6 list-disc space-y-2 text-muted-foreground">
+    <ul className="my-4 ml-6 list-disc space-y-2" >
       {children}
     </ul>
   ),
   ol: ({ children }: { children: React.ReactNode }) => (
-    <ol className="my-4 ml-6 list-decimal space-y-2 text-muted-foreground">
+    <ol className="my-4 ml-6 list-decimal space-y-2">
       {children}
     </ol>
   ),
   li: ({ children }: { children: React.ReactNode }) => <li className="leading-7">{children}</li>,
   blockquote: ({ children }: { children: React.ReactNode }) => (
-    <blockquote className="my-6 border-l-4 border-primary pl-4 text-muted-foreground">
+    <blockquote className="my-6 border-l-4 border-primary pl-4">
       {children}
     </blockquote>
   ),
@@ -160,7 +160,7 @@ const components = {
   a: ({ href, children }: { href?: string; children: React.ReactNode }) => (
     <a
       href={href}
-      className="text-primary-accent underline underline-offset-4 decoration-primary-accent/50 hover:text-primary-accent/80 hover:decoration-2 transition-colors"
+      className="text-primary underline underline-offset-4 decoration-primary/50 hover:text-primary/80 hover:decoration-2 transition-colors"
     >
       {children}
     </a>

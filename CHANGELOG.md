@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-22
+
+### Added
+- Code block styling with language labels
+- Page view counter component
+- Blog sidebar with sticky navbar and absolute positioning
+
 ## 2026-01-21
 
 ### Added

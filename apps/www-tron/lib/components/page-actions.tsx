@@ -73,7 +73,7 @@ export function CopyPageButton() {
 }
 
 export function EditOnGitHub({ slug }: { slug: string }) {
-  const url = `https://github.com/clay-curry/claycurry.com/edit/main/apps/www-tron/content/blog/${slug}.mdx`
+  const url = `https://github.com/clay-curry/claycurry.com/edit/main/apps/www-tron/blog/${slug}.mdx`
 
   return (
     <a
