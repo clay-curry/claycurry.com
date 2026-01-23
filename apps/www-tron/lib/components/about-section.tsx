@@ -1,5 +1,7 @@
 import { PenTool, Code, Smartphone, Zap } from 'lucide-react'
 import { aboutData } from '@/lib/portfolio-data'
+import { AboutIcon } from './icons/AboutIcon'
+import { SkillsIcon } from './icons/SkillsIcon'
 
 const iconMap = {
   Code,
@@ -17,9 +19,11 @@ export function AboutSection({ data = aboutData }: AboutSectionProps) {
     <div className="space-y-8 md:space-y-10">
       {/* About Me */}
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">About Me</h2>
-        <div className="w-10 h-1 bg-accent rounded-full mb-6" />
-        <div className="space-y-4 text-sm md:text-base text-muted-foreground leading-relaxed">
+        <div className="flex items-center gap-4 mb-6">
+          <AboutIcon className="h-4 md:h-5 w-auto filter-[drop-shadow(0_0_10px_var(--tron-glow))_drop-shadow(0_0_20px_var(--tron-glow))]" />
+          <div className="w-3 h-0.25 bg-foreground rounded-full" />
+        </div>
+        <div className="space-y-4 text-sm md:text-base text-card-foreground leading-relaxed">
           {data.description.map((paragraph, index) => (
             <p key={index}>{paragraph}</p>
           ))}
@@ -28,7 +32,10 @@ export function AboutSection({ data = aboutData }: AboutSectionProps) {
 
       {/* What I'm Doing */}
       <div>
-        <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6">What I'm Doing</h3>
+        <div className="flex items-center gap-4 mb-6">
+          <SkillsIcon className="h-4 md:h-5 w-auto filter-[drop-shadow(0_0_10px_var(--tron-glow))_drop-shadow(0_0_20px_var(--tron-glow))]" />
+          <div className="w-3 h-0.25 bg-foreground rounded-full" />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
           {data.services.map((service, index) => {
             const IconComponent = iconMap[service.icon as keyof typeof iconMap]

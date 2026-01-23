@@ -15,7 +15,7 @@ export const profileData = {
 export const aboutData = {
   description: [
     "I'm a Product Engineer from San Francisco, California, specializing in web technologies and user experience. I enjoy turning complex problems into simple, beautiful and intuitive applications.",
-    "My job is to build products that not only align with your business vision but escalate feedback whenever I see a growth opportunity for users by going another direction.",
+    "My job is to build products that not only align with your business vision but grow and refine it by integrating user feedback.",
     
     "I add personal touch to your product and make sure that it exceeds the expectations of your customers. is eye-catching and easy to useMy aim is to bring across your message and identity in the most creative way. I've worked with various technologies including React, Next.js, Node.js, and modern cloud platforms.",
   ],
