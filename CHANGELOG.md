@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-23
+
+### Added
+- Contact form with Resend email API integration
+
+### Fixed
+- Profile sidebar height stretching to full page
+- Contact API build error (deferred Resend initialization)
+
 ## 2026-01-22
 
 ### Added
