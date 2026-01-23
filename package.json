@@ -8,7 +8,8 @@
     "check": "turbo check",
     "check-types": "turbo check-types",
     "test": "turbo test",
-    "check-links": "turbo check-links"
+    "check-links": "turbo check-links",
+    "postinstall": "./scripts/setup-skills.sh"
   },
   "devDependencies": {
     "turbo": "^2.7.4",
