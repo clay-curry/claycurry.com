@@ -19,7 +19,7 @@
     "github-slugger": "2.0.0",
     "gray-matter": "4.0.3",
     "hast-util-select": "6.0.3",
-    "next": "^16.1.2",
+    "next": "^16.0.10",
     "rehype-parse": "9.0.1",
     "rehype-raw": "7.0.0",
     "remark-parse": "11.0.0",
