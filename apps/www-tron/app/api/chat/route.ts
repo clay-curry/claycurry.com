@@ -2,6 +2,7 @@ import { anthropic } from "@ai-sdk/anthropic";
 import { streamText, convertToModelMessages } from "ai";
 import type { UIMessage } from "ai";
 
+/*
 const SYSTEM_PROMPT = `You are a helpful AI assistant on Clay Curry's portfolio website. You can answer questions about Clay's work, skills, experience, and projects. Be concise, friendly, and helpful.
 
 About Clay:
@@ -10,7 +11,6 @@ About Clay:
 - Passionate about building great user experiences
 
 If you don't have specific information about something, acknowledge that and offer to help in other ways.`;
-
 export async function POST(request: Request) {
   try {
     const { messages } = (await request.json()) as { messages: UIMessage[] };
@@ -36,4 +36,31 @@ export async function POST(request: Request) {
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
+}
+*/
+
+
+// Allow streaming responses up to 30 seconds
+export const maxDuration = 30;
+export async function POST(req: Request) {
+  const {
+    messages,
+    model,
+    webSearch,
+  }: { 
+    messages: UIMessage[]; 
+    model: string; 
+    webSearch: boolean;
+  } = await req.json();
+  const result = streamText({
+    model: webSearch ? 'perplexity/sonar' : model,
+    messages: await convertToModelMessages(messages),
+    system:
+      'You are a helpful assistant that can answer questions and help with tasks',
+  });
+  // send sources and reasoning back to the client
+  return result.toUIMessageStreamResponse({
+    sendSources: true,
+    sendReasoning: true,
+  });
 }
