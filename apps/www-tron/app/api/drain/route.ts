@@ -34,6 +34,11 @@ interface LogEntry {
   statusCode?: number
   host?: string
   path?: string
+  proxy?: {
+    path?: string
+    referer?: string
+    [key: string]: unknown
+  }
   [key: string]: unknown
 }
 
@@ -57,9 +62,10 @@ export async function POST(request: NextRequest) {
     const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD
 
     for (const log of logs) {
-      // Look for ref parameter in the path/message
-      const pathOrMessage = log.path || log.message || ''
-      const refMatch = pathOrMessage.match(/[?&]ref=([^&\s]+)/)
+      // Look for ref parameter in proxy.path (contains query params) or path
+      const proxyPath = log.proxy?.path || ''
+      const path = log.path || ''
+      const refMatch = proxyPath.match(/[?&]ref=([^&\s]+)/) || path.match(/[?&]ref=([^&\s]+)/)
 
       if (refMatch) {
         const ref = refMatch[1].toLowerCase()
