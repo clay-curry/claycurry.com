@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 .turbo
+.
 
 # dependencies
 node_modules
@@ -46,3 +47,10 @@ playwright-report/
 blob-report/
 playwright/.cache/
 playwright/.auth/
+
+# Agent directories (installed via postinstall)
+.agents/
+.claude/
+.codex/
+.cursor/
+.kiro/

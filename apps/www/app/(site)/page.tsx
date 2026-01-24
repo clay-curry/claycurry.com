@@ -10,6 +10,7 @@ import XIcon from "@/lib/ui/icons/x";
 
 const ContactLink = PrimaryLink;
 
+/**Background in web design  */
 const socialLinks = [
   { name: "GitHub", href: "https://github.com/clay-curry", icon: <GitHubIcon /> },
   { name: "LinkedIn", href: "https://linkedin.com/in/clay-curry", icon: <LinkedInIcon /> },
