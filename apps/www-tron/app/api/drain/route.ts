@@ -38,6 +38,8 @@ interface LogEntry {
   statusCode?: number
   host?: string
   path?: string
+  type?: 'first_touch' | 'return_visit'
+  originalTs?: number
   proxy?: {
     path?: string
     referer?: string
@@ -73,10 +75,17 @@ export async function POST(request: NextRequest) {
 
       if (refMatch) {
         const ref = refMatch[1].toLowerCase()
-        // Increment daily count for this referrer
-        await client.hIncrBy(`referrers:${today}`, ref, 1)
-        // Increment all-time count
-        await client.hIncrBy('referrers:total', ref, 1)
+        const isReturnVisit = log.type === 'return_visit'
+
+        if (isReturnVisit) {
+          // Track return visits separately
+          await client.hIncrBy(`referrers:${today}:returns`, ref, 1)
+          await client.hIncrBy('referrers:total:returns', ref, 1)
+        } else {
+          // First touch / new visitor
+          await client.hIncrBy(`referrers:${today}`, ref, 1)
+          await client.hIncrBy('referrers:total', ref, 1)
+        }
         processed++
       }
     }
@@ -104,12 +113,14 @@ export async function GET(request: NextRequest) {
     }
 
     if (date) {
-      const stats = await client.hGetAll(`referrers:${date}`)
-      return NextResponse.json({ date, referrers: stats })
+      const firstTouch = await client.hGetAll(`referrers:${date}`)
+      const returns = await client.hGetAll(`referrers:${date}:returns`)
+      return NextResponse.json({ date, firstTouch, returns })
     }
 
-    const total = await client.hGetAll('referrers:total')
-    return NextResponse.json({ referrers: total })
+    const firstTouch = await client.hGetAll('referrers:total')
+    const returns = await client.hGetAll('referrers:total:returns')
+    return NextResponse.json({ firstTouch, returns })
   } catch (error) {
     console.error('Drain stats error:', error)
     return NextResponse.json({ error: 'Failed to get stats' }, { status: 500 })
