@@ -26,7 +26,7 @@ export function PortfolioNav() {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className='w-full overflow-hidden'>
+    <div className='w-full overflow-hidden sticky top-0 z-20 bg-background'>
       <style jsx>{`
         @keyframes dotTravel {
           0% {

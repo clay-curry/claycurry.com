@@ -44,8 +44,24 @@ function MermaidContent({ chart }: { chart: string }) {
     startOnLoad: false,
     securityLevel: 'loose',
     fontFamily: 'var(--font-geist-mono), ui-monospace, monospace',
-    themeCSS: 'margin: 1.5rem auto 0;',
+    themeCSS: `
+      margin: 1.5rem auto 0;
+      .nodeLabel, .label, .edgeLabel {
+        text-align: left !important;
+      }
+      .node .label foreignObject div {
+        text-align: left !important;
+        padding: 0 20px !important;
+      }
+    `,
     theme: resolvedTheme === 'dark' ? 'dark' : 'default',
+    flowchart: {
+      htmlLabels: true,
+      nodeSpacing: 80,
+      rankSpacing: 60,
+      padding: 40,
+      useMaxWidth: false,
+    },
   })
 
   const { svg, bindFunctions } = use(

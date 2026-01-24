@@ -12,12 +12,12 @@ type ExampleTabsProps = {
 export function ExampleTabs({ children, className }: ExampleTabsProps) {
   return (
     <Tabs defaultValue="rendered" className={cn('my-6', className)}>
-      <div className="flex flex-col overflow-hidden rounded-xl border bg-secondary">
-        <TabsList variant="line" className="px-4 border-b bg-sidebar">
-          <TabsTrigger value="rendered" className="text-sm">
+      <div className="flex flex-col py-2 overflow-hidden rounded-xl border border-sidebar-border bg-sidebar">
+        <TabsList variant="line" className="px-4">
+          <TabsTrigger value="rendered" className="text-sm rounded-lg hover:bg-accent">
             Rendered
           </TabsTrigger>
-          <TabsTrigger value="source" className="text-sm">
+          <TabsTrigger value="source" className="text-sm rounded-lg hover:bg-accent">
             Source
           </TabsTrigger>
         </TabsList>
@@ -34,7 +34,7 @@ type ExampleTabProps = {
 
 function ExampleTab({ children, className }: ExampleTabProps) {
   return (
-    <div className={cn('p-4 bg-background rounded-b-xl', className)}>
+    <div className={cn('p-4 bg-background rounded-2xl', className)}>
       {children}
     </div>
   )

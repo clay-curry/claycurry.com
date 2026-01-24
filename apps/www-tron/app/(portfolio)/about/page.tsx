@@ -1,5 +1,7 @@
 import { PenTool, Code, Smartphone, Zap } from 'lucide-react'
 import { aboutData } from '@/lib/portfolio-data'
+import { getAllPostsMetadata } from '../blog/loader'
+import { WritingsSection } from '@/lib/components/writings-section'
 
 const iconMap = {
   Code,
@@ -10,6 +12,7 @@ const iconMap = {
 
 export default function AboutPage() {
   const data = aboutData
+  const posts = getAllPostsMetadata()
 
   return (
     <div className="py-8 md:py-12 space-y-12 md:space-y-14">
@@ -26,6 +29,9 @@ export default function AboutPage() {
         </div>
       </div>
 
+      {/* Writings */}
+      <WritingsSection posts={posts} />
+
       {/* What I'm Doing */}
       <div className='mb-20'>
         <div className="flex items-center gap-4 mb-6">
@@ -40,7 +46,7 @@ export default function AboutPage() {
                 key={index}
                 className="flex gap-3 md:gap-4 p-4 md:p-6 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors"
               >
-                <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
+                <div className="w-10 h-10 md:w-12 md:h-12 shrink-0">
                   <IconComponent className="w-full h-full text-primary" strokeWidth={1.5} />
                 </div>
                 <div>
@@ -52,9 +58,6 @@ export default function AboutPage() {
           })}
         </div>
       </div>
-
-      {/* Testimonials with Marquee Animation */}
-      
     </div>
   )
 }

@@ -9,6 +9,7 @@ export type PostMetadata = {
   publishedDate: string;
   updatedDate?: string;
   title: string;
+  shortTitle?: string;
   subtitle: string;
   prefix: string;
   tags: string[];

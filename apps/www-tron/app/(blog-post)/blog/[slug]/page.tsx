@@ -29,7 +29,7 @@ export default async function BlogPostPage({
       <MobileToc toc={toc} />
 
       {/* Sidebar - fixed to right side on desktop */}
-      <aside className="hidden lg:block fixed right-8 top-30 w-64 z-10">
+      <aside className="hidden lg:block fixed right-2 top-30 w-64 z-10">
         <div>
           <OnThisPage toc={toc} />
           <PageActions slug={slug} />
