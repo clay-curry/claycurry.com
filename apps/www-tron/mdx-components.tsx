@@ -160,7 +160,7 @@ const components = {
   a: ({ href, children }: { href?: string; children: React.ReactNode }) => (
     <a
       href={href}
-      className="text-primary-accent underline underline-offset-4 decoration-primary-accent/50 hover:text-primary-accent/80 hover:decoration-2 transition-colors"
+      className="text-primary underline underline-offset-4 decoration-primary/50 hover:text-primary/80 hover:decoration-2 transition-colors"
     >
       {children}
     </a>
