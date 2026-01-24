@@ -8,7 +8,6 @@ import { ChevronRightIcon, MessagesSquareIcon, Trash } from "lucide-react";
 import { Portal } from "radix-ui";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { defaultRehypePlugins } from "streamdown";
 import type { MyUIMessage } from "@/app/api/chat/types";
 import {
   Conversation,
@@ -119,8 +118,6 @@ type ChatProps = {
   basePath?: string;
   suggestions: string[];
 };
-
-const { harden, ...plugins } = defaultRehypePlugins;
 
 const ChatInner = ({ basePath, suggestions }: ChatProps) => {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -301,21 +298,7 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
                         key={`${message.id}-${part.type}-${partIndex}`}
                       >
                         {isAssistantMessage ? (
-                          <MessageResponse
-                            className="text-wrap"
-                            rehypePlugins={[
-                              ...Object.values(plugins),
-                              [
-                                harden,
-                                {
-                                  defaultOrigin:
-                                    process.env
-                                      .NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL,
-                                  allowedLinkPrefixes: ["*"]
-                                }
-                              ]
-                            ]}
-                          >
+                          <MessageResponse className="text-wrap">
                             {part.text}
                           </MessageResponse>
                         ) : (

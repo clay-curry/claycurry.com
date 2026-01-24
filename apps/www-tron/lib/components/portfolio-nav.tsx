@@ -58,7 +58,7 @@ export function PortfolioNav() {
               <Menu className="w-5 h-5" />
             </button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-64" showOverlay={false}>
+          <SheetContent side="right" className="w-64">
             <VisuallyHidden>
               <SheetTitle>Navigation menu</SheetTitle>
             </VisuallyHidden>
