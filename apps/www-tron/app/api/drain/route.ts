@@ -9,6 +9,10 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { createClient } from 'redis'
 
+// Force dynamic to prevent any caching or static behavior
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 let redisClient: ReturnType<typeof createClient> | null = null
 
 async function getRedisClient() {
