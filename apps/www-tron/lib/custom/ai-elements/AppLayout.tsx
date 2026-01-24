@@ -1,7 +1,7 @@
-import { PortfolioNav } from '@/lib/components/portfolio-nav'
-import { PageViews } from '@/lib/components/page-views'
-import { ThemeToggle } from '@/lib/components/theme-toggle'
-import { Chat } from '@/lib/components/ai-elements/chat'
+import { PortfolioNav } from '@/lib/custom/ai-elements/portfolio-nav'
+import { PageViews } from '@/lib/custom/ai-elements/page-views'
+import { ThemeToggle } from '@/lib/custom/ai-elements/theme-toggle'
+import { Chat } from '@/lib/custom/ai-elements/chat'
 
 const suggestions = [
   "What are Clay's skills?",

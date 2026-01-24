@@ -13,12 +13,12 @@ import {
   Conversation,
   ConversationContent,
   ConversationScrollButton
-} from "@/lib/components/ai-elements/conversation";
+} from "@/lib/custom/ai-elements/conversation";
 import {
   Message,
   MessageContent,
   MessageResponse
-} from "@/lib/components/ai-elements/message";
+} from "@/lib/custom/ai-elements/message";
 import {
   PromptInput,
   PromptInputAttachment,
@@ -29,9 +29,9 @@ import {
   PromptInputProvider,
   PromptInputSubmit,
   PromptInputTextarea
-} from "@/lib/components/ai-elements/prompt-input";
-import { Shimmer } from "@/lib/components/ai-elements/shimmer";
-import { Suggestion, Suggestions } from "@/lib/components/ai-elements/suggestion";
+} from "@/lib/custom/ai-elements/prompt-input";
+import { Shimmer } from "@/lib/custom/ai-elements/shimmer";
+import { Suggestion, Suggestions } from "@/lib/custom/ai-elements/suggestion";
 import { Button } from "@/lib/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/lib/components/ui/drawer";
 import { useChatContext } from "@/lib/hooks/use-chat";

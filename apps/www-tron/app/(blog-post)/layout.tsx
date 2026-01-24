@@ -1,5 +1,5 @@
-import { PortfolioNav } from '@/lib/components/portfolio-nav'
-import { BlogSidebar } from '@/lib/components/blog-sidebar'
+import { PortfolioNav } from '@/lib/custom/ai-elements/portfolio-nav'
+import { BlogSidebar } from '@/lib/custom/ai-elements/blog-sidebar'
 import { SidebarProvider, SidebarInset } from '@/lib/components/ui/sidebar'
 import { getAllPostsMetadata } from '../(portfolio)/blog/loader'
 

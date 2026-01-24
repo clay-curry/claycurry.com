@@ -1,10 +1,10 @@
 import type { MDXComponents } from "mdx/types";
 import Image, { type ImageProps } from "next/image";
 import Summary from "@/lib/components/ui/summary";
-import { CodeBlock } from "@/lib/components/code-block";
-import { Mermaid } from "@/lib/components/mermaid";
-import { DiagramTabs, DiagramContent, MermaidContent, AsciiContent } from "@/lib/components/diagram-tabs";
-import { ExampleTabs, RenderedContent, SourceContent } from "@/lib/components/example-tabs";
+import { CodeBlock } from "@/lib/custom/ai-elements/code-block";
+import { Mermaid } from "@/lib/custom/ai-elements/mermaid";
+import { DiagramTabs, DiagramContent, MermaidContent, AsciiContent } from "@/lib/custom/ai-elements/diagram-tabs";
+import { ExampleTabs, RenderedContent, SourceContent } from "@/lib/custom/ai-elements/example-tabs";
 import { slugify } from "@/lib/utils";
 
 // TRON-themed MDX components
