@@ -7,7 +7,8 @@ export const profileData = {
   location: 'Oklahoma City, OK, USA',
   social: {
     github: 'https://github.com/clay-curry',
-    twitter: 'https://twitter.com/ccurry'
+    twitter: 'https://twitter.com/ccurry',
+    linkedin: 'https://www.linkedin.com/in/clay-curry/',
   },
 }
 

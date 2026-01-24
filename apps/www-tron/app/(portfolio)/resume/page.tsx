@@ -140,18 +140,28 @@ export default function ResumePage() {
                   <p>Mathematics minor.</p>
                   <CVBulletList
                     items={[
-                      <>
-                        Association for Computing Machinery (ACM), Oklahoma Student Chapter — President, Chair (1 year). Advisor:{' '}
-                        <CVLink href="https://www.linkedin.com/in/rafal-jabrzemski-0546464/">
-                          Rafal Jabrzemski
-                        </CVLink>
-                      </>,
-                      <>
-                        Association for Women in Computing (Student Chapter) — Treasurer (1 year, 5 months). Advisor:{' '}
+                      <div>
+                        <div>
+                          President — Association for Computing Machinery (ACM), Oklahoma Student Chapter, Chair.
+                        </div>
+                        <div>
+                          Advisor:{' '}
+                          <CVLink href="https://www.linkedin.com/in/rafal-jabrzemski-0546464/">
+                            Rafal Jabrzemski
+                          </CVLink>
+                        </div>                      
+                      </div>,
+                      <div>
+                        <div>
+                          Treasurer — Association for Women in Computing (Student Chapter). 
+                        </div>
+                        <div>
+                          Advisor:{' '}
                         <CVLink href="https://www.linkedin.com/in/sridhar-radhakrishnan-b3591817/">
                           Sridhar Radhakrishnan
                         </CVLink>
-                      </>,
+                        </div>
+                      </div>,
                     ]}
                   />
                 </CVContentBody>
@@ -266,7 +276,7 @@ const Card = ({
 }) => (
   <div
     className={cva(
-      'w-full mt-6 md:mt-8 p-4 md:p-6 rounded-xl bg-card border border-border/45'
+      'w-full mt-6 md:mt-8 p-2 md:p-4 rounded-xl bg-card border border-border/45'
     )({ className })}
   >
     {children}
@@ -323,7 +333,7 @@ const AddressList = ({
 
 // Section heading with TRON accent
 const SectionHeading = ({ children, icon: Icon }: { children: ReactNode; icon?: LucideIcon }) => (
-  <div className="flex items-center gap-2 md:gap-3 mb-4 border-b border-primary/30 pb-2">
+  <div className="flex items-center gap-2 md:gap-3 my-3 border-b border-primary/30 pb-2">
     {Icon && <Icon className="w-5 h-5 md:w-6 md:h-6 dark:text-primary" />}
     <h2 className="text-xl font-semibold md:text-2xl text-foreground text-shadow-none">
       {children}
