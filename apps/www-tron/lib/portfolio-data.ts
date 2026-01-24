@@ -20,17 +20,17 @@ export const aboutData = {
   services: [
     {
       icon: 'Code',
-      title: 'Frontend Development',
+      title: 'Full Stack Development',
       description: 'Building modern, responsive web applications with React, Next.js, and TypeScript.',
     },
     {
       icon: 'Zap',
-      title: 'Backend Development',
-      description: 'Creating robust APIs and server-side solutions with Node.js and modern frameworks.',
+      title: 'Agent Engineering',
+      description: 'Producing robust AI-powered agents using Claude, GrokAI, ChatGPT, and more.',
     },
     {
       icon: 'Smartphone',
-      title: 'Mobile Development',
+      title: 'Product Engineering',
       description: 'This means using, and not overrelying on, business metrics to decide what features make the cut.',
     },
     {

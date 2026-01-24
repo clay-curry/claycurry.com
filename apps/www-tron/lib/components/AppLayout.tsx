@@ -1,9 +1,10 @@
 import { PortfolioNav } from '@/lib/components/portfolio-nav'
 import { PageViews } from '@/lib/components/page-views'
+import { ThemeToggle } from '@/lib/components/theme-toggle'
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-full bg-card border border-border/80 pb-16 overflow-auto lg:my-8 lg:mr-8">
+    <div className="w-full bg-card border border-border/80 overflow-auto lg:my-8 lg:mr-8">
       <PortfolioNav />
 
       {/* Page Views - absolute so it doesn't shift content */}
@@ -13,6 +14,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
         {children}
       </div>
+
+      {/* Footer */}
+      <footer className="flex items-center justify-center py-6 border-t border-border mx-6">
+        <ThemeToggle />
+      </footer>
     </div>
   )
 }

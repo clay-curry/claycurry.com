@@ -8,20 +8,6 @@ export function WritingsSection({ posts }: { posts: PostMetadata[] }) {
   const recentPosts = posts.slice(0, 3)
 
   return (
-    <div className="mb-20">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">Writings</span>
-          <div className="w-3 h-px bg-foreground rounded-full" />
-        </div>
-        <Link
-          href="/blog"
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-accent transition-colors"
-        >
-          View all
-          <ArrowRight className="w-4 h-4" />
-        </Link>
-      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
         {recentPosts.map((post) => (
@@ -60,6 +46,5 @@ export function WritingsSection({ posts }: { posts: PostMetadata[] }) {
           </Link>
         ))}
       </div>
-    </div>
   )
 }
