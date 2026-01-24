@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-24
+
+### Added
+- Log drain endpoint for referrer tracking
+- Short URL redirects (/m for self-referral)
+- First-touch referrer storage with cookie timestamps
+- Return visit tracking separate from first-touch
+
 ## 2026-01-23
 
 ### Added
