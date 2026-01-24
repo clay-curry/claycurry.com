@@ -1,6 +1,10 @@
 import type { MDXComponents } from "mdx/types";
 import Image, { type ImageProps } from "next/image";
 import Summary from "@/lib/components/ui/summary";
+import { CodeBlock } from "@/lib/components/code-block";
+import { Mermaid } from "@/lib/components/mermaid";
+import { DiagramTabs, DiagramContent, MermaidContent, AsciiContent } from "@/lib/components/diagram-tabs";
+import { ExampleTabs, RenderedContent, SourceContent } from "@/lib/components/example-tabs";
 import { slugify } from "@/lib/utils";
 
 // TRON-themed MDX components
@@ -62,33 +66,53 @@ const components = {
   ),
   li: ({ children }: { children: React.ReactNode }) => <li className="leading-7">{children}</li>,
   blockquote: ({ children }: { children: React.ReactNode }) => (
-    <blockquote className="my-6 border-l-4 border-primary pl-4 text-muted-foreground italic">
+    <blockquote className="my-6 border-l-4 border-primary pl-4 text-muted-foreground">
       {children}
     </blockquote>
   ),
-  code: ({ children, ...props }: { children: React.ReactNode; "data-theme"?: string }) => {
-    if ("data-theme" in props) {
+  code: ({ children, style, ...props }: { children: React.ReactNode; "data-theme"?: string; "data-language"?: string; style?: React.CSSProperties }) => {
+    // Check if this is inline code (plaintext language typically means inline)
+    const isInlineCode = props["data-language"] === "plaintext";
+
+    if (isInlineCode) {
+      // Strip rehype-pretty-code's inline styles for inline code
       return (
-        <code {...props} className="text-sm font-mono">
+        <code className="bg-transparent! text-primary-accent! font-mono **:text-primary-accent! **:bg-transparent!">
           {children}
         </code>
       );
     }
+
+    // Block code from rehype-pretty-code
+    if ("data-language" in props) {
+      return (
+        <code {...props} style={style} className="text-sm font-mono">
+          {children}
+        </code>
+      );
+    }
+
+    // Plain inline code (not processed by rehype-pretty-code)
     return (
-      <code className="px-1.5 py-0.5 rounded bg-secondary text-sm font-mono text-primary">
+      <code className="px-1.5 py-0.5 rounded bg-muted text-sm font-mono text-primary border border-border">
         {children}
       </code>
     );
   },
-  pre: ({ children, ...props }: { children: React.ReactNode }) => (
-    <pre
-      {...props}
-      className="my-6 overflow-x-auto rounded-lg p-4 text-sm bg-secondary border border-border [&>code]:grid [&>code]:gap-0 [counter-reset:line] [&_[data-line]]:border-l-2 [&_[data-line]]:border-transparent [&_[data-line]]:pl-2 [&_[data-line]]:before:mr-4 [&_[data-line]]:before:inline-block [&_[data-line]]:before:w-4 [&_[data-line]]:before:text-right [&_[data-line]]:before:text-muted-foreground [&_[data-line]]:before:content-[counter(line)] [&_[data-line]]:[counter-increment:line] [&_[data-highlighted-line]]:border-primary"
-    >
+  pre: ({ children, ...props }: { children: React.ReactNode; "data-language"?: string; title?: string }) => (
+    <CodeBlock {...props}>
       {children}
-    </pre>
+    </CodeBlock>
   ),
-  span: ({ children, ...props }: { children: React.ReactNode; "data-line"?: boolean; "data-highlighted-line"?: boolean }) => {
+  span: ({ children, ...props }: { children: React.ReactNode; "data-line"?: boolean; "data-highlighted-line"?: boolean; "data-rehype-pretty-code-figure"?: string }) => {
+    // Inline code from rehype-pretty-code is wrapped in span (not figure)
+    if ("data-rehype-pretty-code-figure" in props) {
+      return (
+        <span className="px-1.5 py-0.5 rounded bg-muted text-sm font-mono text-primary border border-border inline-block">
+          {children}
+        </span>
+      );
+    }
     if ("data-line" in props) {
       const isHighlighted = "data-highlighted-line" in props;
       return (
@@ -104,11 +128,8 @@ const components = {
   },
   figure: ({ children, ...props }: { children: React.ReactNode; "data-rehype-pretty-code-figure"?: boolean }) => {
     if ("data-rehype-pretty-code-figure" in props) {
-      return (
-        <figure {...props} className="my-6">
-          {children}
-        </figure>
-      );
+      // rehype-pretty-code wraps code in figure, just pass through children
+      return <>{children}</>;
     }
     return <figure {...props}>{children}</figure>;
   },
@@ -139,7 +160,7 @@ const components = {
   a: ({ href, children }: { href?: string; children: React.ReactNode }) => (
     <a
       href={href}
-      className="text-primary underline underline-offset-4 decoration-primary/50 hover:text-primary/80 hover:decoration-2 transition-colors"
+      className="text-primary-accent underline underline-offset-4 decoration-primary-accent/50 hover:text-primary-accent/80 hover:decoration-2 transition-colors"
     >
       {children}
     </a>
@@ -192,6 +213,14 @@ const components = {
     return <section {...props}>{children}</section>;
   },
   Summary,
+  Mermaid,
+  DiagramTabs,
+  DiagramContent,
+  MermaidContent,
+  AsciiContent,
+  ExampleTabs,
+  RenderedContent,
+  SourceContent,
 } satisfies MDXComponents;
 
 export function useMDXComponents(): MDXComponents {

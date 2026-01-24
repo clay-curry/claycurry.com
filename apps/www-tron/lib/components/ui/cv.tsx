@@ -67,7 +67,7 @@ export function CVContentBody({
 }) {
   return (
     <div className={cn('mt-3 text-muted-foreground', className)}>
-      <div className="border border-primary/30 rounded my-0.5 px-4 py-4 space-y-4 text-card-foreground">
+      <div className="border border-primary/30 rounded my-0.5 px-4 py-4 space-y-4">
         {children}
       </div>
     </div>
@@ -104,7 +104,7 @@ export function CVRowItem({
   className?: string
 }) {
   return (
-    <div className={cn('mb-6 flex flex-col md:flex-row text-card-foreground', className)}>
+    <div className={cn('mb-6 flex flex-col md:flex-row', className)}>
       <CVLabel>{label}:&nbsp;&nbsp;</CVLabel>{children}
     </div>
   )
@@ -129,7 +129,7 @@ export function CVBulletList({
           </div>
           {/* Right column: text */}
           <div className={cn(
-            'text-card-foreground text-sm flex-1 pb-4',
+            'text-sm flex-1 pb-4',
           )}>
             {item}
           </div>

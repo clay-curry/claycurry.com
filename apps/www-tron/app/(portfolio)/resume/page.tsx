@@ -39,7 +39,7 @@ export default function ResumePage() {
         {/* About Me */}
         <AboutMeSection
           paragraphs={[
-            "I'm a Software Engineer from Oklahoma City, OKlifornia, experienced in web technologies and user experience design.",
+            "I'm a Software Engineer from Oklahoma City, Oklahoma, experienced in web technologies and user experience design.",
             "My superpower is turning complex problems into simple, beautiful and intuitive applications. This means building products that not only bring across your message and identity but grow and refine it by integrating user feedback.",
           ]}
         />

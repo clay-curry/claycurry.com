@@ -1,15 +1,22 @@
 import type { Metadata } from 'next'
-import { Poppins } from 'next/font/google'
+import { Geist_Mono, Poppins } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
+import { Toaster } from 'sonner'
 import { ThemeProvider } from '@/lib/components/theme-provider'
 import 'katex/dist/katex.min.css'
 import './globals.css'
+import './styles/code.css'
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-poppins'
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: '--font-geist-mono',
 });
 
 const tourney = localFont({
@@ -46,13 +53,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${poppins.className} ${tourney.variable} font-sans antialiased w-full`} suppressHydrationWarning>
+      <body className={`${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem={false}
         >
           {children}
+          <Toaster theme="dark" position="bottom-right" />
         </ThemeProvider>
         <Analytics />
       </body>

@@ -12,34 +12,39 @@ tags:
 ---
 
 <Summary>
-[LaTeX](https://www.latex-project.org/) is a high-quality typesetting system; it includes features designed for the production of technical and scientific documentation. LaTeX is the de facto standard for the communication and publication of scientific documents. LaTeX is available as free software.
-Markdown is a lightweight markup language used to format text. It allows you to write using plain text syntax and convert it to structurally valid HTML. I
+[LaTeX](https://www.latex-project.org/) is a high-quality typesetting system; it includes features designed for the 
+production of technical and scientific documentation. LaTeX is the de facto standard for the communication and 
+publication of scientific documents. LaTeX is available as free software. Markdown is a lightweight markup language used
+to format text. It allows you to write using plain text syntax and convert it to structurally valid HTML.
 </Summary>
 
-The goal is straightforward: write LaTeX inside MDX files, see beautifully rendered equations on your site. This means this:
+The goal is straightforward: write LaTeX inside MDX files, produce beautifully rendered equations on your site.
 
-```mdx {6-8}
+<ExampleTabs>
+  <RenderedContent>
+    ## Pythagorean Theorem
+
+    If $V$ is an inner product space, any pair $x, y \in V$ will satisfy
+
+    $$
+    x \perp y \iff \lVert x + y \rVert ^2 = \lVert x \rVert^2 + \lVert y \rVert^2
+    $$
+  </RenderedContent>
+
+  <SourceContent>
+
+```mdx
 ## Pythagorean Theorem
 
-Suppose $V$ is an inner product space. For any pair $x, y \in V$,
-we have
+If $V$ is an inner product space, any pair $x, y \in V$ will satisfy
 
 $$
 x \perp y \iff \lVert x + y \rVert ^2 = \lVert x \rVert^2 + \lVert y \rVert^2
 $$
-
 ```
 
-produces this:
-
-> ## Pythagorean Theorem
-> 
-> Suppose $V$ is an inner product space. For any pair $x, y \in V$, 
-> we have 
-> 
-> $$
-> x \perp y \iff \lVert x + y \rVert ^2 = \lVert x \rVert^2 + \lVert y \rVert^2
-> $$
+  </SourceContent>
+</ExampleTabs>
 
 Getting there is less straightforward - to distribute mathematical content at scale, is exponentially hard. 
 
@@ -128,21 +133,76 @@ content and source code into browser-ready, target content before uploading the 
 
 MDX processing happens through the [unified](https://unifiedjs.com/) ecosystem, a collection of tools for parsing and transforming content. Understanding this pipeline is essential for integrating math support.
 
-```{}
+<DiagramTabs>
+  <DiagramContent>
+    <Mermaid chart={`
+flowchart TB
+    subgraph source["📄 MDX Source File"]
+        src["# My Post\\nThe equation $E = mc^2$ changed physics.\\n$$\\n∫₀^∞ e^{-x²} dx = √π/2\\n$$"]
+    end
+
+    subgraph remark["🌳 remark - mdast"]
+        remark_desc["Parses Markdown into an abstract syntax tree.\\nPlugins like remark-math recognize $...$ delimiters\\nand mark nodes with type: math or inlineMath"]
+    end
+
+    subgraph remarkRehype["🔄 remark-rehype"]
+        rr_desc["Transforms Markdown AST into HTML AST.\\nMath nodes become code.language-math.math-inline\\nor pre > code.language-math.math-display"]
+    end
+
+    subgraph rehype["🌲 rehype - hast"]
+        rehype_desc["Plugins like rehype-katex or rehype-mathjax\\nfind elements with math classes and\\nreplace them with rendered output."]
+    end
+
+    subgraph output["✨ HTML Output"]
+        html["‹h1›My Post‹/h1›\\n‹p›The equation ‹span.katex›...‹/span› changed physics.‹/p›\\n‹span.katex-display›...‹/span›"]
+    end
+
+    source --> remark --> remarkRehype --> rehype --> output
+`} />
+  </DiagramContent>
+
+  <MermaidContent>
+
+```mermaid
+flowchart TB
+    subgraph source["📄 MDX Source File"]
+        src["# My Post\nThe equation $E = mc^2$...\n$$\n∫₀^∞ e^{-x²} dx = √π/2\n$$"]
+    end
+
+    subgraph remark["🌳 remark - mdast"]
+        remark_desc["Parses Markdown into AST.\nremark-math recognizes $...$ delimiters"]
+    end
+
+    subgraph remarkRehype["🔄 remark-rehype"]
+        rr_desc["Transforms mdast into hast.\nMath nodes become code elements"]
+    end
+
+    subgraph rehype["🌲 rehype - hast"]
+        rehype_desc["rehype-katex or rehype-mathjax\nrenders math to HTML"]
+    end
+
+    subgraph output["✨ HTML Output"]
+        html["<h1>My Post</h1>\n<span class='katex'>...</span>"]
+    end
+
+    source --> remark --> remarkRehype --> rehype --> output
+```
+
+  </MermaidContent>
+
+  <AsciiContent>
+
+```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                           MDX Source File                               │
-│                                                                         │
 │   # My Post                                                             │
 │   The equation $E = mc^2$ changed physics.                              │
-│   $$                                                                    │
-│   \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}                      │
-│   $$                                                                    │
+│   $$  \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}  $$              │
 └─────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                         remark (mdast)                                  │
-│                                                                         │
 │   Parses Markdown into an abstract syntax tree.                         │
 │   Plugins like remark-math recognize $...$ delimiters                   │
 │   and mark nodes with type: "math" or type: "inlineMath"                │
@@ -151,7 +211,6 @@ MDX processing happens through the [unified](https://unifiedjs.com/) ecosystem, 
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                       remark-rehype                                     │
-│                                                                         │
 │   Transforms Markdown AST (mdast) into HTML AST (hast).                 │
 │   Math nodes become <code class="language-math math-inline">            │
 │   or <pre><code class="language-math math-display">                     │
@@ -160,7 +219,6 @@ MDX processing happens through the [unified](https://unifiedjs.com/) ecosystem, 
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                         rehype (hast)                                   │
-│                                                                         │
 │   Plugins like rehype-katex or rehype-mathjax find elements             │
 │   with math classes and replace them with rendered output.              │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -168,12 +226,14 @@ MDX processing happens through the [unified](https://unifiedjs.com/) ecosystem, 
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                           HTML Output                                   │
-│                                                                         │
 │   <h1>My Post</h1>                                                      │
 │   <p>The equation <span class="katex">...</span> changed physics.</p>   │
 │   <span class="katex-display">...</span>                                │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
+
+  </AsciiContent>
+</DiagramTabs>
 
 The key insight: all of this happens at build time. When a visitor loads your page, they receive pre-rendered HTML. No client-side JavaScript is required to display the equations—only CSS to style them.
 
