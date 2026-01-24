@@ -12,7 +12,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: 'Clay Curry - Software Engineer',
-  description: 'Portfolio of Clay Curry, a Software Engineer specializing in modern web technologies',
+  description: 'Portfolio of Clay Curry, a Software Engineer experienced in web technologies',
   generator: 'v0.app',
   icons: {
     icon: [

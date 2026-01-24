@@ -12,8 +12,8 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "Blog", href: "/blog" },
   { label: "Resume", href: "/resume" },
+  { label: "Blog", href: "/blog" },
 ];
 
 type PostEntry = {

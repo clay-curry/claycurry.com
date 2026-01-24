@@ -2,9 +2,8 @@ export const profileData = {
   name: 'Clay Curry',
   title: 'Software Engineer',
   avatar: '/clay_profile_cropped.png',
-  email: 'me@claycurry.com',
+  email: 'claycurry34@gmail.com',
   phone: '+1 (405) 301-1055',
-  birthday: 'May 19, 1999',
   location: 'San Francisco, CA, USA',
   social: {
     github: 'https://github.com/clay-curry',
@@ -14,8 +13,8 @@ export const profileData = {
 
 export const aboutData = {
   description: [
-    "I'm a Software Engineer from San Francisco, California, specializing in web technologies and user experience. I enjoy turning complex problems into simple, beautiful and intuitive applications.",
-    "My job is to build products that not only bring across your message and identity but grow and refine it by integrating user feedback."
+    "I'm a Software Engineer from San Francisco, California, experienced in web technologies and user experience design. ",
+    "My superpower is turning complex problems into simple, beautiful and intuitive applications. This means building products that not only bring across your message and identity but grow and refine it by integrating user feedback."
   ],
   services: [
     {
@@ -42,23 +41,23 @@ export const aboutData = {
   testimonials: [
     {
       avatar: '/professional-man.jpg',
-      name: 'Daniel Lewis',
-      text: 'John was hired to create a corporate identity. We were very pleased with the work done. He has a lot of experience and is very concerned about the needs of client.',
+      name: 'Matt Thaibault',
+      text: 'Clay was hired to create a corporate identity. We were very pleased with the work done. He has a lot of experience and is very concerned about the needs of client.',
     },
     {
       avatar: '/professional-woman-diverse.png',
-      name: 'Jessica Miller',
-      text: 'John was hired to create a corporate identity. We were very pleased with the work done. He has a lot of experience and is very concerned about the needs of client.',
+      name: 'Yunjao Mao',
+      text: 'Clay was hired to create a corporate identity. We were very pleased with the work done. He has a lot of experience and is very concerned about the needs of client.',
     },
     {
       avatar: '/professional-man.jpg',
-      name: 'Michael Chen',
-      text: 'Outstanding work! John delivered a high-quality product that exceeded our expectations. His attention to detail is remarkable.',
+      name: 'Soumya Bhattacharya',
+      text: 'Outstanding work! Clay delivered a high-quality product that exceeded our expectations. His attention to detail is remarkable.',
     },
     {
       avatar: '/professional-woman-diverse.png',
-      name: 'Sarah Johnson',
-      text: 'Professional, creative, and highly skilled. John is the developer you want on your team for any complex project.',
+      name: 'Reajul Chowdhury',
+      text: 'Professional, creative, and highly skilled. Clay is the developer you want on your team for any complex project.',
     },
   ],
   clients: [
@@ -87,13 +86,13 @@ export const resumeData = {
   ],
   experience: [
     {
-      title: 'Senior Full-Stack Developer',
+      title: 'Senior Software Engineer',
       period: '2020 — Present',
       description:
         'Leading development of scalable web applications using React, Node.js, and cloud technologies. Mentoring junior developers and implementing best practices.',
     },
     {
-      title: 'Full-Stack Developer',
+      title: 'Software Engineer',
       period: '2018 — 2020',
       description:
         'Developed and maintained multiple client projects using modern web technologies. Collaborated with design teams to create seamless user experiences.',
@@ -170,46 +169,6 @@ export const portfolioData = {
 export const blogData = {
   posts: [
     {
-      title: 'Building Modern Web Applications with Next.js 15',
-      category: 'Development',
-      date: 'Mar 15, 2024',
-      readTime: '8 min',
-      image: '/web-development-coding.png',
-      excerpt: 'Deep dive into Next.js 15 features and App Router enhancements.',
-      tags: ['Next.js', 'React', 'Web Development'],
-      slug: 'building-modern-web-apps-nextjs-15',
-    },
-    {
-      title: 'Microservices Architecture: A Complete Guide',
-      category: 'Architecture',
-      date: 'Mar 8, 2024',
-      readTime: '12 min',
-      image: '/software-architecture.jpg',
-      excerpt: 'Design scalable microservices with real-world examples.',
-      tags: ['Architecture', 'Backend', 'DevOps'],
-      slug: 'microservices-architecture-guide',
-    },
-    {
-      title: 'The Art of UI/UX: Creating Delightful Experiences',
-      category: 'Design',
-      date: 'Feb 28, 2024',
-      readTime: '6 min',
-      image: '/ui-ux-design-concept.png',
-      excerpt: 'Principles of exceptional UI/UX design for interfaces users love.',
-      tags: ['Design', 'UI/UX', 'Frontend'],
-      slug: 'art-of-uiux-delightful-experiences',
-    },
-    {
-      title: 'TypeScript Best Practices for Large-Scale Applications',
-      category: 'Development',
-      date: 'Feb 20, 2024',
-      readTime: '10 min',
-      image: '/web-development-coding.png',
-      excerpt: 'Master TypeScript patterns for maintainable, type-safe code.',
-      tags: ['TypeScript', 'JavaScript', 'Best Practices'],
-      slug: 'typescript-best-practices',
-    },
-    {
       title: 'Building Real-Time Applications with WebSockets',
       category: 'Development',
       date: 'Feb 12, 2024',
@@ -218,22 +177,12 @@ export const blogData = {
       excerpt: 'Implement real-time features using WebSockets and modern frameworks.',
       tags: ['WebSockets', 'Real-time', 'Backend'],
       slug: 'realtime-apps-websockets',
-    },
-    {
-      title: 'Mastering CSS Grid and Flexbox Layouts',
-      category: 'Design',
-      date: 'Feb 5, 2024',
-      readTime: '7 min',
-      image: '/ui-ux-design-concept.png',
-      excerpt: 'Modern CSS layout techniques with practical examples.',
-      tags: ['CSS', 'Layout', 'Frontend'],
-      slug: 'mastering-css-grid-flexbox',
-    },
+    }
   ],
 }
 
 export const contactData = {
-  email: 'me@claycurry.com',
+  email: 'claycurry34@gmail.com',
   phone: '+1 (405) 301-1055',
   location: 'San Francisco, CA',
   mapEmbedUrl:

@@ -8,7 +8,7 @@ interface ProfileSidebarProps {
 
 export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
   return (
-    <aside className="w-full lg:w-80 bg-card rounded-2xl border border-border/80 p-4 md:p-6 lg:sticky lg:top-8 h-fit">
+    <aside className="w-full lg:w-80 bg-card border border-border/80 p-4 md:p-6 lg:sticky lg:top-8 h-fit">
       {/* Profile Image */}
       <div className="flex flex-col items-center">
         <div className="relative w-24 h-24 md:w-32 md:h-32 mb-4 md:mb-6">
@@ -36,7 +36,6 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         {[
           { icon: Mail, label: 'Email', value: data.email, href: `mailto:${data.email}`, breakAll: true },
           { icon: Phone, label: 'Phone', value: data.phone, href: `tel:${data.phone.replace(/\s/g, '')}` },
-          { icon: Calendar, label: 'Birthday', value: data.birthday },
           { icon: MapPin, label: 'Location', value: data.location },
         ].map(({ icon: Icon, label, value, href, breakAll }) => (
           <div key={label} className="flex items-start gap-3 pl-2">

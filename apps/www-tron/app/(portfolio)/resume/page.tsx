@@ -21,18 +21,18 @@ import {
 } from '@/lib/components/ui/cv'
 import { resumeData } from '@/lib/portfolio-data'
 
-export default function Resume2Page() {
+export default function ResumePage() {
   return (
     <article>
       <section className="flex flex-col items-center w-full">
         {/* Header */}
         <HeaderSection
           name="Clay Curry"
-          title="Full-Stack Developer"
+          title="Software Engineer"
           addressList={[
-            { text: 'GitHub', href: 'https://github.com/clay-curry' },
             { text: 'LinkedIn', href: 'https://www.linkedin.com/in/clay-curry/' },
-            { text: 'me@claycurry.com', href: 'mailto:me@claycurry.com' },
+            { text: 'GitHub', href: 'https://github.com/clay-curry' },
+            { text: 'claycurry34@gmail.com', href: 'mailto:claycurry34@gmail.com' },
           ]}
         />
 
@@ -40,16 +40,11 @@ export default function Resume2Page() {
         <AboutMeSection>
           <AboutMeHeader>About Me</AboutMeHeader>
           <AboutMeContent>
-            <p>
-              I'm a Software Engineer from San Francisco, California, specializing in web application development and
-              creating innovative digital solutions. I enjoy turning complex problems into simple, beautiful and intuitive
-              solutions.
+            <p className='space-y-4 text-sm md:text-base text-card-foreground leading-relaxed'>
+              I'm a Software Engineer from San Francisco, California, experienced in web technologies and user experience design.
             </p>
-            <p>
-              My job is to build your website or application so that it is functional and user-friendly but at the same time
-              attractive. Moreover, I add personal touch to your product and make sure that is eye-catching and easy to use.
-              My aim is to bring across your message and identity in the most creative way. I've worked with various
-              technologies including React, Next.js, Node.js, and modern cloud platforms.
+            <p className='space-y-4 text-sm md:text-base text-card-foreground leading-relaxed'>
+              My superpower is turning complex problems into simple, beautiful and intuitive applications. This means building products that not only bring across your message and identity but grow and refine it by integrating user feedback.
             </p>
           </AboutMeContent>
         </AboutMeSection>
@@ -69,7 +64,7 @@ export default function Resume2Page() {
                 <CVContentBody>
                   <CVOrgLocation
                     org={
-                      <div className="flex flex-col md:flex-row gap-1">
+                      <div className="flex flex-col md:flex-row gap-1 text-card-foreground">
                         <span>Core Shopping → Product Detail Page →</span>
                         <CVLink href="https://www.helium10.com/blog/what-is-the-amazon-buy-box/">
                           BuyBox
@@ -386,7 +381,7 @@ const AccordionHeader = ({ title, date }: { title: string; date: string }) => {
 
   return (
     <>
-      <span className="flex-1 text-left">{title}</span>
+      <span className="flex-1 text-left text-card-foreground hover:text-primary">{title}</span>
       <span className="font-normal leading-tight text-center dark:text-primary shrink-0 md:text-right md:leading-normal">
         {dateParts.length > 1 ? (
           <>

@@ -4,14 +4,19 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ThemeToggle } from './theme-toggle'
 
-const sections = ['about', 'resume', 'portfolio', 'blog', 'contact']
+const sections = [
+  'about', 
+  'resume',
+  'writing', 
+  'contact', 
+]
 
 export function PortfolioNav() {
   const pathname = usePathname()
   const activeSection = pathname.split('/')[1] || 'about'
 
   return (
-    <>
+    <div className='w-full overflow-hidden'>
       <style jsx>{`
         @keyframes dotTravel {
           0% {
@@ -24,7 +29,7 @@ export function PortfolioNav() {
       `}</style>
 
       {/* Navigation */}
-      <nav className="flex items-center gap-1 sm:gap-2 md:gap-4 p-3 sm:p-4 md:p-6 overflow-x-auto scrollbar-hide">
+      <nav className="flex items-center gap-1 sm:gap-2 md:gap-4 pt-[30px] pb-2 px-3 sm:px-4 md:px-6 overflow-x-auto scrollbar-hide">
         {sections.map((section) => (
           <Link
             key={section}
@@ -44,7 +49,7 @@ export function PortfolioNav() {
       </nav>
 
       {/* Animated dashed border */}
-      <div className="relative w-[calc(100%+384px)] h-2 overflow-hidden flex items-center">
+      <div className="relative w-[calc(100%+384px)] h-2 flex items-center mr-20">
         {/* Dashed background line */}
         <div
           className="absolute inset-x-0 h-[1px] bg-foreground/30"
@@ -70,6 +75,6 @@ export function PortfolioNav() {
           }}
         />
       </div>
-    </>
+    </div>
   )
 }
