@@ -8,7 +8,7 @@
  * @see https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview
  */
 import type { MetadataRoute } from "next";
-import { getAllPostsMetadata } from "@/app/(site)/blog/loader";
+import { getAllPostsMetadata } from "@/app/(portfolio)/blog/loader";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPostsMetadata();
