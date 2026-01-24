@@ -36,17 +36,6 @@ export function PortfolioNav() {
 
   return (
     <div className='w-full overflow-hidden sticky top-0 z-20 bg-background'>
-      <style jsx>{`
-        @keyframes dotTravel {
-          0% {
-            left: 0;
-          }
-          100% {
-            left: 100%;
-          }
-        }
-      `}</style>
-
       {/* Mobile Navigation */}
       <nav className="lg:hidden flex items-center justify-end pt-[30px] pb-2 px-3 sm:px-4 md:px-6">
         <Sheet open={open} onOpenChange={setOpen} modal={false}>
@@ -112,34 +101,6 @@ export function PortfolioNav() {
           </Link>
         </div>
       </nav>
-
-      {/* Animated dashed border */}
-      <div className="relative w-[calc(100%+384px)] h-2 flex items-center mr-20">
-        {/* Dashed background line */}
-        <div
-          className="absolute inset-x-0 h-[1px] bg-sidebar-border"
-          style={{
-            maskImage: 'repeating-linear-gradient(to right, black 0, black 12px, transparent 16px, transparent 24px)',
-            WebkitMaskImage: 'repeating-linear-gradient(to right, black 0, black 16px, transparent 16px, transparent 24px)',
-          }}
-        />
-        {/* Light Cycle pill */}
-        <div
-          className="absolute h-1.5 w-3 rounded-full z-10 bg-primary-accent"
-          style={{
-            animation: 'dotTravel 32s linear infinite',
-            boxShadow: '0 0 8px 2px var(--primary-accent)',
-          }}
-        />
-        {/* Lightribbon - solid trail behind pill */}
-        <div
-          className="absolute h-0.25 w-96 -translate-x-[calc(100%+4px)] bg-primary-accent"
-          style={{
-            animation: 'dotTravel 32s linear infinite',
-            boxShadow: '0 0 2px 1px var(--primary-accent)',
-          }}
-        />
-      </div>
     </div>
   )
 }
