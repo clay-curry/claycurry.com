@@ -1,7 +1,9 @@
 import createMDX from "@next/mdx";
 import rehypePrettyCode from "rehype-pretty-code";
+import rehypeKatex from "rehype-katex";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import rehypeMdxToc from "rehype-mdx-toc";
 
@@ -37,7 +39,7 @@ const nextConfig = {
 }
 
 export const mdxOptions = {
-  remarkPlugins: [remarkFrontmatter, remarkGfm, remarkMdxFrontmatter],
+  remarkPlugins: [remarkFrontmatter, remarkGfm, remarkMath, remarkMdxFrontmatter],
   rehypePlugins: [
     [
       rehypePrettyCode,
@@ -48,6 +50,7 @@ export const mdxOptions = {
         grid: true,
       },
     ],
+    rehypeKatex,
     rehypeMdxToc
   ],
 };

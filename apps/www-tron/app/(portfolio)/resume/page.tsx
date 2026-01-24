@@ -276,7 +276,7 @@ const Card = ({
 }) => (
   <div
     className={cva(
-      'w-full mt-6 md:mt-8 p-2 md:p-4 rounded-xl bg-card border border-border/45'
+      'w-full mt-10 md:mt-14 p-2 md:p-4 rounded-xl bg-card border border-border/45'
     )({ className })}
   >
     {children}

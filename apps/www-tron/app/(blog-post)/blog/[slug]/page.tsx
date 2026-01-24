@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { ArrowLeft, Clock, Calendar, Tag, Share2 } from "lucide-react";
+import { Clock, Calendar, Tag, Share2, Pencil, ArrowUp, MessageSquare, Copy, Bot, ExternalLink } from "lucide-react";
 import { Linkedin, Twitter } from "lucide-react";
 import {
   getAllPostsMetadata,
@@ -7,6 +6,7 @@ import {
   type PostMetadata,
 } from "@/app/(portfolio)/blog/loader";
 import { slugify } from "@/lib/utils";
+import { MobileToc, type TocItem } from "@/lib/components/mobile-toc";
 
 export const dynamicParams = false;
 
@@ -14,13 +14,6 @@ export function generateStaticParams() {
   const postMetadata = getAllPostsMetadata();
   return postMetadata.map((o) => ({ slug: o.slug }));
 }
-
-type TocItem = {
-  depth: number;
-  value: string;
-  id?: string;
-  href?: string;
-};
 
 export default async function BlogPostPage({
   params,
@@ -32,55 +25,52 @@ export default async function BlogPostPage({
   const { title } = postMeta;
 
   return (
-    <article className="py-8 md:py-12">
-      {/* Back link */}
-      <Link
-        href="/blog"
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to Blog
-      </Link>
+    <>
+      <MobileToc toc={toc} />
+      <div className="mx-auto max-w-4xl">
+        <div className="p-3 sm:p-4 md:p-6 lg:p-12">
 
-      {/* Header */}
-      <header className="mb-8 pb-8 border-b border-border">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-          {title}
-        </h1>
-        <p className="text-lg text-muted-foreground mb-6">{postMeta.subtitle}</p>
+        <article className="py-4 md:py-8">
+          {/* Header */}
+          <header className="mb-6 pb-6 border-b border-border">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+              {title}
+            </h1>
+            <p className="text-base md:text-lg text-muted-foreground mb-4">{postMeta.subtitle}</p>
 
-        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-          <span className="flex items-center gap-1.5">
-            <Calendar className="w-4 h-4" />
-            {postMeta.publishedDate}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4" />
-            {readTime} min read
-          </span>
-        </div>
-      </header>
+            <div className="flex flex-wrap items-center gap-3 md:gap-4 text-sm text-muted-foreground">
+              <span className="flex items-center gap-1.5">
+                <Calendar className="w-4 h-4" />
+                {postMeta.publishedDate}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="w-4 h-4" />
+                {readTime} min read
+              </span>
+            </div>
+          </header>
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Main Content */}
-        <div className="flex-1 min-w-0">
-          <div className="prose prose-invert max-w-none">
-            <BlogArticle />
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Main Content */}
+            <div className="flex-1 min-w-0">
+              <div className="prose prose-invert max-w-none">
+                <BlogArticle />
+              </div>
+            </div>
+
+            {/* Sidebar - hidden on mobile */}
+            <aside className="hidden lg:block lg:w-64 shrink-0">
+              <div className="lg:sticky lg:top-8 space-y-6">
+                <OnThisPage toc={toc} />
+                <PageActions slug={slug} />
+                <ArticleMeta slug={slug} title={title} postMeta={postMeta} readTime={readTime} />
+              </div>
+            </aside>
           </div>
+        </article>
         </div>
-
-        {/* Sidebar */}
-        <aside className="lg:w-64 shrink-0">
-          <div className="lg:sticky lg:top-8 space-y-6">
-            {/* On This Page */}
-            <OnThisPage toc={toc} />
-
-            {/* Post Meta */}
-            <ArticleMeta slug={slug} title={title} postMeta={postMeta} readTime={readTime} />
-          </div>
-        </aside>
       </div>
-    </article>
+    </>
   );
 }
 

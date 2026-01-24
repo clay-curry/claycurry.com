@@ -12,6 +12,9 @@ export type PostMetadata = {
   subtitle: string;
   prefix: string;
   tags: string[];
+  readTime?: string;
+  image?: string;
+  excerpt?: string;
 };
 
 const BLOG_DIR = path.join(process.cwd(), "blog");

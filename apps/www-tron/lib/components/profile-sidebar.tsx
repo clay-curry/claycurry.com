@@ -8,7 +8,7 @@ interface ProfileSidebarProps {
 
 export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
   return (
-    <aside className="w-full lg:w-80 bg-card border border-border/80 p-4 md:p-6 lg:sticky lg:top-8 h-fit">
+    <aside className="w-full lg:w-96 bg-card border border-border/80 p-4 md:p-6 lg:sticky lg:my-8 lg:ml-8">
       {/* Profile Image */}
       <div className="flex flex-col items-center">
         <div className="relative w-24 h-24 md:w-32 md:h-32 mb-4 md:mb-6">

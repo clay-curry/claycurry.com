@@ -154,19 +154,18 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: 
+    background-image:
       linear-gradient(var(--tron-grid) 1px, transparent 1px),
       linear-gradient(90deg, var(--tron-grid) 1px, transparent 1px);
     background-size: 50px 50px;
     background-position: center center;
   }
-  
+
   /* TRON Typography enhancements */
   h1, h2, h3, h4, h5, h6 {
-    text-shadow: 0 0 20px var(--tron-glow);
     letter-spacing: 0.05em;
   }
-  
+
   /* Selection styling */
   ::selection {
     background: oklch(0.75 0.2 195 / 0.4);

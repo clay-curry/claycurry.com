@@ -128,11 +128,11 @@ export function CVBulletList({
             <div className="w-0.5 flex-1 bg-border mb-4" />
           </div>
           {/* Right column: text */}
-          <p className={cn(
+          <div className={cn(
             'text-card-foreground text-sm flex-1 pb-4',
           )}>
             {item}
-          </p>
+          </div>
         </div>
       ))}
     </div>

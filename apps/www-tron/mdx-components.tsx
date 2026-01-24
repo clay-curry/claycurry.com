@@ -46,7 +46,7 @@ const components = {
     );
   },
   p: ({ children }: { children: React.ReactNode }) => (
-    <p className="my-4 leading-7 text-muted-foreground">
+    <p className="my-4 leading-7 text-foreground">
       {children}
     </p>
   ),
