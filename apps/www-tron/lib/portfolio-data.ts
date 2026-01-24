@@ -2,9 +2,9 @@ export const profileData = {
   name: 'Clay Curry',
   title: 'Software Engineer',
   avatar: '/clay_profile_cropped.png',
-  email: 'claycurry34@gmail.com',
+  email: 'me@claycurry.com',
   phone: '+1 (405) 301-1055',
-  location: 'San Francisco, CA, USA',
+  location: 'Oklahoma City, OK, USA',
   social: {
     github: 'https://github.com/clay-curry',
     twitter: 'https://twitter.com/ccurry'
@@ -13,7 +13,7 @@ export const profileData = {
 
 export const aboutData = {
   description: [
-    "I'm a Software Engineer from San Francisco, California, experienced in web technologies and user experience design. ",
+    "I'm a Software Engineer from Oklahoma City, OKlifornia, experienced in web technologies and user experience design. ",
     "My superpower is turning complex problems into simple, beautiful and intuitive applications. This means building products that not only bring across your message and identity but grow and refine it by integrating user feedback."
   ],
   services: [
@@ -182,9 +182,9 @@ export const blogData = {
 }
 
 export const contactData = {
-  email: 'claycurry34@gmail.com',
+  email: 'me@claycurry.com',
   phone: '+1 (405) 301-1055',
-  location: 'San Francisco, CA',
+  location: 'Oklahoma City, OK',
   mapEmbedUrl:
-    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d100940.14220298434!2d-122.50764017406082!3d37.75767381338211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076adff!2sSan%20Francisco%2C%20CA%2C%20USA!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus',
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d201150.7648820659!2d-97.61491842720284!3d35.471551251641934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87ad8a547ef8d281%3A0x33a21274d14f3a9d!2sOklahoma%20City%2C%20OK!5e0!3m2!1sen!2sus!4v1769233825449!5m2!1sen!2sus',
 }

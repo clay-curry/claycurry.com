@@ -23,7 +23,7 @@ import { resumeData } from '@/lib/portfolio-data'
 
 export default function ResumePage() {
   return (
-    <article>
+    <article className="py-8 md:py-12">
       <section className="flex flex-col items-center w-full">
         {/* Header */}
         <HeaderSection
@@ -32,27 +32,22 @@ export default function ResumePage() {
           addressList={[
             { text: 'LinkedIn', href: 'https://www.linkedin.com/in/clay-curry/' },
             { text: 'GitHub', href: 'https://github.com/clay-curry' },
-            { text: 'claycurry34@gmail.com', href: 'mailto:claycurry34@gmail.com' },
+            { text: 'me@claycurry.com', href: 'mailto:me@claycurry.com' },
           ]}
         />
 
         {/* About Me */}
-        <AboutMeSection>
-          <AboutMeHeader>About Me</AboutMeHeader>
-          <AboutMeContent>
-            <p className='space-y-4 text-sm md:text-base text-card-foreground leading-relaxed'>
-              I'm a Software Engineer from San Francisco, California, experienced in web technologies and user experience design.
-            </p>
-            <p className='space-y-4 text-sm md:text-base text-card-foreground leading-relaxed'>
-              My superpower is turning complex problems into simple, beautiful and intuitive applications. This means building products that not only bring across your message and identity but grow and refine it by integrating user feedback.
-            </p>
-          </AboutMeContent>
-        </AboutMeSection>
+        <AboutMeSection
+          paragraphs={[
+            "I'm a Software Engineer from Oklahoma City, OKlifornia, experienced in web technologies and user experience design.",
+            "My superpower is turning complex problems into simple, beautiful and intuitive applications. This means building products that not only bring across your message and identity but grow and refine it by integrating user feedback.",
+          ]}
+        />
 
         {/* Professional Experience */}
         <AccordionSection>
           <AccordionSectionHeader icon={Briefcase}>Experience</AccordionSectionHeader>
-          <AccordionSectionContent>
+          <AccordionSectionContent defaultValue="item-1">
             <AccordionItem value="item-1">
               <AccordionTrigger className="font-semibold text-muted-foreground">
                 <AccordionHeader
@@ -75,7 +70,7 @@ export default function ResumePage() {
                   />
                   <CVBulletList
                     items={[
-                      'Implemented a BuyBox ranking upgrade that produced $30.2 MM revenue growth and 9.7MM lift in annualized units sold.',
+                      'Launched a BuyBox ranking upgrade that produced $30.2 MM revenue growth and 9.7MM lift in annualized units sold.',
                       'Expanded the "Join Prime" accordion button to 24 countries, producing 5 additional service and business metrics.',
                       'Participated in a 24x7 engineering on-call rotation to ensure service uptime and subject matter expert availability.',
                     ]}
@@ -143,6 +138,22 @@ export default function ResumePage() {
               <AccordionContent>
                 <CVContentBody>
                   <p>Mathematics minor.</p>
+                  <CVBulletList
+                    items={[
+                      <>
+                        Association for Computing Machinery (ACM), Oklahoma Student Chapter — President, Chair (1 year). Advisor:{' '}
+                        <CVLink href="https://www.linkedin.com/in/rafal-jabrzemski-0546464/">
+                          Rafal Jabrzemski
+                        </CVLink>
+                      </>,
+                      <>
+                        Association for Women in Computing (Student Chapter) — Treasurer (1 year, 5 months). Advisor:{' '}
+                        <CVLink href="https://www.linkedin.com/in/sridhar-radhakrishnan-b3591817/">
+                          Sridhar Radhakrishnan
+                        </CVLink>
+                      </>,
+                    ]}
+                  />
                 </CVContentBody>
               </AccordionContent>
             </AccordionItem>
@@ -161,10 +172,17 @@ export default function ResumePage() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="edu-3">
+          </AccordionSectionContent>
+        </AccordionSection>
+
+        {/* Certifications and Awards */}
+        <AccordionSection>
+          <AccordionSectionHeader icon={Award}>Certifications and Awards</AccordionSectionHeader>
+          <AccordionSectionContent>
+            <AccordionItem value="cert-1">
               <AccordionTrigger className="font-semibold text-muted-foreground">
                 <AccordionHeader
-                  title="Certification: AWS Solutions Architect – Professional"
+                  title="AWS Solutions Architect – Professional"
                   date="Nov 2025"
                 />
               </AccordionTrigger>
@@ -176,83 +194,21 @@ export default function ResumePage() {
                 </CVContentBody>
               </AccordionContent>
             </AccordionItem>
-          </AccordionSectionContent>
-        </AccordionSection>
 
-        {/* Awards and Honors */}
-        <AccordionSection>
-          <AccordionSectionHeader icon={Award}>Awards and Honors</AccordionSectionHeader>
-          <AccordionSectionContent>
             <AccordionItem value="award-1">
               <AccordionTrigger className="font-semibold text-muted-foreground">
                 <AccordionHeader
-                  title="Association for Computing Machinery (ACM), Oklahoma Student Chapter"
-                  date="1 year"
-                />
-              </AccordionTrigger>
-              <AccordionContent>
-                <CVContentBody>
-                  <CVPositionAdvisor
-                    position="President, Chair"
-                    advisor={{
-                      name: 'Rafal Jabrzemski',
-                      href: 'https://www.linkedin.com/in/rafal-jabrzemski-0546464/',
-                    }}
-                  />
-                </CVContentBody>
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="award-2">
-              <AccordionTrigger className="font-semibold text-muted-foreground">
-                <AccordionHeader
-                  title="Association for Women in Computing (Student Chapter)"
-                  date="1 year, 5 months"
-                />
-              </AccordionTrigger>
-              <AccordionContent>
-                <CVContentBody>
-                  <CVPositionAdvisor
-                    position="Treasurer"
-                    advisor={{
-                      name: 'Sridhar Radhakrishnan',
-                      href: 'https://www.linkedin.com/in/sridhar-radhakrishnan-b3591817/',
-                    }}
-                  />
-                </CVContentBody>
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="award-3">
-              <AccordionTrigger className="font-semibold text-muted-foreground">
-                <AccordionHeader
-                  title="Oklahoma Rising Scholars Award (formerly Academic Scholars Program)"
+                  title="Oklahoma Rising Scholars Award"
                   date="May 2017"
                 />
               </AccordionTrigger>
               <AccordionContent>
                 <CVContentBody>
                   <CVRowItem label="Issued by">Oklahoma State Regents for Higher Education</CVRowItem>
+                  <p>(formerly Academic Scholars Program)</p>
                   <p>
                     Oklahoma students automatically qualify by scoring 34 / 36 on the ACT.
                   </p>
-                </CVContentBody>
-              </AccordionContent>
-            </AccordionItem>
-          </AccordionSectionContent>
-        </AccordionSection>
-
-        {/* Test Scores */}
-        <AccordionSection>
-          <AccordionSectionHeader icon={ClipboardList}>Contributions</AccordionSectionHeader>
-          <AccordionSectionContent>
-            <AccordionItem value="test-1">
-              <AccordionTrigger className="font-semibold text-muted-foreground">
-                <AccordionHeader title="ACT exam: 34 / 36" date="Sep 2016" />
-              </AccordionTrigger>
-              <AccordionContent>
-                <CVContentBody>
-                  <CVRowItem label="College Readiness Exam">University of Oklahoma</CVRowItem>
                 </CVContentBody>
               </AccordionContent>
             </AccordionItem>
@@ -398,19 +354,18 @@ const AccordionHeader = ({ title, date }: { title: string; date: string }) => {
   )
 }
 
-// About Me section components
-const AboutMeSection = ({ children }: { children: ReactNode }) => (
+// About Me section component
+const AboutMeSection = ({ paragraphs }: { paragraphs: string[] }) => (
   <Card className="mt-4">
-    {children}
+    <SectionHeading icon={User}>About Me</SectionHeading>
+    <div className="space-y-3 my-8">
+      {paragraphs.map((text, index) => (
+        <p key={index} className="text-sm md:text-base text-card-foreground leading-relaxed">
+          {text}
+        </p>
+      ))}
+    </div>
   </Card>
-)
-
-const AboutMeHeader = ({ children }: { children: ReactNode }) => (
-  <SectionHeading icon={User}>{children}</SectionHeading>
-)
-
-const AboutMeContent = ({ children }: { children: ReactNode }) => (
-  <div className="space-y-3 text-muted-foreground">{children}</div>
 )
 
 // Accordion section components

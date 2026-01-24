@@ -100,6 +100,7 @@
 @theme inline {
   --font-sans: 'Geist', 'Geist Mono', monospace;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-tourney: var(--font-tourney);
   
   /* TRON Custom Colors */
   --color-tron-cyan: oklch(0.75 0.2 195);

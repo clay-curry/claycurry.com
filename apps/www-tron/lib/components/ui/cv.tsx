@@ -115,13 +115,13 @@ export function CVBulletList({
   items,
   className,
 }: {
-  items: string[]
+  items: ReactNode[]
   className?: string
 }) {
   return (
     <div className={cn('mt-2', className)}>
       {items.map((item, index) => (
-        <div key={item.slice(0, 50)} className="flex gap-3">
+        <div key={index} className="flex gap-3">
           {/* Left column: dot and line */}
           <div className="flex flex-col items-center">
             <div className="w-2 h-2 rounded-full bg-primary-accent shrink-0 mt-1.5" />

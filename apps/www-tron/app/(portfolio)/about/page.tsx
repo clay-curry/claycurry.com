@@ -1,7 +1,5 @@
 import { PenTool, Code, Smartphone, Zap } from 'lucide-react'
 import { aboutData } from '@/lib/portfolio-data'
-import { AboutIcon } from '@/lib/components/icons/AboutIcon'
-import { SkillsIcon } from '@/lib/components/icons/SkillsIcon'
 
 const iconMap = {
   Code,
@@ -14,12 +12,12 @@ export default function AboutPage() {
   const data = aboutData
 
   return (
-    <div className="space-y-8 md:space-y-10">
+    <div className="py-8 md:py-12 space-y-12 md:space-y-14">
       {/* About Me */}
-      <div>
+      <div className='mt-10 mb-20'>
         <div className="flex items-center gap-4 mb-6">
-          <AboutIcon className="h-4 md:h-5 w-auto filter-[drop-shadow(0_0_10px_var(--tron-glow))_drop-shadow(0_0_20px_var(--tron-glow))]" />
-          <div className="w-3 h-0.25 bg-foreground rounded-full" />
+          <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">About</span>
+          <div className="w-3 h-px bg-foreground rounded-full" />
         </div>
         <div className="space-y-4 text-sm md:text-base text-card-foreground leading-relaxed">
           {data.description.map((paragraph, index) => (
@@ -29,10 +27,10 @@ export default function AboutPage() {
       </div>
 
       {/* What I'm Doing */}
-      <div>
+      <div className='mb-20'>
         <div className="flex items-center gap-4 mb-6">
-          <SkillsIcon className="h-4 md:h-5 w-auto filter-[drop-shadow(0_0_10px_var(--tron-glow))_drop-shadow(0_0_20px_var(--tron-glow))]" />
-          <div className="w-3 h-0.25 bg-foreground rounded-full" />
+          <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">Skills</span>
+          <div className="w-3 h-px bg-foreground rounded-full" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
           {data.services.map((service, index) => {
@@ -56,8 +54,11 @@ export default function AboutPage() {
       </div>
 
       {/* Testimonials with Marquee Animation */}
-      <div>
-        <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6">Kind Words</h3>
+      <div className='mt-20'>
+        <div className="flex items-center gap-4 mb-6">
+          <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">Kind Words</span>
+          <div className="w-3 h-px bg-foreground rounded-full" />
+        </div>
         <div className="relative overflow-hidden">
           <div className="flex gap-3 md:gap-4 animate-marquee">
             {[...data.testimonials, ...data.testimonials].map((testimonial, index) => (
