@@ -23,6 +23,7 @@ const nextConfig = {
       { source: '/x', destination: '/?ref=x', permanent: false },
       { source: '/l', destination: '/?ref=linkedin', permanent: false },
       { source: '/g', destination: '/?ref=github', permanent: false },
+      { source: '/m', destination: '/?ref=me', permanent: false },
       { source: '/about', destination: '/', permanent: false },
     ]
   },
