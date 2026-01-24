@@ -1,19 +1,27 @@
+import createMDX from "@next/mdx";
+import rehypePrettyCode from "rehype-pretty-code";
+import remarkFrontmatter from "remark-frontmatter";
+import remarkGfm from "remark-gfm";
+import remarkMdxFrontmatter from "remark-mdx-frontmatter";
+import rehypeMdxToc from "rehype-mdx-toc";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   typescript: {
     ignoreBuildErrors: true,
   },
   images: {
     unoptimized: true,
   },
-
   rewrites: async () => {
     return [
       {
         source: '/',
         destination: '/about',
-      },{
-      source: '/writing',
+      },
+      {
+        source: '/writing',
         destination: '/blog'
       },
       {
@@ -26,7 +34,24 @@ const nextConfig = {
       },
     ]
   }
- 
 }
 
-export default nextConfig
+export const mdxOptions = {
+  remarkPlugins: [remarkFrontmatter, remarkGfm, remarkMdxFrontmatter],
+  rehypePlugins: [
+    [
+      rehypePrettyCode,
+      {
+        theme: "github-dark",
+        keepBackground: true,
+        defaultLang: "plaintext",
+        grid: true,
+      },
+    ],
+    rehypeMdxToc
+  ],
+};
+
+const withMDX = createMDX({ options: mdxOptions });
+
+export default withMDX(nextConfig);
