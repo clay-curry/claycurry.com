@@ -1,6 +1,6 @@
 import type { MDXComponents } from "mdx/types";
 import Image, { type ImageProps } from "next/image";
-import Summary from "@/lib/components/ui/summary";
+import Summary from "@/lib/custom/ui/summary";
 import { CodeBlock } from "@/lib/custom/ai-elements/code-block";
 import { Mermaid } from "@/lib/custom/ai-elements/mermaid";
 import { DiagramTabs, DiagramContent, MermaidContent, AsciiContent } from "@/lib/custom/ai-elements/diagram-tabs";

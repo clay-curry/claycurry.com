@@ -10,7 +10,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/lib/components/ui/accordion'
+} from '@/lib/custom/ui/accordion'
 import {
   CVBulletList,
   CVContentBody,
@@ -18,7 +18,7 @@ import {
   CVOrgLocation,
   CVPositionAdvisor,
   CVRowItem,
-} from '@/lib/components/ui/cv'
+} from '@/lib/custom/ui/cv'
 import { resumeData } from '@/lib/portfolio-data'
 
 export default function ResumePage() {

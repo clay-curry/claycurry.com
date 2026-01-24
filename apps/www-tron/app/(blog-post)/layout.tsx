@@ -1,6 +1,6 @@
 import { PortfolioNav } from '@/lib/custom/ai-elements/portfolio-nav'
 import { BlogSidebar } from '@/lib/custom/ai-elements/blog-sidebar'
-import { SidebarProvider, SidebarInset } from '@/lib/components/ui/sidebar'
+import { SidebarProvider, SidebarInset } from '@/lib/custom/ui/sidebar'
 import { getAllPostsMetadata } from '../(portfolio)/blog/loader'
 
 export default function BlogPostLayout({

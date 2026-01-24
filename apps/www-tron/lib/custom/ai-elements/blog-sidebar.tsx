@@ -14,7 +14,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from '@/lib/components/ui/sidebar'
+} from '@/lib/custom/ui/sidebar'
 import type { PostMetadata } from '@/app/(portfolio)/blog/loader'
 
 interface BlogSidebarProps extends React.ComponentProps<typeof Sidebar> {

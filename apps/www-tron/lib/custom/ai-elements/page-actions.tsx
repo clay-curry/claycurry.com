@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { ArrowUpCircle, Copy, Check, MessageSquare, Bot, ExternalLink, Github } from 'lucide-react'
-import { Button } from '@/lib/components/ui/button'
+import { Button } from '@/lib/custom/ui/button'
 
 const actionStyles = "my-2 flex items-center gap-1.5 text-muted-foreground text-sm transition-colors hover:text-foreground"
 

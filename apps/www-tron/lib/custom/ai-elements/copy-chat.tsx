@@ -2,12 +2,12 @@ import type { UIMessage } from "ai";
 import { CheckIcon, CopyIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Button } from "@/lib/components/ui/button";
+import { Button } from "@/lib/custom/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
-} from "@/lib/components/ui/tooltip";
+} from "@/lib/custom/ui/tooltip";
 
 export const CopyChat = ({ messages }: { messages: UIMessage[] }) => {
   const [copied, setCopied] = useState(false);

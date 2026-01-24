@@ -8,7 +8,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/lib/components/ui/accordion'
+} from '@/lib/custom/ui/accordion'
 
 export type TocItem = {
   depth: number

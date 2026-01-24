@@ -3,7 +3,7 @@
 import { IconArrowRight, IconMessageCircle } from "@tabler/icons-react"
 import Link from "next/link"
 
-import { Button } from "@/lib/components/ui/button"
+import { Button } from "@/lib/custom/ui/button"
 import { useChatContext } from "@/lib/hooks/use-chat"
 
 export function HeroAskAI() {

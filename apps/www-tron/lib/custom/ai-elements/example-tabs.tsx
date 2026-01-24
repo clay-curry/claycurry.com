@@ -1,7 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/lib/components/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/lib/custom/ui/tabs'
 import { cn } from '@/lib/utils'
 
 type ExampleTabsProps = {

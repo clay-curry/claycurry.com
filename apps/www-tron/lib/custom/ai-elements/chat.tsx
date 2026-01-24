@@ -32,16 +32,16 @@ import {
 } from "@/lib/custom/ai-elements/prompt-input";
 import { Shimmer } from "@/lib/custom/ai-elements/shimmer";
 import { Suggestion, Suggestions } from "@/lib/custom/ai-elements/suggestion";
-import { Button } from "@/lib/components/ui/button";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/lib/components/ui/drawer";
+import { Button } from "@/lib/custom/ui/button";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/lib/custom/ui/drawer";
 import { useChatContext } from "@/lib/hooks/use-chat";
 import { useIsMobile } from "@/lib/hooks/use-mobile";
 import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
-import { ButtonGroup } from "@/lib/components/ui/button-group";
-import { Kbd, KbdGroup } from "@/lib/components/ui/kbd";
-import { Spinner } from "@/lib/components/ui/spinner";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/lib/components/ui/tooltip";
+import { ButtonGroup } from "@/lib/custom/ui/button-group";
+import { Kbd, KbdGroup } from "@/lib/custom/ui/kbd";
+import { Spinner } from "@/lib/custom/ui/spinner";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/lib/custom/ui/tooltip";
 import { CopyChat } from "./copy-chat";
 import { MessageMetadata } from "./message-metadata";
 

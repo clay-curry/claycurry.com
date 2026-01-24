@@ -11,7 +11,7 @@ import {
   SheetContent,
   SheetTitle,
   SheetTrigger,
-} from '@/lib/components/ui/sheet'
+} from '@/lib/custom/ui/sheet'
 
 function GitHubIcon({ className }: { className?: string }) {
   return (

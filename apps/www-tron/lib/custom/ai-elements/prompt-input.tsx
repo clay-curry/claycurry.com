@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/lib/components/ui/button";
+import { Button } from "@/lib/custom/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -9,31 +9,31 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator
-} from "@/lib/components/ui/command";
+} from "@/lib/custom/ui/command";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from "@/lib/components/ui/dropdown-menu";
+} from "@/lib/custom/ui/dropdown-menu";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger
-} from "@/lib/components/ui/hover-card";
+} from "@/lib/custom/ui/hover-card";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupTextarea
-} from "@/lib/components/ui/input-group";
+} from "@/lib/custom/ui/input-group";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue
-} from "@/lib/components/ui/select";
+} from "@/lib/custom/ui/select";
 import { cn } from "@/lib/utils";
 import type { ChatStatus, FileUIPart } from "ai";
 import {

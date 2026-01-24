@@ -2,14 +2,14 @@
 
 import { useState } from 'react'
 import { MessagesSquare, Send, Loader2 } from 'lucide-react'
-import { Button } from '@/lib/components/ui/button'
+import { Button } from '@/lib/custom/ui/button'
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/lib/components/ui/sheet'
+} from '@/lib/custom/ui/sheet'
 
 export function AskAI() {
   const [open, setOpen] = useState(false)

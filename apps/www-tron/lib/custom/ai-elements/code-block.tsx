@@ -9,13 +9,13 @@ import {
   useState,
 } from 'react'
 import { toast } from 'sonner'
-import { Button } from '@/lib/components/ui/button'
+import { Button } from '@/lib/custom/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/lib/components/ui/dropdown-menu'
+} from '@/lib/custom/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 
 // AI provider icons
