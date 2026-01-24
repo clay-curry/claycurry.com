@@ -102,7 +102,7 @@ export function PortfolioNav() {
         <div className="ml-auto flex items-center gap-6">
           <AskAI />
           <Link
-            href="https://github.com/claycurry34"
+            href="https://github.com/clay-curry/claycurry.com"
             target="_blank"
             rel="noopener noreferrer"
             className="p-2 rounded-lg text-foreground hover:text-accent hover:bg-secondary transition-colors"
