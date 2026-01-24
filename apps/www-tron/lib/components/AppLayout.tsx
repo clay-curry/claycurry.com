@@ -1,11 +1,19 @@
 import { PortfolioNav } from '@/lib/components/portfolio-nav'
 import { PageViews } from '@/lib/components/page-views'
 import { ThemeToggle } from '@/lib/components/theme-toggle'
+import { Chat } from '@/lib/components/ai-elements/chat'
+
+const suggestions = [
+  "What are Clay's skills?",
+  "Tell me about his experience",
+  "What projects has he worked on?"
+]
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="w-full bg-card border border-border/80 overflow-auto lg:my-8 lg:mr-8">
       <PortfolioNav />
+      <Chat suggestions={suggestions} />
 
       {/* Page Views - absolute so it doesn't shift content */}
       <div className="relative p-2 lg:p-3">

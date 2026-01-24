@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu } from 'lucide-react'
-import { AskAI } from './ask-ai'
+import { AskAI } from './ai-elements/ask-ai'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import {
   Sheet,
