@@ -43,13 +43,6 @@ export default function AboutPage() {
       <div className="mx-4">
         <div className="flex items-center justify-between mb-6">
           <SectionHeader title="Writings" />
-          <Link
-            href="/blog"
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-accent transition-colors"
-          >
-            View all
-            <ArrowRight className="w-4 h-4" />
-          </Link>
         </div>
         <WritingsSection posts={posts} />
       </div>

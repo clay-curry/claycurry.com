@@ -7,7 +7,7 @@ import { Button } from "@/lib/custom/ui/button"
 import { useChatContext } from "@/lib/hooks/use-chat"
 
 export function HeroAskAI() {
-  const { setIsOpen } = useChatContext()
+  const { setIsDialogOpen } = useChatContext()
 
   return (
     <div className="inline-flex items-center gap-4">
@@ -24,12 +24,12 @@ export function HeroAskAI() {
         </Link>
       </Button>
 
-      {/* Ask AI button - opens the global chat panel */}
+      {/* Ask AI button - opens the chat dialog */}
       <Button
         variant="default"
         size="lg"
         className="h-5 md:h-7 md:text-[0.8rem] shadow-none rounded-4xl"
-        onClick={() => setIsOpen(true)}
+        onClick={() => setIsDialogOpen(true)}
       >
         <IconMessageCircle className="size-3" />
         Ask AI

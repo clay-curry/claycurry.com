@@ -1,12 +1,10 @@
 "use client";
 
-import type { UIMessage } from "@ai-sdk/react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { useLiveQuery } from "dexie-react-hooks";
-import { ChevronRightIcon, MessagesSquareIcon, Trash } from "lucide-react";
+import { ChevronRightIcon, GlobeIcon, MessagesSquareIcon, Trash } from "lucide-react";
 import { Portal } from "radix-ui";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { MyUIMessage } from "@/app/api/chat/types";
 import {
@@ -34,85 +32,34 @@ import { Shimmer } from "@/lib/custom/ai-elements/shimmer";
 import { Suggestion, Suggestions } from "@/lib/custom/ai-elements/suggestion";
 import { Button } from "@/lib/custom/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/lib/custom/ui/drawer";
-import { useChatContext } from "@/lib/hooks/use-chat";
+import { useChatContext, useChatPersistence } from "@/lib/hooks/use-chat";
+import { CHAT_MODELS } from "@/lib/providers/chat-provider";
 import { useIsMobile } from "@/lib/hooks/use-mobile";
-import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import { ButtonGroup } from "@/lib/custom/ui/button-group";
 import { Kbd, KbdGroup } from "@/lib/custom/ui/kbd";
 import { Spinner } from "@/lib/custom/ui/spinner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/lib/custom/ui/tooltip";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/lib/custom/ui/select";
 import { CopyChat } from "./copy-chat";
 import { MessageMetadata } from "./message-metadata";
-
-export const useChatPersistence = () => {
-  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined
-  );
-
-  // Load messages from Dexie with live query
-  const storedMessages = useLiveQuery(() =>
-    db.messages.orderBy("sequence").toArray()
-  );
-
-  const initialMessages =
-    storedMessages?.map(
-      ({ timestamp: _timestamp, sequence: _sequence, ...message }) => message
-    ) ?? [];
-
-  const isLoading = storedMessages === undefined;
-
-  // Save messages to Dexie with debouncing
-  const saveMessages = useCallback((messages: UIMessage[]) => {
-    if (saveTimeoutRef.current) {
-      clearTimeout(saveTimeoutRef.current);
-    }
-
-    saveTimeoutRef.current = setTimeout(async () => {
-      try {
-        const baseTimestamp = Date.now();
-        const messagesToStore = messages.map((message, index) => ({
-          ...message,
-          timestamp: baseTimestamp + index * 1000,
-          sequence: index
-        }));
-
-        await db.transaction("rw", db.messages, async () => {
-          await db.messages.clear();
-          await db.messages.bulkAdd(messagesToStore);
-        });
-      } catch (error) {
-        console.error("Failed to save messages:", error);
-      }
-    }, 300);
-  }, []);
-
-  // Clear all messages from Dexie
-  const clearMessages = useCallback(async () => {
-    try {
-      await db.messages.clear();
-    } catch (error) {
-      console.error("Failed to clear messages:", error);
-    }
-  }, []);
-
-  // Cleanup timeout on unmount
-  useEffect(
-    () => () => {
-      if (saveTimeoutRef.current) {
-        clearTimeout(saveTimeoutRef.current);
-      }
-    },
-    []
-  );
-
-  return {
-    initialMessages,
-    isLoading,
-    saveMessages,
-    clearMessages
-  };
-};
+import {
+  Reasoning,
+  ReasoningContent,
+  ReasoningTrigger
+} from "@/lib/components/ai-elements/reasoning";
+import {
+  Source,
+  Sources,
+  SourcesContent,
+  SourcesTrigger
+} from "./sources";
 
 type ChatProps = {
   basePath?: string;
@@ -123,7 +70,9 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [localPrompt, setLocalPrompt] = useState("");
   const [providerKey, setProviderKey] = useState(0);
-  const { prompt, setPrompt, setIsOpen } = useChatContext();
+  const [model, setModel] = useState<string>(CHAT_MODELS[0].value);
+  const [webSearch, setWebSearch] = useState(false);
+  const { prompt, setPrompt, setIsDrawerOpen } = useChatContext();
   const { initialMessages, isLoading, saveMessages, clearMessages } =
     useChatPersistence();
 
@@ -168,7 +117,7 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
     stop();
     setLocalPrompt("");
     setPrompt("");
-    void sendMessage({ text: suggestion });
+    void sendMessage({ text: suggestion }, { body: { model, webSearch } });
   };
 
   const handleSubmit: PromptInputProps["onSubmit"] = (message, event) => {
@@ -183,7 +132,7 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
     stop();
     setLocalPrompt("");
     setPrompt("");
-    void sendMessage({ text });
+    void sendMessage({ text }, { body: { model, webSearch } });
   };
 
   const handleClearChat = async () => {
@@ -211,8 +160,35 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
 
   return (
     <div className="flex size-full w-full flex-col overflow-hidden bg-background">
-      <div className="flex items-center justify-between px-4 py-2.5">
-        <h2 className="font-semibold text-sm">Chat</h2>
+      <div className="flex items-center justify-between px-4 py-2.5 border-b">
+        <div className="flex items-center gap-2">
+          <Select value={model} onValueChange={setModel}>
+            <SelectTrigger className="h-7 w-auto gap-1 text-xs border-none shadow-none">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {CHAT_MODELS.map((m) => (
+                <SelectItem key={m.value} value={m.value}>
+                  {m.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon-sm"
+                variant={webSearch ? "default" : "ghost"}
+                onClick={() => setWebSearch(!webSearch)}
+              >
+                <GlobeIcon className="size-3.5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              {webSearch ? "Web search enabled" : "Enable web search"}
+            </TooltipContent>
+          </Tooltip>
+        </div>
         <div className="flex items-center gap-3">
           <ButtonGroup orientation="horizontal">
             <CopyChat messages={messages} />
@@ -232,7 +208,7 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => setIsDrawerOpen(false)}
                   size="icon-sm"
                   variant="ghost"
                 >
@@ -271,42 +247,84 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
                 (part) => part.type === "text"
               );
 
+              const sourceParts = message.parts.filter(
+                (part) => part.type === "source-url"
+              );
+              const reasoningParts = message.parts.filter(
+                (part) => part.type === "reasoning"
+              );
+
               return (
-                <Message from={message.role} key={message.id}>
-                  {isAssistantMessage && (
-                    <MessageMetadata
-                      messageId={message.id}
-                      inProgress={status === "submitted"}
-                      isStreaming={isStreaming}
-                      parts={message.parts as MyUIMessage["parts"]}
-                    />
+                <div key={message.id}>
+                  {/* Sources display */}
+                  {isAssistantMessage && sourceParts.length > 0 && (
+                    <Sources>
+                      <SourcesTrigger count={sourceParts.length} />
+                      <SourcesContent>
+                        {sourceParts.map((part, i) => (
+                          <Source
+                            key={`${message.id}-source-${i}`}
+                            href={(part as { type: "source-url"; url: string }).url}
+                            title={(part as { type: "source-url"; url: string }).url}
+                          />
+                        ))}
+                      </SourcesContent>
+                    </Sources>
                   )}
-                  {isStreaming && !hasTextContent && (
-                    <div className="flex items-center gap-2">
-                      <Spinner />
-                      <Shimmer>
-                        {message.parts.some((p) => p.type === "source-url")
-                          ? "Generating response..."
-                          : "Looking up sources..."}
-                      </Shimmer>
-                    </div>
-                  )}
-                  {message.parts
-                    .filter((part) => part.type === "text")
-                    .map((part, partIndex) => (
-                      <MessageContent
-                        key={`${message.id}-${part.type}-${partIndex}`}
-                      >
-                        {isAssistantMessage ? (
-                          <MessageResponse className="text-wrap">
-                            {part.text}
-                          </MessageResponse>
-                        ) : (
-                          part.text
-                        )}
-                      </MessageContent>
-                    ))}
-                </Message>
+
+                  {/* Reasoning display */}
+                  {reasoningParts.map((part, i) => (
+                    <Reasoning
+                      key={`${message.id}-reasoning-${i}`}
+                      className="w-full mb-2"
+                      isStreaming={
+                        isStreaming &&
+                        i === reasoningParts.length - 1
+                      }
+                    >
+                      <ReasoningTrigger />
+                      <ReasoningContent>
+                        {(part as { type: "reasoning"; text: string }).text}
+                      </ReasoningContent>
+                    </Reasoning>
+                  ))}
+
+                  <Message from={message.role}>
+                    {isAssistantMessage && (
+                      <MessageMetadata
+                        messageId={message.id}
+                        inProgress={status === "submitted"}
+                        isStreaming={isStreaming}
+                        parts={message.parts as MyUIMessage["parts"]}
+                      />
+                    )}
+                    {isStreaming && !hasTextContent && (
+                      <div className="flex items-center gap-2">
+                        <Spinner />
+                        <Shimmer>
+                          {sourceParts.length > 0
+                            ? "Generating response..."
+                            : "Looking up sources..."}
+                        </Shimmer>
+                      </div>
+                    )}
+                    {message.parts
+                      .filter((part) => part.type === "text")
+                      .map((part, partIndex) => (
+                        <MessageContent
+                          key={`${message.id}-${part.type}-${partIndex}`}
+                        >
+                          {isAssistantMessage ? (
+                            <MessageResponse className="text-wrap">
+                              {part.text}
+                            </MessageResponse>
+                          ) : (
+                            part.text
+                          )}
+                        </MessageContent>
+                      ))}
+                  </Message>
+                </div>
               );
             })}
           {(status === "submitted" || status === "streaming") &&
@@ -372,8 +390,8 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
   );
 };
 
-export const Chat = ({ basePath, suggestions }: ChatProps) => {
-  const { isOpen, setIsOpen } = useChatContext();
+export const ChatDrawer = ({ basePath, suggestions }: ChatProps) => {
+  const { isDrawerOpen, setIsDrawerOpen } = useChatContext();
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -387,7 +405,7 @@ export const Chat = ({ basePath, suggestions }: ChatProps) => {
       ) {
         event.preventDefault();
 
-        setIsOpen((prev) => !prev);
+        setIsDrawerOpen((prev) => !prev);
       }
     };
 
@@ -396,13 +414,13 @@ export const Chat = ({ basePath, suggestions }: ChatProps) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [setIsOpen]);
+  }, [setIsDrawerOpen]);
 
   return (
     <>
       <Button
         className="hidden shrink-0 shadow-none md:flex"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsDrawerOpen(!isDrawerOpen)}
         size="sm"
         variant="outline"
       >
@@ -418,15 +436,15 @@ export const Chat = ({ basePath, suggestions }: ChatProps) => {
             "translate-x-full data-[state=open]:translate-x-0",
             "hidden md:flex"
           )}
-          data-state={isOpen ? "open" : "closed"}
+          data-state={isDrawerOpen ? "open" : "closed"}
         >
           <ChatInner basePath={basePath} suggestions={suggestions} />
         </div>
       </Portal.Root>
       <div className="md:hidden">
         <Drawer
-          onOpenChange={isMobile ? setIsOpen : undefined}
-          open={isMobile ? isOpen : false}
+          onOpenChange={isMobile ? setIsDrawerOpen : undefined}
+          open={isMobile ? isDrawerOpen : false}
         >
           <DrawerTrigger asChild>
             <Button className="shadow-none" size="sm" variant="outline">
