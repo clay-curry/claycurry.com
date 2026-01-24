@@ -1,0 +1,27 @@
+import type { SVGProps } from 'react'
+
+export function BodyCrown(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      width="2549"
+      height="485"
+      viewBox="0 0 2549 485"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M27 341V223.5L149 100.5H1756M1981 100.5H1756M1756 100.5L1815 44H1933.5L1961 17H2083.5L2100.5 1H2203M2548 484V355.5L2536.5 345V217.5L2523.5 202V66.5L2474.5 15.5H2132.5M2048 33.5H2461.5L2509.5 79.5V378.5L2532.5 401.5V408"
+        stroke="#4E7B7A"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M1 336.5V208L141.5 66H332L365.5 100M1981 99.5L2015.5 66H2444L2475.5 96V336L2444 365.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}

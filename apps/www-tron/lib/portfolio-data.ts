@@ -14,10 +14,8 @@ export const profileData = {
 
 export const aboutData = {
   description: [
-    "I'm a Product Engineer from San Francisco, California, specializing in web technologies and user experience. I enjoy turning complex problems into simple, beautiful and intuitive applications.",
-    "My job is to build products that not only align with your business vision but grow and refine it by integrating user feedback.",
-    
-    "I add personal touch to your product and make sure that it exceeds the expectations of your customers. is eye-catching and easy to useMy aim is to bring across your message and identity in the most creative way. I've worked with various technologies including React, Next.js, Node.js, and modern cloud platforms.",
+    "I'm a Software Engineer from San Francisco, California, specializing in web technologies and user experience. I enjoy turning complex problems into simple, beautiful and intuitive applications.",
+    "My job is to build products that not only bring across your message and identity but grow and refine it by integrating user feedback."
   ],
   services: [
     {
@@ -102,7 +100,7 @@ export const resumeData = {
     },
   ],
   skills: [
-    { name: 'Web Design', level: 90 },
+    { name: 'Product Design', level: 90 },
     { name: 'Frontend Development', level: 95 },
     { name: 'Backend Development', level: 85 },
     { name: 'Database Design', level: 80 },
@@ -110,7 +108,7 @@ export const resumeData = {
 }
 
 export const portfolioData = {
-  categories: ['all', 'web design', 'applications', 'web development'],
+  categories: ['all', 'produce design', 'applications', 'web development'],
   projects: [
     {
       title: 'E-Commerce Platform',
@@ -132,7 +130,7 @@ export const portfolioData = {
     },
     {
       title: 'Portfolio Website',
-      category: 'web design',
+      category: 'product design',
       image: '/minimalist-portfolio-design.jpg',
       description: 'Modern portfolio design for creative professionals',
       tech: ['Next.js', 'Tailwind CSS', 'Framer Motion'],
@@ -159,7 +157,7 @@ export const portfolioData = {
     },
     {
       title: 'Restaurant Website',
-      category: 'web design',
+      category: 'product design',
       image: '/restaurant-website-design.png',
       description: 'Elegant restaurant website with online ordering',
       tech: ['Next.js', 'Sanity CMS', 'Stripe'],
