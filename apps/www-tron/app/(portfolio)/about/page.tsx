@@ -43,7 +43,7 @@ export default function AboutPage() {
                 className="flex gap-3 md:gap-4 p-4 md:p-6 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors"
               >
                 <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
-                  <IconComponent className="w-full h-full text-accent" strokeWidth={1.5} />
+                  <IconComponent className="w-full h-full text-primary" strokeWidth={1.5} />
                 </div>
                 <div>
                   <h4 className="text-base md:text-lg font-semibold text-foreground mb-2 text-shadow-none">{service.title}</h4>

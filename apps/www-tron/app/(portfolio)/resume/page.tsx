@@ -356,7 +356,7 @@ const AddressList = ({
         <a
           href={element.href}
           key={element.href}
-          className="dark:text-accent dark:hover:text-primary/80 text-primary/80 transition-colors"
+          className="dark:text-primary dark:hover:text-primary/80 text-primary/80 transition-colors"
         >
           {element.text}
         </a>
@@ -373,7 +373,7 @@ const AddressList = ({
 // Section heading with TRON accent
 const SectionHeading = ({ children, icon: Icon }: { children: ReactNode; icon?: LucideIcon }) => (
   <div className="flex items-center gap-2 md:gap-3 mb-4 border-b border-primary/30 pb-2">
-    {Icon && <Icon className="w-5 h-5 md:w-6 md:h-6 dark:text-accent" />}
+    {Icon && <Icon className="w-5 h-5 md:w-6 md:h-6 dark:text-primary" />}
     <h2 className="text-xl font-semibold md:text-2xl text-foreground text-shadow-none">
       {children}
     </h2>
@@ -387,7 +387,7 @@ const AccordionHeader = ({ title, date }: { title: string; date: string }) => {
   return (
     <>
       <span className="flex-1 text-left">{title}</span>
-      <span className="font-normal leading-tight text-center dark:text-accent shrink-0 md:text-right md:leading-normal">
+      <span className="font-normal leading-tight text-center dark:text-primary shrink-0 md:text-right md:leading-normal">
         {dateParts.length > 1 ? (
           <>
             <span className="block whitespace-nowrap md:inline">{dateParts[0]}</span>

@@ -15,7 +15,7 @@ export default function PortfolioLayout({
           <ProfileSidebar data={profileData} />
 
           {/* Main Content */}
-          <main className="flex-1 bg-card rounded-xl md:rounded-2xl border border-border overflow-hidden">
+          <main className="flex-1 bg-card rounded-xl md:rounded-2xl border border-border/80 overflow-hidden">
             <PortfolioNav />
 
             <div className="relative p-4 sm:p-5 md:p-6 lg:p-8">

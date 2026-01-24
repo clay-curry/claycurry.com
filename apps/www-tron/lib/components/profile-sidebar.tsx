@@ -8,7 +8,7 @@ interface ProfileSidebarProps {
 
 export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
   return (
-    <aside className="w-full lg:w-80 bg-card rounded-2xl border border-border p-4 md:p-6 lg:sticky lg:top-8 h-fit">
+    <aside className="w-full lg:w-80 bg-card rounded-2xl border border-border/80 p-4 md:p-6 lg:sticky lg:top-8 h-fit">
       {/* Profile Image */}
       <div className="flex flex-col items-center">
         <div className="relative w-24 h-24 md:w-32 md:h-32 mb-4 md:mb-6">
@@ -41,7 +41,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         ].map(({ icon: Icon, label, value, href, breakAll }) => (
           <div key={label} className="flex items-start gap-3 pl-2">
             <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
-              <Icon className="w-5 h-5 dark:text-accent" />
+              <Icon className="w-5 h-5 dark:text-primary" />
             </div>
             <div className={`flex-1${breakAll ? ' min-w-0' : ''}`}>
               <p className="text-xs text-muted-foreground uppercase mb-1">{label}</p>
