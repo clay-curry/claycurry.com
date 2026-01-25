@@ -40,7 +40,7 @@ import {
 } from '@/lib/components/ai-elements/prompt-input';
 import { useState, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
-import { CopyIcon, GlobeIcon, RefreshCcwIcon, Trash } from 'lucide-react';
+import { CopyIcon, GlobeIcon, RefreshCcwIcon, Trash, XIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { useChatPersistence, useChatContext } from '@/lib/hooks/use-chat';
 import { CopyChat } from '@/lib/custom/ai-elements/copy-chat';
@@ -84,7 +84,7 @@ const PromptInputAttachmentsDisplay = () => {
 
 const ChatBotDemo = () => {
   const suggestions = useChatSuggestions();
-  const { model, setModel } = useChatContext();
+  const { model, setModel, setIsDialogOpen } = useChatContext();
   const [input, setInput] = useState('');
   const [webSearch, setWebSearch] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -157,7 +157,7 @@ const ChatBotDemo = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 relative size-full">
       <div className="flex flex-col h-full">
-        <div className="flex items-center justify-end gap-2 mb-4">
+        <div className="flex items-center justify-start gap-2 mb-4">
           <CopyChat messages={messages} />
           <Tooltip>
             <TooltipTrigger asChild>
@@ -171,6 +171,19 @@ const ChatBotDemo = () => {
               </Button>
             </TooltipTrigger>
             <TooltipContent>Clear chat</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={() => setIsDialogOpen(false)}
+                size="icon"
+                variant="ghost"
+                className="ml-auto text-red-700 hover:text-red-800"
+              >
+                <XIcon className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Close</TooltipContent>
           </Tooltip>
         </div>
         <Conversation className="flex-1 min-h-0">

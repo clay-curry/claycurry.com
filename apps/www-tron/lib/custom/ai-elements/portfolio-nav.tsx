@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu } from 'lucide-react'
@@ -33,44 +33,59 @@ export function PortfolioNav() {
   const pathname = usePathname()
   const activeSection = pathname.split('/')[1] || 'about'
   const [open, setOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  // Delay rendering of Radix components to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <div className='w-full overflow-hidden sticky top-0 z-20 bg-background'>
       {/* Mobile Navigation */}
       <nav className="lg:hidden flex items-center justify-end pt-[30px] pb-2 px-3 sm:px-4 md:px-6">
-        <Sheet open={open} onOpenChange={setOpen} modal={false}>
-          <SheetTrigger asChild>
-            <button
-              className="p-2 rounded-lg text-muted-foreground hover:bg-secondary transition-colors"
-              aria-label="Open menu"
-            >
-              <Menu className="w-5 h-5" />
-            </button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-64">
-            <VisuallyHidden>
-              <SheetTitle>Navigation menu</SheetTitle>
-            </VisuallyHidden>
-            <div className="flex flex-col gap-6 mt-12">
-              <nav className="flex flex-col gap-2">
-                {sections.map((section) => (
-                  <Link
-                    key={section}
-                    href={`/${section}`}
-                    onClick={() => setOpen(false)}
-                    className={`px-4 py-3 rounded-lg text-sm font-medium capitalize transition-colors ${
-                      activeSection === section
-                        ? 'text-foreground bg-accent/10'
-                        : 'text-muted-foreground hover:bg-secondary'
-                    }`}
-                  >
-                    {section}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          </SheetContent>
-        </Sheet>
+        {mounted ? (
+          <Sheet open={open} onOpenChange={setOpen} modal={false}>
+            <SheetTrigger asChild>
+              <button
+                className="p-2 rounded-lg text-muted-foreground hover:bg-secondary transition-colors"
+                aria-label="Open menu"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-64">
+              <VisuallyHidden>
+                <SheetTitle>Navigation menu</SheetTitle>
+              </VisuallyHidden>
+              <div className="flex flex-col gap-6 mt-12">
+                <nav className="flex flex-col gap-2">
+                  {sections.map((section) => (
+                    <Link
+                      key={section}
+                      href={`/${section}`}
+                      onClick={() => setOpen(false)}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium capitalize transition-colors ${
+                        activeSection === section
+                          ? 'text-foreground bg-accent/10'
+                          : 'text-muted-foreground hover:bg-secondary'
+                      }`}
+                    >
+                      {section}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
+            </SheetContent>
+          </Sheet>
+        ) : (
+          <button
+            className="p-2 rounded-lg text-muted-foreground hover:bg-secondary transition-colors"
+            aria-label="Open menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        )}
       </nav>
 
       {/* Desktop Navigation */}

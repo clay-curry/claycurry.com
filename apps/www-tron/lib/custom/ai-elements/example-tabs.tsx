@@ -1,6 +1,6 @@
 'use client'
 
-import type { ReactNode } from 'react'
+import { type ReactNode, useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/lib/custom/ui/tabs'
 import { cn } from '@/lib/utils'
 
@@ -10,6 +10,27 @@ type ExampleTabsProps = {
 }
 
 export function ExampleTabs({ children, className }: ExampleTabsProps) {
+  const [mounted, setMounted] = useState(false)
+
+  // Delay rendering of Radix Tabs to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <div className={cn('my-6', className)}>
+        <div className="flex flex-col py-2 overflow-hidden rounded-xl border border-sidebar-border bg-sidebar">
+          <div className="px-4 flex gap-2 border-b border-border pb-2">
+            <span className="text-sm px-3 py-1.5 rounded-lg bg-accent text-accent-foreground">Rendered</span>
+            <span className="text-sm px-3 py-1.5 rounded-lg text-muted-foreground">Source</span>
+          </div>
+          <div className="p-4 bg-background rounded-2xl animate-pulse h-24" />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <Tabs defaultValue="rendered" className={cn('my-6', className)}>
       <div className="flex flex-col py-2 overflow-hidden rounded-xl border border-sidebar-border bg-sidebar">

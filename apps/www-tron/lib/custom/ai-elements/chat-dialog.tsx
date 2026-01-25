@@ -14,8 +14,8 @@ export function ChatDialog() {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogContent
-        className="h-[80vh] p-0 flex flex-col"
-        showCloseButton
+        className="h-[80vh] p-0 flex flex-col rounded-3xl"
+        showCloseButton={false}
       >
         <DialogTitle className="sr-only">Ask AI</DialogTitle>
         <div className="flex-1 min-h-0 overflow-hidden">

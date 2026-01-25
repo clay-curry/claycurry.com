@@ -8,6 +8,7 @@ import { OnThisPage } from "@/lib/custom/ai-elements/on-this-page";
 import { PageActions, ShareOnX, ShareOnLinkedIn, CopyPageButton } from "@/lib/custom/ai-elements/page-actions";
 import { ViewCount } from "@/lib/custom/ai-elements/view-count";
 import { PageFeedback } from "@/lib/custom/ai-elements/page-feedback";
+import { AskQuestionBubble } from "@/lib/custom/ai-elements/ask-question-bubble";
 
 export const dynamicParams = false;
 
@@ -27,53 +28,53 @@ export default async function BlogPostPage({
 
   return (
     <>
+      <AskQuestionBubble />
       <MobileToc toc={toc} />
 
-      {/* Sidebar - fixed to right side on desktop */}
-      <aside className="hidden lg:block fixed right-2 top-30 w-64 z-10">
+      {/* Sidebar - fixed to right side on wide screens only */}
+      <aside className="hidden 2xl:block fixed right-4 top-30 w-64 z-10">
         <div>
           <OnThisPage toc={toc} />
           <PageActions slug={slug} />
         </div>
       </aside>
 
-      <div className="mx-auto max-w-4xl">
-        <div className="p-3 sm:p-4 md:p-6 lg:p-12">
-          <article className="py-4 md:py-8">
+      <div className="mx-auto max-w-4xl w-full">
+        <div className="p-3 sm:p-4 md:p-6 lg:p-12 pb-24 sm:pb-28">
+          <article className="pt-8 pb-4 md:py-8">
             {/* Header */}
             <header className="mb-6 pb-6 border-b border-border">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2 sm:mb-4 wrap-break-word">
                 {title}
               </h1>
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <p className="text-base md:text-lg text-muted-foreground">{postMeta.subtitle}</p>
-                <CopyPageButton />
-              </div>
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground wrap-break-word mb-3 sm:mb-4">{postMeta.subtitle}</p>
 
-              <div className="flex flex-wrap items-center gap-3 md:gap-4 text-sm text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 sm:gap-3 md:gap-4 text-xs sm:text-sm text-muted-foreground">
                 <ViewCount slug={slug} />
-                <span className="flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4" />
+                <span className="flex items-center gap-1">
+                  <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                   {postMeta.publishedDate}
                 </span>
-                <span className="flex items-center gap-1.5">
-                  <Clock className="w-4 h-4" />
-                  {readTime} min read
+                <span className="flex items-center gap-1">
+                  <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
+                  {readTime} min
                 </span>
                 <div className="h-4 w-px bg-border" />
                 <ShareOnX slug={slug} title={title} />
                 <ShareOnLinkedIn slug={slug} />
+                <div className="flex-1" />
+                <CopyPageButton />
               </div>
             </header>
 
             {/* Main Content */}
-            <div className="prose prose-invert max-w-none">
+            <div className="prose prose-sm sm:prose-base prose-invert max-w-none prose-headings:scroll-mt-20 [&_pre]:overflow-x-auto [&_.math-display]:overflow-x-auto [&_table]:overflow-x-auto">
               <BlogArticle />
             </div>
           </article>
 
           {/* Page Feedback */}
-          <div className="border-t border-border">
+          <div className="border-t border-border py-6">
             <PageFeedback />
           </div>
         </div>

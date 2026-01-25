@@ -50,39 +50,38 @@ export function PageFeedback() {
 
   if (isSubmitted) {
     return (
-      <div className="py-8 text-center">
-        <p className="text-sm text-muted-foreground">Thanks for your feedback!</p>
-      </div>
+      <p className="text-sm text-muted-foreground">Thanks for your feedback!</p>
     )
   }
 
   return (
-    <div className="py-8 space-y-4">
-      <p className="text-sm text-muted-foreground text-center">Was this page helpful?</p>
-
-      <div className="flex items-center justify-center gap-3">
-        <Button
-          variant={sentiment === 'positive' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => handleSentimentClick('positive')}
-          className="gap-1.5"
-        >
-          <ThumbsUp className="size-4" />
-          Yes
-        </Button>
-        <Button
-          variant={sentiment === 'negative' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => handleSentimentClick('negative')}
-          className="gap-1.5"
-        >
-          <ThumbsDown className="size-4" />
-          No
-        </Button>
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row items-center sm:justify-end gap-3">
+        <p className="text-sm text-muted-foreground">Was this page helpful?</p>
+        <div className="flex items-center gap-3">
+          <Button
+            variant={sentiment === 'positive' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => handleSentimentClick('positive')}
+            className="gap-1.5"
+          >
+            <ThumbsUp className="size-4" />
+            Yes
+          </Button>
+          <Button
+            variant={sentiment === 'negative' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => handleSentimentClick('negative')}
+            className="gap-1.5"
+          >
+            <ThumbsDown className="size-4" />
+            No
+          </Button>
+        </div>
       </div>
 
       {sentiment && (
-        <div className="max-w-md mx-auto space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="max-w-md sm:ml-auto space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -90,7 +89,7 @@ export function PageFeedback() {
             rows={3}
             className="w-full px-4 py-3 bg-secondary border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none transition-all resize-none text-sm"
           />
-          <div className="flex justify-center">
+          <div className="flex sm:justify-end">
             <Button
               onClick={handleSubmit}
               disabled={isSubmitting}
