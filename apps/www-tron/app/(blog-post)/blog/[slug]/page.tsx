@@ -7,6 +7,7 @@ import { MobileToc } from "@/lib/custom/ai-elements/mobile-toc";
 import { OnThisPage } from "@/lib/custom/ai-elements/on-this-page";
 import { PageActions, ShareOnX, ShareOnLinkedIn, CopyPageButton } from "@/lib/custom/ai-elements/page-actions";
 import { ViewCount } from "@/lib/custom/ai-elements/view-count";
+import { PageFeedback } from "@/lib/custom/ai-elements/page-feedback";
 
 export const dynamicParams = false;
 
@@ -70,6 +71,11 @@ export default async function BlogPostPage({
               <BlogArticle />
             </div>
           </article>
+
+          {/* Page Feedback */}
+          <div className="border-t border-border">
+            <PageFeedback />
+          </div>
         </div>
       </div>
     </>

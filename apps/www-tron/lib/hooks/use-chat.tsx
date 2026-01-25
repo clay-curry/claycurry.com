@@ -11,12 +11,14 @@ import { db } from "@/lib/db";
 export const chatPromptAtom = atom<string>("");
 export const chatDrawerOpenAtom = atomWithStorage<boolean>("portfolio:chat-drawer-open", false);
 export const chatDialogOpenAtom = atomWithStorage<boolean>("portfolio:chat-dialog-open", false);
+export const chatModelAtom = atomWithStorage<string>("portfolio:chat-model", "grok/grok-3-mini");
 
-// Hook to access chat UI state (open/close, prompt)
+// Hook to access chat UI state (open/close, prompt, model)
 export const useChatContext = () => {
   const [prompt, setPrompt] = useAtom(chatPromptAtom);
   const [isDrawerOpen, setIsDrawerOpen] = useAtom(chatDrawerOpenAtom);
   const [isDialogOpen, setIsDialogOpen] = useAtom(chatDialogOpenAtom);
+  const [model, setModel] = useAtom(chatModelAtom);
 
   return {
     prompt,
@@ -24,7 +26,9 @@ export const useChatContext = () => {
     isDrawerOpen,
     setIsDrawerOpen,
     isDialogOpen,
-    setIsDialogOpen
+    setIsDialogOpen,
+    model,
+    setModel
   };
 };
 

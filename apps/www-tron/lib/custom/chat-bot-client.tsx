@@ -42,7 +42,7 @@ import { useState, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { CopyIcon, GlobeIcon, RefreshCcwIcon, Trash } from 'lucide-react';
 import { toast } from 'sonner';
-import { useChatPersistence } from '@/lib/hooks/use-chat';
+import { useChatPersistence, useChatContext } from '@/lib/hooks/use-chat';
 import { CopyChat } from '@/lib/custom/ai-elements/copy-chat';
 import { Button } from '@/lib/custom/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/lib/custom/ui/tooltip';
@@ -84,8 +84,8 @@ const PromptInputAttachmentsDisplay = () => {
 
 const ChatBotDemo = () => {
   const suggestions = useChatSuggestions();
+  const { model, setModel } = useChatContext();
   const [input, setInput] = useState('');
-  const [model, setModel] = useState<string>(CHAT_MODELS[0].value);
   const [webSearch, setWebSearch] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 

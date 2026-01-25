@@ -23,7 +23,7 @@ export default function AboutPage() {
         <h1 className="font-tourney text-4xl md:text-6xl font-bold tracking-tight mb-4">
           Clay Curry
         </h1>
-        <p className="text-lg md:text-xl text-muted-foreground mb-6">
+        <p className="text-lg md:text-xl text-muted-foreground mb-10">
           Portfolio Website
         </p>
         <HeroAskAI />

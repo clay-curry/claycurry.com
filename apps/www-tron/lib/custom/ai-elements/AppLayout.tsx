@@ -1,6 +1,7 @@
 import { PortfolioNav } from '@/lib/custom/ai-elements/portfolio-nav'
 import { PageViews } from '@/lib/custom/ai-elements/page-views'
 import { ThemeToggle } from '@/lib/custom/ai-elements/theme-toggle'
+import { PageFeedback } from '@/lib/custom/ai-elements/page-feedback'
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           <PageViews />
         </div>
         {children}
+      </div>
+
+      {/* Page Feedback */}
+      <div className="mx-6 border-t border-border">
+        <PageFeedback />
       </div>
 
       {/* Footer */}
