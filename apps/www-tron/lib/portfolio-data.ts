@@ -14,23 +14,23 @@ export const profileData = {
 
 export const aboutData = {
   description: [
-    "I'm a Software Engineer from Oklahoma City, Oklahoma, experienced in web technologies and user experience design. ",
+    "I'm a Software Engineer from Oklahoma City, Oklahoma, experienced in web technologies and user interface design. ",
     "My superpower is turning complex problems into simple, beautiful and intuitive applications. This means building products that not only bring across your message and identity but grow and refine it by integrating user feedback."
   ],
   services: [
     {
       icon: 'Code',
-      title: 'Frontend Development',
+      title: 'Full Stack Development',
       description: 'Building modern, responsive web applications with React, Next.js, and TypeScript.',
     },
     {
       icon: 'Zap',
-      title: 'Backend Development',
-      description: 'Creating robust APIs and server-side solutions with Node.js and modern frameworks.',
+      title: 'Agent Engineering',
+      description: 'Producing robust AI-powered agents using Claude, GrokAI, ChatGPT, and more.',
     },
     {
       icon: 'Smartphone',
-      title: 'Mobile Development',
+      title: 'Product Engineering',
       description: 'This means using, and not overrelying on, business metrics to decide what features make the cut.',
     },
     {

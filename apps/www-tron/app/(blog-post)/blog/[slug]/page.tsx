@@ -3,10 +3,10 @@ import {
   getAllPostsMetadata,
   getPost,
 } from "@/app/(portfolio)/blog/loader";
-import { MobileToc } from "@/lib/components/mobile-toc";
-import { OnThisPage } from "@/lib/components/on-this-page";
-import { PageActions, ShareOnX, ShareOnLinkedIn, CopyPageButton } from "@/lib/components/page-actions";
-import { ViewCount } from "@/lib/components/view-count";
+import { MobileToc } from "@/lib/custom/ai-elements/mobile-toc";
+import { OnThisPage } from "@/lib/custom/ai-elements/on-this-page";
+import { PageActions, ShareOnX, ShareOnLinkedIn, CopyPageButton } from "@/lib/custom/ai-elements/page-actions";
+import { ViewCount } from "@/lib/custom/ai-elements/view-count";
 
 export const dynamicParams = false;
 

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-25
+
+### Added
+- AI chat powered by Vercel AI SDK with Anthropic provider
+- Custom chat UI components
+- Mathematics in MDX blog post published
+
+### Changed
+- Replaced dynamic OG image with static image
+- Updated bio text
+
+### Removed
+- Light cycle animation from portfolio nav
+
 ## 2026-01-24
 
 ### Added

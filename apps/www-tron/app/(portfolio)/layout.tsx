@@ -1,6 +1,6 @@
-import { ProfileSidebar } from '@/lib/components/profile-sidebar'
+import { ProfileSidebar } from '@/lib/custom/ai-elements/profile-sidebar'
 import { profileData } from '@/lib/portfolio-data'
-import { AppLayout } from '@/lib/components/AppLayout'
+import { AppLayout } from '@/lib/custom/ai-elements/AppLayout'
 
 export default function PortfolioLayout({
   children,

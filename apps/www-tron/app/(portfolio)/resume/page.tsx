@@ -10,7 +10,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/lib/components/ui/accordion'
+} from '@/lib/custom/ui/accordion'
 import {
   CVBulletList,
   CVContentBody,
@@ -18,7 +18,7 @@ import {
   CVOrgLocation,
   CVPositionAdvisor,
   CVRowItem,
-} from '@/lib/components/ui/cv'
+} from '@/lib/custom/ui/cv'
 import { resumeData } from '@/lib/portfolio-data'
 
 export default function ResumePage() {
@@ -39,7 +39,7 @@ export default function ResumePage() {
         {/* About Me */}
         <AboutMeSection
           paragraphs={[
-            "I'm a Software Engineer from Oklahoma City, Oklahoma, experienced in web technologies and user experience design.",
+            "I'm a Software Engineer from Oklahoma City, Oklahoma, experienced in web technologies and user interface design.",
             "My superpower is turning complex problems into simple, beautiful and intuitive applications. This means building products that not only bring across your message and identity but grow and refine it by integrating user feedback.",
           ]}
         />
