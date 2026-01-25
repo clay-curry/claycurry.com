@@ -52,15 +52,15 @@ export function HeroAskAI() {
             <Button
               variant="default"
               size="lg"
-              className="h-9 pl-1! pr-1.5! shadow-none rounded-r-4xl rounded-l-none"
+              className="h-9 px-2.5! shadow-none rounded-r-4xl rounded-l-none"
             >
               <ChevronDown className="size-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="rounded-3xl p-2">
             <DropdownMenuRadioGroup value={model} onValueChange={setModel}>
               {CHAT_MODELS.map((m) => (
-                <DropdownMenuRadioItem key={m.value} value={m.value}>
+                <DropdownMenuRadioItem key={m.value} value={m.value} className="rounded-lg pr-4">
                   {m.name}
                 </DropdownMenuRadioItem>
               ))}

@@ -40,7 +40,7 @@ import {
 } from '@/lib/components/ai-elements/prompt-input';
 import { useState, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
-import { CopyIcon, GlobeIcon, RefreshCcwIcon, Trash, XIcon } from 'lucide-react';
+import { CopyIcon, GlobeIcon, RefreshCcwIcon, Trash, XIcon, ThumbsUpIcon, ThumbsDownIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { useChatPersistence, useChatContext } from '@/lib/hooks/use-chat';
 import { CopyChat } from '@/lib/custom/ai-elements/copy-chat';
@@ -88,6 +88,7 @@ const ChatBotDemo = () => {
   const [input, setInput] = useState('');
   const [webSearch, setWebSearch] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [feedback, setFeedback] = useState<Record<string, 'up' | 'down' | null>>({});
 
   const { initialMessages, isLoading, saveMessages, clearMessages } = useChatPersistence();
   const { messages, sendMessage, status, regenerate, setMessages, stop } = useChat();
@@ -237,13 +238,33 @@ const ChatBotDemo = () => {
                               {part.text}
                             </MessageResponse>
                           </MessageContent>
-                          {message.role === 'assistant' && i === messages.length - 1 && (
+                          {message.role === 'assistant' && (
                             <MessageActions>
                               <MessageAction
-                                onClick={() => regenerate()}
-                                label="Retry"
+                                onClick={() => {
+                                  setFeedback(prev => ({
+                                    ...prev,
+                                    [message.id]: prev[message.id] === 'up' ? null : 'up'
+                                  }));
+                                  toast.success('Thanks for your feedback!');
+                                }}
+                                label="Good response"
+                                className={feedback[message.id] === 'up' ? 'text-green-500' : ''}
                               >
-                                <RefreshCcwIcon className="size-3" />
+                                <ThumbsUpIcon className="size-3" />
+                              </MessageAction>
+                              <MessageAction
+                                onClick={() => {
+                                  setFeedback(prev => ({
+                                    ...prev,
+                                    [message.id]: prev[message.id] === 'down' ? null : 'down'
+                                  }));
+                                  toast.success('Thanks for your feedback!');
+                                }}
+                                label="Bad response"
+                                className={feedback[message.id] === 'down' ? 'text-red-500' : ''}
+                              >
+                                <ThumbsDownIcon className="size-3" />
                               </MessageAction>
                               <MessageAction
                                 onClick={() =>
@@ -253,6 +274,14 @@ const ChatBotDemo = () => {
                               >
                                 <CopyIcon className="size-3" />
                               </MessageAction>
+                              {message.id === messages.at(-1)?.id && (
+                                <MessageAction
+                                  onClick={() => regenerate()}
+                                  label="Retry"
+                                >
+                                  <RefreshCcwIcon className="size-3" />
+                                </MessageAction>
+                              )}
                             </MessageActions>
                           )}
                         </Message>

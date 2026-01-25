@@ -14,7 +14,7 @@ const components = {
     return (
       <h1
         id={id}
-        className="text-3xl md:text-4xl font-extrabold mt-20 mb-6 text-primary transition-all duration-300 hover:text-primary/80"
+        className="text-4xl md:text-5xl font-extrabold mt-20 mb-6 text-primary transition-all duration-300 hover:text-primary/80"
       >
         <a href={`#${id}`} className="no-underline hover:underline">
           {children}
