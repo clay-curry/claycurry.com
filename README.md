@@ -1,19 +1,19 @@
-<p align="center">
-  <a href="https://claycurry.com">
-    <img src="https://claycurry.com/og-image.png" alt="claycurry.com" width="600" />
-  </a>
-</p>
-
 <h1 align="center">claycurry.com</h1>
 
 <p align="center">Personal portfolio and blog website.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white" alt="Next.js" />
-  <img src="https://img.shields.io/badge/Turborepo-EF4444?style=flat&logo=turborepo&logoColor=white" alt="Turborepo" />
-  <img src="https://img.shields.io/badge/MDX-1B1F24?style=flat&logo=mdx&logoColor=white" alt="MDX" />
-  <img src="https://img.shields.io/badge/shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white" alt="shadcn/ui" />
+  <a href="https://claycurry.com">
+    <img src="https://claycurry.com/opengraph-image.png" alt="claycurry.com" width="600" />
+  </a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Biome-60A5FA?style=flat&logo=biome&logoColor=white" alt="Biome" />
+  <img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/Turborepo-0995FF?style=flat&labelColor=FF0C20&logo=turborepo&logoColor=white" alt="Turborepo" />
+  <img src="https://img.shields.io/badge/MDX-21262C?style=flat&labelColor=FCB32C&logo=mdx&logoColor=white" alt="MDX" />
+  <img src="https://img.shields.io/badge/shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white" alt="shadcn/ui" />
 </p>
 
 <p align="center">
