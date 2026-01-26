@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-26
+
+### Added
+- Streamdown markdown rendering for chat messages
+- Blog-contextual AI chat (article content as context)
+
+### Changed
+- Improved chat UI sizing and layout
+
 ## 2026-01-25
 
 ### Added

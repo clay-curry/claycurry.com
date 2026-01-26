@@ -7,6 +7,7 @@ import {
   useCallback,
   useRef,
   useState,
+  useEffect,
 } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/lib/custom/ui/button'
@@ -150,6 +151,12 @@ export const CodeBlock = ({
 }: CodeBlockProps) => {
   const ref = useRef<HTMLPreElement>(null)
   const [isCopied, setIsCopied] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  // Delay rendering of Radix DropdownMenu to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const getCode = useCallback(() => ref.current?.innerText || '', [])
 
@@ -213,9 +220,10 @@ export const CodeBlock = ({
     [children, style, tabIndex, className, language]
   )
 
-  const CodeActionsMenu = () => (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+  const CodeActionsMenu = () => {
+    // Render placeholder button before hydration to avoid mismatch
+    if (!mounted) {
+      return (
         <Button
           className="shrink-0 size-7 rounded-lg hover:bg-accent"
           size="icon"
@@ -223,23 +231,37 @@ export const CodeBlock = ({
         >
           <EllipsisVertical size={14} />
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="rounded-lg shadow-none">
-        <DropdownMenuItem onClick={copyToClipboard}>
-          <CopyButtonIcon className="size-4" />
-          {isCopied ? 'Copied!' : 'Copy code'}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={openInChatGPT}>
-          <ChatGPTIcon />
-          Open in ChatGPT
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={openInClaude}>
-          <ClaudeIcon />
-          Open in Claude
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+      )
+    }
+
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            className="shrink-0 size-7 rounded-lg hover:bg-accent"
+            size="icon"
+            variant="ghost"
+          >
+            <EllipsisVertical size={14} />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="rounded-lg shadow-none">
+          <DropdownMenuItem onClick={copyToClipboard}>
+            <CopyButtonIcon className="size-4" />
+            {isCopied ? 'Copied!' : 'Copy code'}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={openInChatGPT}>
+            <ChatGPTIcon />
+            Open in ChatGPT
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={openInClaude}>
+            <ClaudeIcon />
+            Open in Claude
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    )
+  }
 
   if (!displayTitle) {
     return (

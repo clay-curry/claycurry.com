@@ -1,6 +1,7 @@
 import * as React from "react"
 
-const MOBILE_BREAKPOINT = 768
+// Breakpoint for sidebar collapse - set to xl (1280px) to give tablets more content space
+const MOBILE_BREAKPOINT = 1280
 
 export function useIsMobile() {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)

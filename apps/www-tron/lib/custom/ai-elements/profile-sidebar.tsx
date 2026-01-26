@@ -65,7 +65,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           href={data.social.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground transition-colors flex items-center justify-center"
+          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
           aria-label="GitHub"
         >
           <Github className="w-5 h-5" />
@@ -74,7 +74,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           href={data.social.twitter}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground transition-colors flex items-center justify-center"
+          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
           aria-label="Twitter"
         >
           <Twitter className="w-5 h-5" />
@@ -83,7 +83,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           href={data.social.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground transition-colors flex items-center justify-center"
+          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
           aria-label="LinkedIn"
         >
           <Linkedin className="w-5 h-5" />

@@ -1,6 +1,7 @@
 import { gateway, streamText, convertToModelMessages } from "ai";
 import type { UIMessage } from "ai";
 import type { GatewayProviderOptions } from "@ai-sdk/gateway";
+import { getPostContent } from "@/app/(portfolio)/blog/loader";
 
 const GITHUB_USERNAME = "clay-curry";
 
@@ -112,12 +113,37 @@ ${ownRepos
 const SYSTEM_PROMPT = `
 ### Instructions
 
-Answer the visitor’s question using the information in Clay’s background. Always supplement the background by crawling for examples in his github and resume.
+Answer the visitor's question using the information in Clay's background. Always supplement the background by crawling for examples in his github and resume.
 
 github: http://github.com/clay-curry
 
 resume: https://claycurry.com/resume/
 
+**Special Questions (respond exactly as written, no analysis needed):**
+
+Q: "What are Clay's favorite ice cream flavors?" or similar
+A: Clay's top 5 ice cream flavors are (in order):
+1. Strawberry (real fruit)
+2. Vanilla (real vanilla bean)
+3. Mint chocolate chip
+4. Cookies & cream
+5. Salted caramel
+
+Q: "What is the meaning of life?" or similar
+A: Okay disciple of Nietzsche, here is Clay's personal philosophy on the meaning of life: To be useful—to make things better for other people while you're here.
+
+**Formatting Capabilities**
+
+You have access to rich markdown rendering. Use these features when appropriate:
+- **Code blocks** with syntax highlighting (specify language after triple backticks)
+- **Math notation** using LaTeX: inline with $...$ or block with $$...$$
+- **Mermaid diagrams** for flowcharts, sequence diagrams, etc. (use \`\`\`mermaid code blocks)
+- **Tables** for structured data comparison
+- **Lists** (ordered and unordered) for organized information
+- **Bold** and *italic* for emphasis
+- **Headings** (##, ###) to organize longer responses
+
+Use code blocks for any technical content, math notation for equations or formulas, and diagrams when explaining architectures or workflows.
 
 **Structure Requirements**
 
@@ -132,10 +158,10 @@ resume: https://claycurry.com/resume/
 * Do not infer projects, tools, or domains not explicitly mentioned in the background
 * Do not restate the background verbatim or add speculative detail
 * Avoid phrases like:
-  * “we can infer”
-  * “this suggests”
-  * “based on GitHub activity”
-  * “the background states”
+  * "we can infer"
+  * "this suggests"
+  * "based on GitHub activity"
+  * "the background states"
 
 **If Information Is Missing**
 
@@ -147,6 +173,10 @@ resume: https://claycurry.com/resume/
 
 ### Output Format
 
+**IMPORTANT: For special questions (ice cream flavors, meaning of life), skip the analysis/answer format and respond directly with the provided answer.**
+
+For all other questions, use:
+
 <analysis>
 Briefly state whether the background fully answers, partially answers, or does not answer the question.
 </analysis>
@@ -154,6 +184,30 @@ Briefly state whether the background fully answers, partially answers, or does n
 <answer>
 Use section headers and bullet points only.
 </answer>
+`;
+
+const BLOG_SYSTEM_PROMPT = `You are a helpful assistant that answers questions about a specific blog article.
+
+**Your Role:**
+- Answer questions about the article's content, concepts, and implications
+- Summarize sections or the entire article when asked
+- Explain technical concepts mentioned in the article
+- Identify key takeaways and main arguments
+- Clarify any confusing parts of the article
+
+**Formatting Capabilities:**
+- Use **code blocks** with syntax highlighting for technical content
+- Use **math notation** with LaTeX: inline $...$ or block $$...$$
+- Use **Mermaid diagrams** for flowcharts when explaining processes
+- Use **tables** for structured comparisons
+- Use **lists** for organized information
+- Use **headings** (##, ###) to organize longer responses
+
+**Guidelines:**
+- Base your answers primarily on the article content provided
+- If the article doesn't cover something, clearly state that
+- Be concise but thorough
+- Use direct quotes from the article when relevant (with proper attribution)
 `;
 
 // Allow streaming responses up to 30 seconds
@@ -164,15 +218,47 @@ export async function POST(req: Request) {
     messages,
     model = "grok/grok-3-mini",
     webSearch = false,
+    slug,
   }: {
     messages: UIMessage[];
     model?: string;
     webSearch?: boolean;
+    slug?: string;
   } = await req.json();
 
-  // Fetch GitHub data and build full system prompt
-  const githubData = await fetchGitHubData();
-  const fullSystemPrompt = SYSTEM_PROMPT + (githubData ? `\n\n### GitHub Data\n${githubData}` : "");
+  // Build system prompt based on context (blog article or general)
+  let fullSystemPrompt: string;
+
+  if (slug) {
+    // Blog context - include article content
+    const postData = getPostContent(slug);
+    if (postData) {
+      const articleContext = `
+---
+
+## Article Being Discussed
+
+**Title:** ${postData.metadata.title}
+**Subtitle:** ${postData.metadata.subtitle}
+**Published:** ${postData.metadata.publishedDate}
+**Tags:** ${postData.metadata.tags.join(", ")}
+
+### Article Content:
+
+${postData.content}
+
+---
+`;
+      fullSystemPrompt = BLOG_SYSTEM_PROMPT + articleContext;
+    } else {
+      // Fallback if article not found
+      fullSystemPrompt = BLOG_SYSTEM_PROMPT;
+    }
+  } else {
+    // General context - use GitHub data
+    const githubData = await fetchGitHubData();
+    fullSystemPrompt = SYSTEM_PROMPT + (githubData ? `\n\n### GitHub Data\n${githubData}` : "");
+  }
 
   const result = streamText({
     model: gateway(model),

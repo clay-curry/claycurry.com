@@ -20,8 +20,8 @@ export const aboutData = {
   services: [
     {
       icon: 'Code',
-      title: 'Full Stack Development',
-      description: 'Building modern, responsive web applications with React, Next.js, and TypeScript.',
+      title: 'Open Source Software',
+      description: 'Using and contributing to open source with best practices for documentation, testing, and community collaboration.',
     },
     {
       icon: 'Zap',
@@ -35,8 +35,8 @@ export const aboutData = {
     },
     {
       icon: 'PenTool',
-      title: 'UI/UX Design',
-      description: 'Designing intuitive and beautiful user interfaces that enhance user experience.',
+      title: 'Technical Writing',
+      description: 'Creating clear documentation, tutorials, and technical content that makes complex topics accessible.',
     },
   ],
   testimonials: [
@@ -64,7 +64,6 @@ export const aboutData = {
   clients: [
     { name: 'TechCorp', logo: '/tech-company-logo.jpg' },
     { name: 'StartupHub', logo: '/startup-logo.png' },
-    { name: 'DesignStudio', logo: '/design-agency-logo.png' },
     { name: 'CodeLabs', logo: '/software-company-logo.png' },
     { name: 'WebSolutions', logo: '/web-agency-logo.jpg' },
     { name: 'AppMakers', logo: '/app-development-logo.jpg' },
@@ -129,33 +128,6 @@ export const portfolioData = {
       githubUrl: 'https://github.com/johndoe/taskmanager',
     },
     {
-      title: 'Portfolio Website',
-      category: 'product design',
-      image: '/minimalist-portfolio-design.jpg',
-      description: 'Modern portfolio design for creative professionals',
-      tech: ['Next.js', 'Tailwind CSS', 'Framer Motion'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com/johndoe/portfolio',
-    },
-    {
-      title: 'Social Media Dashboard',
-      category: 'web development',
-      image: '/analytics-dashboard.png',
-      description: 'Analytics dashboard with data visualization',
-      tech: ['React', 'D3.js', 'Express'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com/johndoe/dashboard',
-    },
-    {
-      title: 'Mobile Banking App',
-      category: 'applications',
-      image: '/banking-app-interface.png',
-      description: 'Secure mobile banking application',
-      tech: ['React Native', 'Node.js', 'MongoDB'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com/johndoe/banking',
-    },
-    {
       title: 'Restaurant Website',
       category: 'product design',
       image: '/restaurant-website-design.png',
@@ -170,14 +142,14 @@ export const portfolioData = {
 export const blogData = {
   posts: [
     {
-      title: 'Building Real-Time Applications with WebSockets',
-      category: 'Development',
-      date: 'Feb 12, 2024',
-      readTime: '9 min',
+      title: 'So Good They Can\'t Ignore You',
+      category: 'Book Review',
+      date: 'Jan 25, 2025',
+      readTime: '7 min',
       image: '/software-architecture.jpg',
-      excerpt: 'Implement real-time features using WebSockets and modern frameworks.',
-      tags: ['WebSockets', 'Real-time', 'Backend'],
-      slug: 'realtime-apps-websockets',
+      excerpt: 'Cal Newport\'s case for why skills trump passion in the quest for work you love.',
+      tags: ['Books', 'Career', 'Productivity'],
+      slug: 'so-good-they-cant-ignore-you',
     }
   ],
 }

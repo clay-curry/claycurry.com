@@ -14,8 +14,16 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  SidebarSeparator,
 } from '@/lib/custom/ui/sidebar'
 import type { PostMetadata } from '@/app/(portfolio)/blog/loader'
+
+const siteNavLinks = [
+  { label: 'About', href: '/about' },
+  { label: 'Resume', href: '/resume' },
+  { label: 'Writing', href: '/writing' },
+  { label: 'Contact', href: '/contact' },
+]
 
 interface BlogSidebarProps extends React.ComponentProps<typeof Sidebar> {
   posts: PostMetadata[]
@@ -24,11 +32,28 @@ interface BlogSidebarProps extends React.ComponentProps<typeof Sidebar> {
 export function BlogSidebar({ posts, ...props }: BlogSidebarProps) {
   const pathname = usePathname()
   const starredPosts = posts.filter((post) => post.pinned)
-  const allPosts = posts
+  const otherPosts = posts.filter((post) => !post.pinned)
 
   return (
     <Sidebar {...props}>
       <SidebarContent>
+        {/* Site Navigation */}
+        <SidebarGroup>
+          <div className="flex justify-center gap-4 py-4">
+            {siteNavLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </SidebarGroup>
+
+        <SidebarSeparator />
+
         {/* Starred Section */}
         {starredPosts.length > 0 && (
           <SidebarGroup>
@@ -54,14 +79,14 @@ export function BlogSidebar({ posts, ...props }: BlogSidebarProps) {
           </SidebarGroup>
         )}
 
-        {/* All Posts Section */}
+        {/* Other Posts Section */}
         <SidebarGroup>
           <SidebarGroupLabel>
-            All Posts
+            Posts
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {allPosts.map((post) => (
+              {otherPosts.map((post) => (
                 <SidebarMenuItem key={post.slug}>
                   <SidebarMenuButton
                     asChild

@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import 'katex/dist/katex.min.css';
+
+@source "../node_modules/streamdown/dist/*.js";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -53,6 +56,7 @@
   --tron-orange: oklch(0.7 0.2 50);
   --tron-grid: oklch(0.65 0.2 195 / 0.1);
   --primary-accent: oklch(0.7 0.2 50);
+  --grid-color: oklch(0.5 0.02 220 / 0.3);
 }
 
 .dark {
@@ -95,6 +99,7 @@
   --tron-orange: oklch(0.7 0.2 50);
   --tron-grid: oklch(0.75 0.2 195 / 0.08);
   --primary-accent: oklch(0.91 0.16 185);
+  --grid-color: oklch(0.5 0.1 220 / 0.25);
 }
 
 @theme inline {
@@ -154,11 +159,21 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Grid background with fade from edges */
+  .grid-background {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
     background-image:
-      linear-gradient(var(--tron-grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--tron-grid) 1px, transparent 1px);
-    background-size: 50px 50px;
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
     background-position: center center;
+    mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, black 100%);
+    -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, black 100%);
   }
 
   /* TRON Typography enhancements */

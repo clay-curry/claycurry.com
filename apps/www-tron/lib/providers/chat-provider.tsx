@@ -21,8 +21,8 @@ export const useChatSuggestions = () => useContext(ChatSuggestionsContext);
 
 const DEFAULT_SUGGESTIONS = [
   "What are Clay's skills?",
-  "Tell me about his experience",
-  "What projects has he worked on?"
+  "Favorite 5 ice cream flavors?",
+  "Meaning of life?"
 ];
 
 // Provider component that renders Chat when open

@@ -24,11 +24,11 @@ export function ViewCount({ slug }: ViewCountProps) {
 
   return (
     <span className="flex items-center gap-1.5">
-      <Eye className="w-4 h-4" />
+      <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
       {views === null ? (
         <span className="w-8 h-4 bg-muted animate-pulse rounded" />
       ) : (
-        <span>{views.toLocaleString()} views</span>
+        <span>{views.toLocaleString()}</span>
       )}
     </span>
   )

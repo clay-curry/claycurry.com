@@ -56,6 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`} suppressHydrationWarning>
+        <div className="grid-background" aria-hidden="true" />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -10,16 +11,24 @@ import ChatBotDemo from "@/lib/custom/chat-bot-client";
 
 export function ChatDialog() {
   const { isDialogOpen, setIsDialogOpen } = useChatContext();
+  const pathname = usePathname();
+
+  // Detect blog context from URL
+  const isBlogContext = pathname?.startsWith('/blog/');
+  // Key forces remount when navigating between pages
+  const contextKey = pathname || 'default';
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogContent
-        className="h-[80vh] p-0 flex flex-col"
-        showCloseButton
+        className="h-[80vh] p-0 flex flex-col rounded-3xl"
+        showCloseButton={false}
       >
-        <DialogTitle className="sr-only">Ask AI</DialogTitle>
+        <DialogTitle className="sr-only">
+          {isBlogContext ? "Ask about this article" : "Ask AI"}
+        </DialogTitle>
         <div className="flex-1 min-h-0 overflow-hidden">
-          <ChatBotDemo />
+          <ChatBotDemo key={contextKey} />
         </div>
       </DialogContent>
     </Dialog>

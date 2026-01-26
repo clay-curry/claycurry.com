@@ -1,6 +1,6 @@
 'use client'
 
-import type { ReactNode } from 'react'
+import { type ReactNode, useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/lib/custom/ui/tabs'
 import { cn } from '@/lib/utils'
 
@@ -10,6 +10,28 @@ type DiagramTabsProps = {
 }
 
 export function DiagramTabs({ children, className }: DiagramTabsProps) {
+  const [mounted, setMounted] = useState(false)
+
+  // Delay rendering of Radix Tabs to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <div className={cn('my-6', className)}>
+        <div className="flex flex-col py-2 overflow-hidden rounded-xl border bg-sidebar w-full border-b">
+          <div className="px-4 flex gap-2 border-b border-border pb-2">
+            <span className="text-sm px-3 py-1.5 rounded-lg bg-accent text-accent-foreground">Diagram</span>
+            <span className="text-sm px-3 py-1.5 rounded-lg text-muted-foreground">Mermaid</span>
+            <span className="text-sm px-3 py-1.5 rounded-lg text-muted-foreground">ASCII</span>
+          </div>
+          <div className="p-4 bg-background rounded-2xl animate-pulse h-48" />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <Tabs defaultValue="diagram" className={cn('my-6', className)}>
       <div className="flex flex-col py-2 overflow-hidden rounded-xl border bg-sidebar w-full border-b">

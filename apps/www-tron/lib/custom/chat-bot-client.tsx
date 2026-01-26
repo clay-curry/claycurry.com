@@ -39,10 +39,11 @@ import {
   usePromptInputAttachments,
 } from '@/lib/components/ai-elements/prompt-input';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { useChat } from '@ai-sdk/react';
-import { CopyIcon, GlobeIcon, RefreshCcwIcon, Trash } from 'lucide-react';
+import { CopyIcon, GlobeIcon, RefreshCcwIcon, Trash, XIcon, ThumbsUpIcon, ThumbsDownIcon } from 'lucide-react';
 import { toast } from 'sonner';
-import { useChatPersistence } from '@/lib/hooks/use-chat';
+import { useChatPersistence, useChatContext } from '@/lib/hooks/use-chat';
 import { CopyChat } from '@/lib/custom/ai-elements/copy-chat';
 import { Button } from '@/lib/custom/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/lib/custom/ui/tooltip';
@@ -82,15 +83,38 @@ const PromptInputAttachmentsDisplay = () => {
   );
 };
 
+const BLOG_SUGGESTIONS = [
+  "Summarize this article",
+  "What are the key takeaways?",
+  "Explain the main concepts",
+  "What questions does this leave unanswered?",
+];
+
 const ChatBotDemo = () => {
-  const suggestions = useChatSuggestions();
+  const defaultSuggestions = useChatSuggestions();
+  const { model, setModel, setIsDialogOpen, prompt, setPrompt } = useChatContext();
   const [input, setInput] = useState('');
-  const [model, setModel] = useState<string>(CHAT_MODELS[0].value);
   const [webSearch, setWebSearch] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [feedback, setFeedback] = useState<Record<string, 'up' | 'down' | null>>({});
+  const pathname = usePathname();
 
-  const { initialMessages, isLoading, saveMessages, clearMessages } = useChatPersistence();
-  const { messages, sendMessage, status, regenerate, setMessages, stop } = useChat();
+  // Extract slug from pathname - if on a blog page, use blog context
+  const slug = pathname?.startsWith('/blog/') ? pathname.replace('/blog/', '') : '';
+  const isBlogContext = Boolean(slug);
+  const suggestions = isBlogContext ? BLOG_SUGGESTIONS : defaultSuggestions;
+  const chatContext = isBlogContext ? 'blog' : 'general';
+
+  const { initialMessages, isLoading, saveMessages, clearMessages } = useChatPersistence(chatContext);
+  const { messages, sendMessage, status, regenerate, setMessages, stop } = useChat({ id: chatContext });
+
+  // Handle external prompt from AskQuestionBubble - automatically send the message
+  useEffect(() => {
+    if (prompt && isInitialized) {
+      sendMessage({ text: prompt }, { body: { model, webSearch, slug } });
+      setPrompt('');
+    }
+  }, [prompt, isInitialized, setPrompt, sendMessage, model, webSearch, slug]);
 
   const handleClearChat = async () => {
     try {
@@ -106,7 +130,7 @@ const ChatBotDemo = () => {
   };
 
   const handleSuggestionClick = (suggestion: string) => {
-    sendMessage({ text: suggestion }, { body: { model, webSearch } });
+    sendMessage({ text: suggestion }, { body: { model, webSearch, slug } });
   };
 
   // Load initial messages from IndexedDB
@@ -132,14 +156,15 @@ const ChatBotDemo = () => {
       return;
     }
     sendMessage(
-      { 
+      {
         text: message.text || 'Sent with attachments',
-        files: message.files 
+        files: message.files
       },
       {
         body: {
           model: model,
           webSearch: webSearch,
+          slug: slug,
         },
       },
     );
@@ -157,7 +182,7 @@ const ChatBotDemo = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 relative size-full">
       <div className="flex flex-col h-full">
-        <div className="flex items-center justify-end gap-2 mb-4">
+        <div className="flex items-center justify-start gap-2 mb-4">
           <CopyChat messages={messages} />
           <Tooltip>
             <TooltipTrigger asChild>
@@ -172,13 +197,28 @@ const ChatBotDemo = () => {
             </TooltipTrigger>
             <TooltipContent>Clear chat</TooltipContent>
           </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={() => setIsDialogOpen(false)}
+                size="icon"
+                variant="ghost"
+                className="ml-auto text-red-700 hover:text-red-800"
+              >
+                <XIcon className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Close</TooltipContent>
+          </Tooltip>
         </div>
         <Conversation className="flex-1 min-h-0">
           <ConversationContent>
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full gap-6">
                 <div className="text-center">
-                  <h2 className="text-xl font-semibold mb-2">Ask me anything</h2>
+                  <h2 className="text-xl font-semibold mb-2">
+                    {isBlogContext ? "Ask about this article" : "Ask me anything"}
+                  </h2>
                   <p className="text-muted-foreground text-sm">Try one of these suggestions:</p>
                 </div>
                 <Suggestions className="flex-wrap justify-center gap-2">
@@ -224,13 +264,33 @@ const ChatBotDemo = () => {
                               {part.text}
                             </MessageResponse>
                           </MessageContent>
-                          {message.role === 'assistant' && i === messages.length - 1 && (
+                          {message.role === 'assistant' && (
                             <MessageActions>
                               <MessageAction
-                                onClick={() => regenerate()}
-                                label="Retry"
+                                onClick={() => {
+                                  setFeedback(prev => ({
+                                    ...prev,
+                                    [message.id]: prev[message.id] === 'up' ? null : 'up'
+                                  }));
+                                  toast.success('Thanks for your feedback!');
+                                }}
+                                label="Good response"
+                                className={feedback[message.id] === 'up' ? 'text-green-500' : ''}
                               >
-                                <RefreshCcwIcon className="size-3" />
+                                <ThumbsUpIcon className="size-3" />
+                              </MessageAction>
+                              <MessageAction
+                                onClick={() => {
+                                  setFeedback(prev => ({
+                                    ...prev,
+                                    [message.id]: prev[message.id] === 'down' ? null : 'down'
+                                  }));
+                                  toast.success('Thanks for your feedback!');
+                                }}
+                                label="Bad response"
+                                className={feedback[message.id] === 'down' ? 'text-red-500' : ''}
+                              >
+                                <ThumbsDownIcon className="size-3" />
                               </MessageAction>
                               <MessageAction
                                 onClick={() =>
@@ -240,6 +300,14 @@ const ChatBotDemo = () => {
                               >
                                 <CopyIcon className="size-3" />
                               </MessageAction>
+                              {message.id === messages.at(-1)?.id && (
+                                <MessageAction
+                                  onClick={() => regenerate()}
+                                  label="Retry"
+                                >
+                                  <RefreshCcwIcon className="size-3" />
+                                </MessageAction>
+                              )}
                             </MessageActions>
                           )}
                         </Message>
