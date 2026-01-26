@@ -1,10 +1,4 @@
-<table width="100%">
-  <tr>
-    <td width="120"></td>
-    <td align="center"><h1>claycurry.com</h1></td>
-    <td width="120" align="right"><a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fclay-curry%2Fclaycurry.com"><img src="https://vercel.com/button" alt="Deploy with Vercel" /></a></td>
-  </tr>
-</table>
+<h1 align="center"><a href="https://claycurry.com">claycurry.com</a></h1>
 
 <p align="center">Personal portfolio and blog website.</p>
 
@@ -61,6 +55,10 @@ pnpm dev
 ```
 
 The site will be available at `http://localhost:3000`.
+
+5. Deploy to Vercel:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fclay-curry%2Fclaycurry.com)
 
 ## Project Structure
 
