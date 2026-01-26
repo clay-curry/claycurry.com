@@ -75,12 +75,20 @@ export const AgentInstructions = memo(
   )
 );
 
-export type AgentToolsProps = ComponentProps<typeof Accordion>;
+export type AgentToolsProps = {
+  className?: string;
+  children?: React.ReactNode;
+  value?: string[];
+  defaultValue?: string[];
+  onValueChange?: (value: string[]) => void;
+};
 
-export const AgentTools = memo(({ className, ...props }: AgentToolsProps) => (
+export const AgentTools = memo(({ className, children, ...props }: AgentToolsProps) => (
   <div className={cn("space-y-2", className)}>
     <span className="font-medium text-muted-foreground text-sm">Tools</span>
-    <Accordion className="rounded-md border" type="multiple" {...props} />
+    <Accordion className="rounded-md border" type="multiple" {...props}>
+      {children}
+    </Accordion>
   </div>
 ));
 

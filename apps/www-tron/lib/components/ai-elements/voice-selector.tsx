@@ -21,16 +21,11 @@ import {
 } from "@/lib/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import {
-  CircleSmallIcon,
+  CircleIcon,
   LoaderCircleIcon,
-  MarsIcon,
-  MarsStrokeIcon,
-  NonBinaryIcon,
   PauseIcon,
   PlayIcon,
-  TransgenderIcon,
-  VenusAndMarsIcon,
-  VenusIcon,
+  UserIcon,
 } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { createContext, useContext, useMemo } from "react";
@@ -198,25 +193,15 @@ export const VoiceSelectorGender = ({
 
   switch (value) {
     case "male":
-      icon = <MarsIcon className="size-4" />;
-      break;
     case "female":
-      icon = <VenusIcon className="size-4" />;
-      break;
     case "transgender":
-      icon = <TransgenderIcon className="size-4" />;
-      break;
     case "androgyne":
-      icon = <MarsStrokeIcon className="size-4" />;
-      break;
     case "non-binary":
-      icon = <NonBinaryIcon className="size-4" />;
-      break;
     case "intersex":
-      icon = <VenusAndMarsIcon className="size-4" />;
+      icon = <UserIcon className="size-4" />;
       break;
     default:
-      icon = <CircleSmallIcon className="size-4" />;
+      icon = <CircleIcon className="size-4" />;
   }
 
   return (

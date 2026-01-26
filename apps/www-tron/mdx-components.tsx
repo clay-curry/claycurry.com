@@ -1,4 +1,4 @@
-import type { MDXComponents } from "mdx/types";
+type MDXComponents = Record<string, React.ComponentType<any>>;
 import Image, { type ImageProps } from "next/image";
 import Summary from "@/lib/custom/ui/summary";
 import { CodeBlock } from "@/lib/custom/ai-elements/code-block";
