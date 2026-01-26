@@ -5,8 +5,10 @@
 <p align="center">
   <a href="https://github.com/biomejs/biome"><img src="https://img.shields.io/badge/Biome-60A5FA?style=flat&logo=biome&logoColor=white" alt="Biome" /></a>
   <a href="https://github.com/vercel/next.js"><img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white" alt="Next.js" /></a>
-  <a href="https://github.com/vercel/turborepo"><img src="https://img.shields.io/badge/Turborepo-0995FF?style=flat&labelColor=FF0C20&logo=turborepo&logoColor=white" alt="Turborepo" /></a>
+  <a href="https://github.com/vercel/turborepo"><img src="https://img.shields.io/badge/Turborepo-FF0C20?style=flat&labelColor=0995FF&logo=turborepo&logoColor=white" alt="Turborepo" /></a>
+  <a href="https://github.com/webpack/webpack"><img src="https://img.shields.io/badge/Webpack-1C78C0?style=flat&labelColor=8DD6F9&logo=webpack&logoColor=white" alt="Webpack" /></a>
   <a href="https://github.com/mdx-js/mdx"><img src="https://img.shields.io/badge/MDX-21262C?style=flat&labelColor=FCB32C&logo=mdx&logoColor=white" alt="MDX" /></a>
+  <a href="https://github.com/unifiedjs/unified"><img src="https://img.shields.io/badge/Unified-0366D6?style=flat&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjEwMCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==&logoColor=white" alt="Unified" /></a>
   <a href="https://github.com/shadcn-ui/ui"><img src="https://img.shields.io/badge/shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white" alt="shadcn/ui" /></a>
 </p>
 
