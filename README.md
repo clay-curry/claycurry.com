@@ -82,7 +82,7 @@ claycurry.com/
 
 ## Contributing
 
-Always welcoming quality contributions. Open a PR for small changes. Issues for discussing larger changes.
+Always welcoming quality contributions / feedback / critiques. Open a PR for small changes. Issues for discussing larger changes.
 
 ## Security
 
@@ -90,4 +90,4 @@ To report a security vulnerability, please email [me@claycurry.com](mailto:me@cl
 
 ## License
 
-All rights reserved.
+[All rights reserved.](LICENSE)
