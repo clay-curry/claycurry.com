@@ -1,4 +1,10 @@
-<h1 align="center">claycurry.com</h1>
+<table width="100%">
+  <tr>
+    <td width="120"></td>
+    <td align="center"><h1>claycurry.com</h1></td>
+    <td width="120" align="right"><a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fclay-curry%2Fclaycurry.com"><img src="https://vercel.com/button" alt="Deploy with Vercel" /></a></td>
+  </tr>
+</table>
 
 <p align="center">Personal portfolio and blog website.</p>
 
@@ -10,12 +16,6 @@
   <a href="https://github.com/mdx-js/mdx"><img src="https://img.shields.io/badge/MDX-21262C?style=flat&labelColor=FCB32C&logo=mdx&logoColor=white" alt="MDX" /></a>
   <a href="https://github.com/unifiedjs/unified"><img src="https://img.shields.io/badge/Unified-0366D6?style=flat&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjEwMCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==&logoColor=white" alt="Unified" /></a>
   <a href="https://github.com/shadcn-ui/ui"><img src="https://img.shields.io/badge/shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white" alt="shadcn/ui" /></a>
-</p>
-
-<p align="center">
-  <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fclay-curry%2Fclaycurry.com">
-    <img src="https://vercel.com/button" alt="Deploy with Vercel" />
-  </a>
 </p>
 
 ## Prerequisites
