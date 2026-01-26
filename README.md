@@ -3,12 +3,6 @@
 <p align="center">Personal portfolio and blog website.</p>
 
 <p align="center">
-  <a href="https://claycurry.com">
-    <img src="https://claycurry.com/opengraph-image.png" alt="claycurry.com" width="600" />
-  </a>
-</p>
-
-<p align="center">
   <a href="https://github.com/biomejs/biome"><img src="https://img.shields.io/badge/Biome-60A5FA?style=flat&logo=biome&logoColor=white" alt="Biome" /></a>
   <a href="https://github.com/vercel/next.js"><img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white" alt="Next.js" /></a>
   <a href="https://github.com/vercel/turborepo"><img src="https://img.shields.io/badge/Turborepo-0995FF?style=flat&labelColor=FF0C20&logo=turborepo&logoColor=white" alt="Turborepo" /></a>
