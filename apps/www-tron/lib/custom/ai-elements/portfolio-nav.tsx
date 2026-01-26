@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Menu, MessagesSquare, Github } from 'lucide-react'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
+import { motion } from 'motion/react'
 import { useChatContext } from '@/lib/hooks/use-chat'
 import { Button } from '@/lib/custom/ui/button'
 import {
@@ -57,13 +58,20 @@ export function PortfolioNav() {
             <Link
               key={section}
               href={`/${section}`}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium capitalize transition-colors ${
+              className={`relative px-3 py-1.5 rounded-md text-sm font-medium capitalize transition-colors ${
                 activeSection === section
-                  ? 'text-foreground bg-muted'
+                  ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              {section}
+              {activeSection === section && (
+                <motion.span
+                  layoutId="nav-indicator"
+                  className="absolute inset-0 bg-muted rounded-md"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+                />
+              )}
+              <span className="relative z-10">{section}</span>
             </Link>
           ))}
         </div>
