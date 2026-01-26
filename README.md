@@ -82,7 +82,7 @@ claycurry.com/
 
 ## Contributing
 
-Always welcoming quality contributions. Open a PR for small changes.
+Always welcoming quality contributions. Open a PR for small changes. Issues for discussing larger changes.
 
 ## Security
 
