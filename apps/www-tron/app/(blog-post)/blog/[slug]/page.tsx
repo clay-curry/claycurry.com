@@ -41,16 +41,22 @@ export default async function BlogPostPage({
 
       <div className="mx-auto max-w-4xl w-full">
         <div className="p-3 sm:p-4 md:p-6 lg:p-12 pb-24 sm:pb-28">
-          <article className="pt-8 pb-4 md:py-8">
+          <article className="pt-12 pb-4 md:py-8">
             {/* Header */}
-            <header className="mb-6 pb-6 border-b border-border">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2 sm:mb-4 wrap-break-word">
+            <header className="mb-14 pb-6 border-b border-border">
+
+              { /* Title and subtitle */ }
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2 sm:mb-4 wrap-break-word">
                 {title}
               </h1>
-              <p className="text-sm sm:text-base md:text-lg text-muted-foreground wrap-break-word mb-3 sm:mb-4">{postMeta.subtitle}</p>
+              <p className="text-muted-foreground text-md md:text-lg my-6 sm:my-8 wrap-break-word">
+                {postMeta.subtitle}
+              </p>
 
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 sm:gap-3 md:gap-4 text-xs sm:text-sm text-muted-foreground">
+              { /* Meta for article */ }
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 sm:gap-3 md:gap-4 text-sm sm:text-sm text-muted-foreground">
                 <ViewCount slug={slug} />
+                <div className="h-4 w-px bg-border" />
                 <span className="flex items-center gap-1">
                   <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                   {postMeta.publishedDate}

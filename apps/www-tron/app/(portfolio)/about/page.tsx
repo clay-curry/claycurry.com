@@ -32,7 +32,7 @@ export default function AboutPage() {
       {/* About Me */}
       <div className='mx-4'>
         <SectionHeader title="About" />
-        <div className="space-y-4 text-sm md:text-base text-card-foreground leading-relaxed">
+        <div className="space-y-4 text-md md:text-md text-card-foreground leading-relaxed">
           {data.description.map((paragraph, index) => (
             <p key={index}>{paragraph}</p>
           ))}

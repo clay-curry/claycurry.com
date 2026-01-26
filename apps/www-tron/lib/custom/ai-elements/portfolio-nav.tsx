@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Menu, MessagesSquare } from 'lucide-react'
+import { Menu, MessagesSquare, Github } from 'lucide-react'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { useChatContext } from '@/lib/hooks/use-chat'
 import { Button } from '@/lib/custom/ui/button'
@@ -59,7 +59,7 @@ export function PortfolioNav() {
               href={`/${section}`}
               className={`px-3 py-1.5 rounded-md text-sm font-medium capitalize transition-colors ${
                 activeSection === section
-                  ? 'text-foreground'
+                  ? 'text-foreground bg-muted'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -73,12 +73,23 @@ export function PortfolioNav() {
           {/* Ask AI button */}
           <button
             type="button"
-            className="inline-flex items-center gap-1.5 h-8 px-2.5 text-sm font-medium rounded-xl border border-border/40 text-foreground/80 bg-muted/50 hover:bg-muted transition-colors"
+            className="inline-flex items-center gap-1.5 h-8 px-2.5 text-sm font-medium rounded-xl border border-border/40 text-foreground/80 bg-muted/50 hover:bg-muted transition-colors cursor-pointer"
             onClick={() => setIsDialogOpen(true)}
           >
             <MessagesSquare className="size-3.5" />
             Ask AI
           </button>
+
+          {/* GitHub link */}
+          <a
+            href="https://github.com/clay-curry"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center h-8 w-8 rounded-xl text-black dark:text-foreground/80 bg-muted/50 hover:bg-muted transition-colors"
+            aria-label="GitHub"
+          >
+            <Github className="size-4" />
+          </a>
 
           {/* Mobile hamburger menu */}
           {mounted ? (

@@ -73,3 +73,19 @@ export async function getPost(slug: string) {
   const { default: Content, toc } = await import(`@/blog/${slug}.mdx`);
   return { metadata, Content, toc, readTime };
 }
+
+// Get raw article content for AI chat context
+export function getPostContent(slug: string): { metadata: PostMetadata; content: string } | null {
+  try {
+    const metadata = getAllPostsMetadata().find((o) => o.slug === slug);
+    if (!metadata) {
+      return null;
+    }
+    const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    const { content } = matter(fileContents);
+    return { metadata, content };
+  } catch {
+    return null;
+  }
+}

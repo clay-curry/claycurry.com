@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { BlogSidebar } from '@/lib/custom/ai-elements/blog-sidebar'
 import { SidebarProvider, SidebarInset } from '@/lib/custom/ui/sidebar'
 import { getAllPostsMetadata } from '../(portfolio)/blog/loader'
-import { BlogQuestionDialog } from '@/lib/custom/ai-elements/blog-question-dialog'
+import { AskAI } from '@/lib/custom/ai-elements/ask-ai'
 
 const siteNavLinks = [
   { label: 'About', href: '/about' },
@@ -44,6 +44,7 @@ export default function BlogPostLayout({
               </Link>
             ))}
             <div className="ml-auto flex items-center gap-6">
+              <AskAI mode="dialog" />
               <Link
                 href="https://github.com/clay-curry/claycurry.com"
                 target="_blank"
@@ -58,7 +59,6 @@ export default function BlogPostLayout({
           {children}
         </SidebarInset>
       </SidebarProvider>
-      <BlogQuestionDialog />
     </div>
   )
 }

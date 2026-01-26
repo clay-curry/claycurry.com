@@ -1,0 +1,85 @@
+<h1 align="center">claycurry.com</h1>
+
+<p align="center">Personal portfolio and blog website.</p>
+
+<p align="center">
+  <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fclay-curry%2Fclaycurry.com">
+    <img src="https://vercel.com/button" alt="Deploy with Vercel" />
+  </a>
+</p>
+
+## Prerequisites
+
+- Node.js 20+
+- pnpm 9.15.0+
+
+## Getting Started
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/clay-curry/claycurry.com.git
+cd claycurry.com
+```
+
+2. Install dependencies:
+
+```bash
+pnpm install
+```
+
+3. Set up environment variables:
+
+Use Vercel CLI to pull environment variables:
+
+```bash
+vercel env pull
+```
+
+Required keys:
+
+- `AI_GATEWAY_API_KEY` - Vercel AI SDK Gateway
+- `ANTHROPIC_API_KEY` - Anthropic API (for AI chat)
+- `KV_REST_API_REDIS_URL` - Redis (for view counts)
+- `RESEND_API_KEY` - Resend (for contact form emails)
+- `GITHUB_TOKEN` - GitHub API (optional, for higher rate limits)
+
+4. Start the development server:
+
+```bash
+pnpm dev
+```
+
+The site will be available at `http://localhost:3000`.
+
+## Project Structure
+
+```
+claycurry.com/
+├── apps/
+│   ├── www/          # Legacy site
+│   └── www-tron/     # Main portfolio site (Next.js)
+├── package.json
+└── turbo.json
+```
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | Build for production |
+| `pnpm check` | Run linting |
+| `pnpm check-types` | Type check |
+
+## Contributing
+
+Not currently accepting contributions.
+
+## Security
+
+To report a security vulnerability, please email [me@claycurry.com](mailto:me@claycurry.com).
+
+## License
+
+All rights reserved.

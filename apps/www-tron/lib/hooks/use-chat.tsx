@@ -13,10 +13,6 @@ export const chatDrawerOpenAtom = atomWithStorage<boolean>("portfolio:chat-drawe
 export const chatDialogOpenAtom = atomWithStorage<boolean>("portfolio:chat-dialog-open", false);
 export const chatModelAtom = atomWithStorage<string>("portfolio:chat-model", "grok/grok-3-mini");
 
-// Atoms for blog chat UI state (separate context)
-export const blogPromptAtom = atom<string>("");
-export const blogDialogOpenAtom = atomWithStorage<boolean>("portfolio:blog-dialog-open", false);
-
 // Hook to access general chat UI state (open/close, prompt, model)
 export const useChatContext = () => {
   const [prompt, setPrompt] = useAtom(chatPromptAtom);
@@ -29,22 +25,6 @@ export const useChatContext = () => {
     setPrompt,
     isDrawerOpen,
     setIsDrawerOpen,
-    isDialogOpen,
-    setIsDialogOpen,
-    model,
-    setModel
-  };
-};
-
-// Hook to access blog chat UI state (separate from general chat)
-export const useBlogChatContext = () => {
-  const [prompt, setPrompt] = useAtom(blogPromptAtom);
-  const [isDialogOpen, setIsDialogOpen] = useAtom(blogDialogOpenAtom);
-  const [model, setModel] = useAtom(chatModelAtom); // Share model selection
-
-  return {
-    prompt,
-    setPrompt,
     isDialogOpen,
     setIsDialogOpen,
     model,

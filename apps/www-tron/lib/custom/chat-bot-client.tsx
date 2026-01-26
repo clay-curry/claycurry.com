@@ -39,6 +39,7 @@ import {
   usePromptInputAttachments,
 } from '@/lib/components/ai-elements/prompt-input';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { useChat } from '@ai-sdk/react';
 import { CopyIcon, GlobeIcon, RefreshCcwIcon, Trash, XIcon, ThumbsUpIcon, ThumbsDownIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -82,16 +83,38 @@ const PromptInputAttachmentsDisplay = () => {
   );
 };
 
+const BLOG_SUGGESTIONS = [
+  "Summarize this article",
+  "What are the key takeaways?",
+  "Explain the main concepts",
+  "What questions does this leave unanswered?",
+];
+
 const ChatBotDemo = () => {
-  const suggestions = useChatSuggestions();
-  const { model, setModel, setIsDialogOpen } = useChatContext();
+  const defaultSuggestions = useChatSuggestions();
+  const { model, setModel, setIsDialogOpen, prompt, setPrompt } = useChatContext();
   const [input, setInput] = useState('');
   const [webSearch, setWebSearch] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const [feedback, setFeedback] = useState<Record<string, 'up' | 'down' | null>>({});
+  const pathname = usePathname();
 
-  const { initialMessages, isLoading, saveMessages, clearMessages } = useChatPersistence();
-  const { messages, sendMessage, status, regenerate, setMessages, stop } = useChat();
+  // Extract slug from pathname - if on a blog page, use blog context
+  const slug = pathname?.startsWith('/blog/') ? pathname.replace('/blog/', '') : '';
+  const isBlogContext = Boolean(slug);
+  const suggestions = isBlogContext ? BLOG_SUGGESTIONS : defaultSuggestions;
+  const chatContext = isBlogContext ? 'blog' : 'general';
+
+  const { initialMessages, isLoading, saveMessages, clearMessages } = useChatPersistence(chatContext);
+  const { messages, sendMessage, status, regenerate, setMessages, stop } = useChat({ id: chatContext });
+
+  // Handle external prompt from AskQuestionBubble - automatically send the message
+  useEffect(() => {
+    if (prompt && isInitialized) {
+      sendMessage({ text: prompt }, { body: { model, webSearch, slug } });
+      setPrompt('');
+    }
+  }, [prompt, isInitialized, setPrompt, sendMessage, model, webSearch, slug]);
 
   const handleClearChat = async () => {
     try {
@@ -107,7 +130,7 @@ const ChatBotDemo = () => {
   };
 
   const handleSuggestionClick = (suggestion: string) => {
-    sendMessage({ text: suggestion }, { body: { model, webSearch } });
+    sendMessage({ text: suggestion }, { body: { model, webSearch, slug } });
   };
 
   // Load initial messages from IndexedDB
@@ -133,14 +156,15 @@ const ChatBotDemo = () => {
       return;
     }
     sendMessage(
-      { 
+      {
         text: message.text || 'Sent with attachments',
-        files: message.files 
+        files: message.files
       },
       {
         body: {
           model: model,
           webSearch: webSearch,
+          slug: slug,
         },
       },
     );
@@ -192,7 +216,9 @@ const ChatBotDemo = () => {
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full gap-6">
                 <div className="text-center">
-                  <h2 className="text-xl font-semibold mb-2">Ask me anything</h2>
+                  <h2 className="text-xl font-semibold mb-2">
+                    {isBlogContext ? "Ask about this article" : "Ask me anything"}
+                  </h2>
                   <p className="text-muted-foreground text-sm">Try one of these suggestions:</p>
                 </div>
                 <Suggestions className="flex-wrap justify-center gap-2">

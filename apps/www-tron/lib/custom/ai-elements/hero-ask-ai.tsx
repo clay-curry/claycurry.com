@@ -24,22 +24,22 @@ export function HeroAskAI() {
       <Button
         variant="ghost"
         size="lg"
-        className="px-4 py-2 h-9 md:text-[0.8rem] shadow-none rounded-4xl bg-muted-foreground/50 hover:bg-muted-foreground/60 dark:bg-muted-foreground/30 dark:hover:bg-muted-foreground/40"
+        className="px-4 py-2 h-9 md:text-[0.8rem] shadow-none rounded-4xl bg-muted-foreground/70 hover:bg-muted-foreground/80 dark:bg-muted-foreground/30 dark:hover:bg-muted-foreground/40 cursor-pointer"
         asChild
       >
-        <Link className="text-white" href="/contact">
+        <Link className="text-white hover:text-white" href="/contact">
           Contact
           <IconArrowRight className="size-4 -rotate-45" />
         </Link>
       </Button>
 
       {/* Ask AI split button */}
-      <div className="inline-flex items-center">
+      <div className="inline-flex items-center gap-[0.5px]">
         {/* Main button - opens dialog */}
         <Button
           variant="default"
           size="lg"
-          className="h-9 md:text-[0.8rem] shadow-none rounded-l-4xl rounded-r-none border-r border-r-primary-foreground/20"
+          className="h-9 md:text-[0.8rem] shadow-none rounded-l-4xl rounded-r-none border-r border-r-primary-foreground/20 cursor-pointer text-white!"
           onClick={() => setIsDialogOpen(true)}
         >
           <IconMessageCircle className="size-3" />
@@ -52,7 +52,7 @@ export function HeroAskAI() {
             <Button
               variant="default"
               size="lg"
-              className="h-9 px-2.5! shadow-none rounded-r-4xl rounded-l-none"
+              className="h-9 px-2.5! shadow-none rounded-r-4xl rounded-l-none cursor-pointer text-white!"
             >
               <ChevronDown className="size-4" />
             </Button>
