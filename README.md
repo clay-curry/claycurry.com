@@ -82,7 +82,7 @@ claycurry.com/
 
 ## Contributing
 
-Not currently accepting contributions.
+Good ones only.
 
 ## Security
 
