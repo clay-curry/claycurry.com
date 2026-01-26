@@ -82,7 +82,7 @@ claycurry.com/
 
 ## Contributing
 
-Good ones only.
+Quality contributions welcome. Open an issue first to discuss.
 
 ## Security
 
