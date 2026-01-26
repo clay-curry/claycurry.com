@@ -1,6 +1,20 @@
+<p align="center">
+  <a href="https://claycurry.com">
+    <img src="https://claycurry.com/og-image.png" alt="claycurry.com" width="600" />
+  </a>
+</p>
+
 <h1 align="center">claycurry.com</h1>
 
 <p align="center">Personal portfolio and blog website.</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/Turborepo-EF4444?style=flat&logo=turborepo&logoColor=white" alt="Turborepo" />
+  <img src="https://img.shields.io/badge/MDX-1B1F24?style=flat&logo=mdx&logoColor=white" alt="MDX" />
+  <img src="https://img.shields.io/badge/shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white" alt="shadcn/ui" />
+  <img src="https://img.shields.io/badge/Biome-60A5FA?style=flat&logo=biome&logoColor=white" alt="Biome" />
+</p>
 
 <p align="center">
   <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fclay-curry%2Fclaycurry.com">
