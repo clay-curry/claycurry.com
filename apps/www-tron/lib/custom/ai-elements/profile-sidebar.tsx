@@ -40,7 +40,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         ].map(({ icon: Icon, label, value, href, breakAll }) => (
           <div key={label} className="flex items-start gap-3 pl-2">
             <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
-              <Icon className="w-5 h-5 dark:text-primary" />
+              <Icon className="w-5 h-5 text-accent-2" />
             </div>
             <div className={`flex-1${breakAll ? ' min-w-0' : ''}`}>
               <p className="text-xs text-muted-foreground uppercase mb-1">{label}</p>

@@ -124,7 +124,7 @@ export function CVBulletList({
         <div key={index} className="flex gap-3">
           {/* Left column: dot and line */}
           <div className="flex flex-col items-center">
-            <div className="w-2 h-2 rounded-full bg-primary-accent shrink-0 mt-1.5" />
+            <div className="w-2 h-2 rounded-full bg-accent-2 shrink-0 mt-1.5" />
             <div className="w-0.5 flex-1 bg-border mb-4" />
           </div>
           {/* Right column: text */}
