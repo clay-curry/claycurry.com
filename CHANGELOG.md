@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-27
+
+### Added
+- README.md with tech stack badges (Turborepo, Webpack, Unified)
+- Contributing guidelines with PR guidance
+- LICENSE file
+
 ## 2026-01-26
 
 ### Added
