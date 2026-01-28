@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Menu, MessagesSquare, Github } from 'lucide-react'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
+import { motion } from 'motion/react'
 import { useChatContext } from '@/lib/hooks/use-chat'
 import { Button } from '@/lib/custom/ui/button'
+import { InitialsAvatar } from '@/lib/custom/ui/initials-avatar'
 import {
   Sheet,
   SheetContent,
@@ -39,13 +40,7 @@ export function PortfolioNav() {
       <nav className="flex h-16 items-center px-4 md:px-6">
         {/* Logo */}
         <Link href="/about" className="flex items-center gap-3">
-          <Image
-            src="/favicon-dark.svg"
-            alt="Clay Curry"
-            width={32}
-            height={32}
-            className="rounded-full"
-          />
+          <InitialsAvatar name="Clay Curry" size={32} />
           <span className="hidden sm:inline-block font-semibold text-foreground">
             CLAY CURRY
           </span>
@@ -57,13 +52,20 @@ export function PortfolioNav() {
             <Link
               key={section}
               href={`/${section}`}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium capitalize transition-colors ${
+              className={`relative px-3 py-1.5 rounded-md text-sm font-medium capitalize transition-colors ${
                 activeSection === section
-                  ? 'text-foreground bg-muted'
+                  ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              {section}
+              {activeSection === section && (
+                <motion.span
+                  layoutId="nav-indicator"
+                  className="absolute inset-0 bg-accent/20 border border-accent/50 rounded-md"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+                />
+              )}
+              <span className="relative z-10">{section}</span>
             </Link>
           ))}
         </div>
@@ -118,7 +120,7 @@ export function PortfolioNav() {
                         className={`px-4 py-3 rounded-lg text-sm font-medium capitalize transition-colors ${
                           activeSection === section
                             ? 'text-foreground bg-accent/10'
-                            : 'text-muted-foreground hover:bg-accent/50'
+                            : 'text-muted-foreground hover:bg-accent/20'
                         }`}
                       >
                         {section}

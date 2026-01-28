@@ -317,7 +317,7 @@ const AddressList = ({
         <a
           href={element.href}
           key={element.href}
-          className="dark:text-primary dark:hover:text-primary/80 text-primary/80 transition-colors"
+          className="text-accent-2 hover:text-accent-2/80 transition-colors"
         >
           {element.text}
         </a>
@@ -326,7 +326,7 @@ const AddressList = ({
       )
     )
     .flatMap((element, index, array) => {
-      const separators = [' ', '•', ' ']
+      const separators = [' ', <span key={`bullet-${index}`} className="text-primary">•</span>, ' ']
       return index < array.length - 1 ? [element, ...separators] : [element]
     })
 }
@@ -334,7 +334,7 @@ const AddressList = ({
 // Section heading with TRON accent
 const SectionHeading = ({ children, icon: Icon }: { children: ReactNode; icon?: LucideIcon }) => (
   <div className="flex items-center gap-2 md:gap-3 my-3 border-b border-primary/30 pb-2">
-    {Icon && <Icon className="w-5 h-5 md:w-6 md:h-6 dark:text-primary" />}
+    {Icon && <Icon className="w-5 h-5 md:w-6 md:h-6 text-accent" />}
     <h2 className="text-xl font-semibold md:text-2xl text-foreground text-shadow-none">
       {children}
     </h2>

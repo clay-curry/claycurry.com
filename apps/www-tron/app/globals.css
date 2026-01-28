@@ -31,6 +31,8 @@
   --muted-foreground: oklch(0.45 0.02 220);
   --accent: oklch(0.91 0.16 185);
   --accent-foreground: oklch(0.12 0 0);
+  --accent-2: oklch(0.7 0.2 50);
+  --accent-2-foreground: oklch(0.12 0 0);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.99 0 0);
   --border: oklch(0.88 0.02 200);
@@ -75,6 +77,8 @@
   --muted-foreground: oklch(0.55 0.05 195);
   --accent: oklch(0.91 0.16 185);
   --accent-foreground: oklch(0.08 0 0);
+  --accent-2: oklch(0.7 0.2 50);
+  --accent-2-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.6 0.25 25);
   --destructive-foreground: oklch(0.99 0 0);
   --border: oklch(0.5 0.05 180);
@@ -129,6 +133,8 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-2: var(--accent-2);
+  --color-accent-2-foreground: var(--accent-2-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -172,8 +178,8 @@
       linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
     background-size: 40px 40px;
     background-position: center center;
-    mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, black 100%);
-    -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, black 100%);
+    mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 70%, black 100%);
+    -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 70%, black 100%);
   }
 
   /* TRON Typography enhancements */

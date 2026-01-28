@@ -31,8 +31,8 @@ export default async function BlogPostPage({
       <AskQuestionBubble />
       <MobileToc toc={toc} />
 
-      {/* Sidebar - fixed to right side on wide screens only */}
-      <aside className="hidden 2xl:block fixed right-4 top-30 w-64 z-10">
+      {/* Sidebar - fixed to right side on desktop */}
+      <aside className="hidden xl:block fixed right-4 top-30 w-64 z-10">
         <div>
           <OnThisPage toc={toc} />
           <PageActions slug={slug} />

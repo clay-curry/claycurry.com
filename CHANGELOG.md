@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-28
+
+### Added
+- Sliding animation for nav active indicator
+- Accent-2 color role for secondary highlights
+- Dynamic InitialsAvatar component
+- On This Page sidebar on desktop (xl breakpoint)
+
+### Fixed
+- TypeScript errors in AI components
+
 ## 2026-01-27
 
 ### Added

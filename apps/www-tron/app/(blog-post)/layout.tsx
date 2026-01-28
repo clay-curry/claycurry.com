@@ -33,7 +33,7 @@ export default function BlogPostLayout({
         <BlogSidebar posts={posts} />
         <SidebarInset>
           {/* Desktop-only top navigation */}
-          <nav className="hidden 2xl:flex items-center gap-4 py-6 px-6 bg-sidebar sticky top-0 z-20">
+          <nav className="hidden xl:flex items-center gap-4 py-6 px-6 bg-sidebar sticky top-0 z-20">
             {siteNavLinks.map((link) => (
               <Link
                 key={link.href}

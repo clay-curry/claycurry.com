@@ -41,7 +41,7 @@ export function MobileToc({ toc }: { toc: TocItem[] }) {
   }
 
   // Fixed full-width bar that sticks to top
-  const containerStyles = "2xl:hidden fixed top-0 left-0 right-0 z-40 py-1 bg-background/95 backdrop-blur-sm border-b border-border px-3 sm:px-4 md:px-6"
+  const containerStyles = "xl:hidden fixed top-0 left-0 right-0 z-40 py-1 bg-background/95 backdrop-blur-sm border-b border-border px-3 sm:px-4 md:px-6"
 
   if (!mounted) {
     return (
@@ -56,7 +56,7 @@ export function MobileToc({ toc }: { toc: TocItem[] }) {
           </div>
         </div>
         {/* Spacer to prevent content from being hidden behind fixed header */}
-        <div className="2xl:hidden h-12" />
+        <div className="xl:hidden h-12" />
       </>
     )
   }
@@ -117,7 +117,7 @@ export function MobileToc({ toc }: { toc: TocItem[] }) {
         </div>
       </div>
       {/* Spacer to prevent content from being hidden behind fixed header */}
-      <div className="2xl:hidden h-12" />
+      <div className="xl:hidden h-12" />
     </>
   )
 }
