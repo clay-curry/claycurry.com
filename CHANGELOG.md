@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-30
+
+### Changed
+- Fixed Tourney font loading
+
 ## 2026-01-29
 
 ### Changed
