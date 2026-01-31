@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-01-31
+
+### Removed
+- Unused image assets
+
 ## 2026-01-30
 
 ### Changed
