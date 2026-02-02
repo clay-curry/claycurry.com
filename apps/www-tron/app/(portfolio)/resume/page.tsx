@@ -36,14 +36,6 @@ export default function ResumePage() {
           ]}
         />
 
-        {/* About Me */}
-        <AboutMeSection
-          paragraphs={[
-            "I'm a Software Engineer from Oklahoma City, Oklahoma, experienced in web technologies and user interface design.",
-            "My superpower is turning complex problems into simple, beautiful and intuitive applications. This means building products that not only bring across your message and identity but grow and refine it by integrating user feedback.",
-          ]}
-        />
-
         {/* Professional Experience */}
         <AccordionSection>
           <AccordionSectionHeader icon={Briefcase}>Experience</AccordionSectionHeader>
@@ -237,7 +229,7 @@ export default function ResumePage() {
                 </div>
                 <div className="h-2 bg-secondary rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-primary/30 dark:bg-accent rounded-full transition-all duration-1000 ease-out"
+                    className="h-full bg-accent rounded-full transition-all duration-1000 ease-out"
                     style={{ width: `${skill.level}%` }}
                   />
                 </div>
@@ -348,7 +340,7 @@ const AccordionHeader = ({ title, date }: { title: string; date: string }) => {
   return (
     <>
       <span className="flex-1 text-left text-card-foreground hover:text-primary">{title}</span>
-      <span className="font-normal leading-tight text-center dark:text-primary shrink-0 md:text-right md:leading-normal">
+      <span className="font-normal leading-tight text-center text-primary shrink-0 md:text-right md:leading-normal">
         {dateParts.length > 1 ? (
           <>
             <span className="block whitespace-nowrap md:inline">{dateParts[0]}</span>

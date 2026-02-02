@@ -24,7 +24,7 @@ export function HeroAskAI() {
       <Button
         variant="ghost"
         size="lg"
-        className="px-4 py-2 h-9 md:text-[0.8rem] shadow-none rounded-4xl bg-muted-foreground/70 hover:bg-muted-foreground/80 dark:bg-muted-foreground/30 dark:hover:bg-muted-foreground/40 cursor-pointer"
+        className="px-4 py-2 h-9 md:text-[0.8rem] shadow-none rounded-4xl bg-muted-foreground/30 hover:bg-muted-foreground/40 cursor-pointer"
         asChild
       >
         <Link className="text-white hover:text-white" href="/contact">

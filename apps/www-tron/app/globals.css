@@ -4,8 +4,6 @@
 
 @source "../node_modules/streamdown/dist/*.js";
 
-@custom-variant dark (&:is(.dark *));
-
 /* ═══════════════════════════════════════════════════════════════════════════
    TRON: LEGACY DESIGN SYSTEM
    ═══════════════════════════════════════════════════════════════════════════
@@ -16,52 +14,6 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* TRON Light Mode - Inverted Grid (rare daylight in the Grid) */
-  --background: oklch(0.97 0.01 200);
-  --foreground: oklch(0.12 0.02 220);
-  --card: oklch(0.99 0.005 200);
-  --card-foreground: oklch(0.12 0.02 220);
-  --popover: oklch(0.99 0.005 200);
-  --popover-foreground: oklch(0.12 0.02 220);
-  --primary: oklch(0.85 0.08 195);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.93 0.02 200);
-  --secondary-foreground: oklch(0.12 0.02 220);
-  --muted: oklch(0.92 0.01 200);
-  --muted-foreground: oklch(0.45 0.02 220);
-  --accent: oklch(0.91 0.16 185);
-  --accent-foreground: oklch(0.12 0 0);
-  --accent-2: oklch(0.7 0.2 50);
-  --accent-2-foreground: oklch(0.12 0 0);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.88 0.02 200);
-  --input: oklch(0.92 0.01 200);
-  --ring: oklch(0.65 0.2 195);
-  --chart-1: oklch(0.65 0.2 195);
-  --chart-2: oklch(0.7 0.18 50);
-  --chart-3: oklch(0.55 0.15 195);
-  --chart-4: oklch(0.6 0.12 50);
-  --chart-5: oklch(0.5 0.1 220);
-  --radius: 0.25rem;
-  --sidebar: oklch(0.95 0.01 200);
-  --sidebar-foreground: oklch(0.12 0.02 220);
-  --sidebar-primary: oklch(0.65 0.2 195);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.9 0.02 200);
-  --sidebar-accent-foreground: oklch(0.12 0.02 220);
-  --sidebar-border: oklch(0.88 0.02 200);
-  --sidebar-ring: oklch(0.65 0.2 195);
-
-  /* TRON Custom Properties */
-  --tron-glow: oklch(0.75 0.2 195);
-  --tron-orange: oklch(0.7 0.2 50);
-  --tron-grid: oklch(0.65 0.2 195 / 0.1);
-  --primary-accent: oklch(0.7 0.2 50);
-  --grid-color: oklch(0.5 0.02 220 / 0.3);
-}
-
-.dark {
   /* TRON Dark Mode - The Grid */
   --background: oklch(0.08 0.02 240);
   --foreground: oklch(0.9 0.02 195);
@@ -89,6 +41,7 @@
   --chart-3: oklch(0.6 0.15 195);
   --chart-4: oklch(0.55 0.12 50);
   --chart-5: oklch(0.5 0.08 240);
+  --radius: 0.25rem;
   --sidebar: oklch(0.06 0.02 240);
   --sidebar-foreground: oklch(0.9 0.02 195);
   --sidebar-primary: oklch(0.75 0.2 195);
@@ -98,18 +51,18 @@
   --sidebar-border: oklch(0.2 0.05 195);
   --sidebar-ring: oklch(0.75 0.2 195);
 
-  /* TRON Custom Properties - Dark Mode */
+  /* TRON Custom Properties */
   --tron-glow: oklch(0.75 0.2 195);
   --tron-orange: oklch(0.7 0.2 50);
   --tron-grid: oklch(0.75 0.2 195 / 0.08);
   --primary-accent: oklch(0.91 0.16 185);
-  --grid-color: oklch(0.5 0.1 220 / 0.25);
+  --grid-color: oklch(0.5 0.02 220 / 0.3);
 }
 
 @theme inline {
   --font-sans: var(--font-poppins), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), 'Geist Mono', ui-monospace, monospace;
-  --font-tourney: var(--font-tourney);
+  --font-tourney: 'Tourney', system-ui, sans-serif;
 
   /* TRON Custom Colors */
   --color-tron-cyan: oklch(0.75 0.2 195);
@@ -159,27 +112,27 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Grid background with fade from edges - outside @layer for proper specificity */
+.grid-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(oklch(0.5 0.1 220 / 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.5 0.1 220 / 0.25) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 70%, black 100%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 70%, black 100%);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
-  }
-
-  /* Grid background with fade from edges */
-  .grid-background {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(var(--grid-color) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: 40px 40px;
-    background-position: center center;
-    mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 70%, black 100%);
-    -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 70%, black 100%);
   }
 
   /* TRON Typography enhancements */

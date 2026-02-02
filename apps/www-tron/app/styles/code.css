@@ -1,16 +1,8 @@
 @reference "../globals.css";
 
-/* Shiki dual-theme support */
-/* Light mode: use --shiki-light variables */
+/* Shiki code highlighting - dark mode only */
 pre.shiki,
 pre.shiki span {
-  color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
-}
-
-/* Dark mode: use --shiki-dark variables */
-.dark pre.shiki,
-.dark pre.shiki span {
   color: var(--shiki-dark);
   background-color: var(--shiki-dark-bg);
 }

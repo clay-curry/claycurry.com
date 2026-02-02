@@ -1,6 +1,5 @@
 'use client'
 
-import { useTheme } from 'next-themes'
 import { use, useEffect, useId, useState } from 'react'
 
 export const Mermaid = ({ chart }: { chart: string }) => {
@@ -35,7 +34,6 @@ function cachePromise<T>(
 
 function MermaidContent({ chart }: { chart: string }) {
   const id = useId()
-  const { resolvedTheme } = useTheme()
   const { default: mermaid } = use(
     cachePromise('mermaid', () => import('mermaid'))
   )
@@ -54,7 +52,7 @@ function MermaidContent({ chart }: { chart: string }) {
         padding: 0 20px !important;
       }
     `,
-    theme: resolvedTheme === 'dark' ? 'dark' : 'default',
+    theme: 'dark',
     flowchart: {
       htmlLabels: true,
       nodeSpacing: 80,
@@ -65,7 +63,7 @@ function MermaidContent({ chart }: { chart: string }) {
   })
 
   const { svg, bindFunctions } = use(
-    cachePromise(`${chart}-${resolvedTheme}`, () =>
+    cachePromise(`${chart}-dark`, () =>
       mermaid.render(id, chart.replaceAll('\\n', '\n'))
     )
   )

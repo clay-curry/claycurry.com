@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { PortfolioNav } from '@/lib/custom/ai-elements/portfolio-nav'
 import { PageViews } from '@/lib/custom/ai-elements/page-views'
-import { ThemeToggle } from '@/lib/custom/ai-elements/theme-toggle'
 import { PageFeedback } from '@/lib/custom/ai-elements/page-feedback'
 
 function GitHubIcon({ className }: { className?: string }) {
@@ -62,7 +61,6 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               <link.icon className="size-5" />
             </Link>
           ))}
-          <ThemeToggle />
         </div>
         <PageFeedback />
       </footer>
