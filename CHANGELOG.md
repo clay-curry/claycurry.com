@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-02-03
+
+### Changed
+- Moved about page to root route
+- Derived nav routes from filesystem instead of hardcoding
+- Updated nav to use explicit hrefs
+
+### Fixed
+- /about 404 on blog pages
+
 ## 2026-02-02
 
 ### Changed

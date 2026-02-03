@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { PortfolioNav } from '@/lib/custom/ai-elements/portfolio-nav'
 import { PageViews } from '@/lib/custom/ai-elements/page-views'
 import { PageFeedback } from '@/lib/custom/ai-elements/page-feedback'
+import type { NavLink } from '@/lib/navigation'
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -33,10 +34,10 @@ const socialLinks = [
   { href: 'https://linkedin.com/in/claycurry', icon: LinkedInIcon, label: 'LinkedIn' },
 ]
 
-export function AppLayout({ children }: { children: React.ReactNode }) {
+export function AppLayout({ children, navLinks }: { children: React.ReactNode; navLinks: NavLink[] }) {
   return (
     <div className="w-full bg-card border border-border/80 overflow-auto lg:my-8 lg:mr-8">
-      <PortfolioNav />
+      <PortfolioNav navLinks={navLinks} />
 
       {/* Page Views - absolute so it doesn't shift content */}
       <div className="relative p-2 lg:p-3">

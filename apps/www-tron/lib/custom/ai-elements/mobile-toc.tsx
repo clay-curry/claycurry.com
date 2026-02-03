@@ -11,13 +11,7 @@ import {
   AccordionTrigger,
 } from '@/lib/custom/ui/accordion'
 import { SidebarTrigger } from '@/lib/custom/ui/sidebar'
-
-const siteNavLinks = [
-  { label: 'About', href: '/about' },
-  { label: 'Resume', href: '/resume' },
-  { label: 'Writing', href: '/writing' },
-  { label: 'Contact', href: '/contact' },
-]
+import type { NavLink } from '@/lib/navigation'
 
 export type TocItem = {
   depth: number
@@ -26,7 +20,7 @@ export type TocItem = {
   href?: string
 }
 
-export function MobileToc({ toc }: { toc: TocItem[] }) {
+export function MobileToc({ toc, navLinks }: { toc: TocItem[]; navLinks: NavLink[] }) {
   const [open, setOpen] = useState('')
   const [mounted, setMounted] = useState(false)
   const headings = toc.filter((item) => item.depth === 2)
@@ -75,7 +69,7 @@ export function MobileToc({ toc }: { toc: TocItem[] }) {
               </AccordionTrigger>
               <AccordionContent className="pb-6">
                 <div className="flex justify-center gap-4 py-4 border-b border-border mb-2">
-                  {siteNavLinks.map((link) => (
+                  {navLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}

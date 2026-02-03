@@ -15,17 +15,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/lib/custom/ui/sheet'
+import type { NavLink } from '@/lib/navigation'
 
-const sections = [
-  'about',
-  'resume',
-  'writing',
-  'contact',
-]
-
-export function PortfolioNav() {
+export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
   const pathname = usePathname()
-  const activeSection = pathname.split('/')[1] || 'about'
+  const activeSection = pathname === '/' ? 'about' : pathname.split('/')[1]
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const { setIsDialogOpen } = useChatContext()
@@ -39,7 +33,7 @@ export function PortfolioNav() {
     <header className="sticky top-0 z-20 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <nav className="flex h-16 items-center px-4 md:px-6">
         {/* Logo */}
-        <Link href="/about" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3">
           <InitialsAvatar name="Clay Curry" size={32} />
           <span className="hidden sm:inline-block font-semibold text-foreground">
             CLAY CURRY
@@ -48,24 +42,24 @@ export function PortfolioNav() {
 
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex items-center gap-1 ml-6">
-          {sections.map((section) => (
+          {navLinks.map((section) => (
             <Link
-              key={section}
-              href={`/${section}`}
+              key={section.label}
+              href={section.href}
               className={`relative px-3 py-1.5 rounded-md text-sm font-medium capitalize transition-colors ${
-                activeSection === section
+                activeSection === section.label
                   ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              {activeSection === section && (
+              {activeSection === section.label && (
                 <motion.span
                   layoutId="nav-indicator"
                   className="absolute inset-0 bg-accent/20 border border-accent/50 rounded-md"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                 />
               )}
-              <span className="relative z-10">{section}</span>
+              <span className="relative z-10">{section.label}</span>
             </Link>
           ))}
         </div>
@@ -112,18 +106,18 @@ export function PortfolioNav() {
                 </VisuallyHidden>
                 <div className="flex flex-col gap-6 mt-12">
                   <nav className="flex flex-col gap-1">
-                    {sections.map((section) => (
+                    {navLinks.map((section) => (
                       <Link
-                        key={section}
-                        href={`/${section}`}
+                        key={section.label}
+                        href={section.href}
                         onClick={() => setOpen(false)}
                         className={`px-4 py-3 rounded-lg text-sm font-medium capitalize transition-colors ${
-                          activeSection === section
+                          activeSection === section.label
                             ? 'text-foreground bg-accent/10'
                             : 'text-muted-foreground hover:bg-accent/20'
                         }`}
                       >
-                        {section}
+                        {section.label}
                       </Link>
                     ))}
                   </nav>

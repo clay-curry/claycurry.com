@@ -23,15 +23,10 @@ const nextConfig = {
       { source: '/m', destination: '/?ref=me', permanent: false },
       { source: '/r', destination: '/?ref=resume', permanent: false },
       { source: '/rd', destination: '/?ref=readme', permanent: false },
-      { source: '/about', destination: '/', permanent: false },
     ]
   },
   rewrites: async () => {
     return [
-      {
-        source: '/',
-        destination: '/about',
-      },
       {
         source: '/writing',
         destination: '/blog'

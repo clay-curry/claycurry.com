@@ -14,7 +14,8 @@ export const profileData = {
 
 export const aboutData = {
   description: [
-    "My superpower is bridging machine learning and product engineering—turning complex ML systems into intuitive user experiences. I'm passionate about building products that learn from user behavior and continuously improve through feedback loops."
+    "I am passionate about building products that continuously learn from user behavior and evade enshittification through feedback loops.",
+    "My superpower is bridging machine learning and product engineering—turning complex ML systems into intuitive user experiences."
   ],
   services: [
     {

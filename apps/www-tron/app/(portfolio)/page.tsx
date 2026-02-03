@@ -1,8 +1,8 @@
 import { PenTool, Code, Smartphone, Zap, Link, ArrowRight } from 'lucide-react'
 import { aboutData } from '@/lib/portfolio-data'
-import { getAllPostsMetadata } from '../blog/loader'
+import { getAllPostsMetadata } from './blog/loader'
 import { WritingsSection } from '@/lib/custom/ai-elements/writings-section'
-import { HeroAskAI } from '@/lib/custom/ai-elements/hero-ask-ai'
+import { HeroContactAskAI } from '@/lib/custom/ai-elements/hero-contact-ask-ai'
 
 const iconMap = {
   Code,
@@ -26,7 +26,7 @@ export default function AboutPage() {
         <p className="text-lg md:text-xl text-muted-foreground mb-10">
           Portfolio Website
         </p>
-        <HeroAskAI />
+        <HeroContactAskAI />
       </div>
 
       {/* About Me */}

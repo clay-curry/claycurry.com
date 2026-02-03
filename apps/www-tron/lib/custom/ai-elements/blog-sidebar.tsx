@@ -17,19 +17,14 @@ import {
   SidebarSeparator,
 } from '@/lib/custom/ui/sidebar'
 import type { PostMetadata } from '@/app/(portfolio)/blog/loader'
-
-const siteNavLinks = [
-  { label: 'About', href: '/about' },
-  { label: 'Resume', href: '/resume' },
-  { label: 'Writing', href: '/writing' },
-  { label: 'Contact', href: '/contact' },
-]
+import type { NavLink } from '@/lib/navigation'
 
 interface BlogSidebarProps extends React.ComponentProps<typeof Sidebar> {
   posts: PostMetadata[]
+  navLinks: NavLink[]
 }
 
-export function BlogSidebar({ posts, ...props }: BlogSidebarProps) {
+export function BlogSidebar({ posts, navLinks, ...props }: BlogSidebarProps) {
   const pathname = usePathname()
   const starredPosts = posts.filter((post) => post.pinned)
   const otherPosts = posts.filter((post) => !post.pinned)
@@ -40,7 +35,7 @@ export function BlogSidebar({ posts, ...props }: BlogSidebarProps) {
         {/* Site Navigation */}
         <SidebarGroup>
           <div className="flex justify-center gap-4 py-4">
-            {siteNavLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

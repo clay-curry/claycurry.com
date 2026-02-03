@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from 'sonner'
 import { ChatProvider } from '@/lib/providers/chat-provider'
 
+import 'tw-animate-css'
 import 'katex/dist/katex.min.css'
 import './globals.css'
 import './styles/code.css'

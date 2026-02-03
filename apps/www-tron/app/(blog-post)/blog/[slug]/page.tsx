@@ -4,6 +4,7 @@ import {
   getPost,
 } from "@/app/(portfolio)/blog/loader";
 import { MobileToc } from "@/lib/custom/ai-elements/mobile-toc";
+import { getSiteNavLinks } from "@/lib/navigation";
 import { OnThisPage } from "@/lib/custom/ai-elements/on-this-page";
 import { PageActions, ShareOnX, ShareOnLinkedIn, CopyPageButton } from "@/lib/custom/ai-elements/page-actions";
 import { ViewCount } from "@/lib/custom/ai-elements/view-count";
@@ -24,12 +25,13 @@ export default async function BlogPostPage({
 }) {
   const { slug } = await params;
   const { metadata: postMeta, Content: BlogArticle, toc, readTime } = await getPost(slug);
+  const navLinks = getSiteNavLinks();
   const { title } = postMeta;
 
   return (
     <>
       <AskQuestionBubble />
-      <MobileToc toc={toc} />
+      <MobileToc toc={toc} navLinks={navLinks} />
 
       {/* Sidebar - fixed to right side on desktop */}
       <aside className="hidden xl:block fixed right-4 top-30 w-64 z-10">

@@ -2,14 +2,8 @@ import Link from 'next/link'
 import { BlogSidebar } from '@/lib/custom/ai-elements/blog-sidebar'
 import { SidebarProvider, SidebarInset } from '@/lib/custom/ui/sidebar'
 import { getAllPostsMetadata } from '../(portfolio)/blog/loader'
+import { getSiteNavLinks } from '@/lib/navigation'
 import { AskAI } from '@/lib/custom/ai-elements/ask-ai'
-
-const siteNavLinks = [
-  { label: 'About', href: '/about' },
-  { label: 'Resume', href: '/resume' },
-  { label: 'Writing', href: '/writing' },
-  { label: 'Contact', href: '/contact' },
-]
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -26,15 +20,16 @@ export default function BlogPostLayout({
   children: React.ReactNode
 }) {
   const posts = getAllPostsMetadata()
+  const navLinks = getSiteNavLinks()
 
   return (
     <div className="min-h-screen bg-background w-full">
       <SidebarProvider>
-        <BlogSidebar posts={posts} />
+        <BlogSidebar posts={posts} navLinks={navLinks} />
         <SidebarInset>
           {/* Desktop-only top navigation */}
           <nav className="hidden xl:flex items-center gap-4 py-6 px-6 bg-sidebar sticky top-0 z-20">
-            {siteNavLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

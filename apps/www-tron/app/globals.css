@@ -1,6 +1,4 @@
 @import 'tailwindcss';
-@import 'tw-animate-css';
-@import 'katex/dist/katex.min.css';
 
 @source "../node_modules/streamdown/dist/*.js";
 
@@ -123,8 +121,8 @@
     linear-gradient(90deg, oklch(0.5 0.1 220 / 0.25) 1px, transparent 1px);
   background-size: 40px 40px;
   background-position: center center;
-  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 70%, black 100%);
-  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 70%, black 100%);
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 0%, black 100%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 0%, black 100%);
 }
 
 @layer base {
