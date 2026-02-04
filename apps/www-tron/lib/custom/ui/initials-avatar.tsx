@@ -18,26 +18,26 @@ export function InitialsAvatar({ name, size = 32, className }: InitialsAvatarPro
     <svg
       width={size}
       height={size}
-      viewBox="0 0 32 32"
-      className={cn('text-primary', className)}
+      viewBox="0 0 64 64"
+      className={cn(className)}
     >
       <circle
-        cx="16"
-        cy="16"
-        r="14"
-        fill="none"
-        stroke="currentColor"
+        cx="32"
+        cy="32"
+        r="30"
+        fill="#0F172A"
+        stroke="#38BDF8"
         strokeWidth="2"
       />
       <text
-        x="16"
-        y="16"
+        x="32"
+        y="38"
         textAnchor="middle"
-        dominantBaseline="central"
-        fill="currentColor"
-        fontSize="10"
-        fontWeight="600"
-        fontFamily="var(--font-sans)"
+        fill="#E2E8F0"
+        fontSize="22"
+        fontWeight="700"
+        fontFamily="Space Grotesk, Inter, system-ui, -apple-system, sans-serif"
+        letterSpacing="0.5"
       >
         {initials}
       </text>

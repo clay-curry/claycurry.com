@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-02-04
+
+### Added
+- Shared PostCard component (deduplicated WritingsSection and blog page)
+
+### Changed
+- Rewrote mathematics-in-mdx as pipeline-first architecture article
+- Polished blog post layout and feedback widget
+- Render code block filenames from fence metadata
+- Matched InitialsAvatar to favicon.svg design
+
 ## 2026-02-03
 
 ### Changed

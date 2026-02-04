@@ -42,7 +42,7 @@ export default async function BlogPostPage({
       </aside>
 
       <div className="mx-auto max-w-4xl w-full">
-        <div className="p-3 sm:p-4 md:p-6 lg:p-12 pb-24 sm:pb-28">
+        <div className="px-3 sm:px-4 md:px-6 lg:px-12 pt-3 sm:pt-4 md:pt-6 lg:pt-12 pb-32 sm:pb-36">
           <article className="pt-12 pb-4 md:py-8">
             {/* Header */}
             <header className="mb-14 pb-6 border-b border-border">
@@ -82,8 +82,8 @@ export default async function BlogPostPage({
           </article>
 
           {/* Page Feedback */}
-          <div className="border-t border-border py-6">
-            <PageFeedback />
+          <div className="border-y border-border py-6">
+            <PageFeedback label="Was this article helpful?" />
           </div>
         </div>
       </div>
