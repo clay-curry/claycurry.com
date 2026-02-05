@@ -109,7 +109,7 @@
 @theme inline {
   --font-sans: var(--font-poppins), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), 'Geist Mono', ui-monospace, monospace;
-  --font-tourney: var(--font-tourney);
+  --font-tourney: 'Tourney', system-ui, sans-serif;
 
   /* TRON Custom Colors */
   --color-tron-cyan: oklch(0.75 0.2 195);

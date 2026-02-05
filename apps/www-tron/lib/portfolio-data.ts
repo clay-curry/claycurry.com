@@ -14,8 +14,7 @@ export const profileData = {
 
 export const aboutData = {
   description: [
-    "I'm a Software Engineer from Oklahoma City, Oklahoma, experienced in web technologies and user interface design. ",
-    "My superpower is turning complex problems into simple, beautiful and intuitive applications. This means building products that not only bring across your message and identity but grow and refine it by integrating user feedback."
+    "My superpower is bridging machine learning and product engineering—turning complex ML systems into intuitive user experiences. I'm passionate about building products that learn from user behavior and continuously improve through feedback loops."
   ],
   services: [
     {
