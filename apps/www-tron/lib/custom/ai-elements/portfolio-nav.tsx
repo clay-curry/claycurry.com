@@ -87,7 +87,7 @@ export function PortfolioNav() {
             href="https://github.com/clay-curry"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center h-8 w-8 rounded-xl text-black dark:text-foreground/80 bg-muted/50 hover:bg-muted transition-colors"
+            className="inline-flex items-center justify-center h-8 w-8 rounded-xl text-foreground/80 bg-muted/50 hover:bg-muted transition-colors"
             aria-label="GitHub"
           >
             <Github className="size-4" />

@@ -116,7 +116,7 @@ export default function ContactPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
         <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
           <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
-            <Mail className="w-5 h-5 md:w-6 md:h-6 dark:text-primary" />
+            <Mail className="w-5 h-5 md:w-6 md:h-6 text-primary" />
           </div>
           <div className="min-w-0">
             <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Email</h3>
@@ -131,7 +131,7 @@ export default function ContactPage() {
 
         <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
           <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
-            <Phone className="w-5 h-5 md:w-6 md:h-6 dark:text-primary" />
+            <Phone className="w-5 h-5 md:w-6 md:h-6 text-primary" />
           </div>
           <div>
             <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Phone</h3>
@@ -146,7 +146,7 @@ export default function ContactPage() {
 
         <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
           <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
-            <MapPin className="w-5 h-5 md:w-6 md:h-6 dark:text-primary" />
+            <MapPin className="w-5 h-5 md:w-6 md:h-6 text-primary" />
           </div>
           <div>
             <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Location</h3>

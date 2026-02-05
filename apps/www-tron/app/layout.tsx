@@ -3,7 +3,6 @@ import { Geist_Mono, Poppins } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from 'sonner'
-import { ThemeProvider } from '@/lib/providers/theme-provider'
 import { ChatProvider } from '@/lib/providers/chat-provider'
 
 import 'katex/dist/katex.min.css'
@@ -35,16 +34,7 @@ export const metadata: Metadata = {
   title: 'Clay Curry - Software Engineer',
   description: 'Portfolio of Clay Curry, a Software Engineer experienced in web technologies',
   icons: {
-    icon: [
-      {
-        url: "/favicon.svg",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/favicon-light.svg",
-        media: "(prefers-color-scheme: light)",
-      },
-    ],
+    icon: "/favicon.svg",
   },
 }
 
@@ -54,19 +44,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`} suppressHydrationWarning>
+    <html lang="en" className="dark">
+      <body className={`${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}>
         <div className="grid-background" aria-hidden="true" />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-        >
-          <ChatProvider>
-            {children}
-          </ChatProvider>
-          <Toaster theme="dark" position="bottom-right" />
-        </ThemeProvider>
+        <ChatProvider>
+          {children}
+        </ChatProvider>
+        <Toaster theme="dark" position="bottom-right" />
         <Analytics />
       </body>
     </html>
