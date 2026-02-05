@@ -186,36 +186,6 @@ export default () => (
           <AccordionItem value="edu-2">
             <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
               <AccordionHeader
-                title="Choctaw High School. Diploma."
-                date="May 2017"
-              />
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="text-gray-700 dark:text-gray-300">
-                <p className="mb-2">
-                  <span className="font-bold text-gray-900 dark:text-gray-100">
-                    Valedictorian
-                  </span>{" "}
-                  •{" "}
-                  <span className="font-bold text-gray-900 dark:text-gray-100">
-                    ACT Scholar
-                  </span>
-                </p>
-                <p className="mb-2">
-                  <span className="font-bold">ACT Score:</span> 34 / 36
-                </p>
-                <p>
-                  <PrimaryLink href="/assets/cv/highschool-transcript.jpeg">
-                    transcript
-                  </PrimaryLink>
-                </p>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="edu-3">
-            <AccordionTrigger className="font-semibold text-gray-900 dark:text-gray-100">
-              <AccordionHeader
                 title="Certification: AWS Solutions Architect – Professional"
                 date="Nov 2025"
               />

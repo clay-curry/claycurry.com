@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-02-05
+
+### Changed
+- Unified accent color as single source of truth for all cyan tokens
+- Styled active nav pill with accent color scheme
+- Centralized social links and site config into portfolio-data.ts
+- Made background grid white, neutralized border color
+- Used primary color for sidebar contact icons
+
 ## 2026-02-04
 
 ### Added

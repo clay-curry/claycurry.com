@@ -3,6 +3,7 @@ import { BlogSidebar } from '@/lib/custom/ai-elements/blog-sidebar'
 import { SidebarProvider, SidebarInset } from '@/lib/custom/ui/sidebar'
 import { getAllPostsMetadata } from '../(portfolio)/blog/loader'
 import { getSiteNavLinks } from '@/lib/navigation'
+import { siteConfig } from '@/lib/portfolio-data'
 import { AskAI } from '@/lib/custom/ai-elements/ask-ai'
 
 function GitHubIcon({ className }: { className?: string }) {
@@ -41,7 +42,7 @@ export default function BlogPostLayout({
             <div className="ml-auto flex items-center gap-6">
               <AskAI mode="dialog" />
               <Link
-                href="https://github.com/clay-curry/claycurry.com"
+                href={siteConfig.repo}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg text-foreground hover:text-accent hover:bg-secondary transition-colors"

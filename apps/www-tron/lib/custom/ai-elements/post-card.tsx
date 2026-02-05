@@ -6,7 +6,7 @@ export function PostCard({ post }: { post: PostMetadata }) {
   return (
     <Link href={`/blog/${post.slug}`} className="block">
       <article className="group bg-secondary rounded-xl md:rounded-2xl border border-border overflow-hidden hover:border-accent hover:shadow-lg hover:shadow-accent/10 transition-all duration-300 h-full">
-        <div className="p-4 md:p-5">
+        <div className="p-4 md:p-5 flex flex-col h-full">
           <div className="flex items-center gap-2 flex-wrap text-xs text-muted-foreground mb-3">
             <span className="flex items-center gap-1">
               <Calendar className="w-3 h-3 md:w-3.5 md:h-3.5" />
@@ -32,7 +32,7 @@ export function PostCard({ post }: { post: PostMetadata }) {
           </div>
 
           {/* Read More */}
-          <span className="flex items-center gap-2 text-xs md:text-sm text-accent group-hover:gap-3 transition-all font-medium">
+          <span className="mt-auto flex items-center gap-2 text-xs md:text-sm text-accent group-hover:gap-3 transition-all font-medium">
             Read More
             <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
           </span>

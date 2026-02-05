@@ -12,9 +12,9 @@ const ContactLink = PrimaryLink;
 
 /**Background in web design  */
 const socialLinks = [
+  { name: "Twitter", href: "https://x.com/claycurry_", icon: <XIcon /> },
   { name: "GitHub", href: "https://github.com/clay-curry", icon: <GitHubIcon /> },
   { name: "LinkedIn", href: "https://linkedin.com/in/clay-curry", icon: <LinkedInIcon /> },
-  { name: "Twitter", href: "https://x.com/claycurry_", icon: <XIcon /> },
   { name: "Bluesky", href: "https://bsky.app/profile/claycurry.com", icon: <BlueskyIcon /> },
 ];
 

@@ -5,17 +5,21 @@ export const profileData = {
   email: 'me@claycurry.com',
   phone: '+1 (405) 301-1055',
   location: 'Oklahoma City, OK, USA',
+  githubUsername: 'clay-curry',
   social: {
     github: 'https://github.com/clay-curry',
-    twitter: 'https://twitter.com/ccurry',
+    x: 'https://x.com/eigenclay',
     linkedin: 'https://www.linkedin.com/in/clay-curry/',
   },
-}
+} as const
+
+export const siteConfig = {
+  repo: 'https://github.com/clay-curry/claycurry.com',
+} as const
 
 export const aboutData = {
   description: [
-    "I am passionate about building products that continuously learn from user behavior and evade enshittification through feedback loops.",
-    "My superpower is bridging machine learning and product engineering—turning complex ML systems into intuitive user experiences."
+    "I am passionate about building products that continuously learn from user behavior and evade enshittification through feedback loops."
   ],
   services: [
     {
@@ -160,4 +164,4 @@ export const contactData = {
   location: 'Oklahoma City, OK',
   mapEmbedUrl:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d201150.7648820659!2d-97.61491842720284!3d35.471551251641934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87ad8a547ef8d281%3A0x33a21274d14f3a9d!2sOklahoma%20City%2C%20OK!5e0!3m2!1sen!2sus!4v1769233825449!5m2!1sen!2sus',
-}
+} as const

@@ -15,6 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/lib/custom/ui/sheet'
+import { profileData } from '@/lib/portfolio-data'
 import type { NavLink } from '@/lib/navigation'
 
 export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
@@ -48,14 +49,14 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
               href={section.href}
               className={`relative px-3 py-1.5 rounded-md text-sm font-medium capitalize transition-colors ${
                 activeSection === section.label
-                  ? 'text-foreground'
+                  ? 'text-accent'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {activeSection === section.label && (
                 <motion.span
                   layoutId="nav-indicator"
-                  className="absolute inset-0 bg-accent/20 border border-accent/50 rounded-md"
+                  className="absolute inset-0 bg-accent/10 border border-accent/40 rounded-md"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                 />
               )}
@@ -78,7 +79,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
 
           {/* GitHub link */}
           <a
-            href="https://github.com/clay-curry"
+            href={profileData.social.github}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center h-8 w-8 rounded-xl text-foreground/80 bg-muted/50 hover:bg-muted transition-colors"

@@ -1,5 +1,5 @@
-import { Mail, Phone, MapPin } from 'lucide-react'
-import { Github, Twitter, Linkedin } from 'lucide-react'
+import { Mail, Phone, MapPin, Github, Linkedin } from 'lucide-react'
+import { XIcon } from '@/lib/custom/icons'
 import { profileData } from '@/lib/portfolio-data'
 
 interface ProfileSidebarProps {
@@ -40,7 +40,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         ].map(({ icon: Icon, label, value, href, breakAll }) => (
           <div key={label} className="flex items-start gap-3 pl-2">
             <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
-              <Icon className="w-5 h-5 text-accent-2" />
+              <Icon className="w-5 h-5 text-primary" />
             </div>
             <div className={`flex-1${breakAll ? ' min-w-0' : ''}`}>
               <p className="text-xs text-muted-foreground uppercase mb-1">{label}</p>
@@ -62,6 +62,15 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
       {/* Social Links */}
       <div className="flex items-center justify-center gap-4 mt-4 md:mt-6 pt-4 md:pt-6 border-t border-border">
         <a
+          href={data.social.x}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
+          aria-label="X"
+        >
+          <XIcon className="w-5 h-5" />
+        </a>
+        <a
           href={data.social.github}
           target="_blank"
           rel="noopener noreferrer"
@@ -69,15 +78,6 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           aria-label="GitHub"
         >
           <Github className="w-5 h-5" />
-        </a>
-        <a
-          href={data.social.twitter}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
-          aria-label="Twitter"
-        >
-          <Twitter className="w-5 h-5" />
         </a>
         <a
           href={data.social.linkedin}

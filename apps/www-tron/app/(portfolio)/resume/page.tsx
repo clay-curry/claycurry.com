@@ -19,7 +19,7 @@ import {
   CVPositionAdvisor,
   CVRowItem,
 } from '@/lib/custom/ui/cv'
-import { resumeData } from '@/lib/portfolio-data'
+import { profileData, resumeData } from '@/lib/portfolio-data'
 
 export default function ResumePage() {
   return (
@@ -30,9 +30,9 @@ export default function ResumePage() {
           name="Clay Curry"
           title="Software Engineer"
           addressList={[
-            { text: 'LinkedIn', href: 'https://www.linkedin.com/in/clay-curry/' },
-            { text: 'GitHub', href: 'https://github.com/clay-curry' },
-            { text: 'me@claycurry.com', href: 'mailto:me@claycurry.com' },
+            { text: 'X', href: profileData.social.x },
+            { text: 'GitHub', href: profileData.social.github },
+            { text: 'LinkedIn', href: profileData.social.linkedin },
           ]}
         />
 
@@ -156,20 +156,6 @@ export default function ResumePage() {
                       </div>,
                     ]}
                   />
-                </CVContentBody>
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="edu-2">
-              <AccordionTrigger className="font-semibold text-muted-foreground">
-                <AccordionHeader
-                  title="Choctaw High School. Diploma."
-                  date="May 2017"
-                />
-              </AccordionTrigger>
-              <AccordionContent>
-                <CVContentBody>
-                  <p>Valedictorian.</p>
                 </CVContentBody>
               </AccordionContent>
             </AccordionItem>
@@ -309,7 +295,7 @@ const AddressList = ({
         <a
           href={element.href}
           key={element.href}
-          className="text-accent-2 hover:text-accent-2/80 transition-colors"
+          className="text-primary underline hover:text-primary/70 transition-colors cursor-pointer"
         >
           {element.text}
         </a>
