@@ -1,6 +1,6 @@
-import { ProfileSidebar } from '@/lib/custom/ai-elements/profile-sidebar'
+import { ProfileSidebar } from '@/lib/components/site/profile-sidebar'
 import { profileData } from '@/lib/portfolio-data'
-import { AppLayout } from '@/lib/custom/ai-elements/AppLayout'
+import { AppLayout } from '@/lib/components/site/AppLayout'
 import { getSiteNavLinks } from '@/lib/navigation'
 
 export default function PortfolioLayout({

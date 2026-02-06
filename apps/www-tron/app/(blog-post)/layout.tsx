@@ -1,10 +1,10 @@
 import Link from 'next/link'
-import { BlogSidebar } from '@/lib/custom/ai-elements/blog-sidebar'
-import { SidebarProvider, SidebarInset } from '@/lib/custom/ui/sidebar'
+import { BlogSidebar } from '@/lib/components/site/blog-sidebar'
+import { SidebarProvider, SidebarInset } from '@/lib/components/ui/sidebar'
 import { getAllPostsMetadata } from '../(portfolio)/blog/loader'
 import { getSiteNavLinks } from '@/lib/navigation'
 import { siteConfig } from '@/lib/portfolio-data'
-import { AskAI } from '@/lib/custom/ai-elements/ask-ai'
+import { AskAI } from '@/lib/components/chat/ask-ai'
 
 function GitHubIcon({ className }: { className?: string }) {
   return (

@@ -3,13 +3,13 @@ import {
   getAllPostsMetadata,
   getPost,
 } from "@/app/(portfolio)/blog/loader";
-import { MobileToc } from "@/lib/custom/ai-elements/mobile-toc";
+import { MobileToc } from "@/lib/components/site/mobile-toc";
 import { getSiteNavLinks } from "@/lib/navigation";
-import { OnThisPage } from "@/lib/custom/ai-elements/on-this-page";
-import { PageActions, ShareOnX, ShareOnLinkedIn, CopyPageButton } from "@/lib/custom/ai-elements/page-actions";
-import { ViewCount } from "@/lib/custom/ai-elements/view-count";
-import { PageFeedback } from "@/lib/custom/ai-elements/page-feedback";
-import { AskQuestionBubble } from "@/lib/custom/ai-elements/ask-question-bubble";
+import { OnThisPage } from "@/lib/components/site/on-this-page";
+import { PageActions, ShareOnX, ShareOnLinkedIn, CopyPageButton } from "@/lib/components/site/page-actions";
+import { ViewCount } from "@/lib/components/site/view-count";
+import { PageFeedback } from "@/lib/components/site/page-feedback";
+import { AskQuestionBubble } from "@/lib/components/chat/ask-question-bubble";
 
 export const dynamicParams = false;
 

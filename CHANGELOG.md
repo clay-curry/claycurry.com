@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-02-06
+
+### Changed
+- Refactored lib/components and lib/custom into domain-based structure (site/, chat/, content/)
+- Extracted chat session hook, unified dual chat implementations
+
 ## 2026-02-05
 
 ### Changed

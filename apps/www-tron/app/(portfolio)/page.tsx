@@ -1,8 +1,8 @@
 import { PenTool, Code, Smartphone, Zap, Link, ArrowRight } from 'lucide-react'
 import { aboutData } from '@/lib/portfolio-data'
 import { getAllPostsMetadata } from './blog/loader'
-import { WritingsSection } from '@/lib/custom/ai-elements/writings-section'
-import { HeroContactAskAI } from '@/lib/custom/ai-elements/hero-contact-ask-ai'
+import { WritingsSection } from '@/lib/components/site/writings-section'
+import { HeroContactAskAI } from '@/lib/components/chat/hero-contact-ask-ai'
 
 const iconMap = {
   Code,

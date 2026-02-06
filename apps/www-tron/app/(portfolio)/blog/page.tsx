@@ -1,4 +1,4 @@
-import { PostCard } from '@/lib/custom/ai-elements/post-card'
+import { PostCard } from '@/lib/components/site/post-card'
 import { getAllPostsMetadata } from './loader'
 
 const posts = getAllPostsMetadata()
