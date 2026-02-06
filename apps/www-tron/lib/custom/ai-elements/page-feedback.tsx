@@ -8,7 +8,11 @@ import { Button } from '@/lib/custom/ui/button'
 
 type Sentiment = 'positive' | 'negative' | null
 
-export function PageFeedback() {
+interface PageFeedbackProps {
+  label?: string
+}
+
+export function PageFeedback({ label = 'Was this page helpful?' }: PageFeedbackProps) {
   const pathname = usePathname()
   const [sentiment, setSentiment] = useState<Sentiment>(null)
   const [message, setMessage] = useState('')
@@ -56,8 +60,8 @@ export function PageFeedback() {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row items-center sm:justify-end gap-3">
-        <p className="text-sm text-muted-foreground">Was this page helpful?</p>
+      <div className="flex flex-col sm:flex-row items-center sm:justify-start gap-3">
+        <p className="text-sm text-muted-foreground">{label}</p>
         <div className="flex items-center gap-3">
           <Button
             variant={sentiment === 'positive' ? 'default' : 'outline'}
