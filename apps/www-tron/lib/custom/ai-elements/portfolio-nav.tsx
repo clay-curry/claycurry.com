@@ -15,15 +15,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/lib/custom/ui/sheet'
+import type { NavLink } from '@/lib/navigation'
 
-const sections = [
-  { label: 'about', href: '/' },
-  { label: 'resume', href: '/resume' },
-  { label: 'writing', href: '/writing' },
-  { label: 'contact', href: '/contact' },
-]
-
-export function PortfolioNav() {
+export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
   const pathname = usePathname()
   const activeSection = pathname === '/' ? 'about' : pathname.split('/')[1]
   const [open, setOpen] = useState(false)
@@ -48,7 +42,7 @@ export function PortfolioNav() {
 
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex items-center gap-1 ml-6">
-          {sections.map((section) => (
+          {navLinks.map((section) => (
             <Link
               key={section.label}
               href={section.href}
@@ -112,7 +106,7 @@ export function PortfolioNav() {
                 </VisuallyHidden>
                 <div className="flex flex-col gap-6 mt-12">
                   <nav className="flex flex-col gap-1">
-                    {sections.map((section) => (
+                    {navLinks.map((section) => (
                       <Link
                         key={section.label}
                         href={section.href}
