@@ -19,8 +19,7 @@ export const siteConfig = {
 
 export const aboutData = {
   description: [
-    "I am passionate about building products that continuously learn from user behavior and evade enshittification through feedback loops.",
-    "My superpower is bridging machine learning and product engineering—turning complex ML systems into intuitive user experiences."
+    "I am passionate about building products that continuously learn from user behavior and evade enshittification through feedback loops."
   ],
   services: [
     {

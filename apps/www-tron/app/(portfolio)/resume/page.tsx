@@ -30,9 +30,9 @@ export default function ResumePage() {
           name="Clay Curry"
           title="Software Engineer"
           addressList={[
-            { text: 'LinkedIn', href: profileData.social.linkedin },
-            { text: 'GitHub', href: profileData.social.github },
             { text: 'X', href: profileData.social.x },
+            { text: 'GitHub', href: profileData.social.github },
+            { text: 'LinkedIn', href: profileData.social.linkedin },
           ]}
         />
 
@@ -156,20 +156,6 @@ export default function ResumePage() {
                       </div>,
                     ]}
                   />
-                </CVContentBody>
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="edu-2">
-              <AccordionTrigger className="font-semibold text-muted-foreground">
-                <AccordionHeader
-                  title="Choctaw High School. Diploma."
-                  date="May 2017"
-                />
-              </AccordionTrigger>
-              <AccordionContent>
-                <CVContentBody>
-                  <p>Valedictorian.</p>
                 </CVContentBody>
               </AccordionContent>
             </AccordionItem>
