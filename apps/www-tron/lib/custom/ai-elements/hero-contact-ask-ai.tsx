@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/lib/custom/ui/dropdown-menu"
 
-export function HeroAskAI() {
+export function HeroContactAskAI() {
   const { setIsDialogOpen, model, setModel } = useChatContext()
 
   return (
