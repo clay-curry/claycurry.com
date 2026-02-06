@@ -15,6 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/lib/custom/ui/sheet'
+import { profileData } from '@/lib/portfolio-data'
 import type { NavLink } from '@/lib/navigation'
 
 export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
@@ -78,7 +79,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
 
           {/* GitHub link */}
           <a
-            href="https://github.com/clay-curry"
+            href={profileData.social.github}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center h-8 w-8 rounded-xl text-foreground/80 bg-muted/50 hover:bg-muted transition-colors"

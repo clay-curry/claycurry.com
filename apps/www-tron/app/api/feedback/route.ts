@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
+import { contactData } from "@/lib/portfolio-data";
 
 export async function POST(request: Request) {
   try {
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
 
     const { error } = await resend.emails.send({
       from: "Feedback <feedback@claycurry.com>",
-      to: "me@claycurry.com",
+      to: contactData.email,
       subject: `${sentimentEmoji} Page Feedback: ${page}`,
       text: `Page: ${page}\nSentiment: ${sentimentText}\n${message ? `\nMessage:\n${message}` : ""}`,
       html: `

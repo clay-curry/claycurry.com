@@ -2,8 +2,7 @@ import { gateway, streamText, convertToModelMessages } from "ai";
 import type { UIMessage } from "ai";
 import type { GatewayProviderOptions } from "@ai-sdk/gateway";
 import { getPostContent } from "@/app/(portfolio)/blog/loader";
-
-const GITHUB_USERNAME = "clay-curry";
+import { profileData, siteConfig } from "@/lib/portfolio-data";
 
 interface GitHubRepo {
   name: string;
@@ -48,8 +47,8 @@ async function fetchGitHubData(): Promise<string> {
   try {
     // Fetch profile and repos in parallel
     const [profileRes, reposRes] = await Promise.all([
-      fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, { headers }),
-      fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=30`, { headers }),
+      fetch(`https://api.github.com/users/${profileData.githubUsername}`, { headers }),
+      fetch(`https://api.github.com/users/${profileData.githubUsername}/repos?sort=updated&per_page=30`, { headers }),
     ]);
 
     if (!profileRes.ok || !reposRes.ok) {
@@ -77,7 +76,7 @@ async function fetchGitHubData(): Promise<string> {
     const githubContext = `
 ### GitHub Profile
 
-- **Username**: ${GITHUB_USERNAME}
+- **Username**: ${profileData.githubUsername}
 - **Name**: ${profile.name || "Clay Curry"}
 - **Bio**: ${profile.bio || "N/A"}
 - **Public Repos**: ${profile.public_repos}
@@ -115,7 +114,7 @@ const SYSTEM_PROMPT = `
 
 Answer the visitor's question using the information in Clay's background. Always supplement the background by crawling for examples in his github and resume.
 
-github: http://github.com/clay-curry
+github: ${profileData.social.github}
 
 resume: https://claycurry.com/resume/
 

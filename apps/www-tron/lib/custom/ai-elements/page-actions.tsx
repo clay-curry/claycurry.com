@@ -3,6 +3,7 @@
 import { useCallback, useState } from 'react'
 import { ArrowUpCircle, Copy, Check, MessageSquare, Bot, ExternalLink, Github } from 'lucide-react'
 import { Button } from '@/lib/custom/ui/button'
+import { siteConfig } from '@/lib/portfolio-data'
 
 const actionStyles = "my-2 flex items-center gap-1.5 text-muted-foreground text-sm transition-colors hover:text-foreground"
 
@@ -74,7 +75,7 @@ export function CopyPageButton() {
 }
 
 export function EditOnGitHub({ slug }: { slug: string }) {
-  const url = `https://github.com/clay-curry/claycurry.com/edit/main/apps/www-tron/blog/${slug}.mdx`
+  const url = `${siteConfig.repo}/edit/main/apps/www-tron/blog/${slug}.mdx`
 
   return (
     <a
@@ -90,7 +91,7 @@ export function EditOnGitHub({ slug }: { slug: string }) {
 }
 
 export function GiveFeedback({ slug }: { slug: string }) {
-  const url = `https://github.com/clay-curry/claycurry.com/issues/new?title=Feedback on: ${slug}&labels=feedback`
+  const url = `${siteConfig.repo}/issues/new?title=Feedback on: ${slug}&labels=feedback`
 
   return (
     <a

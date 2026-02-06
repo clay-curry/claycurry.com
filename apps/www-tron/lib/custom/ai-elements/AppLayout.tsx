@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { PortfolioNav } from '@/lib/custom/ai-elements/portfolio-nav'
 import { PageViews } from '@/lib/custom/ai-elements/page-views'
 import { PageFeedback } from '@/lib/custom/ai-elements/page-feedback'
+import { profileData } from '@/lib/portfolio-data'
 import type { NavLink } from '@/lib/navigation'
 
 function GitHubIcon({ className }: { className?: string }) {
@@ -29,9 +30,9 @@ function LinkedInIcon({ className }: { className?: string }) {
 }
 
 const socialLinks = [
-  { href: 'https://github.com/clay-curry', icon: GitHubIcon, label: 'GitHub' },
-  { href: 'https://x.com/clay_curry_', icon: XIcon, label: 'X' },
-  { href: 'https://linkedin.com/in/claycurry', icon: LinkedInIcon, label: 'LinkedIn' },
+  { href: profileData.social.github, icon: GitHubIcon, label: 'GitHub' },
+  { href: profileData.social.x, icon: XIcon, label: 'X' },
+  { href: profileData.social.linkedin, icon: LinkedInIcon, label: 'LinkedIn' },
 ]
 
 export function AppLayout({ children, navLinks }: { children: React.ReactNode; navLinks: NavLink[] }) {
