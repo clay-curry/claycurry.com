@@ -3,18 +3,17 @@ slug: mathematics-in-mdx
 pinned: true
 publishedDate: "15 Jan 2026"
 updatedDate: "20 Jun 2026"
-title: Embedding LaTeX in MDX
+title: The MDX Math Pipeline
 shortTitle: Math in MDX + Next.js
-subtitle: Developer's Guide to Technical and Scientific Typography in MDX
+subtitle: How LaTeX Becomes Static HTML at Build Time
 
 tags:
   - Technical Writing
 ---
 
 <Summary>
-[LaTeX](https://www.latex-project.org/) is the de facto markup language for the expression and communication 
-of technical and scientific ideas. It is available as free software. Markdown is a lightweight markup language used
-to format text. It allows you to write using plain text syntax and convert it to structurally valid HTML.
+This site renders LaTeX equations by running them through a [unified](https://unifiedjs.com/) AST pipeline at build time.
+The output is static HTML and CSS — no client-side JavaScript is involved in displaying math.
 </Summary>
 
 The goal is straightforward: produce beautifully rendered technical material on your site.
@@ -45,91 +44,11 @@ $$
   </SourceContent>
 </ExampleTabs>
 
-Actually producing that is much less straightforward - creating reluctant developers and technical writers alike.
+The equation above is LaTeX source embedded in MDX. By the time your browser receives it, it has already been converted to static HTML and CSS. This article describes the compilation pipeline that makes that happen — the layers it passes through, the decisions at each stage, and how it integrates with Next.js.
 
-This article explores one approach to mathematical content delivery at scale.
+## The Compilation Pipeline
 
-
-## Introduction
-
-
-[LaTeX](https://www.latex-project.org/) is a high-quality typesetting system; it includes features designed for the production of technical and scientific documentation. LaTeX is the de facto standard for the communication and publication of scientific documents. LaTeX is available as free software.
-Markdown is a lightweight markup language used to format text. It allows you to write using plain text syntax and convert it to structurally valid HTML. I
-
-A bespoke Unified plugin presented the most viable API for users to integrate and  extend. Despite shortcomings from a debuggabity standpoint, the plugin behaves trivially.
-when spooning out mathematical content on the web. A bespoke Unified plugin presented the most viable API for users to integrate and  extend. Despite shortcomings from a debuggabity standpoint, the plugin behaves trivially.
-
-This article reviews the challenges involved in hosting technical and scientific content over the web. After translating problems into requirements, the article compares trade-off characterizing alternative technology stacks and shares guidance on intrgrating [KaTeX](https://katex.org/) and the
-[unified](https://unifiedjs.com/) ecosystem for serving technical and scientific content in Next.js applications.
-
-
-> NOTE
-> 
-> This article was updated in January 2026 to reflect the release of [React 19.2](https://react.dev/blog/2025/10/01/react-19-2) and [Next.js 16](https://nextjs.org/blog/next-16), which introduce new features and improvements and also a few ([notable](https://nextjs.org/blog/next-16#turbopack-stable)) breaking changes. Make sure to follow the official docs for the latest updates and best practices.
-
-
-## Problem
-
-This article explores problems encountered at scale in the delivery of mathematical content. Its motivation comes
-from:
-
-- **Reduced Gatekeeping**:  
-The democratization of technical content creation is gaining traction as more people seek to share knowledge online. 
-Static websites 
-PDFs
-and are no longer sufficient for interactive learning experiences.
-
-- **Few sites render lots of mathematics.**  
-This means fewer battle-tested examples, less community knowledge, and tooling that often feels like an afterthought.
-
-- **Undifferentiated Heavy-lifting:**  
-Technical writers rely on tools like Overleaf to produce ASTs, which are limited to PDFs. Non-programmers create shit
-ASTs; web developers create shit proofs.
-
-- **Prefetching causes overhead to grow with page count.**  
-Modern frameworks like Next.js aggressively pre-fetch linked pages and eagerly loading aggressively pre-fetched
-mathematics produces significant rendering overhead.
-
-- **MDX doesn't support math by default.**  
-MDX follows the CommonMark specification, which has no syntax for mathematical notation.
-
-It takes inspiration from previous work, particularly:
-
-- [PreTeXt](https://pretextbook.org/)
-- [Overleaf](https://www.overleaf.com)
-- [Mathematics Stack Exchange](https://math.stackexchange.com/)
-- [Thomas W. Judson. *Abstract Algebra: Theory and Applications*](http://abstract.ups.edu/aata/aata.html)
-- [The Encyclopedia of Mathematics](https://encyclopediaofmath.org/wiki/Main_Page)
-
-## Requirements / Scope
-
-This article covers the design of a software stack for technical writing at scale. It addresses the sociotechnical challenges involved.
-
-combines pre-fetching, static-site generation, and
-above-the-fold code splitting.
-
-It does not cover client-side redering techniques - use cases like
-
-- user-inputted equations or live editors
-- creating plugin from scratch
-
-Essentially, if your math rendering solution adds 350KB of fonts and stylesheets per page or you have 50 blog posts
-visible in your navigation, naive implementations can make the browser prefetch megabytes of CSS before the user clicks
-anything. This makes your site slower, not faster.
-
-## Pre-fetching versus Pre-rendering Mathematics
-
-Pre-fetching[^1] content is the process of delivering content from pages reachable from the current page in
-non-blocking fashion before users actually navigate to them. Pre-rendering[^2]  (or "[static-site generation](https://en.wikipedia.org/wiki/Static_site_generator)") is the process of translating 
-content and source code into browser-ready, target content before uploading the content to the server.
-
-*KaTeX vs. $\LaTeX$*
-
-![KaTeX vs LaTeX comparison](/assets/blog/mathematics-in-mdx/katex-comparison.gif)
-
-## The Unified Pipeline
-
-MDX processing happens through the [unified](https://unifiedjs.com/) ecosystem, a collection of tools for parsing and transforming content. Understanding this pipeline is essential for integrating math support.
+Every `.mdx` file on this site is compiled into an ES module at build time. The compilation is handled by [unified](https://unifiedjs.com/), a framework for processing content as abstract syntax trees (ASTs). The pipeline has four stages: parse the Markdown into an AST (mdast), transform it with remark plugins, convert it to an HTML AST (hast), and transform it with rehype plugins. The result is a React component exported from the module.
 
 <DiagramTabs>
   <DiagramContent>
@@ -235,7 +154,42 @@ flowchart TB
 
 The key insight: all of this happens at build time. When a visitor loads your page, they receive pre-rendered HTML. No client-side JavaScript is required to display the equations—only CSS to style them.
 
-### remark-math: Recognizing Math Syntax
+### Plugin Order
+
+The actual plugin configuration from this site's `next.config.mjs` declares the exact processing order:
+
+```javascript
+remarkPlugins: [remarkFrontmatter, remarkGfm, remarkMath, remarkMdxFrontmatter],
+rehypePlugins: [rehypePrettyCode, rehypeCodeTitle, rehypeKatex, rehypeMdxToc],
+```
+
+Plugin order matters. Remark plugins execute left to right: `remarkFrontmatter` strips YAML frontmatter before `remarkGfm` enables GitHub-flavored Markdown tables and autolinks, `remarkMath` recognizes `$...$` and `$$...$$` delimiters, and `remarkMdxFrontmatter` exports frontmatter fields from the compiled module.
+
+Rehype plugins also execute in order: `rehypePrettyCode` highlights code fences, `rehypeCodeTitle` moves `title` attributes onto `<pre>` elements, `rehypeKatex` renders math nodes, and `rehypeMdxToc` generates a table of contents. If `rehypePrettyCode` ran *after* `rehypeKatex`, it could try to syntax-highlight the HTML that KaTeX produced — breaking the math output.
+
+### The MDX Module Contract
+
+Each compiled `.mdx` file becomes an ES module. When the blog page loads a post, it calls:
+
+```javascript
+const { default: Content, toc, ...frontmatter } = await import(`@/blog/${slug}.mdx`);
+```
+
+`Content` is a React component that renders the post body. `toc` is a structured table of contents generated by `rehypeMdxToc`. The frontmatter fields (`title`, `subtitle`, `tags`, `publishedDate`, etc.) are spread as named exports. The blog page component only knows how to render these exports — it has no knowledge of the pipeline that produced them.
+
+### Boundaries
+
+Each layer in the pipeline knows only its own representation:
+
+- A **remark plugin** operates on mdast (Markdown AST). It does not know about HTML or React.
+- A **rehype plugin** operates on hast (HTML AST). It does not know about Markdown syntax.
+- **`rehype-katex`** knows how to call `katex.renderToString()` on math nodes in hast. It does not know about Next.js, routing, or CSS loading.
+- The **blog page component** knows how to render a compiled MDX module. It does not know which plugins produced it.
+- The **root layout** imports `katex/dist/katex.min.css` globally. It does not know which pages use math.
+
+There is no runtime state for math. The AST exists transiently during the build and is discarded. The only artifact that reaches the browser is static HTML and a CSS stylesheet.
+
+## Stage 1 — Parsing: remark-math
 
 The [remark-math](https://github.com/remarkjs/remark-math) plugin extends the Markdown parser to recognize LaTeX delimiters:
 
@@ -244,13 +198,15 @@ The [remark-math](https://github.com/remarkjs/remark-math) plugin extends the Ma
 | `$E = mc^2$` | Inline math | Flows within text |
 | `$$\int_0^1 x^2 dx$$` | Display math | Centered block |
 
-Here's how remark-math transforms the AST. Given this input:
+`$...$` and `$$...$$` are the only math delimiters. These are recognized by `remark-math` and are not configurable without writing a custom plugin.
+
+Given this input:
 
 ```mdx
 The quadratic formula is $x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}$.
 ```
 
-The parser produces nodes like:
+The parser produces an mdast node:
 
 ```json
 {
@@ -278,7 +234,7 @@ Produces:
 
 ### From Markdown to HTML
 
-After remark-rehype transforms the tree, math nodes become HTML elements with special classes:
+When `remark-rehype` transforms the tree from mdast to hast, math nodes become HTML elements with special classes:
 
 ```html
 <!-- Inline math -->
@@ -290,22 +246,17 @@ After remark-rehype transforms the tree, math nodes become HTML elements with sp
 </code></pre>
 ```
 
-At this stage, the LaTeX source is still plain text. The rehype plugin (KaTeX or MathJax) performs the actual rendering.
+At this stage, the LaTeX source is still plain text. Math nodes survive the remark-to-rehype bridge by being converted into `<code>` elements with `language-math` classes that `rehype-katex` can find and replace in the next stage.
 
-## The Input Problem: Which LaTeX?
+## Stage 2 — Rendering: KaTeX vs MathJax
 
-LaTeX is not a single specification. It's a macro language built on TeX, extended by hundreds of packages over four decades. When someone says "I want to write LaTeX," they might mean:
+The rehype plugin is where LaTeX source becomes browser-renderable output. The two options — KaTeX and MathJax — differ in what LaTeX they accept, what HTML they produce, and what tradeoffs they impose.
 
-- **TeX math mode**: Core operators, Greek letters, fractions, roots
-- **AMS-LaTeX**: Extended environments like `align`, `cases`, `matrix`
-- **Custom macros**: `\newcommand{\R}{\mathbb{R}}` for convenience
-- **Specialized packages**: `physics`, `chemfig`, `tikz`
+### The Input: Which LaTeX?
 
-Neither KaTeX nor MathJax supports all of LaTeX. They implement subsets—substantial subsets, but subsets nonetheless.
+LaTeX is not a single specification. It is a macro language built on TeX, extended by hundreds of packages over four decades. Neither KaTeX nor MathJax supports all of it. They implement subsets — substantial subsets, but subsets nonetheless.
 
-### KaTeX's Supported Subset
-
-KaTeX focuses on common mathematical notation. It supports:
+KaTeX focuses on common mathematical notation:
 
 ```latex
 % Greek letters
@@ -346,17 +297,9 @@ KaTeX does **not** support:
 \dv{f}{x}  % use \frac{df}{dx} instead
 ```
 
-For the complete list, see [KaTeX's supported functions](https://katex.org/docs/supported.html).
+For the complete list, see [KaTeX's supported functions](https://katex.org/docs/supported.html). If you need a command KaTeX doesn't support, you can rewrite using supported commands, define a custom macro, or switch to MathJax.
 
-### Practical Guidance
-
-Pick a renderer and write to its subset. For this article, we recommend KaTeX for most use cases. If you need a command KaTeX doesn't support, you have three options:
-
-1. **Rewrite using supported commands.** Often possible for standard mathematics.
-2. **Define a custom macro.** KaTeX supports `\newcommand` for simple substitutions.
-3. **Switch to MathJax.** If you genuinely need broader coverage.
-
-Here's an example of defining custom macros in your KaTeX configuration:
+Custom macros in KaTeX configuration:
 
 ```javascript
 // Custom macros for common notation
@@ -373,13 +316,11 @@ const katexOptions = {
 
 Now you can write `$x \in \R$` instead of `$x \in \mathbb{R}$`.
 
-## The Output Problem: HTML+CSS vs SVG vs MathML
+### The Output: HTML+CSS vs SVG vs MathML
 
-The renderer must produce something the browser can display. There are three approaches, each with tradeoffs.
+The renderer must produce something the browser can display. There are three approaches.
 
-### HTML+CSS (KaTeX Default)
-
-KaTeX renders math as nested `<span>` elements with precise CSS positioning:
+**HTML+CSS (KaTeX default)** — renders math as nested `<span>` elements with precise CSS positioning:
 
 ```html
 <!-- Input: $\frac{a}{b}$ -->
@@ -425,29 +366,15 @@ KaTeX renders math as nested `<span>` elements with precise CSS positioning:
 </span>
 ```
 
-**Pros:**
+Text is selectable and searchable. Output scales with browser font size. Requires an external CSS stylesheet (~25KB minified) and web fonts (~200KB loaded on demand).
 
-- Text is selectable and searchable
-- Scales with browser font size
-- Relatively small output size
-- Renders crisply at any zoom level
-
-**Cons:**
-
-- Requires external CSS stylesheet (~25KB minified)
-- Requires web fonts (~200KB for full set)
-- Complex DOM structure can affect performance with many equations
-- Browser font rendering varies slightly across platforms
-
-### SVG (MathJax Default)
-
-MathJax can render to inline SVG:
+**SVG (MathJax default)** — renders to inline SVG:
 
 ```html
 <!-- Input: $\frac{a}{b}$ -->
 <mjx-container class="MathJax" jax="SVG">
-  <svg xmlns="http://www.w3.org/2000/svg" 
-       width="1.734ex" height="3.425ex" 
+  <svg xmlns="http://www.w3.org/2000/svg"
+       width="1.734ex" height="3.425ex"
        viewBox="0 -1342 766.7 1514">
     <g stroke="currentColor" fill="currentColor">
       <g data-mml-node="math">
@@ -466,22 +393,9 @@ MathJax can render to inline SVG:
 </mjx-container>
 ```
 
-**Pros:**
+Pixel-perfect rendering across all browsers with no external fonts. Text is not selectable. Larger output size since each equation includes full path data.
 
-- Pixel-perfect rendering across all browsers
-- Self-contained (no external fonts required if embedded)
-- Consistent appearance regardless of installed fonts
-
-**Cons:**
-
-- Text is not selectable
-- Larger output size (each equation includes full path data)
-- Accessibility requires additional work
-- Harder to style with CSS
-
-### MathML (Native Browser)
-
-MathML is a W3C standard for mathematical markup:
+**MathML (native browser):**
 
 ```html
 <!-- Input: a/b as a fraction -->
@@ -493,93 +407,37 @@ MathML is a W3C standard for mathematical markup:
 </math>
 ```
 
-**Pros:**
+Semantic markup that is natively accessible to screen readers with no JavaScript or CSS required. Rendering quality varies across browsers — Firefox has excellent support, Chrome and Safari less so.
 
-- Semantic markup (the browser understands it's a fraction)
-- Accessible to screen readers natively
-- No JavaScript or CSS required
-- Small output size
+### Accessibility
 
-**Cons:**
+MathJax invests heavily in accessibility: speech text generation for screen readers, Braille output, and interactive exploration of equation structure. KaTeX takes a simpler approach — it includes hidden MathML alongside the visual HTML, which allows screen readers to access equation structure but lacks MathJax's interactive features. If accessibility is a primary requirement, MathJax is the stronger choice.
 
-- Rendering quality varies significantly across browsers
-- Firefox has excellent support; Chrome/Safari less so
-- Spacing and typography often inferior to KaTeX/MathJax
-- Limited styling options
-
-### The Accessibility Angle
-
-MathJax invests heavily in accessibility. Its output includes:
-
-- Speech text generation for screen readers
-- Braille output support
-- Interactive exploration (users can navigate equation structure)
-- Multiple output formats optimized for different assistive technologies
-
-KaTeX's approach is simpler: it includes hidden MathML alongside the visual HTML, allowing screen readers to access the equation structure. This works well for most cases but lacks MathJax's interactive features.
-
-If accessibility is a primary requirement, MathJax is the stronger choice.
-
-## The Tradeoff: Bundle Size vs Rendering Speed vs Features
-
-### KaTeX
+### Bundle Size
 
 ```{}
-Total size: ~350KB
+KaTeX — Total: ~350KB
 ├── katex.min.js    (~95KB gzipped)
-├── katex.min.css   (~25KB gzipped)  
+├── katex.min.css   (~25KB gzipped)
 └── fonts/          (~200KB total, loaded on demand)
 ```
 
-**Characteristics:**
-
-- Synchronous rendering—no page reflows
-- No external dependencies
-- Processes math as fast as the browser can execute JavaScript
-- Limited to its supported command subset
-
-KaTeX's rendering is synchronous by design. When you call `katex.render()`, it returns immediately with the result. This means no layout shift, no flash of unstyled content, no waiting for web fonts before rendering.
-
-### MathJax
-
 ```{}
-Total size: ~500KB+ (varies by configuration)
+MathJax — Total: ~500KB+ (varies by configuration)
 ├── tex-chtml.js    (~150KB gzipped, includes TeX parser + CHTML output)
 ├── output fonts    (~300KB, loaded on demand)
 └── extensions      (additional size per extension)
 ```
 
-**Characteristics:**
-
-- Asynchronous rendering in browser (not relevant for build-time)
-- Tree-shakeable in v3—import only what you need
-- Broader LaTeX support including AMS packages
-- Multiple output formats (CHTML, SVG, MathML)
-- Superior accessibility tooling
-
-MathJax v3 is substantially faster than v2, but KaTeX remains faster for pure rendering speed. For build-time processing, the difference is negligible—both complete in milliseconds per equation.
+KaTeX's rendering is synchronous — no layout shift, no flash of unstyled content. MathJax v3 is substantially faster than v2, but KaTeX remains faster for pure rendering speed. For build-time processing, the difference is negligible since both complete in milliseconds per equation.
 
 ### When Each Makes Sense
 
-**Choose KaTeX when:**
+**Choose KaTeX** when performance is critical, your math stays within its supported subset, you prefer HTML+CSS output, or you want the simplest setup. **Choose MathJax** when you need comprehensive LaTeX support, accessibility is a primary requirement, you prefer SVG output, or you need equation numbering and cross-references.
 
-- Performance is critical (many equations, mobile users)
-- Your math stays within its supported subset
-- You prefer HTML+CSS output
-- You want the simplest possible setup
+This site uses KaTeX. It covers the subset of LaTeX needed for the content here, and the synchronous rendering with zero client-side JavaScript aligns with the build-time rendering strategy. Switching to MathJax would require changing only the rehype plugin — `remark-math` stays the same.
 
-**Choose MathJax when:**
-
-- You need comprehensive LaTeX support
-- Accessibility is a primary requirement
-- You prefer SVG output
-- You need features like equation numbering, cross-references
-
-For this guide, we recommend starting with KaTeX. If you encounter unsupported commands, evaluate whether to rewrite them or switch to MathJax.
-
-## Recommended Stack for Next.js + MDX
-
-Here's the complete setup for Next.js App Router with MDX math support.
+## Integration with Next.js
 
 ### Dependencies
 
@@ -613,10 +471,9 @@ export default withMDX(nextConfig);
 
 ### Loading KaTeX CSS
 
-You must include KaTeX's stylesheet for proper rendering. In your root layout:
+KaTeX's CSS must be loaded for math to render correctly. Without it, the nested `<span>` elements have no positioning and equations appear as garbled text. On this site, the CSS is loaded globally in the root layout:
 
-```tsx
-// app/layout.tsx
+```tsx title="app/layout.tsx"
 import 'katex/dist/katex.min.css';
 
 export default function RootLayout({
@@ -635,8 +492,8 @@ export default function RootLayout({
 Alternatively, link to the CDN in your HTML head:
 
 ```html
-<link 
-  rel="stylesheet" 
+<link
+  rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
   integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
   crossorigin="anonymous"
@@ -647,8 +504,7 @@ Alternatively, link to the CDN in your HTML head:
 
 For the App Router, you need an MDX components file at the project root:
 
-```tsx
-// mdx-components.tsx
+```tsx title="mdx-components.tsx"
 import type { MDXComponents } from 'mdx/types';
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
@@ -709,8 +565,7 @@ To switch to MathJax, change your dependencies and config:
 npm install rehype-mathjax
 ```
 
-```typescript
-// next.config.ts
+```typescript title="next.config.ts"
 import rehypeMathjax from 'rehype-mathjax';
 
 const withMDX = createMDX({
@@ -721,7 +576,7 @@ const withMDX = createMDX({
 });
 ```
 
-MathJax generates its CSS inline, so no external stylesheet is required. However, you may want to configure the output format:
+MathJax generates its CSS inline, so no external stylesheet is required. You may want to configure the output format:
 
 ```typescript
 import rehypeMathjax from 'rehype-mathjax/svg';  // SVG output
@@ -772,7 +627,7 @@ Given the input `$\frac{a^2 + b^2}{c}$`, here's what each renderer produces:
 
 ```html
 <mjx-container class="MathJax" jax="SVG" style="position: relative;">
-  <svg xmlns="http://www.w3.org/2000/svg" width="5.853ex" height="5.009ex" 
+  <svg xmlns="http://www.w3.org/2000/svg" width="5.853ex" height="5.009ex"
        role="img" focusable="false" viewBox="0 -1450 2587 2214">
     <g stroke="currentColor" fill="currentColor" stroke-width="0">
       <!-- SVG path data for the rendered equation -->
@@ -806,16 +661,13 @@ Given the input `$\frac{a^2 + b^2}{c}$`, here's what each renderer produces:
 </mjx-container>
 ```
 
-## Code Splitting and Performance
+## Performance at Scale
 
-For sites with many pages containing math, naive CSS loading can cause performance issues. Here are strategies to mitigate this.
+For sites with many pages containing math, CSS loading strategy becomes important. KaTeX's stylesheet is ~25KB minified, and its fonts total ~200KB loaded on demand. On this site, the CSS is currently loaded globally — every page pays the cost whether it uses math or not.
 
-### Conditional CSS Loading
+As page count grows, conditional loading becomes worthwhile. Here is one approach — a client component that injects the stylesheet dynamically:
 
-Only load KaTeX CSS on pages that actually use math:
-
-```tsx
-// components/MathStyles.tsx
+```tsx title="components/MathStyles.tsx"
 'use client';
 
 import { useEffect } from 'react';
@@ -827,25 +679,24 @@ export function MathStyles() {
     link.rel = 'stylesheet';
     link.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css';
     document.head.appendChild(link);
-    
+
     return () => {
       document.head.removeChild(link);
     };
   }, []);
-  
+
   return null;
 }
 ```
 
 Then include it only in pages with math:
 
-```tsx
-// app/blog/[slug]/page.tsx
+```tsx title="app/blog/[slug]/page.tsx"
 import { MathStyles } from '@/components/MathStyles';
 
 export default function BlogPost({ params }) {
   const post = getPost(params.slug);
-  
+
   return (
     <>
       {post.hasMath && <MathStyles />}
@@ -855,17 +706,14 @@ export default function BlogPost({ params }) {
 }
 ```
 
-### Preloading Critical Fonts
-
 If you know a page has math, preload the fonts to avoid layout shift:
 
-```tsx
-// app/blog/[slug]/page.tsx
+```tsx title="app/blog/[slug]/page.tsx"
 import { Metadata } from 'next';
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const post = getPost(params.slug);
-  
+
   return {
     title: post.title,
     // Preload math fonts if the page uses math
@@ -886,8 +734,6 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 }
 ```
 
-### Inlining Critical CSS
-
 For the fastest possible render, inline the subset of KaTeX CSS needed for above-the-fold equations:
 
 ```tsx
@@ -904,11 +750,11 @@ export default function Layout({ children }) {
     <html>
       <head>
         <style dangerouslySetInnerHTML={{ __html: criticalKatexCSS }} />
-        <link 
-          rel="stylesheet" 
-          href="/katex.min.css" 
-          media="print" 
-          onLoad="this.media='all'" 
+        <link
+          rel="stylesheet"
+          href="/katex.min.css"
+          media="print"
+          onLoad="this.media='all'"
         />
       </head>
       <body>{children}</body>
@@ -917,31 +763,29 @@ export default function Layout({ children }) {
 }
 ```
 
+The invariant across all these strategies: KaTeX CSS must be present when the page renders. Without it, the `<span>` elements that KaTeX produces have no positioning rules, and the equation collapses into unreadable text.
+
 ## What This Article Doesn't Cover
 
 **Runtime rendering.** If users can input equations (comments, live editors, interactive tools), you need client-side rendering. This requires loading KaTeX or MathJax in the browser and calling their APIs on user input. The build-time pipeline described here won't help.
 
-**Deep customization.** Both renderers support extensive configuration: custom macros, theming, output tweaks, error handling. We've shown the basics; consult the official documentation for advanced use cases.
+**Deep customization.** Both renderers support extensive configuration: custom macros, theming, output tweaks, error handling. This article covers the basics; consult the official documentation for advanced use cases.
 
-**The implementation walkthrough.** This article explains concepts and tradeoffs. For a step-by-step tutorial with a working repository, see the companion GitHub project (coming soon). For a video walkthrough, subscribe to the YouTube channel.
+**The implementation walkthrough.** This article explains the architecture and tradeoffs of the pipeline. For a step-by-step tutorial with a working repository, see the companion GitHub project.
 
 ## Conclusion
 
-Rendering mathematics in MDX requires explicit tooling. The unified ecosystem provides the foundation: remark-math recognizes LaTeX syntax, and rehype-katex or rehype-mathjax transforms it into browser-renderable output.
+The math pipeline on this site makes three decisions:
 
-The core decisions are:
+1. **Input syntax**: `$...$` and `$$...$$` delimiters, recognized by `remark-math`, writing to KaTeX's supported LaTeX subset.
+2. **Output format**: HTML+CSS, which keeps text selectable and scales with browser font size.
+3. **Rendering engine**: KaTeX, which renders synchronously at build time with zero client-side JavaScript.
 
-1. **Input syntax**: Write to KaTeX's subset unless you need MathJax's broader coverage
-2. **Output format**: HTML+CSS (KaTeX) for selectability and performance, SVG (MathJax) for pixel-perfect consistency
-3. **Rendering engine**: KaTeX for simplicity and speed, MathJax for features and accessibility
+These decisions are not tightly coupled. The input syntax is handled by `remark-math` regardless of which renderer runs downstream. The output format is determined by the rehype plugin — swapping `rehype-katex` for `rehype-mathjax` changes the output from HTML+CSS to SVG without touching any other configuration. The rendering engine choice is stable for now but replaceable by design.
 
-Build-time processing eliminates client-side complexity for static content. Your readers receive pre-rendered HTML; they don't need JavaScript to see the equations. With proper code-splitting, you can serve mathematical content without penalizing pages that don't need it.
-
-Start with KaTeX. If you hit its limitations—unsupported commands, insufficient accessibility features, need for SVG output—switch to MathJax. Both integrate seamlessly with the same remark-math plugin; only the rehype plugin changes.
+The pipeline's central invariant is build-time rendering. Every equation is converted from LaTeX source to static HTML before the site is deployed. The browser receives finished markup. The only thing it needs to display math correctly is a CSS stylesheet — and that is the one remaining piece to optimize as the site grows.
 
 ---
-
-*This article is part of a series on building technical documentation with Next.js. Next up: a hands-on walkthrough implementing everything described here.*
 
 [^1]: The effectiveness of pre-fetching is attributed to the process of storing and reading frequently accessed content from in-memory cache makes use of the [locality-of-reference](https://en.wikipedia.org/wiki/Locality_of_reference) principle. Consequently, pre-fetching has added benefit of reducing load on servers and networks, preserving functionality during network outages, and reducing failure points during application usage.
 
