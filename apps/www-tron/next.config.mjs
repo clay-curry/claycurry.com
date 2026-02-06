@@ -7,6 +7,53 @@ import remarkMath from "remark-math";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import rehypeMdxToc from "rehype-mdx-toc";
 
+/**
+ * Rehype plugin that moves the title from rehype-pretty-code's
+ * <div data-rehype-pretty-code-title> onto the sibling <pre> element,
+ * then removes the title div. This lets the title flow through
+ * mdx-components.tsx into CodeBlock as a prop.
+ */
+function rehypeCodeTitle() {
+  return (tree) => {
+    const walk = (node) => {
+      if (!node.children) return;
+      for (const child of node.children) {
+        if (
+          child.type === "element" &&
+          child.tagName === "figure" &&
+          "data-rehype-pretty-code-figure" in (child.properties || {})
+        ) {
+          let titleText;
+          let titleIndex = -1;
+          let preNode;
+
+          for (let i = 0; i < child.children.length; i++) {
+            const c = child.children[i];
+            if (c.type !== "element") continue;
+            if ("data-rehype-pretty-code-title" in (c.properties || {})) {
+              titleText = c.children?.[0]?.value;
+              titleIndex = i;
+            }
+            if (c.tagName === "pre") {
+              preNode = c;
+            }
+          }
+
+          if (titleText && preNode) {
+            preNode.properties = preNode.properties || {};
+            preNode.properties.title = titleText;
+          }
+          if (titleIndex !== -1) {
+            child.children.splice(titleIndex, 1);
+          }
+        }
+        walk(child);
+      }
+    };
+    walk(tree);
+  };
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"], // support MDX files
@@ -47,6 +94,7 @@ export const mdxOptions = {
         grid: true,
       }, // rehypePrettyCode options
     ],
+    rehypeCodeTitle, // move title from <div> onto <pre> for CodeBlock
     rehypeKatex, // math typesetting
     rehypeMdxToc // table of contents generation
   ],

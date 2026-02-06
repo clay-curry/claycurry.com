@@ -785,8 +785,6 @@ These decisions are not tightly coupled. The input syntax is handled by `remark-
 
 The pipeline's central invariant is build-time rendering. Every equation is converted from LaTeX source to static HTML before the site is deployed. The browser receives finished markup. The only thing it needs to display math correctly is a CSS stylesheet — and that is the one remaining piece to optimize as the site grows.
 
----
-
 [^1]: The effectiveness of pre-fetching is attributed to the process of storing and reading frequently accessed content from in-memory cache makes use of the [locality-of-reference](https://en.wikipedia.org/wiki/Locality_of_reference) principle. Consequently, pre-fetching has added benefit of reducing load on servers and networks, preserving functionality during network outages, and reducing failure points during application usage.
 
 [^2]: Pre-rendering technique contrasts with server-side rendering and client-side rendering in the following ways: **Pre-rendering (SSG)** produces content at build-time[^3] on the developer's machine or CI server before deployment, so the server serves fully-formed pages. **Server-side rendering (SSR)** produces content at request-time on the server when a user requests a page. **Client-side rendering (CSR)** produces content at load-time in the client's browser after the initial HTML shell is loaded.
