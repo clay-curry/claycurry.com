@@ -28,7 +28,7 @@ export default function BlogPostLayout({
   const posts = getAllPostsMetadata()
 
   return (
-    <div className="min-h-screen bg-background w-full">
+    <div className="relative z-10 min-h-screen w-full">
       <SidebarProvider>
         <BlogSidebar posts={posts} />
         <SidebarInset>

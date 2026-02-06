@@ -8,7 +8,7 @@ export default function PortfolioLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-background p-0">
+    <div className="relative z-10 min-h-screen p-0">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col-reverse lg:flex-row gap-1 sm:gap-4 md:gap-6">
           <ProfileSidebar data={profileData} />
