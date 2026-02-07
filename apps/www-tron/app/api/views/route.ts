@@ -123,23 +123,18 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ slug, count })
 }
 
+/** Max number of slugs stored in the dedup cookie */
+const MAX_VIEWED_PAGES = 100
+const VIEWED_PAGES_COOKIE = 'viewed_pages'
+
 /**
  * POST /api/views
  *
- * Increments and returns the view count for a page. Used when a user
- * visits a page to track the view.
+ * Increments and returns the view count for a page. Uses a cookie to
+ * deduplicate views from the same visitor within a 24-hour window.
  *
  * @param request - The incoming request with `{ slug }` in the JSON body
- * @returns JSON response with `{ slug, count }` or error
- *
- * @example
- * // Request
- * POST /api/views
- * Content-Type: application/json
- * { "slug": "my-blog-post" }
- *
- * // Response
- * { "slug": "my-blog-post", "count": 43 }
+ * @returns JSON response with `{ slug, count, duplicate }` or error
  */
 export async function POST(request: NextRequest) {
   try {
@@ -153,8 +148,44 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Parse the viewed_pages cookie
+    let viewedPages: string[] = []
+    const cookie = request.cookies.get(VIEWED_PAGES_COOKIE)
+    if (cookie?.value) {
+      try {
+        const parsed = JSON.parse(cookie.value)
+        if (Array.isArray(parsed)) {
+          viewedPages = parsed
+        }
+      } catch {
+        // Malformed cookie — treat as empty
+      }
+    }
+
+    // Check if this slug was already viewed
+    if (viewedPages.includes(slug)) {
+      const count = await getViewCount(slug)
+      return NextResponse.json({ slug, count, duplicate: true })
+    }
+
+    // New view — increment
     const count = await incrementViewCount(slug)
-    return NextResponse.json({ slug, count })
+
+    // Update the cookie array (cap at MAX_VIEWED_PAGES, drop oldest)
+    viewedPages.push(slug)
+    if (viewedPages.length > MAX_VIEWED_PAGES) {
+      viewedPages = viewedPages.slice(viewedPages.length - MAX_VIEWED_PAGES)
+    }
+
+    const response = NextResponse.json({ slug, count, duplicate: false })
+    response.cookies.set(VIEWED_PAGES_COOKIE, JSON.stringify(viewedPages), {
+      httpOnly: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 86400, // 24 hours
+    })
+
+    return response
   } catch {
     return NextResponse.json(
       { error: 'Invalid request body' },

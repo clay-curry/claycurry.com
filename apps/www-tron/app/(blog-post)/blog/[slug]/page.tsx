@@ -7,7 +7,7 @@ import { MobileToc } from "@/lib/components/site/mobile-toc";
 import { getSiteNavLinks } from "@/lib/navigation";
 import { OnThisPage } from "@/lib/components/site/on-this-page";
 import { PageActions, ShareOnX, ShareOnLinkedIn, CopyPageButton } from "@/lib/components/site/page-actions";
-import { ViewCount } from "@/lib/components/site/view-count";
+import { PageViews } from "@/lib/components/site/page-views";
 import { PageFeedback } from "@/lib/components/site/page-feedback";
 import { AskQuestionBubble } from "@/lib/components/chat/ask-question-bubble";
 
@@ -57,7 +57,7 @@ export default async function BlogPostPage({
 
               { /* Meta for article */ }
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2 sm:gap-3 md:gap-4 text-sm sm:text-sm text-muted-foreground">
-                <ViewCount slug={slug} />
+                <PageViews slug={`/blog/${slug}`} className="text-sm text-muted-foreground" />
                 <div className="h-4 w-px bg-border" />
                 <span className="flex items-center gap-1">
                   <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
