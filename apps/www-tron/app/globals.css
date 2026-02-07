@@ -35,7 +35,7 @@
 .theme-red    { --src-primary-h: 29;  --src-primary-c: 0.21; --src-secondary-h: 88;  --src-secondary-c: 0.22; } /* #C60504 neon red */
 .theme-green  { --src-primary-h: 145; --src-primary-c: 0.26; --src-secondary-h: 195; --src-secondary-c: 0.22; } /* Neon lime green */
 
-/* ══ COLOR ROLES (Dark Scheme) ══ */
+/* ══ COLOR ROLES (Dark Scheme — default) ══ */
 /* Derived from source parameters — never edit these values directly */
 :root {
   --background:           oklch(0.08  var(--src-neutral-c)   var(--src-neutral-h));
@@ -82,6 +82,54 @@
   --tron-grid:    oklch(0.82 var(--src-primary-c) var(--src-primary-h) / 0.08);
   --primary-accent: var(--primary);
   --grid-color:   oklch(0.50 var(--src-neutral-c) var(--src-neutral-h) / 0.3);
+}
+
+/* ══ COLOR ROLES (Light Scheme) ══ */
+/* Inverted lightness values for a clean light mode, same hues/chromas */
+.light {
+  --background:           oklch(0.97  var(--src-neutral-c)   var(--src-neutral-h));
+  --foreground:           oklch(0.15  var(--src-neutral-c)   var(--src-neutral-h));
+  --card:                 oklch(0.99  var(--src-neutral-c)   var(--src-neutral-h));
+  --card-foreground:      oklch(0.15  var(--src-neutral-c)   var(--src-neutral-h));
+  --popover:              oklch(0.99  var(--src-neutral-c)   var(--src-neutral-h));
+  --popover-foreground:   oklch(0.15  var(--src-neutral-c)   var(--src-neutral-h));
+  --primary:              oklch(0.55  var(--src-primary-c)   var(--src-primary-h));
+  --primary-foreground:   oklch(0.99  0 0);
+  --secondary:            oklch(0.93  0 0);
+  --secondary-foreground: oklch(0.20  var(--src-neutral-c)   var(--src-neutral-h));
+  --accent:               var(--primary);
+  --accent-foreground:    oklch(0.99  0 0);
+  --accent-2:             oklch(0.55  var(--src-secondary-c) var(--src-secondary-h));
+  --accent-2-foreground:  oklch(0.99  0 0);
+  --muted:                oklch(0.92  var(--src-neutral-c)   var(--src-neutral-h));
+  --muted-foreground:     oklch(0.45  var(--src-neutral-c)   var(--src-neutral-h));
+  --destructive:          oklch(0.55  var(--src-error-c)     var(--src-error-h));
+  --destructive-foreground: oklch(0.99 0 0);
+  --border:               oklch(0.82  0 0);
+  --input:                oklch(0.93  var(--src-neutral-c)   var(--src-neutral-h));
+  --ring:                 var(--primary);
+  --chart-1:              var(--primary);
+  --chart-2:              var(--accent-2);
+  --chart-3:              oklch(0.45  var(--src-primary-c)   var(--src-primary-h));
+  --chart-4:              oklch(0.50  var(--src-secondary-c) var(--src-secondary-h));
+  --chart-5:              oklch(0.55  var(--src-neutral-c)   var(--src-neutral-h));
+
+  /* Sidebar — light variant */
+  --sidebar:                    oklch(0.95  var(--src-neutral-c) var(--src-neutral-h));
+  --sidebar-foreground:         oklch(0.15  var(--src-neutral-c) var(--src-neutral-h));
+  --sidebar-primary:            var(--primary);
+  --sidebar-primary-foreground: oklch(0.99  var(--src-neutral-c) var(--src-neutral-h));
+  --sidebar-accent:             oklch(0.90  var(--src-neutral-c) var(--src-neutral-h));
+  --sidebar-accent-foreground:  oklch(0.15  var(--src-neutral-c) var(--src-neutral-h));
+  --sidebar-border:             oklch(0.85  var(--src-neutral-c) var(--src-neutral-h));
+  --sidebar-ring:               var(--primary);
+
+  /* TRON Effect Tokens — toned down for light mode */
+  --tron-glow:    var(--primary);
+  --tron-orange:  var(--accent-2);
+  --tron-grid:    oklch(0.55 var(--src-primary-c) var(--src-primary-h) / 0.08);
+  --primary-accent: var(--primary);
+  --grid-color:   oklch(0.50 var(--src-neutral-c) var(--src-neutral-h) / 0.15);
 }
 
 @theme inline {
@@ -152,6 +200,12 @@
   -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 0%, black 100%);
 }
 
+.light .grid-background {
+  background-image:
+    linear-gradient(oklch(0 0 0 / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0 0 0 / 0.08) 1px, transparent 1px);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -172,6 +226,11 @@
   ::selection {
     background: oklch(0.82 var(--src-primary-c) var(--src-primary-h) / 0.4);
     color: oklch(0.99 0 0);
+  }
+
+  .light ::selection {
+    background: oklch(0.55 var(--src-primary-c) var(--src-primary-h) / 0.3);
+    color: oklch(0.10 0 0);
   }
 }
 

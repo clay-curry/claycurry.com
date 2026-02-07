@@ -3,6 +3,7 @@ import { PortfolioNav } from '@/lib/components/site/portfolio-nav'
 import { PageViews } from '@/lib/components/site/page-views'
 
 import { ClickCountToggle } from '@/lib/components/site/click-count-toggle'
+import { DarkModeToggle } from '@/lib/components/site/dark-mode-toggle'
 import { ThemeToggle } from '@/lib/components/site/theme-toggle'
 import { GitHubIcon, XIcon, LinkedInIcon } from '@/lib/components/icons'
 import { profileData } from '@/lib/portfolio-data'
@@ -46,6 +47,7 @@ export function AppLayout({ children, navLinks }: { children: React.ReactNode; n
         </div>
         <div className="flex items-center gap-4">
           <ClickCountToggle />
+          <DarkModeToggle />
           <ThemeToggle />
         </div>
       </footer>

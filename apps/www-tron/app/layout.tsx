@@ -52,6 +52,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `(function(){
   try {
+    var m = localStorage.getItem('tron-mode');
+    if (m === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    }
     var t = localStorage.getItem('tron-theme');
     if (t && ['cyan','orange','red','green'].includes(t)) {
       document.documentElement.classList.add('theme-' + t);
