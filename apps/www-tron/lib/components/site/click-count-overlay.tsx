@@ -84,7 +84,7 @@ export function ClickCountOverlay() {
 
   return (
     <div
-      className="fixed inset-0 pointer-events-none"
+      className="fixed top-0 left-0 w-full h-full pointer-events-none"
       style={{ zIndex: 50 }}
       aria-hidden="true"
     >

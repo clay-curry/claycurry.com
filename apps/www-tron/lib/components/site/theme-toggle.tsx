@@ -3,7 +3,6 @@
 import { Palette } from "lucide-react"
 import { useEffect, useState } from "react"
 
-import { Button } from "@/lib/components/ui/button"
 
 const themePresets = ["cyan", "orange", "red", "green"] as const
 type ThemePreset = (typeof themePresets)[number]
@@ -36,22 +35,25 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <Button variant="outline" size="icon" disabled>
-        <Palette className="size-4" />
-      </Button>
+      <button
+        type="button"
+        disabled
+        className="inline-flex items-center gap-1.5 h-8 px-2.5 text-sm font-medium rounded-xl border border-border text-foreground bg-muted transition-colors"
+      >
+        <Palette className="size-3.5 text-accent" />
+      </button>
     )
   }
 
   return (
-    <Button
-      variant="outline"
-      size="icon"
+    <button
+      type="button"
       data-click-id="nav:theme"
       onClick={cycleTheme}
       title={`Theme: ${theme}. Click to cycle.`}
+      className="inline-flex items-center gap-1.5 h-8 px-2.5 text-sm font-medium rounded-xl border border-border text-foreground bg-muted hover:bg-muted/80 transition-colors cursor-pointer"
     >
-      <Palette className="size-4" />
-      <span className="sr-only">Toggle color theme</span>
-    </Button>
+      <Palette className="size-3.5 text-accent" />
+    </button>
   )
 }

@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, MessagesSquare, Github } from 'lucide-react'
-import { ThemeToggle } from '@/lib/components/site/theme-toggle'
+import { Menu, MessagesSquare } from 'lucide-react'
+
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { motion } from 'motion/react'
 import { useChatUI } from '@/lib/hooks/use-chat-ui'
@@ -79,21 +79,6 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
             <MessagesSquare className="size-3.5" />
             Ask AI
           </button>
-
-          {/* GitHub link */}
-          <a
-            href={profileData.social.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-click-id="nav:github"
-            className="inline-flex items-center justify-center h-8 w-8 rounded-xl text-foreground/80 bg-muted/50 hover:bg-muted transition-colors"
-            aria-label="GitHub"
-          >
-            <Github className="size-4" />
-          </a>
-
-          {/* Theme toggle */}
-          <ThemeToggle />
 
           {/* Mobile hamburger menu */}
           {mounted ? (

@@ -1,16 +1,33 @@
 "use client"
 
 import { useAtom } from "jotai"
-import { Switch } from "@/lib/components/ui/switch"
+import { Mouse } from "lucide-react"
+import { cn } from "@/lib/utils"
 import { clickCountsEnabledAtom } from "@/lib/hooks/use-click-counts"
 
 export function ClickCountToggle() {
   const [enabled, setEnabled] = useAtom(clickCountsEnabledAtom)
 
   return (
-    <label className="flex items-center gap-2 text-muted-foreground text-sm cursor-pointer">
-      <Switch size="sm" checked={enabled} onCheckedChange={setEnabled} />
-      Click Counts
-    </label>
+    <button
+      type="button"
+      onClick={() => setEnabled(!enabled)}
+      aria-label="Toggle click counts"
+      aria-pressed={enabled}
+      data-click-id="nav:clicks"
+      className="group inline-flex items-center gap-1.5 h-8 px-2.5 text-sm font-medium rounded-xl border border-border text-foreground bg-muted hover:bg-muted/80 transition-colors cursor-pointer"
+    >
+      <Mouse
+        className={cn(
+          "size-3.5",
+          enabled
+            ? "text-accent fill-accent"
+            : "fill-foreground",
+          "stroke-transparent group-hover:stroke-transparent",
+          "[&_path]:stroke-background",
+          "[paint-order:stroke]",
+        )}
+      />
+    </button>
   )
 }

@@ -3,6 +3,7 @@ import { PortfolioNav } from '@/lib/components/site/portfolio-nav'
 import { PageViews } from '@/lib/components/site/page-views'
 
 import { ClickCountToggle } from '@/lib/components/site/click-count-toggle'
+import { ThemeToggle } from '@/lib/components/site/theme-toggle'
 import { GitHubIcon, XIcon, LinkedInIcon } from '@/lib/components/icons'
 import { profileData } from '@/lib/portfolio-data'
 import type { NavLink } from '@/lib/navigation'
@@ -43,7 +44,10 @@ export function AppLayout({ children, navLinks }: { children: React.ReactNode; n
             </Link>
           ))}
         </div>
-        <ClickCountToggle />
+        <div className="flex items-center gap-4">
+          <ClickCountToggle />
+          <ThemeToggle />
+        </div>
       </footer>
     </div>
   )

@@ -11,7 +11,7 @@ export default function PortfolioLayout({
   const navLinks = getSiteNavLinks()
 
   return (
-    <div className="min-h-screen bg-background p-0">
+    <div className="min-h-screen p-0">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col-reverse lg:flex-row gap-1 sm:gap-4 md:gap-6">
           <ProfileSidebar data={profileData} />

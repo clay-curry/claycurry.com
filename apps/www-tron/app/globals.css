@@ -46,7 +46,7 @@
   --popover-foreground:   oklch(0.90  var(--src-neutral-c)   var(--src-neutral-h));
   --primary:              oklch(0.82  var(--src-primary-c)   var(--src-primary-h));
   --primary-foreground:   oklch(0.08  var(--src-primary-c)   var(--src-primary-h));
-  --secondary:            oklch(0.15  var(--src-neutral-c)   var(--src-neutral-h));
+  --secondary:            oklch(0.15  0 0);
   --secondary-foreground: oklch(0.85  var(--src-neutral-c)   var(--src-neutral-h));
   --accent:               var(--primary);
   --accent-foreground:    oklch(0.08  0 0);
@@ -141,7 +141,7 @@
 .grid-background {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   background-image:
     linear-gradient(oklch(1 0 0 / 0.1) 1px, transparent 1px),
@@ -156,9 +156,11 @@
   * {
     @apply border-border outline-ring/50;
   }
-  html,
+  html {
+    @apply bg-background overscroll-y-none;
+  }
   body {
-    @apply bg-background text-foreground overscroll-none;
+    @apply text-foreground overscroll-y-none;
   }
 
   /* TRON Typography enhancements */
