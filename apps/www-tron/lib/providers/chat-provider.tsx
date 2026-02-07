@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext, useContext, type ReactNode } from "react";
-import { ChatDrawer } from "@/lib/custom/ai-elements/chat";
-import { ChatDialog } from "@/lib/custom/ai-elements/chat-dialog";
+import { ChatDrawer } from "@/lib/components/chat/chat";
+import { ChatDialog } from "@/lib/components/chat/chat-dialog";
 import { useChatContext } from "@/lib/hooks/use-chat";
 
 // Models available for chat

@@ -1,10 +1,10 @@
 type MDXComponents = Record<string, React.ComponentType<any>>;
 import Image, { type ImageProps } from "next/image";
-import Summary from "@/lib/custom/ui/summary";
-import { CodeBlock } from "@/lib/custom/ai-elements/code-block";
-import { Mermaid } from "@/lib/custom/ai-elements/mermaid";
-import { DiagramTabs, DiagramContent, MermaidContent, AsciiContent } from "@/lib/custom/ai-elements/diagram-tabs";
-import { ExampleTabs, RenderedContent, SourceContent } from "@/lib/custom/ai-elements/example-tabs";
+import Summary from "@/lib/components/ui/summary";
+import { CodeBlock } from "@/lib/components/content/code-block";
+import { Mermaid } from "@/lib/components/content/mermaid";
+import { DiagramTabs, DiagramContent, MermaidContent, AsciiContent } from "@/lib/components/content/diagram-tabs";
+import { ExampleTabs, RenderedContent, SourceContent } from "@/lib/components/content/example-tabs";
 import { slugify } from "@/lib/utils";
 
 // TRON-themed MDX components
