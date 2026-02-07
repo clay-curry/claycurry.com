@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, MessagesSquare, Github } from 'lucide-react'
+import { ThemeToggle } from '@/lib/components/site/theme-toggle'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { motion } from 'motion/react'
 import { useChatUI } from '@/lib/hooks/use-chat-ui'
@@ -87,6 +88,9 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
           >
             <Github className="size-4" />
           </a>
+
+          {/* Theme toggle */}
+          <ThemeToggle />
 
           {/* Mobile hamburger menu */}
           {mounted ? (

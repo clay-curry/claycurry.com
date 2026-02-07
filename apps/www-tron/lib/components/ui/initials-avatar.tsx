@@ -25,15 +25,15 @@ export function InitialsAvatar({ name, size = 32, className }: InitialsAvatarPro
         cx="32"
         cy="32"
         r="30"
-        fill="#0F172A"
-        stroke="#38BDF8"
+        fill="var(--background)"
+        stroke="var(--primary)"
         strokeWidth="2"
       />
       <text
         x="32"
         y="38"
         textAnchor="middle"
-        fill="#E2E8F0"
+        fill="var(--foreground)"
         fontSize="22"
         fontWeight="700"
         fontFamily="Space Grotesk, Inter, system-ui, -apple-system, sans-serif"
