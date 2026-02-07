@@ -8,9 +8,9 @@ const contrastLevels = ["medium", "low", "high"] as const
 type ContrastLevel = (typeof contrastLevels)[number]
 
 const iconStyle = {
-  medium: "text-foreground [&_circle]:opacity-0",
-  low: "text-foreground [&_path]:opacity-0",
-  high: "text-foreground",
+  medium: "text-foreground",
+  low: "text-foreground [&_circle]:opacity-0",
+  high: "text-foreground [&_path]:opacity-0",
 } as const
 
 export function ContrastToggle() {
@@ -25,9 +25,22 @@ export function ContrastToggle() {
     }
   }, [])
 
+  const [direction, setDirection] = useState<1 | -1>(1)
+
   const cycleContrast = () => {
-    const currentIndex = contrastLevels.indexOf(contrast)
-    const next = contrastLevels[(currentIndex + 1) % contrastLevels.length]
+    const sequence: ContrastLevel[] = ["low", "medium", "high"]
+    const currentIndex = sequence.indexOf(contrast)
+    let nextIndex = currentIndex + direction
+    let nextDirection = direction
+    if (nextIndex >= sequence.length) {
+      nextIndex = sequence.length - 2
+      nextDirection = -1
+    } else if (nextIndex < 0) {
+      nextIndex = 1
+      nextDirection = 1
+    }
+    setDirection(nextDirection as 1 | -1)
+    const next = sequence[nextIndex]
     const html = document.documentElement
     // Disable transitions for instant switch
     const all = document.querySelectorAll("*")
