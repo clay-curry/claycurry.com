@@ -57,6 +57,10 @@ export default function RootLayout({
       document.documentElement.classList.remove('dark');
       document.documentElement.classList.add('light');
     }
+    var c = localStorage.getItem('tron-contrast');
+    if (c === 'high' || c === 'low') {
+      document.documentElement.classList.add('contrast-' + c);
+    }
     var t = localStorage.getItem('tron-theme');
     if (t && ['cyan','orange','red','green'].includes(t)) {
       document.documentElement.classList.add('theme-' + t);
