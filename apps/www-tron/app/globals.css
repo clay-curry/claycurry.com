@@ -32,8 +32,7 @@
    Chroma values pushed to sRGB gamut edge for neon fluorescence. */
 .theme-cyan   { --src-primary-h: 195; --src-primary-c: 0.22; --src-secondary-h: 68;  --src-secondary-c: 0.24; } /* Sam Flynn / Light Cycle cyan */
 .theme-orange { --src-primary-h: 68;  --src-primary-c: 0.24; --src-secondary-h: 195; --src-secondary-c: 0.22; } /* CLU Follower hot orange */
-.theme-gold   { --src-primary-h: 88;  --src-primary-c: 0.22; --src-secondary-h: 34;  --src-secondary-c: 0.28; } /* CLU sunny yellow */
-.theme-red    { --src-primary-h: 34;  --src-primary-c: 0.28; --src-secondary-h: 88;  --src-secondary-c: 0.22; } /* BlackGuard neon red-orange */
+.theme-red    { --src-primary-h: 29;  --src-primary-c: 0.21; --src-secondary-h: 88;  --src-secondary-c: 0.22; } /* #C60504 neon red */
 .theme-green  { --src-primary-h: 145; --src-primary-c: 0.26; --src-secondary-h: 195; --src-secondary-c: 0.22; } /* Neon lime green */
 
 /* ══ COLOR ROLES (Dark Scheme) ══ */

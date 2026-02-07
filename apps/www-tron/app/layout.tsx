@@ -52,7 +52,7 @@ export default function RootLayout({
             __html: `(function(){
   try {
     var t = localStorage.getItem('tron-theme');
-    if (t && ['cyan','orange','gold','red','green'].includes(t)) {
+    if (t && ['cyan','orange','red','green'].includes(t)) {
       document.documentElement.classList.add('theme-' + t);
     }
   } catch(e) {}

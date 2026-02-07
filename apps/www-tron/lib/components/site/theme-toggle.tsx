@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 
 import { Button } from "@/lib/components/ui/button"
 
-const themePresets = ["cyan", "orange", "gold", "red", "green"] as const
+const themePresets = ["cyan", "orange", "red", "green"] as const
 type ThemePreset = (typeof themePresets)[number]
 
 export function ThemeToggle() {
