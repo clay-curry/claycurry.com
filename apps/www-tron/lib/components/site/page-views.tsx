@@ -86,12 +86,12 @@ export function usePageViews(
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
 
-  // Prevent double-incrementing in React Strict Mode
-  const hasTracked = useRef(false)
+  // Track which slug was last incremented to prevent Strict Mode double-fires
+  // while still allowing updates when the slug changes across navigations
+  const trackedSlug = useRef<string | null>(null)
 
   useEffect(() => {
-    // Skip if we've already tracked this slug in this component instance
-    if (increment && hasTracked.current) {
+    if (increment && trackedSlug.current === slug) {
       return
     }
 
@@ -100,14 +100,9 @@ export function usePageViews(
         setIsLoading(true)
         setError(null)
 
-        // Check localStorage to see if tracking is enabled
-        const trackingEnabled = localStorage.getItem('track-views') !== 'false'
-        const shouldIncrement = increment && trackingEnabled
+        if (increment) {
+          trackedSlug.current = slug
 
-        if (shouldIncrement) {
-          hasTracked.current = true
-
-          // Increment and get count
           const response = await fetch('/api/views', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -121,7 +116,6 @@ export function usePageViews(
           const data = await response.json()
           setCount(data.count)
         } else {
-          // Just get count without incrementing
           const response = await fetch(
             `/api/views?slug=${encodeURIComponent(slug)}`,
           )

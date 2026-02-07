@@ -45,7 +45,21 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){
+  try {
+    var t = localStorage.getItem('tron-theme');
+    if (t && ['cyan','orange','red','green'].includes(t)) {
+      document.documentElement.classList.add('theme-' + t);
+    }
+  } catch(e) {}
+})()`,
+          }}
+        />
+      </head>
       <body className={`${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}>
         <div className="grid-background" aria-hidden="true" />
         <ChatProvider>
