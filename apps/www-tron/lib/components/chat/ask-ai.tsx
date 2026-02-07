@@ -23,6 +23,7 @@ export function AskAI({ mode = 'drawer' }: AskAIProps) {
     <Button
       variant="outline"
       size="lg"
+      data-click-id="nav:ask-ai-drawer"
       className="flex items-center gap-1.5 h-8 shrink-0 shadow-none"
       onClick={handleClick}
     >

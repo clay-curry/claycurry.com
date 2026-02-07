@@ -9,10 +9,18 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Material Design 3 inspired color derivation chain
 - TRON Legacy theme presets (cyan, orange, red, green)
 - Cookie-based page view deduplication
+- Click counter system with Redis persistence and toggle overlay
+- Light/dark mode toggle
+- Contrast toggle with low/medium/high presets
 
 ### Changed
 - Tuned red theme to match #C60504
 - Consolidated view counter components
+- Moved theme toggle to footer, cleaned up nav
+- Fixed grid background rendering
+
+### Fixed
+- Light mode colors and instant mode switching
 
 ### Removed
 - Gold theme preset

@@ -30,9 +30,9 @@ export default function ResumePage() {
           name="Clay Curry"
           title="Software Engineer"
           addressList={[
-            { text: 'X', href: profileData.social.x },
-            { text: 'GitHub', href: profileData.social.github },
-            { text: 'LinkedIn', href: profileData.social.linkedin },
+            { text: 'X', href: profileData.social.x, clickId: 'resume:x' },
+            { text: 'GitHub', href: profileData.social.github, clickId: 'resume:github' },
+            { text: 'LinkedIn', href: profileData.social.linkedin, clickId: 'resume:linkedin' },
           ]}
         />
 
@@ -41,7 +41,7 @@ export default function ResumePage() {
           <AccordionSectionHeader icon={Briefcase}>Experience</AccordionSectionHeader>
           <AccordionSectionContent defaultValue="item-1">
             <AccordionItem value="item-1">
-              <AccordionTrigger className="font-semibold text-muted-foreground">
+              <AccordionTrigger data-click-id="resume:accordion:experience-1" className="font-semibold text-muted-foreground">
                 <AccordionHeader
                   title="Amazon.com. Software Dev Engineer."
                   date="1 year, 2 months"
@@ -72,7 +72,7 @@ export default function ResumePage() {
             </AccordionItem>
 
             <AccordionItem value="item-2">
-              <AccordionTrigger className="font-semibold text-muted-foreground">
+              <AccordionTrigger data-click-id="resume:accordion:experience-2" className="font-semibold text-muted-foreground">
                 <AccordionHeader
                   title="University of Oklahoma. Linux System Administrator."
                   date="2 years, 10 months"
@@ -94,7 +94,7 @@ export default function ResumePage() {
             </AccordionItem>
 
             <AccordionItem value="item-3">
-              <AccordionTrigger className="font-semibold text-muted-foreground">
+              <AccordionTrigger data-click-id="resume:accordion:experience-3" className="font-semibold text-muted-foreground">
                 <AccordionHeader
                   title="University of Oklahoma. Computer Vision Research Assistant."
                   date="1 year, 2 months"
@@ -121,7 +121,7 @@ export default function ResumePage() {
           <AccordionSectionHeader icon={BookOpen}>Education</AccordionSectionHeader>
           <AccordionSectionContent>
             <AccordionItem value="edu-1">
-              <AccordionTrigger className="font-semibold text-muted-foreground">
+              <AccordionTrigger data-click-id="resume:accordion:education-1" className="font-semibold text-muted-foreground">
                 <AccordionHeader
                   title="University of Oklahoma. Computer Science, B.S."
                   date="Dec 2023"
@@ -168,7 +168,7 @@ export default function ResumePage() {
           <AccordionSectionHeader icon={Award}>Certifications and Awards</AccordionSectionHeader>
           <AccordionSectionContent>
             <AccordionItem value="cert-1">
-              <AccordionTrigger className="font-semibold text-muted-foreground">
+              <AccordionTrigger data-click-id="resume:accordion:cert-1" className="font-semibold text-muted-foreground">
                 <AccordionHeader
                   title="AWS Solutions Architect – Professional"
                   date="Nov 2025"
@@ -184,7 +184,7 @@ export default function ResumePage() {
             </AccordionItem>
 
             <AccordionItem value="award-1">
-              <AccordionTrigger className="font-semibold text-muted-foreground">
+              <AccordionTrigger data-click-id="resume:accordion:award-1" className="font-semibold text-muted-foreground">
                 <AccordionHeader
                   title="Oklahoma Rising Scholars Award"
                   date="May 2017"
@@ -269,7 +269,7 @@ const HeaderSection = ({
 }: {
   name: string
   title: string
-  addressList: { text: string; href?: string }[]
+  addressList: { text: string; href?: string; clickId?: string }[]
 }) => (
   <div className="w-full py-8 tracking-tight text-center">
     <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl text-foreground text-shadow-none">
@@ -287,7 +287,7 @@ const HeaderSection = ({
 const AddressList = ({
   items,
 }: {
-  items: { text: string; href?: string }[]
+  items: { text: string; href?: string; clickId?: string }[]
 }) => {
   return items
     .map((element) =>
@@ -295,6 +295,7 @@ const AddressList = ({
         <a
           href={element.href}
           key={element.href}
+          data-click-id={element.clickId}
           className="text-primary underline hover:text-primary/70 transition-colors cursor-pointer"
         >
           {element.text}

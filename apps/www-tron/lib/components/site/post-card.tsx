@@ -4,7 +4,7 @@ import type { PostMetadata } from '@/app/(portfolio)/blog/loader'
 
 export function PostCard({ post }: { post: PostMetadata }) {
   return (
-    <Link href={`/blog/${post.slug}`} className="block">
+    <Link href={`/blog/${post.slug}`} data-click-id={`blog:post:${post.slug}`} className="block">
       <article className="group bg-secondary rounded-xl md:rounded-2xl border border-border overflow-hidden hover:border-accent hover:shadow-lg hover:shadow-accent/10 transition-all duration-300 h-full">
         <div className="p-4 md:p-5 flex flex-col h-full">
           <div className="flex items-center gap-2 flex-wrap text-xs text-muted-foreground mb-3">

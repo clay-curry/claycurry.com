@@ -4,6 +4,7 @@ import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from 'sonner'
 import { ChatProvider } from '@/lib/providers/chat-provider'
+import { ClickCountProvider } from '@/lib/providers/click-count-provider'
 
 import 'tw-animate-css'
 import 'katex/dist/katex.min.css'
@@ -51,6 +52,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `(function(){
   try {
+    var m = localStorage.getItem('tron-mode');
+    if (m === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    }
     var t = localStorage.getItem('tron-theme');
     if (t && ['cyan','orange','red','green'].includes(t)) {
       document.documentElement.classList.add('theme-' + t);
@@ -62,9 +68,11 @@ export default function RootLayout({
       </head>
       <body className={`${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}>
         <div className="grid-background" aria-hidden="true" />
-        <ChatProvider>
-          {children}
-        </ChatProvider>
+        <ClickCountProvider>
+          <ChatProvider>
+            {children}
+          </ChatProvider>
+        </ClickCountProvider>
         <Toaster theme="dark" position="bottom-right" />
         <Analytics />
       </body>

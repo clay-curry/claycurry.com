@@ -27,7 +27,7 @@ export function HeroContactAskAI() {
         className="px-4 py-2 h-9 md:text-[0.8rem] shadow-none rounded-4xl bg-muted-foreground/30 hover:bg-muted-foreground/40 cursor-pointer"
         asChild
       >
-        <Link className="text-white hover:text-white" href="/contact">
+        <Link className="text-white hover:text-white" href="/contact" data-click-id="hero:contact">
           Contact
           <IconArrowRight className="size-4 -rotate-45" />
         </Link>
@@ -39,6 +39,7 @@ export function HeroContactAskAI() {
         <Button
           variant="default"
           size="lg"
+          data-click-id="hero:ask-ai"
           className="h-9 md:text-[0.8rem] shadow-none rounded-l-4xl rounded-r-none border-r border-r-primary-foreground/20 cursor-pointer text-white!"
           onClick={() => setIsDialogOpen(true)}
         >
@@ -52,6 +53,7 @@ export function HeroContactAskAI() {
             <Button
               variant="default"
               size="lg"
+              data-click-id="hero:model-select"
               className="h-9 px-2.5! shadow-none rounded-r-4xl rounded-l-none cursor-pointer text-white!"
             >
               <ChevronDown className="size-4" />

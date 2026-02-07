@@ -15,6 +15,7 @@ export function ScrollToTop() {
   return (
     <button
       className={actionStyles}
+      data-click-id="post:scroll-top"
       onClick={handleScrollToTop}
       type="button"
     >
@@ -39,6 +40,7 @@ export function CopyPage() {
   return (
     <button
       className={actionStyles}
+      data-click-id="post:copy"
       onClick={handleCopy}
       type="button"
     >
@@ -64,6 +66,7 @@ export function CopyPageButton() {
     <Button
       variant="secondary"
       size="sm"
+      data-click-id="post:copy-button"
       onClick={handleCopy}
       className="shadow-none shrink-0"
       title={copied ? 'Copied!' : 'Copy Page'}
@@ -80,6 +83,7 @@ export function EditOnGitHub({ slug }: { slug: string }) {
   return (
     <a
       className={actionStyles}
+      data-click-id="post:edit-github"
       href={url}
       rel="noopener noreferrer"
       target="_blank"
@@ -96,6 +100,7 @@ export function GiveFeedback({ slug }: { slug: string }) {
   return (
     <a
       className={actionStyles}
+      data-click-id="post:feedback"
       href={url}
       rel="noopener noreferrer"
       target="_blank"
@@ -112,6 +117,7 @@ export function AskAI({ slug }: { slug: string }) {
   return (
     <a
       className={actionStyles}
+      data-click-id="post:ask-ai"
       href={url}
       rel="noopener noreferrer"
       target="_blank"
@@ -128,6 +134,7 @@ export function OpenInChat({ slug }: { slug: string }) {
   return (
     <a
       className={actionStyles}
+      data-click-id="post:open-chat"
       href={url}
       rel="noopener noreferrer"
       target="_blank"
@@ -145,6 +152,7 @@ export function ShareOnX({ slug, title }: { slug: string; title: string }) {
   return (
     <a
       className={actionStyles}
+      data-click-id="post:share-x"
       href={url}
       rel="noopener noreferrer"
       target="_blank"
@@ -165,6 +173,7 @@ export function ShareOnLinkedIn({ slug }: { slug: string }) {
   return (
     <a
       className={actionStyles}
+      data-click-id="post:share-linkedin"
       href={url}
       rel="noopener noreferrer"
       target="_blank"

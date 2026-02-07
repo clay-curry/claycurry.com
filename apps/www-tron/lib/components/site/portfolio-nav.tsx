@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, MessagesSquare, Github } from 'lucide-react'
-import { ThemeToggle } from '@/lib/components/site/theme-toggle'
+import { Menu, MessagesSquare } from 'lucide-react'
+
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { motion } from 'motion/react'
 import { useChatUI } from '@/lib/hooks/use-chat-ui'
@@ -48,6 +48,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
             <Link
               key={section.label}
               href={section.href}
+              data-click-id={`nav:${section.label}`}
               className={`relative px-3 py-1.5 rounded-md text-sm font-medium capitalize transition-colors ${
                 activeSection === section.label
                   ? 'text-accent'
@@ -71,26 +72,13 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
           {/* Ask AI button */}
           <button
             type="button"
+            data-click-id="nav:ask-ai"
             className="inline-flex items-center gap-1.5 h-8 px-2.5 text-sm font-medium rounded-xl border border-border/40 text-foreground/80 bg-muted/50 hover:bg-muted transition-colors cursor-pointer"
             onClick={() => setIsDialogOpen(true)}
           >
             <MessagesSquare className="size-3.5" />
             Ask AI
           </button>
-
-          {/* GitHub link */}
-          <a
-            href={profileData.social.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center h-8 w-8 rounded-xl text-foreground/80 bg-muted/50 hover:bg-muted transition-colors"
-            aria-label="GitHub"
-          >
-            <Github className="size-4" />
-          </a>
-
-          {/* Theme toggle */}
-          <ThemeToggle />
 
           {/* Mobile hamburger menu */}
           {mounted ? (
@@ -99,6 +87,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
                 <Button
                   variant="ghost"
                   size="icon"
+                  data-click-id="nav:menu"
                   className="md:hidden h-8 w-8"
                   aria-label="Open menu"
                 >
@@ -115,6 +104,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
                       <Link
                         key={section.label}
                         href={section.href}
+                        data-click-id={`nav:mobile-${section.label}`}
                         onClick={() => setOpen(false)}
                         className={`px-4 py-3 rounded-lg text-sm font-medium capitalize transition-colors ${
                           activeSection === section.label
