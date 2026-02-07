@@ -2,14 +2,14 @@
 
 import { MessagesSquare } from 'lucide-react'
 import { Button } from '@/lib/components/ui/button'
-import { useChatContext } from '@/lib/hooks/use-chat'
+import { useChatUI } from '@/lib/hooks/use-chat-ui'
 
 interface AskAIProps {
   mode?: 'drawer' | 'dialog'
 }
 
 export function AskAI({ mode = 'drawer' }: AskAIProps) {
-  const { setIsDrawerOpen, setIsDialogOpen } = useChatContext()
+  const { setIsDrawerOpen, setIsDialogOpen } = useChatUI()
 
   const handleClick = () => {
     if (mode === 'dialog') {

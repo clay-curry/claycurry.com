@@ -1,21 +1,18 @@
 "use client";
 
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
-import { ChevronRightIcon, GlobeIcon, MessagesSquareIcon, Trash } from "lucide-react";
+import { ChevronRightIcon, MessagesSquareIcon } from "lucide-react";
 import { Portal } from "radix-ui";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import type { MyUIMessage } from "@/app/api/chat/types";
 import {
   Conversation,
   ConversationContent,
-  ConversationScrollButton
+  ConversationScrollButton,
 } from "@/lib/components/chat/conversation";
 import {
   Message,
   MessageContent,
-  MessageResponse
+  MessageResponse,
 } from "@/lib/components/chat/message";
 import {
   PromptInput,
@@ -26,68 +23,64 @@ import {
   type PromptInputProps,
   PromptInputProvider,
   PromptInputSubmit,
-  PromptInputTextarea
+  PromptInputTextarea,
 } from "@/lib/components/chat/prompt-input";
 import { Shimmer } from "@/lib/components/chat/shimmer";
 import { Suggestion, Suggestions } from "@/lib/components/chat/suggestion";
 import { Button } from "@/lib/components/ui/button";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/lib/components/ui/drawer";
-import { useChatContext, useChatPersistence } from "@/lib/hooks/use-chat";
-import { CHAT_MODELS } from "@/lib/providers/chat-provider";
-import { useIsMobile } from "@/lib/hooks/use-mobile";
-import { cn } from "@/lib/utils";
-import { ButtonGroup } from "@/lib/components/ui/button-group";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+} from "@/lib/components/ui/drawer";
 import { Kbd, KbdGroup } from "@/lib/components/ui/kbd";
 import { Spinner } from "@/lib/components/ui/spinner";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/lib/components/ui/tooltip";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/lib/components/ui/select";
-import { CopyChat } from "./copy-chat";
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/lib/components/ui/tooltip";
+import { useChatSession } from "@/lib/hooks/use-chat-session";
+import { useChatUI } from "@/lib/hooks/use-chat-ui";
+import { useIsMobile } from "@/lib/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import { ChatToolbar } from "./chat-toolbar";
 import { MessageMetadata } from "./message-metadata";
 import {
   Reasoning,
   ReasoningContent,
-  ReasoningTrigger
+  ReasoningTrigger,
 } from "@/lib/components/chat/reasoning";
 import {
   Source,
   Sources,
   SourcesContent,
-  SourcesTrigger
+  SourcesTrigger,
 } from "./sources";
 
-type ChatProps = {
+type ChatDrawerProps = {
   basePath?: string;
   suggestions: string[];
 };
 
-const ChatInner = ({ basePath, suggestions }: ChatProps) => {
-  const [isInitialized, setIsInitialized] = useState(false);
+const ChatDrawerContent = ({ basePath, suggestions }: ChatDrawerProps) => {
   const [localPrompt, setLocalPrompt] = useState("");
   const [providerKey, setProviderKey] = useState(0);
-  const [model, setModel] = useState<string>(CHAT_MODELS[0].value);
-  const [webSearch, setWebSearch] = useState(false);
-  const { prompt, setPrompt, setIsDrawerOpen } = useChatContext();
-  const { initialMessages, isLoading, saveMessages, clearMessages } =
-    useChatPersistence();
+  const { prompt, setPrompt, setIsDrawerOpen } = useChatUI();
+  const {
+    messages,
+    status,
+    model,
+    webSearch,
+    isLoading,
+    send,
+    clear,
+    stop,
+    setModel,
+    setWebSearch,
+  } = useChatSession({ context: "general", basePath });
 
-  const { messages, sendMessage, status, setMessages, stop } = useChat({
-    transport: new DefaultChatTransport({
-      api: basePath ? `${basePath}/api/chat` : "/api/chat"
-    }),
-    onError: (error) => {
-      toast.error(error.message, {
-        description: error.message
-      });
-    }
-  });
-
-  // Sync external prompt changes to local state and force provider remount
+  // Sync external prompt to local state and force provider remount
   useEffect(() => {
     if (prompt && prompt !== localPrompt) {
       setLocalPrompt(prompt);
@@ -95,131 +88,55 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
     }
   }, [prompt, localPrompt]);
 
-  // Set initial messages once loaded from IndexedDB
-  useEffect(() => {
-    if (!(isLoading || isInitialized) && initialMessages.length > 0) {
-      setMessages(initialMessages);
-      setIsInitialized(true);
-    } else if (!(isLoading || isInitialized)) {
-      // Mark as initialized even if no messages to avoid infinite re-runs
-      setIsInitialized(true);
-    }
-  }, [isLoading, initialMessages, isInitialized, setMessages]);
-
-  // Save messages to IndexedDB whenever they change (but only after initialization)
-  useEffect(() => {
-    if (isInitialized && messages.length > 0) {
-      saveMessages(messages);
-    }
-  }, [messages, saveMessages, isInitialized]);
-
   const handleSuggestionClick = (suggestion: string) => {
-    stop();
     setLocalPrompt("");
     setPrompt("");
-    void sendMessage({ text: suggestion }, { body: { model, webSearch } });
+    send(suggestion);
   };
 
   const handleSubmit: PromptInputProps["onSubmit"] = (message, event) => {
     event.preventDefault();
-
-    const { text } = message;
-
-    if (!text) {
-      return;
-    }
-
-    stop();
+    if (!message.text) return;
     setLocalPrompt("");
     setPrompt("");
-    void sendMessage({ text }, { body: { model, webSearch } });
+    send(message.text);
   };
 
-  const handleClearChat = async () => {
-    try {
-      // Cancel any active stream first
-      stop();
-      await clearMessages();
-      setMessages([]);
-      toast.success("Chat history cleared");
-    } catch (error) {
-      toast.error("Failed to clear chat history", {
-        description: error instanceof Error ? error.message : "Unknown error"
-      });
-    }
-  };
-
-  // Show loading state while initial messages are being loaded
   if (isLoading) {
     return (
-      <div className="flex size-full w-full flex-col items-center justify-center overflow-hidden rounded-xl xl:max-w-md xl:border xl:bg-background">
+      <div className="flex size-full w-full flex-col items-center justify-center overflow-hidden">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <div className="flex size-full w-full flex-col overflow-hidden bg-background">
-      <div className="flex items-center justify-between px-4 py-2.5 border-b">
-        <div className="flex items-center gap-2">
-          <Select value={model} onValueChange={setModel}>
-            <SelectTrigger className="h-7 w-auto gap-1 text-xs border-none shadow-none">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {CHAT_MODELS.map((m) => (
-                <SelectItem key={m.value} value={m.value}>
-                  {m.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+    <div
+      className="flex size-full w-full flex-col overflow-hidden bg-background"
+      data-state={status}
+    >
+      <ChatToolbar
+        messages={messages}
+        model={model}
+        onModelChange={setModel}
+        webSearch={webSearch}
+        onWebSearchChange={setWebSearch}
+        onClear={clear}
+        closeButton={
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
+                onClick={() => setIsDrawerOpen(false)}
                 size="icon-sm"
-                variant={webSearch ? "default" : "ghost"}
-                onClick={() => setWebSearch(!webSearch)}
+                variant="ghost"
               >
-                <GlobeIcon className="size-3.5" />
+                <ChevronRightIcon className="size-3.5" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
-              {webSearch ? "Web search enabled" : "Enable web search"}
-            </TooltipContent>
+            <TooltipContent>Close chat</TooltipContent>
           </Tooltip>
-        </div>
-        <div className="flex items-center gap-3">
-          <ButtonGroup orientation="horizontal">
-            <CopyChat messages={messages} />
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  disabled={messages.length === 0}
-                  onClick={handleClearChat}
-                  size="icon-sm"
-                  variant="ghost"
-                >
-                  <Trash className="size-3.5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Clear chat</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  onClick={() => setIsDrawerOpen(false)}
-                  size="icon-sm"
-                  variant="ghost"
-                >
-                  <ChevronRightIcon className="size-3.5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Close chat</TooltipContent>
-            </Tooltip>
-          </ButtonGroup>
-        </div>
-      </div>
+        }
+      />
 
       <Conversation>
         <ConversationContent>
@@ -233,7 +150,6 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
               const hasText = message.parts.some(
                 (part) => part.type === "text" && part.text
               );
-              // Include message if it has text OR if it's actively streaming
               return hasText || isStreaming;
             })
             .map((message, index, filteredMessages) => {
@@ -256,7 +172,6 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
 
               return (
                 <div key={message.id}>
-                  {/* Sources display */}
                   {isAssistantMessage && sourceParts.length > 0 && (
                     <Sources>
                       <SourcesTrigger count={sourceParts.length} />
@@ -264,22 +179,24 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
                         {sourceParts.map((part, i) => (
                           <Source
                             key={`${message.id}-source-${i}`}
-                            href={(part as { type: "source-url"; url: string }).url}
-                            title={(part as { type: "source-url"; url: string }).url}
+                            href={
+                              (part as { type: "source-url"; url: string }).url
+                            }
+                            title={
+                              (part as { type: "source-url"; url: string }).url
+                            }
                           />
                         ))}
                       </SourcesContent>
                     </Sources>
                   )}
 
-                  {/* Reasoning display */}
                   {reasoningParts.map((part, i) => (
                     <Reasoning
                       key={`${message.id}-reasoning-${i}`}
                       className="w-full mb-2"
                       isStreaming={
-                        isStreaming &&
-                        i === reasoningParts.length - 1
+                        isStreaming && i === reasoningParts.length - 1
                       }
                     >
                       <ReasoningTrigger />
@@ -357,7 +274,7 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
             <p className="text-muted-foreground text-sm">
               Tip: You can open and close chat with{" "}
               <KbdGroup>
-                <Kbd className="border bg-transparent">⌘</Kbd>
+                <Kbd className="border bg-transparent">&#8984;</Kbd>
                 <Kbd className="border bg-transparent">I</Kbd>
               </KbdGroup>
             </p>
@@ -390,13 +307,12 @@ const ChatInner = ({ basePath, suggestions }: ChatProps) => {
   );
 };
 
-export const ChatDrawer = ({ basePath, suggestions }: ChatProps) => {
-  const { isDrawerOpen, setIsDrawerOpen } = useChatContext();
+export function ChatDrawer({ basePath, suggestions }: ChatDrawerProps) {
+  const { isDrawerOpen, setIsDrawerOpen } = useChatUI();
   const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Check for Meta (⌘ on Mac, Windows key on Windows) + "i" (ignore case)
       if (
         (event.metaKey || event.ctrlKey) &&
         !event.altKey &&
@@ -404,16 +320,12 @@ export const ChatDrawer = ({ basePath, suggestions }: ChatProps) => {
         event.key.toLowerCase() === "i"
       ) {
         event.preventDefault();
-
         setIsDrawerOpen((prev) => !prev);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [setIsDrawerOpen]);
 
   return (
@@ -438,7 +350,7 @@ export const ChatDrawer = ({ basePath, suggestions }: ChatProps) => {
           )}
           data-state={isDrawerOpen ? "open" : "closed"}
         >
-          <ChatInner basePath={basePath} suggestions={suggestions} />
+          <ChatDrawerContent basePath={basePath} suggestions={suggestions} />
         </div>
       </Portal.Root>
       <div className="md:hidden">
@@ -453,10 +365,13 @@ export const ChatDrawer = ({ basePath, suggestions }: ChatProps) => {
             </Button>
           </DrawerTrigger>
           <DrawerContent className="h-[80dvh]">
-            <ChatInner basePath={basePath} suggestions={suggestions} />
+            <ChatDrawerContent
+              basePath={basePath}
+              suggestions={suggestions}
+            />
           </DrawerContent>
         </Drawer>
       </div>
     </>
   );
-};
+}

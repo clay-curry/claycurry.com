@@ -5,8 +5,8 @@ import { ChevronDown } from "lucide-react"
 import Link from "next/link"
 
 import { Button } from "@/lib/components/ui/button"
-import { useChatContext } from "@/lib/hooks/use-chat"
-import { CHAT_MODELS } from "@/lib/providers/chat-provider"
+import { useChatUI } from "@/lib/hooks/use-chat-ui"
+import { CHAT_MODELS } from "@/lib/hooks/use-chat-session"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +16,7 @@ import {
 } from "@/lib/components/ui/dropdown-menu"
 
 export function HeroContactAskAI() {
-  const { setIsDialogOpen, model, setModel } = useChatContext()
+  const { setIsDialogOpen, model, setModel } = useChatUI()
 
   return (
     <div className="inline-flex items-center gap-4">

@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Menu, MessagesSquare, Github } from 'lucide-react'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { motion } from 'motion/react'
-import { useChatContext } from '@/lib/hooks/use-chat'
+import { useChatUI } from '@/lib/hooks/use-chat-ui'
 import { Button } from '@/lib/components/ui/button'
 import { InitialsAvatar } from '@/lib/components/ui/initials-avatar'
 import {
@@ -23,7 +23,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
   const activeSection = pathname === '/' ? 'about' : pathname.split('/')[1]
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
-  const { setIsDialogOpen } = useChatContext()
+  const { setIsDialogOpen } = useChatUI()
 
   // Delay rendering of Radix components to avoid hydration mismatch
   useEffect(() => {

@@ -1,18 +1,9 @@
 "use client";
 
 import { createContext, useContext, type ReactNode } from "react";
-import { ChatDrawer } from "@/lib/components/chat/chat";
+import { ChatDrawer } from "@/lib/components/chat/chat-drawer";
 import { ChatDialog } from "@/lib/components/chat/chat-dialog";
-import { useChatContext } from "@/lib/hooks/use-chat";
-
-// Models available for chat
-export const CHAT_MODELS = [
-  { name: "Grok 3 Mini", value: "grok/grok-3-mini" },
-  { name: "Claude Haiku", value: "anthropic/claude-3-haiku-20240307" },
-  { name: "GPT 4o", value: "openai/gpt-4o" },
-] as const;
-
-export type ChatModel = (typeof CHAT_MODELS)[number];
+import { useChatUI } from "@/lib/hooks/use-chat-ui";
 
 // Context for suggestions (passed from provider)
 const ChatSuggestionsContext = createContext<string[]>([]);
@@ -22,18 +13,18 @@ export const useChatSuggestions = () => useContext(ChatSuggestionsContext);
 const DEFAULT_SUGGESTIONS = [
   "What are Clay's skills?",
   "Favorite 5 ice cream flavors?",
-  "Meaning of life?"
+  "Meaning of life?",
 ];
 
-// Provider component that renders Chat when open
+// Pure context provider for suggestions + chat surface mounting
 export function ChatProvider({
   children,
-  suggestions = DEFAULT_SUGGESTIONS
+  suggestions = DEFAULT_SUGGESTIONS,
 }: {
   children: ReactNode;
   suggestions?: string[];
 }) {
-  const { isDrawerOpen } = useChatContext();
+  const { isDrawerOpen } = useChatUI();
 
   return (
     <ChatSuggestionsContext.Provider value={suggestions}>

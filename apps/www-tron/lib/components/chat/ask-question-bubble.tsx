@@ -2,11 +2,11 @@
 
 import { useState } from 'react'
 import { ArrowUp } from 'lucide-react'
-import { useChatContext } from '@/lib/hooks/use-chat'
+import { useChatUI } from '@/lib/hooks/use-chat-ui'
 
 export function AskQuestionBubble() {
   const [question, setQuestion] = useState('')
-  const { setPrompt, setIsDialogOpen } = useChatContext()
+  const { setPrompt, setIsDialogOpen } = useChatUI()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
