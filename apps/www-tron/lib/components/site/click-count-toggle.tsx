@@ -21,11 +21,8 @@ export function ClickCountToggle() {
         className={cn(
           "size-3.5",
           enabled
-            ? "text-accent fill-accent"
-            : "fill-foreground",
-          "stroke-transparent group-hover:stroke-transparent",
-          "[&_path]:stroke-background",
-          "[paint-order:stroke]",
+            ? "text-accent"
+            : "text-foreground",
         )}
       />
     </button>
