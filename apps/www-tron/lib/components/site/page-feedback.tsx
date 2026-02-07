@@ -66,6 +66,7 @@ export function PageFeedback({ label = 'Was this page helpful?' }: PageFeedbackP
           <Button
             variant={sentiment === 'positive' ? 'default' : 'outline'}
             size="sm"
+            data-click-id="footer:feedback-yes"
             onClick={() => handleSentimentClick('positive')}
             className="gap-1.5"
           >
@@ -75,6 +76,7 @@ export function PageFeedback({ label = 'Was this page helpful?' }: PageFeedbackP
           <Button
             variant={sentiment === 'negative' ? 'default' : 'outline'}
             size="sm"
+            data-click-id="footer:feedback-no"
             onClick={() => handleSentimentClick('negative')}
             className="gap-1.5"
           >
@@ -98,6 +100,7 @@ export function PageFeedback({ label = 'Was this page helpful?' }: PageFeedbackP
               onClick={handleSubmit}
               disabled={isSubmitting}
               size="sm"
+              data-click-id="footer:feedback-submit"
               className="gap-1.5"
             >
               {isSubmitting ? (

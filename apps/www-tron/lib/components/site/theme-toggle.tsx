@@ -46,6 +46,7 @@ export function ThemeToggle() {
     <Button
       variant="outline"
       size="icon"
+      data-click-id="nav:theme"
       onClick={cycleTheme}
       title={`Theme: ${theme}. Click to cycle.`}
     >

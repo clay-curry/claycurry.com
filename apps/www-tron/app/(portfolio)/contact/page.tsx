@@ -98,6 +98,7 @@ export default function ContactPage() {
 
           <button
             type="submit"
+            data-click-id="contact:submit"
             disabled={isSubmitting}
             className="flex items-center justify-center gap-2 w-full md:w-auto md:ml-auto px-6 md:px-8 py-3 md:py-3.5 bg-accent-2 text-accent-2-foreground rounded-xl font-medium hover:shadow-lg hover:shadow-accent-2/20 hover:-translate-y-0.5 transition-all text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
           >
@@ -122,6 +123,7 @@ export default function ContactPage() {
             <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Email</h3>
             <a
               href={`mailto:${data.email}`}
+              data-click-id="contact:email"
               className="text-sm md:text-base text-foreground hover:text-accent transition-colors font-medium truncate block"
             >
               {data.email}
@@ -137,6 +139,7 @@ export default function ContactPage() {
             <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Phone</h3>
             <a
               href={`tel:${data.phone.replace(/\s/g, '')}`}
+              data-click-id="contact:phone"
               className="text-sm md:text-base text-foreground hover:text-accent transition-colors font-medium"
             >
               {data.phone}

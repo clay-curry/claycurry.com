@@ -34,10 +34,10 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
       {/* Contact Info */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 md:gap-4">
         {[
-          { icon: Mail, label: 'Email', value: data.email, href: `mailto:${data.email}`, breakAll: true },
-          { icon: Phone, label: 'Phone', value: data.phone, href: `tel:${data.phone.replace(/\s/g, '')}` },
+          { icon: Mail, label: 'Email', value: data.email, href: `mailto:${data.email}`, breakAll: true, clickId: 'sidebar:email' },
+          { icon: Phone, label: 'Phone', value: data.phone, href: `tel:${data.phone.replace(/\s/g, '')}`, clickId: 'sidebar:phone' },
           { icon: MapPin, label: 'Location', value: data.location },
-        ].map(({ icon: Icon, label, value, href, breakAll }) => (
+        ].map(({ icon: Icon, label, value, href, breakAll, clickId }) => (
           <div key={label} className="flex items-start gap-3 pl-2">
             <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
               <Icon className="w-5 h-5 text-primary" />
@@ -47,6 +47,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
               {href ? (
                 <a
                   href={href}
+                  data-click-id={clickId}
                   className={`text-sm text-foreground hover:text-accent transition-colors${breakAll ? ' break-all' : ''}`}
                 >
                   {value}
@@ -65,6 +66,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           href={data.social.x}
           target="_blank"
           rel="noopener noreferrer"
+          data-click-id="sidebar:x"
           className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
           aria-label="X"
         >
@@ -74,6 +76,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           href={data.social.github}
           target="_blank"
           rel="noopener noreferrer"
+          data-click-id="sidebar:github"
           className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
           aria-label="GitHub"
         >
@@ -83,6 +86,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           href={data.social.linkedin}
           target="_blank"
           rel="noopener noreferrer"
+          data-click-id="sidebar:linkedin"
           className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
           aria-label="LinkedIn"
         >

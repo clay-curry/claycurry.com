@@ -40,6 +40,7 @@ export function AskQuestionBubble() {
           <span className="text-xs text-muted-foreground hidden sm:inline">&#8984;I</span>
           <button
             type="submit"
+            data-click-id="post:ask-question"
             disabled={!question.trim()}
             className="size-8 flex items-center justify-center bg-accent text-accent-foreground rounded-full hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >

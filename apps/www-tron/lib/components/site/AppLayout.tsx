@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { PortfolioNav } from '@/lib/components/site/portfolio-nav'
 import { PageViews } from '@/lib/components/site/page-views'
-import { PageFeedback } from '@/lib/components/site/page-feedback'
+
+import { ClickCountToggle } from '@/lib/components/site/click-count-toggle'
 import { GitHubIcon, XIcon, LinkedInIcon } from '@/lib/components/icons'
 import { profileData } from '@/lib/portfolio-data'
 import type { NavLink } from '@/lib/navigation'
@@ -34,6 +35,7 @@ export function AppLayout({ children, navLinks }: { children: React.ReactNode; n
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
+              data-click-id={`footer:${link.label.toLowerCase()}`}
               className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent/20 transition-colors"
               aria-label={link.label}
             >
@@ -41,7 +43,7 @@ export function AppLayout({ children, navLinks }: { children: React.ReactNode; n
             </Link>
           ))}
         </div>
-        <PageFeedback />
+        <ClickCountToggle />
       </footer>
     </div>
   )
