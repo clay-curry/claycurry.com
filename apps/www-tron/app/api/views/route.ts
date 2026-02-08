@@ -15,35 +15,7 @@
  * @see https://nextjs.org/docs/app/building-your-application/routing/route-handlers
  */
 import { type NextRequest, NextResponse } from 'next/server'
-
-import { createClient } from 'redis'
-
-/** In-memory fallback store for local development when Redis is not configured */
-const inMemoryStore = new Map<string, number>()
-
-/** Lazily initialized Redis client singleton */
-let redisClient: ReturnType<typeof createClient> | null = null
-
-/**
- * Gets or initializes the Redis client connection.
- *
- * @returns The Redis client if configured, or null for in-memory fallback
- */
-async function getRedisClient() {
-  if (!process.env.KV_REST_API_REDIS_URL) {
-    return null
-  }
-
-  if (!redisClient) {
-    redisClient = createClient({
-      url: process.env.KV_REST_API_REDIS_URL,
-    })
-    redisClient.on('error', (err) => console.error('Redis Client Error', err))
-    await redisClient.connect()
-  }
-
-  return redisClient
-}
+import { getRedisClient, getInMemoryStore, keyPrefix } from '@/lib/redis'
 
 /**
  * Retrieves the current view count for a given page slug.
@@ -52,13 +24,14 @@ async function getRedisClient() {
  * @returns The current view count, or 0 if not found
  */
 async function getViewCount(slug: string): Promise<number> {
+  const inMemoryStore = getInMemoryStore()
   try {
     const client = await getRedisClient()
     if (!client) {
       return inMemoryStore.get(slug) ?? 0
     }
 
-    const count = await client.get(`pageviews:${slug}`)
+    const count = await client.get(`${keyPrefix()}pageviews:${slug}`)
     return count ? parseInt(count, 10) : 0
   } catch (err) {
     console.error('Redis get error:', err)
@@ -73,6 +46,7 @@ async function getViewCount(slug: string): Promise<number> {
  * @returns The new view count after incrementing
  */
 async function incrementViewCount(slug: string): Promise<number> {
+  const inMemoryStore = getInMemoryStore()
   try {
     const client = await getRedisClient()
     if (!client) {
@@ -82,7 +56,7 @@ async function incrementViewCount(slug: string): Promise<number> {
       return newCount
     }
 
-    const count = await client.incr(`pageviews:${slug}`)
+    const count = await client.incr(`${keyPrefix()}pageviews:${slug}`)
     return count
   } catch (err) {
     console.error('Redis incr error:', err)
