@@ -1,27 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { createClient } from 'redis'
-
-const inMemoryStore = new Map<string, number>()
-
-let redisClient: ReturnType<typeof createClient> | null = null
-
-async function getRedisClient() {
-  if (!process.env.KV_REST_API_REDIS_URL) {
-    return null
-  }
-
-  if (!redisClient) {
-    redisClient = createClient({
-      url: process.env.KV_REST_API_REDIS_URL,
-    })
-    redisClient.on('error', (err) => console.error('Redis Client Error', err))
-    await redisClient.connect()
-  }
-
-  return redisClient
-}
+import { getRedisClient, getInMemoryStore, keyPrefix } from '@/lib/redis'
 
 export async function GET() {
+  const inMemoryStore = getInMemoryStore()
   try {
     const client = await getRedisClient()
     if (!client) {
@@ -32,7 +13,7 @@ export async function GET() {
       return NextResponse.json({ counts })
     }
 
-    const raw = await client.hGetAll('clicks')
+    const raw = await client.hGetAll(`${keyPrefix()}clicks`)
     const counts: Record<string, number> = {}
     for (const [key, value] of Object.entries(raw)) {
       counts[key] = parseInt(value, 10)
@@ -49,6 +30,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const inMemoryStore = getInMemoryStore()
   try {
     const body = await request.json()
     const ids: string[] = body.ids
@@ -67,6 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     const counts: Record<string, number> = {}
+    const hashKey = `${keyPrefix()}clicks`
 
     try {
       const client = await getRedisClient()
@@ -81,7 +64,7 @@ export async function POST(request: NextRequest) {
       }
 
       for (const [id, n] of tally) {
-        const newCount = await client.hIncrBy('clicks', id, n)
+        const newCount = await client.hIncrBy(hashKey, id, n)
         counts[id] = newCount
       }
       return NextResponse.json({ counts })

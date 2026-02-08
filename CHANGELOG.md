@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-02-08
+
+### Changed
+- Namespaced Redis keys by environment (prod:, preview:, dev:) to isolate data
+
+### Removed
+- Contrast toggle button and related CSS
+- Weather effects feature (added and removed in same cycle)
+
 ## 2026-02-07
 
 ### Added

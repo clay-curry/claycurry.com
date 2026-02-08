@@ -435,3 +435,96 @@
 .animate-marquee-slow:hover {
   animation-play-state: paused;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WEATHER EFFECTS — all durations divide 60 s for a clean loop
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Sunny: particles float upward with gentle horizontal drift */
+@keyframes weather-float {
+  0% {
+    transform: translateY(0) translateX(var(--wx, 0px));
+    opacity: 0;
+  }
+  8% {
+    opacity: var(--wo, 0.12);
+  }
+  92% {
+    opacity: var(--wo, 0.12);
+  }
+  100% {
+    transform: translateY(calc(-100vh - 20px)) translateX(calc(var(--wx, 0px) + var(--wdx, 20px)));
+    opacity: 0;
+  }
+}
+
+/* Overcast: clouds drift horizontally across viewport */
+@keyframes weather-cloud {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(calc(100vw + 100%));
+  }
+}
+
+/* Rain fall: vertical descent with opacity fade-in / fade-out */
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  5% {
+    opacity: var(--wo, 0.18);
+  }
+  95% {
+    opacity: var(--wo, 0.18);
+  }
+  100% {
+    transform: translateY(calc(100vh + 20px));
+    opacity: 0;
+  }
+}
+
+/* Rain sway: horizontal sine-wave oscillation (ease-in-out ≈ sinusoidal) */
+@keyframes rain-sway {
+  0%, 100% {
+    transform: translateX(calc(-1 * var(--sway-amp, 10px)));
+  }
+  50% {
+    transform: translateX(var(--sway-amp, 10px));
+  }
+}
+
+/* Lightning: chaotic flicker-fade for each sub-flash */
+@keyframes weather-lightning {
+  0%   { opacity: 0; }
+  5%   { opacity: 1; }
+  12%  { opacity: 0.25; }
+  18%  { opacity: 0.9; }
+  30%  { opacity: 0.4; }
+  45%  { opacity: 0.7; }
+  65%  { opacity: 0.15; }
+  100% { opacity: 0; }
+}
+
+/* Shake: jitter during lightning, scaled by --shake-intensity */
+@keyframes weather-shake {
+  0%, 100% { transform: translate(0, 0); }
+  15%  { transform: translate(calc(-1.5px * var(--shake-intensity, 1)), calc(0.5px * var(--shake-intensity, 1))); }
+  30%  { transform: translate(calc(2px * var(--shake-intensity, 1)), calc(-1px * var(--shake-intensity, 1))); }
+  45%  { transform: translate(calc(-0.5px * var(--shake-intensity, 1)), calc(1.5px * var(--shake-intensity, 1))); }
+  60%  { transform: translate(calc(1px * var(--shake-intensity, 1)), calc(-1.5px * var(--shake-intensity, 1))); }
+  75%  { transform: translate(calc(-2px * var(--shake-intensity, 1)), calc(0.5px * var(--shake-intensity, 1))); }
+  90%  { transform: translate(calc(1.5px * var(--shake-intensity, 1)), calc(-0.5px * var(--shake-intensity, 1))); }
+}
+
+.animate-weather-shake {
+  animation: weather-shake 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-weather-shake {
+    animation: none;
+  }
+}
