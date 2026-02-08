@@ -5,12 +5,21 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## 2026-02-08
 
+### Added
+- Badge-style skill tags on homepage
+
 ### Changed
 - Namespaced Redis keys by environment (prod:, preview:, dev:) to isolate data
+- Updated X account handle to @claybuilds
+- Replaced moon icon with lightbulb in dark mode toggles
 
 ### Removed
 - Contrast toggle button and related CSS
 - Weather effects feature (added and removed in same cycle)
+- Old apps/www directory (replaced by apps/www-tron)
+- Old packages/www directory
+- Redundant GitHub link from footer
+- Stale npm lockfile
 
 ## 2026-02-07
 

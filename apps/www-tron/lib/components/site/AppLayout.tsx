@@ -5,8 +5,6 @@ import { DarkModeToggle } from "@/lib/components/site/dark-mode-toggle";
 import { PageViews } from "@/lib/components/site/page-views";
 import { PortfolioNav } from "@/lib/components/site/portfolio-nav";
 import { ThemeToggle } from "@/lib/components/site/theme-toggle";
-import { WeatherEffects } from "@/lib/components/site/weather-effects";
-import { WeatherToggle } from "@/lib/components/site/weather-toggle";
 import type { NavLink } from "@/lib/navigation";
 import { profileData } from "@/lib/portfolio-data";
 
@@ -25,10 +23,8 @@ export function AppLayout({
 }) {
   return (
     <div
-      data-weather-container
       className="w-full bg-card border border-border/80 overflow-auto lg:my-8 lg:mr-8"
     >
-      <WeatherEffects />
       <PortfolioNav navLinks={navLinks} />
 
       {/* Page Views - absolute so it doesn't shift content */}
@@ -58,7 +54,6 @@ export function AppLayout({
         </div>
         <div className="flex items-center gap-4">
           <ClickCountToggle />
-          <WeatherToggle />
           <DarkModeToggle />
           <ThemeToggle />
         </div>
