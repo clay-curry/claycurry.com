@@ -1,6 +1,6 @@
 "use client"
 
-import { Moon, Sun } from "lucide-react"
+import { Lightbulb, Moon } from "lucide-react"
 import { useEffect, useState } from "react"
 
 export function DarkModeToggle() {
@@ -58,7 +58,7 @@ export function DarkModeToggle() {
       {mode === "dark" ? (
         <Moon className="size-3.5 text-foreground" />
       ) : (
-        <Sun className="size-3.5 text-foreground" />
+        <Lightbulb className="size-3.5 text-foreground" />
       )}
     </button>
   )
