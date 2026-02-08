@@ -15,6 +15,7 @@
     "@ai-sdk/gateway": "^3.0.22",
     "@ai-sdk/react": "^3.0.51",
     "@hookform/resolvers": "^3.10.0",
+    "@mdx-js/loader": "^3.1.1",
     "@next/mdx": "^16.1.4",
     "@radix-ui/react-accordion": "1.2.2",
     "@radix-ui/react-alert-dialog": "1.1.4",

@@ -435,3 +435,82 @@
 .animate-marquee-slow:hover {
   animation-play-state: paused;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WEATHER EFFECTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Sunny: particles float upward with gentle horizontal drift */
+@keyframes weather-float {
+  0% {
+    transform: translateY(0) translateX(var(--wx, 0px));
+    opacity: 0;
+  }
+  8% {
+    opacity: var(--wo, 0.12);
+  }
+  92% {
+    opacity: var(--wo, 0.12);
+  }
+  100% {
+    transform: translateY(calc(-100vh - 20px)) translateX(calc(var(--wx, 0px) + var(--wdx, 20px)));
+    opacity: 0;
+  }
+}
+
+/* Overcast: clouds drift horizontally across viewport */
+@keyframes weather-cloud {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(calc(100vw + 100%));
+  }
+}
+
+/* Rain: drops fall with slight wind angle */
+@keyframes weather-rain {
+  0% {
+    transform: translateY(-20px) translateX(0);
+    opacity: 0;
+  }
+  5% {
+    opacity: var(--wo, 0.18);
+  }
+  95% {
+    opacity: var(--wo, 0.18);
+  }
+  100% {
+    transform: translateY(calc(100vh + 20px)) translateX(var(--wdx, -15px));
+    opacity: 0;
+  }
+}
+
+/* Lightning: brief white flash */
+@keyframes weather-lightning {
+  0%   { opacity: 0; }
+  8%   { opacity: var(--flash-intensity, 0.09); }
+  16%  { opacity: 0.02; }
+  24%  { opacity: var(--flash-intensity, 0.07); }
+  40%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* Shake: subtle jitter during lightning */
+@keyframes weather-shake {
+  0%, 100% { transform: translate(0, 0); }
+  20%  { transform: translate(-1.5px, 0.5px); }
+  40%  { transform: translate(1px, -1px); }
+  60%  { transform: translate(-0.5px, 1.5px); }
+  80%  { transform: translate(1.5px, -0.5px); }
+}
+
+.animate-weather-shake {
+  animation: weather-shake 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-weather-shake {
+    animation: none;
+  }
+}
