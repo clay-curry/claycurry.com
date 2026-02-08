@@ -12,16 +12,19 @@ const navRoutes = [
   { segment: 'contact', label: 'contact' },
 ]
 
-const PORTFOLIO_DIR = path.join(process.cwd(), 'app/(portfolio)')
+const APP_DIR = process.cwd()
+const ROUTE_GROUPS = ['(portfolio)', '(resume)']
 
 export function getSiteNavLinks(): NavLink[] {
   return navRoutes
     .filter(route => {
-      const dir = route.segment === ''
-        ? PORTFOLIO_DIR
-        : path.join(PORTFOLIO_DIR, route.segment)
-      return ['page.tsx', 'page.ts', 'page.jsx', 'page.js']
-        .some(f => fs.existsSync(path.join(dir, f)))
+      return ROUTE_GROUPS.some(group => {
+        const dir = route.segment === ''
+          ? path.join(APP_DIR, 'app', group)
+          : path.join(APP_DIR, 'app', group, route.segment)
+        return ['page.tsx', 'page.ts', 'page.jsx', 'page.js']
+          .some(f => fs.existsSync(path.join(dir, f)))
+      })
     })
     .map(route => ({
       label: route.label,

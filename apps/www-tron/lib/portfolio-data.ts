@@ -8,7 +8,7 @@ export const profileData = {
   githubUsername: 'clay-curry',
   social: {
     github: 'https://github.com/clay-curry',
-    x: 'https://x.com/eigenclay',
+    x: 'https://x.com/claybuilds',
     linkedin: 'https://www.linkedin.com/in/clay-curry/',
   },
 } as const
@@ -22,7 +22,25 @@ export const aboutData = {
     "I am passionate about building products that continuously learn from user behavior and evade enshittification through feedback loops."
   ],
   skills: [
-    'React/Next.js/Remix',
+    'Claude Code',
+    'Codex',
+    'Polyrepo / Monorepo',
+    'shadcn',
+    'Material 3',
+    'UX Foundations',
+    'Brand/Design Languages',
+    'Design Systems',
+    'Cloudflare DNS',
+    'React / Next.js / Vercel',
+    'Webpack / Turbopack',
+    'Turborepo',
+    'Figma',
+    'User Engagement',
+    'Web Scraping',
+    'PyTorch',
+    'Bun / Node.js',
+    'Linux',
+    'Open Source Software',
     'TypeScript',
     'Tailwind CSS',
     'Firebase',
@@ -30,7 +48,6 @@ export const aboutData = {
     'Docker',
     'Kubernetes',
     'WebSockets',
-    'Node.js',
     'Java',
     'REST APIs',
     'Python',
@@ -104,39 +121,6 @@ export const resumeData = {
     { name: 'Frontend Development', level: 95 },
     { name: 'Backend Development', level: 85 },
     { name: 'Database Design', level: 80 },
-  ],
-}
-
-export const portfolioData = {
-  categories: ['all', 'produce design', 'applications', 'web development'],
-  projects: [
-    {
-      title: 'E-Commerce Platform',
-      category: 'web development',
-      image: '/modern-ecommerce-website.png',
-      description: 'Full-stack e-commerce solution with payment integration',
-      tech: ['Next.js', 'Node.js', 'PostgreSQL'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com/johndoe/ecommerce',
-    },
-    {
-      title: 'Task Management App',
-      category: 'applications',
-      image: '/task-management-interface.png',
-      description: 'Collaborative task manager with real-time updates',
-      tech: ['React', 'Firebase', 'TypeScript'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com/johndoe/taskmanager',
-    },
-    {
-      title: 'Restaurant Website',
-      category: 'product design',
-      image: '/restaurant-website-design.png',
-      description: 'Elegant restaurant website with online ordering',
-      tech: ['Next.js', 'Sanity CMS', 'Stripe'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com/johndoe/restaurant',
-    },
   ],
 }
 

@@ -7,11 +7,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 - Badge-style skill tags on homepage
+- Hero component extracted from homepage
+- SectionHeader component for consistent section headings
 
 ### Changed
 - Namespaced Redis keys by environment (prod:, preview:, dev:) to isolate data
 - Updated X account handle to @claybuilds
 - Replaced moon icon with lightbulb in dark mode toggles
+- Restyled resume page: email button, skill chips, accordion animation
 
 ### Removed
 - Contrast toggle button and related CSS

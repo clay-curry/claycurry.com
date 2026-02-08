@@ -1,10 +1,12 @@
 'use client'
 
 import { cva } from 'class-variance-authority'
-import { Award, BookOpen, Briefcase, ClipboardList, User, Wrench } from 'lucide-react'
+import { Award, BookOpen, Briefcase, ClipboardList, Github, Linkedin, Mail, User, Wrench } from 'lucide-react'
 import Link from 'next/link'
 import type { LucideIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
+import { XIcon } from '@/lib/components/icons'
 import {
   Accordion,
   AccordionContent,
@@ -19,7 +21,7 @@ import {
   CVPositionAdvisor,
   CVRowItem,
 } from '@/lib/components/ui/cv'
-import { profileData, resumeData } from '@/lib/portfolio-data'
+import { aboutData, profileData } from '@/lib/portfolio-data'
 
 export default function ResumePage() {
   return (
@@ -28,18 +30,19 @@ export default function ResumePage() {
         {/* Header */}
         <HeaderSection
           name="Clay Curry"
-          title="Software Engineer"
-          addressList={[
-            { text: 'X', href: profileData.social.x, clickId: 'resume:x' },
-            { text: 'GitHub', href: profileData.social.github, clickId: 'resume:github' },
-            { text: 'LinkedIn', href: profileData.social.linkedin, clickId: 'resume:linkedin' },
+          title="Creator • Design • Product • Infrastructure • Data Engineer"
+          socialLinks={[
+            { icon: Mail, href: `mailto:${profileData.email}`, label: 'Email', clickId: 'resume:email' },
+            { icon: XIcon, href: profileData.social.x, label: 'X', clickId: 'resume:x' },
+            { icon: Github, href: profileData.social.github, label: 'GitHub', clickId: 'resume:github' },
+            { icon: Linkedin, href: profileData.social.linkedin, label: 'LinkedIn', clickId: 'resume:linkedin' },
           ]}
         />
 
         {/* Professional Experience */}
         <AccordionSection>
           <AccordionSectionHeader icon={Briefcase}>Experience</AccordionSectionHeader>
-          <AccordionSectionContent defaultValue="item-1">
+          <AccordionSectionContent autoOpenValue="item-1">
             <AccordionItem value="item-1">
               <AccordionTrigger data-click-id="resume:accordion:experience-1" className="font-semibold text-muted-foreground">
                 <AccordionHeader
@@ -72,6 +75,28 @@ export default function ResumePage() {
             </AccordionItem>
 
             <AccordionItem value="item-2">
+              <AccordionTrigger data-click-id="resume:accordion:experience-3" className="font-semibold text-muted-foreground">
+                <AccordionHeader
+                  title="University of Oklahoma. Computer Vision Research Assistant."
+                  date="1 year, 2 months"
+                />
+              </AccordionTrigger>
+              <AccordionContent>
+                <CVContentBody>
+                  <CVOrgLocation org="Department of Computer Science" location="Norman, OK" />
+                  <CVBulletList
+                    items={[
+                      'Provisioned 12 workstations for GPU-accelerated deep learning research, improving model training times by 80%.',
+                      'Scraped and preprocessed 90GB+ of FAA aircraft transponder data collected by crowdsourced receivers.',
+                      'Trained and evaluated multiple machine learning models (Random Forest, CNN, LSTM) to classify aircraft trajectories with 92% accuracy.',
+                    ]}
+                  />
+                </CVContentBody>
+              </AccordionContent>
+            </AccordionItem>
+
+
+            <AccordionItem value="item-3">
               <AccordionTrigger data-click-id="resume:accordion:experience-2" className="font-semibold text-muted-foreground">
                 <AccordionHeader
                   title="University of Oklahoma. Linux System Administrator."
@@ -93,26 +118,6 @@ export default function ResumePage() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-3">
-              <AccordionTrigger data-click-id="resume:accordion:experience-3" className="font-semibold text-muted-foreground">
-                <AccordionHeader
-                  title="University of Oklahoma. Computer Vision Research Assistant."
-                  date="1 year, 2 months"
-                />
-              </AccordionTrigger>
-              <AccordionContent>
-                <CVContentBody>
-                  <CVOrgLocation org="Department of Computer Science" location="Norman, OK" />
-                  <CVBulletList
-                    items={[
-                      'Provisioned 12 workstations for GPU-accelerated deep learning research, improving model training times by 80%.',
-                      'Scraped and preprocessed 90GB+ of FAA aircraft transponder data collected by crowdsourced receivers.',
-                      'Trained and evaluated multiple machine learning models (Random Forest, CNN, LSTM) to classify aircraft trajectories with 92% accuracy.',
-                    ]}
-                  />
-                </CVContentBody>
-              </AccordionContent>
-            </AccordionItem>
           </AccordionSectionContent>
         </AccordionSection>
 
@@ -205,21 +210,10 @@ export default function ResumePage() {
 
         {/* Skills */}
         <Card className="mb-8">
-          <SectionHeading icon={Wrench}>My Skills</SectionHeading>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-            {resumeData.skills.map((skill, index) => (
-              <div key={index}>
-                <div className="flex justify-between mb-2">
-                  <span className="text-xs md:text-sm font-medium text-foreground">{skill.name}</span>
-                  <span className="text-xs md:text-sm text-muted-foreground">{skill.level}%</span>
-                </div>
-                <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-accent rounded-full transition-all duration-1000 ease-out"
-                    style={{ width: `${skill.level}%` }}
-                  />
-                </div>
-              </div>
+          <SectionHeading icon={Wrench}>Skills</SectionHeading>
+          <div className="flex flex-wrap gap-2">
+            {aboutData.skills.map((skill) => (
+              <SkillChip key={skill}>{skill}</SkillChip>
             ))}
           </div>
         </Card>
@@ -254,61 +248,54 @@ const Card = ({
 }) => (
   <div
     className={cva(
-      'w-full mt-10 md:mt-14 p-2 md:p-4 rounded-xl bg-card border border-border/45'
+      'w-full mt-10 md:mt-14 p-2 md:p-4 rounded-xl bg-card border border-border/65'
     )({ className })}
   >
     {children}
   </div>
 )
 
+// Skill chip
+const SkillChip = ({ children }: { children: ReactNode }) => (
+  <span className="px-3 py-1.5 text-sm font-mono bg-secondary rounded-lg border border-border">
+    {children}
+  </span>
+)
+
 // Header section with TRON glow effect
 const HeaderSection = ({
   name,
   title,
-  addressList,
+  socialLinks,
 }: {
   name: string
   title: string
-  addressList: { text: string; href?: string; clickId?: string }[]
+  socialLinks: { icon: React.ComponentType<{ className?: string }>; href: string; label: string; clickId?: string }[]
 }) => (
-  <div className="w-full py-8 tracking-tight text-center">
+  <div className="w-full py-16 tracking-tight text-center">
     <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl text-foreground text-shadow-none">
       {name}
     </h1>
-    <p className="mt-4 text-xl text-muted-foreground md:text-2xl">
+    <p className="mt-4 text-muted-foreground text-md md:text-lg">
       {title}
     </p>
-    <p className="mt-2 text-lg text-muted-foreground">
-      <AddressList items={addressList} />
-    </p>
+    <div className="mt-4 flex items-center justify-center gap-[1.125rem]">
+      {socialLinks.map((link) => (
+        <a
+          key={link.href}
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-click-id={link.clickId}
+          className="inline-flex items-center justify-center size-9 rounded-xl border border-border text-foreground bg-muted hover:bg-muted/80 transition-colors"
+          aria-label={link.label}
+        >
+          <link.icon className="size-4" />
+        </a>
+      ))}
+    </div>
   </div>
 )
-
-const AddressList = ({
-  items,
-}: {
-  items: { text: string; href?: string; clickId?: string }[]
-}) => {
-  return items
-    .map((element) =>
-      element.href ? (
-        <a
-          href={element.href}
-          key={element.href}
-          data-click-id={element.clickId}
-          className="text-primary underline hover:text-primary/70 transition-colors cursor-pointer"
-        >
-          {element.text}
-        </a>
-      ) : (
-        element.text
-      )
-    )
-    .flatMap((element, index, array) => {
-      const separators = [' ', <span key={`bullet-${index}`} className="text-primary">•</span>, ' ']
-      return index < array.length - 1 ? [element, ...separators] : [element]
-    })
-}
 
 // Section heading with TRON accent
 const SectionHeading = ({ children, icon: Icon }: { children: ReactNode; icon?: LucideIcon }) => (
@@ -376,12 +363,22 @@ const AccordionSectionHeader = ({ children, icon }: { children: ReactNode; icon?
 
 const AccordionSectionContent = ({
   children,
-  defaultValue,
+  autoOpenValue,
 }: {
   children: ReactNode
-  defaultValue?: string
-}) => (
-  <Accordion type="single" collapsible defaultValue={defaultValue}>
-    {children}
-  </Accordion>
-)
+  autoOpenValue?: string
+}) => {
+  const [value, setValue] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    if (!autoOpenValue) return
+    const timer = setTimeout(() => setValue(autoOpenValue), 100)
+    return () => clearTimeout(timer)
+  }, [autoOpenValue])
+
+  return (
+    <Accordion type="single" collapsible value={value} onValueChange={setValue}>
+      {children}
+    </Accordion>
+  )
+}

@@ -66,7 +66,7 @@ export function CVContentBody({
   className?: string
 }) {
   return (
-    <div className={cn('mt-3 text-muted-foreground', className)}>
+    <div className={cn('mt-3 bg-card text-foreground', className)}>
       <div className="border border-primary/10 rounded my-0.5 px-4 py-4 space-y-4">
         {children}
       </div>
