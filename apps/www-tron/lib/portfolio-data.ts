@@ -25,7 +25,6 @@ export const aboutData = {
     'Claude Code',
     'Codex',
     'Polyrepo / Monorepo',
-    'shadcn',
     'Material 3',
     'UX Foundations',
     'Brand/Design Languages',

@@ -25,12 +25,13 @@ import { aboutData, profileData } from '@/lib/portfolio-data'
 
 export default function ResumePage() {
   return (
-    <article className="py-8 md:py-12">
+    <article className="py-8 md:py-12 md:px-16">
       <section className="flex flex-col items-center w-full">
         {/* Header */}
         <HeaderSection
           name="Clay Curry"
-          title="Creator • Design • Product • Infrastructure • Data Engineer"
+          title="Designer • Builder • (Forever) Junior"
+          quote="anyone can cook"
           socialLinks={[
             { icon: Mail, href: `mailto:${profileData.email}`, label: 'Email', clickId: 'resume:email' },
             { icon: XIcon, href: profileData.social.x, label: 'X', clickId: 'resume:x' },
@@ -168,10 +169,29 @@ export default function ResumePage() {
           </AccordionSectionContent>
         </AccordionSection>
 
-        {/* Certifications and Awards */}
+        {/* Awards and Certifications */}
         <AccordionSection>
-          <AccordionSectionHeader icon={Award}>Certifications and Awards</AccordionSectionHeader>
+          <AccordionSectionHeader icon={Award}>Awards and Certifications</AccordionSectionHeader>
           <AccordionSectionContent>
+
+            <AccordionItem value="award-1">
+              <AccordionTrigger data-click-id="resume:accordion:award-1" className="font-semibold text-muted-foreground">
+                <AccordionHeader
+                  title="Oklahoma Rising Scholars – Award"
+                  date="May 2017"
+                />
+              </AccordionTrigger>
+              <AccordionContent>
+                <CVContentBody>
+                  <CVRowItem label="Issued by">Oklahoma State Regents for Higher Education</CVRowItem>
+                  <p>
+                    Oklahoma students automatically qualify for this award by scoring at or above the 99.5 percentile (&gt;34 / 36) on the ACT college-readiness exam.
+                  </p>
+                  <p>(formerly <PrimaryLink href="https://secure.okcollegestart.org/Financial_Aid_Planning/Scholarships/Academic_Scholarships/Academic_Scholars_Program.aspx">Academic Scholars Program</PrimaryLink>)</p>
+                </CVContentBody>
+              </AccordionContent>
+            </AccordionItem>
+
             <AccordionItem value="cert-1">
               <AccordionTrigger data-click-id="resume:accordion:cert-1" className="font-semibold text-muted-foreground">
                 <AccordionHeader
@@ -188,23 +208,6 @@ export default function ResumePage() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="award-1">
-              <AccordionTrigger data-click-id="resume:accordion:award-1" className="font-semibold text-muted-foreground">
-                <AccordionHeader
-                  title="Oklahoma Rising Scholars Award"
-                  date="May 2017"
-                />
-              </AccordionTrigger>
-              <AccordionContent>
-                <CVContentBody>
-                  <CVRowItem label="Issued by">Oklahoma State Regents for Higher Education</CVRowItem>
-                  <p>(formerly Academic Scholars Program)</p>
-                  <p>
-                    Oklahoma students automatically qualify by scoring 34 / 36 on the ACT.
-                  </p>
-                </CVContentBody>
-              </AccordionContent>
-            </AccordionItem>
           </AccordionSectionContent>
         </AccordionSection>
 
@@ -248,7 +251,7 @@ const Card = ({
 }) => (
   <div
     className={cva(
-      'w-full mt-10 md:mt-14 p-2 md:p-4 rounded-xl bg-card border border-border/65'
+      'w-full mt-10 md:mt-14 p-2 md:p-4 rounded-xl bg-secondary border border-border/65'
     )({ className })}
   >
     {children}
@@ -266,13 +269,15 @@ const SkillChip = ({ children }: { children: ReactNode }) => (
 const HeaderSection = ({
   name,
   title,
+  quote,
   socialLinks,
 }: {
   name: string
   title: string
+  quote?: string
   socialLinks: { icon: React.ComponentType<{ className?: string }>; href: string; label: string; clickId?: string }[]
 }) => (
-  <div className="w-full py-16 tracking-tight text-center">
+  <div className="flex flex-col gap-2 w-full py-16 tracking-tight text-center">
     <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl text-foreground text-shadow-none">
       {name}
     </h1>
@@ -282,18 +287,21 @@ const HeaderSection = ({
     <div className="mt-4 flex items-center justify-center gap-[1.125rem]">
       {socialLinks.map((link) => (
         <a
-          key={link.href}
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-click-id={link.clickId}
-          className="inline-flex items-center justify-center size-9 rounded-xl border border-border text-foreground bg-muted hover:bg-muted/80 transition-colors"
-          aria-label={link.label}
+        key={link.href}
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-click-id={link.clickId}
+        className="inline-flex items-center justify-center size-9 rounded-xl border border-border text-foreground bg-muted hover:bg-muted/80 transition-colors"
+        aria-label={link.label}
         >
           <link.icon className="size-4" />
         </a>
       ))}
     </div>
+    {quote && (
+      <p className="mt-6 text-lg font-bold italic text-muted-foreground">&ldquo;{quote}&rdquo;</p>
+    )}
   </div>
 )
 
