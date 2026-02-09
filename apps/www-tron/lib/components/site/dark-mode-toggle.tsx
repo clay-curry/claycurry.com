@@ -1,7 +1,34 @@
 "use client"
 
-import { Lightbulb, Moon } from "lucide-react"
+import { Lightbulb } from "lucide-react"
 import { useEffect, useState } from "react"
+
+function LightbulbRays({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      overflow="visible"
+    >
+      <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+      <path d="M9 18h6" />
+      <path d="M10 22h4" />
+      <path d="M12 1V-1" />
+      <path d="M5 8H3" />
+      <path d="M19 8H21" />
+      <path d="M7 3L5.5 1.5" />
+      <path d="M17 3L18.5 1.5" />
+    </svg>
+  );
+}
 
 export function DarkModeToggle() {
   const [mode, setMode] = useState<"dark" | "light">("dark")
@@ -42,7 +69,7 @@ export function DarkModeToggle() {
         disabled
         className="inline-flex items-center gap-1.5 h-8 px-2.5 text-sm font-medium rounded-xl border border-border text-foreground bg-muted transition-colors"
       >
-        <Moon className="size-3.5" />
+        <Lightbulb className="size-3.5" />
       </button>
     )
   }
@@ -56,9 +83,9 @@ export function DarkModeToggle() {
       className="inline-flex items-center gap-1.5 h-8 px-2.5 text-sm font-medium rounded-xl border border-border text-foreground bg-muted hover:bg-muted/80 transition-colors cursor-pointer"
     >
       {mode === "dark" ? (
-        <Moon className="size-3.5 text-foreground" />
-      ) : (
         <Lightbulb className="size-3.5 text-foreground" />
+      ) : (
+        <LightbulbRays className="size-3.5 text-foreground" />
       )}
     </button>
   )
