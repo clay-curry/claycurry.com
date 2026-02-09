@@ -11,7 +11,7 @@ export default function AboutPage() {
     <div className="py-8 md:py-12 space-y-12 md:space-y-14 flex flex-col gap-10">
       
       {/* Hero Section */}
-      <div className="text-center py-16">
+      <div className="text-center py-20">
         <h1 className="font-tourney text-4xl md:text-6xl font-bold tracking-tight mb-4">
           Clay Curry
         </h1>
@@ -37,21 +37,6 @@ export default function AboutPage() {
           <SectionHeader title="Writings" />
         </div>
         <WritingsSection posts={posts} />
-      </div>
-
-      {/* Skills */}
-      <div className='mx-4'>
-        <SectionHeader title="Skills" />
-        <div className="flex flex-wrap gap-2">
-          {data.skills.map((skill) => (
-            <span
-              key={skill}
-              className="px-3 py-1.5 text-sm font-mono bg-secondary rounded-lg border border-border"
-            >
-              {skill}
-            </span>
-          ))}
-        </div>
       </div>
     </div>
   )
