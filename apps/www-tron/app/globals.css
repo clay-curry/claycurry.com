@@ -33,7 +33,8 @@
 .theme-cyan   { --src-primary-h: 257; --src-primary-c: 0.22; --src-secondary-h: 68;  --src-secondary-c: 0.24; } /* blue → next: orange */
 .theme-orange { --src-primary-h: 68;  --src-primary-c: 0.24; --src-secondary-h: 29;  --src-secondary-c: 0.21; } /* orange → next: red */
 .theme-red    { --src-primary-h: 29;  --src-primary-c: 0.21; --src-secondary-h: 145; --src-secondary-c: 0.26; } /* red → next: green */
-.theme-green  { --src-primary-h: 145; --src-primary-c: 0.26; --src-secondary-h: 257; --src-secondary-c: 0.22; } /* green → next: blue */
+.theme-green  { --src-primary-h: 145; --src-primary-c: 0.26; --src-secondary-h: 257; --src-secondary-c: 0.22; } /* green → next: gray */
+.theme-gray   { --src-primary-h: 0;   --src-primary-c: 0;    --src-secondary-h: 0;   --src-secondary-c: 0;    } /* gray → next: blue */
 
 /* ══ COLOR ROLES (Dark Scheme — default) ══ */
 /* Derived from source parameters — never edit these values directly */
