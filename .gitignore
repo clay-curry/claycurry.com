@@ -55,3 +55,6 @@ playwright/.auth/
 .codex/
 .cursor/
 .kiro/
+
+# Node compile cache
+node-compile-cache/
