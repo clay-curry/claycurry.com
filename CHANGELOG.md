@@ -7,6 +7,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 - Theme cycling: all surface colors derive from primary hue with blue accent
+- Farewell Seattle blog post
+- PhotoCarousel and PhotoRow content components
+- Carousel subtext support
 
 ### Changed
 - Updated location to San Francisco

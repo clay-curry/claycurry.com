@@ -4,7 +4,7 @@ export const profileData = {
   avatar: '/clay_profile_cropped.png',
   email: 'me@claycurry.com',
   phone: '+1 (405) 301-1055',
-  location: 'San Francisco, CA, USA',
+  location: 'San Francisco, CA',
   githubUsername: 'clay-curry',
   social: {
     github: 'https://github.com/clay-curry',

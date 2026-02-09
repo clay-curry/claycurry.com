@@ -8,7 +8,7 @@ const themePresets = ["cyan", "orange", "red", "green"] as const
 type ThemePreset = (typeof themePresets)[number]
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<ThemePreset>("cyan")
+  const [theme, setTheme] = useState<ThemePreset>("red")
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
