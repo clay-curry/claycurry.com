@@ -1,7 +1,7 @@
 'use client'
 
 import { cva } from 'class-variance-authority'
-import { Award, BookOpen, Briefcase, ClipboardList, Github, Linkedin, Mail, User, Wrench } from 'lucide-react'
+import { Award, BookOpen, Briefcase, ClipboardList, Github, Linkedin, Mail, MapPin, User, Wrench } from 'lucide-react'
 import Link from 'next/link'
 import type { LucideIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -33,6 +33,7 @@ export default function ResumePage() {
           title="Designer • Builder • (Forever) Junior"
           quote="anyone can cook"
           socialLinks={[
+            { icon: MapPin, href: 'https://www.google.com/maps/place/San+Francisco,+CA', label: 'Location', clickId: 'resume:location' },
             { icon: Mail, href: `mailto:${profileData.email}`, label: 'Email', clickId: 'resume:email' },
             { icon: XIcon, href: profileData.social.x, label: 'X', clickId: 'resume:x' },
             { icon: Github, href: profileData.social.github, label: 'GitHub', clickId: 'resume:github' },
