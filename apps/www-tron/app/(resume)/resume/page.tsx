@@ -30,7 +30,7 @@ export default function ResumePage() {
         {/* Header */}
         <HeaderSection
           name="Clay Curry"
-          title="Designer • Builder • (Forever) Junior"
+          title="Design | DevEx | Engineer"
           quote="anyone can cook"
           socialLinks={[
             { icon: MapPin, href: 'https://www.google.com/maps/place/San+Francisco,+CA', label: 'Location', clickId: 'resume:location' },
@@ -202,8 +202,12 @@ export default function ResumePage() {
               </AccordionTrigger>
               <AccordionContent>
                 <CVContentBody>
+                  <CVRowItem label="Issued by">Amazon Web Services (AWS) Training and Certification</CVRowItem>
+                  <p>
+                    Validates advanced technical skills and experience in designing distributed systems and applications on the AWS platform, including complex networking, multi-account strategies, cost optimization, and migration planning.
+                  </p>
                   <PrimaryLink href="https://www.credly.com/badges/c4d07372-5471-409a-a842-950f6b94dab4/public_url">
-                    Certification.
+                    Verify on Credly
                   </PrimaryLink>
                 </CVContentBody>
               </AccordionContent>
@@ -377,16 +381,16 @@ const AccordionSectionContent = ({
   children: ReactNode
   autoOpenValue?: string
 }) => {
-  const [value, setValue] = useState<string | undefined>(undefined)
+  const [value, setValue] = useState<string[]>([])
 
   useEffect(() => {
     if (!autoOpenValue) return
-    const timer = setTimeout(() => setValue(autoOpenValue), 100)
+    const timer = setTimeout(() => setValue([autoOpenValue]), 100)
     return () => clearTimeout(timer)
   }, [autoOpenValue])
 
   return (
-    <Accordion type="single" collapsible value={value} onValueChange={setValue}>
+    <Accordion type="multiple" value={value} onValueChange={setValue}>
       {children}
     </Accordion>
   )

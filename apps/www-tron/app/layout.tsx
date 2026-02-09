@@ -33,6 +33,7 @@ const tourney = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://claycurry.com'),
   title: 'Clay Curry - Software Engineer',
   description: 'Portfolio of Clay Curry, a Software Engineer experienced in web technologies',
   icons: {
