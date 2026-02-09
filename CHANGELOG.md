@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-02-09
+
+### Added
+- Theme cycling: all surface colors derive from primary hue with blue accent
+
+### Changed
+- Updated location to San Francisco
+- Restructured contact page with Google Maps embed
+- Added map pin to resume social links
+- Light mode color cleanup
+
 ## 2026-02-08
 
 ### Added
