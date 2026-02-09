@@ -70,7 +70,7 @@ export async function getPost(slug: string) {
   const fileContents = fs.readFileSync(filePath, "utf8");
   const { content } = matter(fileContents);
   const readTime = calculateReadTime(content);
-  const { default: Content, toc } = await import(`@/blog/${slug}.mdx`);
+  const { default: Content, toc = [] } = await import(`@/blog/${slug}.mdx`);
   return { metadata, Content, toc, readTime };
 }
 

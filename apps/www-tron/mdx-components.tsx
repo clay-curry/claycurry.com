@@ -5,6 +5,8 @@ import { CodeBlock } from "@/lib/components/content/code-block";
 import { Mermaid } from "@/lib/components/content/mermaid";
 import { DiagramTabs, DiagramContent, MermaidContent, AsciiContent } from "@/lib/components/content/diagram-tabs";
 import { ExampleTabs, RenderedContent, SourceContent } from "@/lib/components/content/example-tabs";
+import { PhotoCarousel } from "@/lib/components/content/photo-carousel";
+import { PhotoRow } from "@/lib/components/content/photo-row";
 import { slugify } from "@/lib/utils";
 
 // TRON-themed MDX components
@@ -221,6 +223,8 @@ const components = {
   ExampleTabs,
   RenderedContent,
   SourceContent,
+  PhotoCarousel,
+  PhotoRow,
 } satisfies MDXComponents;
 
 export function useMDXComponents(): MDXComponents {
