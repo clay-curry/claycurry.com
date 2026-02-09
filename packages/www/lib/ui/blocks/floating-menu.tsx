@@ -155,7 +155,11 @@ function FloatingActionButton({
 }
 
 export function FloatingMenu({ posts }: { posts: PostEntry[] }) {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  // Hide floating menu on resume page for a cleaner layout
+  if (pathname === "/resume") return null;
 
   return (
     <>

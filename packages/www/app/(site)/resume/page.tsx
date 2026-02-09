@@ -19,6 +19,10 @@ import {
   CVSimpleContent,
 } from "@/lib/ui/components/cv";
 import ComingSoon from "@/lib/ui/components/under-construction";
+import { Button } from "@/lib/ui/controls/button";
+import GitHubIcon from "@/lib/ui/icons/github";
+import LinkedInIcon from "@/lib/ui/icons/linkedin";
+import MailIcon from "@/lib/ui/icons/mail";
 import StylizedArrow from "@/lib/ui/icons/stylized-arrow";
 import { PageViews } from "@/lib/ui/widgets/page-views";
 
@@ -38,11 +42,11 @@ export default () => (
       {/* Header */}
       <HeaderSection
         name="Clay Curry"
-        title="Software Engineer"
-        addressList={[
-          { text: "GitHub", href: "https://github.com/clay-curry" },
-          { text: "LinkedIn", href: "https://www.linkedin.com/in/clay-curry/" },
-          { text: "claycurry34@gmail.com", href: "mailto:claycurry34@gmail.com" },
+        title="Design Engineer • Growth Engineer • Product Engineer"
+        contactLinks={[
+          { label: "GitHub", href: "https://github.com/clay-curry", icon: <GitHubIcon /> },
+          { label: "LinkedIn", href: "https://www.linkedin.com/in/clay-curry/", icon: <LinkedInIcon /> },
+          { label: "Email", href: "mailto:claycurry34@gmail.com", icon: <MailIcon /> },
         ]}
       />
 
@@ -340,15 +344,15 @@ const Card = ({
   </div>
 );
 
-// Header section with name, title, and address
+// Header section with name, title, and contact icon buttons
 const HeaderSection = ({
   name,
   title,
-  addressList,
+  contactLinks,
 }: {
   name: string;
   title: string;
-  addressList: { text: string; href?: string }[];
+  contactLinks: { label: string; href: string; icon: ReactNode }[];
 }) => (
   <div className="w-full max-w-6xl py-12 tracking-tight text-center">
     <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">
@@ -357,36 +361,23 @@ const HeaderSection = ({
     <p className="mt-4 text-xl text-gray-700 md:text-2xl dark:text-gray-300">
       {title}
     </p>
-    <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
-      <AddressList items={addressList} />
-    </p>
+    <div className="mt-4 flex items-center justify-center gap-2">
+      {contactLinks.map((link) => (
+        <Button key={link.label} variant="outline" size="icon" asChild>
+          <Link
+            href={link.href}
+            target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+            rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+            aria-label={link.label}
+            className="[&_svg]:w-5 [&_svg]:h-5"
+          >
+            {link.icon}
+          </Link>
+        </Button>
+      ))}
+    </div>
   </div>
 );
-
-const AddressList = ({
-  items,
-}: {
-  items: { text: string; href?: string }[];
-}) => {
-  return items
-    .map((element) =>
-      element.href ? (
-        <a
-          href={element.href}
-          key={element.href}
-          className="text-blue-600 dark:text-blue-400 hover:underline"
-        >
-          {element.text}
-        </a>
-      ) : (
-        element.text
-      ),
-    )
-    .flatMap((element, index, array) => {
-      const separators = [" ", "•", " "];
-      return index < array.length - 1 ? [element, ...separators] : [element];
-    });
-};
 
 // Section heading with underline decoration
 const SectionHeading = ({ children }: { children: ReactNode }) => (
