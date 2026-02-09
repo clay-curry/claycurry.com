@@ -21,27 +21,24 @@ export const aboutData = {
   description: [
     "I am passionate about building products that continuously learn from user behavior and evade enshittification through feedback loops."
   ],
-  services: [
-    {
-      icon: 'Code',
-      title: 'Open Source Software',
-      description: 'Using and contributing to open source with best practices for documentation, testing, and community collaboration.',
-    },
-    {
-      icon: 'Zap',
-      title: 'Agent Engineering',
-      description: 'Producing robust AI-powered agents using Claude, GrokAI, ChatGPT, and more.',
-    },
-    {
-      icon: 'Smartphone',
-      title: 'Product Engineering',
-      description: 'This means using, and not overrelying on, business metrics to decide what features make the cut.',
-    },
-    {
-      icon: 'PenTool',
-      title: 'Technical Writing',
-      description: 'Creating clear documentation, tutorials, and technical content that makes complex topics accessible.',
-    },
+  skills: [
+    'React/Next.js/Remix',
+    'TypeScript',
+    'Tailwind CSS',
+    'Firebase',
+    'AWS',
+    'Docker',
+    'Kubernetes',
+    'WebSockets',
+    'Node.js',
+    'Java',
+    'REST APIs',
+    'Python',
+    'SQL',
+    'MongoDB',
+    'Google Cloud',
+    'CI/CD',
+    'Remote Team Leadership',
   ],
   testimonials: [
     {
