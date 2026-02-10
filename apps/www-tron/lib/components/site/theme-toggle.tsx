@@ -4,7 +4,7 @@ import { Palette } from "lucide-react"
 import { useEffect, useState } from "react"
 
 
-const themePresets = ["cyan", "orange", "red", "green"] as const
+const themePresets = ["cyan", "orange", "red", "green", "gray"] as const
 type ThemePreset = (typeof themePresets)[number]
 
 export function ThemeToggle() {

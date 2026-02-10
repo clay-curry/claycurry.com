@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
 import { Clock, Calendar } from "lucide-react";
 import {
   getAllPostsMetadata,
   getPost,
+  getPostMetadata,
 } from "@/app/(portfolio)/blog/loader";
 import { MobileToc } from "@/lib/components/site/mobile-toc";
 import { getSiteNavLinks } from "@/lib/navigation";
@@ -16,6 +18,23 @@ export const dynamicParams = false;
 export function generateStaticParams() {
   const postMetadata = getAllPostsMetadata();
   return postMetadata.map((o) => ({ slug: o.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostMetadata(slug);
+  return {
+    title: post.title,
+    description: post.subtitle,
+    openGraph: {
+      title: post.title,
+      description: post.subtitle,
+    },
+  };
 }
 
 export default async function BlogPostPage({

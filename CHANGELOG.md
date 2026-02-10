@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-02-10
+
+### Added
+- Dynamic OG images generated at build time for homepage and blog posts
+- Blog post generateMetadata() for proper title/description
+- Gray color scheme in theme cycle
+- Shared loadGoogleFont utility for OG image rendering
+- AWS certification details with Credly verification link
+
+### Changed
+- Resume subheading to "Design | DevEx | Engineer"
+- Resume accordion allows multiple items open simultaneously
+- Updated email in LICENSE.md
+- Set metadataBase for correct OG URL resolution
+
+### Removed
+- Self-scraping OG API route (app/api/og/route.tsx)
+- Static opengraph-image.png and twitter-image.png
+- open-graph-scraper-lite dependency
+- "So Good They Can't Ignore You" blog post
+- Old LICENSE file
+
 ## 2026-02-09
 
 ### Added

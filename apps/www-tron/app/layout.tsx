@@ -33,6 +33,7 @@ const tourney = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://claycurry.com'),
   title: 'Clay Curry - Software Engineer',
   description: 'Portfolio of Clay Curry, a Software Engineer experienced in web technologies',
   icons: {
@@ -58,7 +59,7 @@ export default function RootLayout({
       document.documentElement.classList.add('light');
     }
     var t = localStorage.getItem('tron-theme');
-    if (t && ['cyan','orange','red','green'].includes(t)) {
+    if (t && ['cyan','orange','red','green','gray'].includes(t)) {
       document.documentElement.classList.add('theme-' + t);
     }
   } catch(e) {}
