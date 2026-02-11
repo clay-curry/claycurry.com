@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { GithubIcon, LinkedinIcon, Mail, MapPin, Phone } from "lucide-react";
 import { XIcon } from "@/lib/components/icons";
 import { profileData } from "@/lib/portfolio-data";
 
@@ -103,7 +103,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
           aria-label="GitHub"
         >
-          <Github className="w-5 h-5" />
+          <GithubIcon className="w-5 h-5" />
         </a>
         <a
           href={data.social.linkedin}
@@ -113,7 +113,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
           aria-label="LinkedIn"
         >
-          <Linkedin className="w-5 h-5" />
+          <LinkedinIcon className="w-5 h-5" />
         </a>
       </div>
     </aside>

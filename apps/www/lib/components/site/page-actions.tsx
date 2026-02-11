@@ -6,7 +6,7 @@ import {
   Check,
   Copy,
   ExternalLink,
-  Github,
+  GithubIcon,
   MessageSquare,
 } from "lucide-react";
 import { useCallback, useState } from "react";
@@ -99,7 +99,7 @@ export function EditOnGitHub({ slug }: { slug: string }) {
       rel="noopener noreferrer"
       target="_blank"
     >
-      <Github className="size-3.5" />
+      <GithubIcon className="size-3.5" />
       <span>Edit this page on GitHub</span>
     </a>
   );
