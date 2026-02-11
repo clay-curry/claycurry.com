@@ -13,6 +13,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 - Resume subheading to "Designer | Product Engineer"
+- Moved San Francisco location to top of profile sidebar with Google Maps link
 - Applied biome formatting and lint fixes across codebase
 
 ### Removed
