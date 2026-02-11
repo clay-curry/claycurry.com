@@ -65,8 +65,7 @@ The site will be available at `http://localhost:3000`.
 ```
 claycurry.com/
 ├── apps/
-│   ├── www/          # Legacy site
-│   └── www-tron/     # Main portfolio site (Next.js)
+│   └── www/          # Main portfolio site (Next.js)
 ├── package.json
 └── turbo.json
 ```
