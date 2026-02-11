@@ -59,6 +59,7 @@
   --src-primary-c: 0;
   --src-secondary-h: 0;
   --src-secondary-c: 0;
+  --src-neutral-c: 0;
 } /* gray → next: blue */
 
 /* ══ COLOR ROLES (Dark Scheme — default) ══ */
@@ -117,25 +118,28 @@
 /* ══ COLOR ROLES (Light Scheme) ══ */
 /* Inverted lightness values for a clean light mode, same hues/chromas */
 .light {
+  --src-neutral-c: 0;
   --background: oklch(0.97 var(--src-neutral-c) var(--src-primary-h));
   --foreground: oklch(0.15 var(--src-neutral-c) var(--src-neutral-h));
-  --card: oklch(0.9 var(--src-neutral-c) var(--src-primary-h));
-  --card-foreground: oklch(0.15 var(--src-neutral-c) var(--src-neutral-h));
-  --popover: oklch(0.9 var(--src-neutral-c) var(--src-primary-h));
-  --popover-foreground: oklch(0.15 var(--src-neutral-c) var(--src-neutral-h));
-  --primary: oklch(0.65 var(--src-primary-c) var(--src-primary-h));
-  --primary-foreground: oklch(0.99 0 0);
+  --card: oklch(0.94 var(--src-neutral-c) var(--src-primary-h));
+  --card-foreground: oklch(0.13 var(--src-neutral-c) var(--src-neutral-h));
+  --popover: oklch(0.94 var(--src-neutral-c) var(--src-primary-h));
+  --popover-foreground: oklch(0.13 var(--src-neutral-c) var(--src-neutral-h));
+  --primary: oklch(0.55 var(--src-primary-c) var(--src-primary-h));
+  --primary-foreground: oklch(0.98 var(--src-neutral-c) var(--src-neutral-h));
   --secondary: oklch(0.95 var(--src-neutral-c) var(--src-primary-h));
   --secondary-foreground: oklch(0.2 var(--src-neutral-c) var(--src-neutral-h));
   --accent: var(--primary);
-  --accent-foreground: oklch(0.99 0 0);
-  --accent-2: oklch(0.65 var(--src-secondary-c) var(--src-secondary-h));
-  --accent-2-foreground: oklch(0.99 0 0);
+  --accent-foreground: oklch(0.98 var(--src-neutral-c) var(--src-neutral-h));
+  --accent-2: oklch(0.55 var(--src-secondary-c) var(--src-secondary-h));
+  --accent-2-foreground: oklch(0.98 var(--src-neutral-c) var(--src-neutral-h));
   --muted: oklch(0.92 var(--src-neutral-c) var(--src-primary-h));
-  --muted-foreground: oklch(0.45 var(--src-neutral-c) var(--src-neutral-h));
+  --muted-foreground: oklch(0.4 var(--src-neutral-c) var(--src-neutral-h));
   --destructive: oklch(0.55 var(--src-error-c) var(--src-error-h));
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.82 var(--src-neutral-c) var(--src-primary-h));
+  --destructive-foreground: oklch(
+    0.98 var(--src-neutral-c) var(--src-neutral-h)
+  );
+  --border: oklch(0.78 var(--src-neutral-c) var(--src-primary-h));
   --input: oklch(0.93 var(--src-neutral-c) var(--src-primary-h));
   --ring: var(--primary);
   --chart-1: var(--primary);
@@ -145,17 +149,17 @@
   --chart-5: oklch(0.55 var(--src-neutral-c) var(--src-neutral-h));
 
   /* Sidebar — light variant */
-  --sidebar: oklch(0.95 var(--src-neutral-c) var(--src-primary-h));
+  --sidebar: oklch(0.96 var(--src-neutral-c) var(--src-primary-h));
   --sidebar-foreground: oklch(0.15 var(--src-neutral-c) var(--src-neutral-h));
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: oklch(
-    0.99 var(--src-neutral-c) var(--src-neutral-h)
+    0.98 var(--src-neutral-c) var(--src-neutral-h)
   );
-  --sidebar-accent: oklch(0.9 var(--src-neutral-c) var(--src-primary-h));
+  --sidebar-accent: oklch(0.92 var(--src-neutral-c) var(--src-primary-h));
   --sidebar-accent-foreground: oklch(
-    0.15 var(--src-neutral-c) var(--src-neutral-h)
+    0.13 var(--src-neutral-c) var(--src-neutral-h)
   );
-  --sidebar-border: oklch(0.85 var(--src-neutral-c) var(--src-primary-h));
+  --sidebar-border: oklch(0.82 var(--src-neutral-c) var(--src-primary-h));
   --sidebar-ring: var(--primary);
 
   /* TRON Effect Tokens — toned down for light mode */
@@ -164,6 +168,18 @@
   --tron-grid: oklch(0.55 var(--src-primary-c) var(--src-primary-h) / 0.08);
   --primary-accent: var(--primary);
   --grid-color: oklch(0.5 var(--src-neutral-c) var(--src-primary-h) / 0.15);
+}
+
+/* ══ GRAY THEME OVERRIDES (Light Scheme) ══ */
+/* At zero chroma the derivation chain produces mid-grays that lack contrast.
+   Override key roles to achieve a Next.js-style black/white palette. */
+.theme-gray.light {
+  --primary: oklch(0 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --accent: oklch(0 0 0);
+  --accent-foreground: oklch(1 0 0);
+  --accent-2: oklch(0 0 0);
+  --accent-2-foreground: oklch(1 0 0);
 }
 
 @theme inline {
@@ -269,7 +285,9 @@
 }
 
 .light .grid-background {
-  background-image: none;
+  background-image:
+    linear-gradient(oklch(0 0 0 / 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0 0 0 / 0.1) 1px, transparent 1px);
 }
 
 @layer base {
