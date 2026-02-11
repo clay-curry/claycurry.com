@@ -5,8 +5,18 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## 2026-02-11
 
+### Added
+- Plugin-based merge-criteria CI workflow with markdown template and Python rendering engine
+- Commit message format check (commitlint) as a merge-criteria plugin
+- Commitlint with `@commitlint/config-conventional` and husky hooks
+- `CLAUDE.md` project instructions for Claude Code
+
 ### Changed
 - Resume subheading to "Designer | Product Engineer"
+- Applied biome formatting and lint fixes across codebase
+
+### Removed
+- Old `require-changelog` workflow (replaced by merge-criteria system)
 
 ## 2026-02-10
 
