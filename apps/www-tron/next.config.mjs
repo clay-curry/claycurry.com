@@ -65,9 +65,10 @@ const nextConfig = {
 
   // deduplicate jotai to a single instance in the monorepo
   webpack: (config) => {
+    const jotaiDir = require.resolve("jotai/package.json").replace("/package.json", "");
     config.resolve.alias = {
       ...config.resolve.alias,
-      jotai: require.resolve("jotai"),
+      jotai: jotaiDir,
     };
     return config;
   },
