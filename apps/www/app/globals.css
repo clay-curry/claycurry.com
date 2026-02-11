@@ -267,9 +267,11 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image:
-    linear-gradient(oklch(1 0 0 / 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(1 0 0 / 0.1) 1px, transparent 1px);
+  background-image: radial-gradient(
+    circle,
+    var(--grid-color) 1.5px,
+    transparent 1.5px
+  );
   background-size: 40px 40px;
   background-position: center center;
   mask-image: radial-gradient(
@@ -282,12 +284,6 @@
     transparent 0%,
     black 100%
   );
-}
-
-.light .grid-background {
-  background-image:
-    linear-gradient(oklch(0 0 0 / 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(0 0 0 / 0.1) 1px, transparent 1px);
 }
 
 @layer base {
