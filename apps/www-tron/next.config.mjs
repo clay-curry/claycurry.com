@@ -54,11 +54,24 @@ function rehypeCodeTitle() {
   };
 }
 
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"], // support MDX files
   trailingSlash: false, // disable automatic trailing slashes (useful for capturing origin in short links)
   skipTrailingSlashRedirect: true, // avoid redirecting to trailing slash version
+
+  // deduplicate jotai to a single instance in the monorepo
+  webpack: (config) => {
+    const jotaiDir = require.resolve("jotai/package.json").replace("/package.json", "");
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      jotai: jotaiDir,
+    };
+    return config;
+  },
 
   // intent: short links capture the origin of traffic coming to the main page
   // - monitor for anomalies or trends
