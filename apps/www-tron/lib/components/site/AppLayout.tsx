@@ -13,12 +13,12 @@ export function AppLayout({
   return (
     <div className="w-full border border-border/80 overflow-auto lg:my-8 lg:mr-8 bg-background/95">
       <PortfolioNav navLinks={navLinks} />
-      <FloatingToolbar />
+      <div className="flex items-center justify-between px-2 lg:px-3">
+        <FloatingToolbar />
+        <PageViews />
+      </div>
 
-      <div className="relative p-2 lg:p-3 backdrop-blur supports-backdrop-filter:bg-background/60">
-        <div className="absolute top-4 right-4 sm:right-5 md:right-6 lg:right-8">
-          <PageViews />
-        </div>
+      <div className="p-2 lg:p-3 backdrop-blur supports-backdrop-filter:bg-background/60">
         {children}
       </div>
     </div>
