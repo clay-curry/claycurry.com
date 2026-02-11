@@ -10,6 +10,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Commit message format check (commitlint) as a merge-criteria plugin
 - Commitlint with `@commitlint/config-conventional` and husky hooks
 - `CLAUDE.md` project instructions for Claude Code
+- GitHub repository icon button next to the Ask AI button in the portfolio nav (opens in new tab)
 
 ### Changed
 - Grid background from solid lines to dotted pattern using `radial-gradient`
