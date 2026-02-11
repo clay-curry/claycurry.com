@@ -1,7 +1,7 @@
 "use client";
 
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { Menu, MessagesSquare } from "lucide-react";
+import { Github, Menu, MessagesSquare } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -77,6 +77,17 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
             <MessagesSquare className="size-3.5" />
             Ask AI
           </button>
+
+          <a
+            href="https://github.com/clay-curry/claycurry.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-click-id="nav:github"
+            aria-label="Open GitHub repository"
+            className="inline-flex items-center justify-center h-8 w-8 text-sm font-medium rounded-xl border border-border/40 text-foreground/80 bg-muted/50 hover:bg-muted transition-colors cursor-pointer"
+          >
+            <Github className="size-3.5" />
+          </a>
 
           {/* Mobile hamburger menu */}
           {mounted ? (
