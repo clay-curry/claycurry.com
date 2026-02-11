@@ -1,10 +1,14 @@
-import { Calendar, ArrowRight } from 'lucide-react'
-import Link from 'next/link'
-import type { PostMetadata } from '@/app/(portfolio)/blog/loader'
+import { ArrowRight, Calendar } from "lucide-react";
+import Link from "next/link";
+import type { PostMetadata } from "@/app/(portfolio)/blog/loader";
 
 export function PostCard({ post }: { post: PostMetadata }) {
   return (
-    <Link href={`/blog/${post.slug}`} data-click-id={`blog:post:${post.slug}`} className="block">
+    <Link
+      href={`/blog/${post.slug}`}
+      data-click-id={`blog:post:${post.slug}`}
+      className="block"
+    >
       <article className="group bg-secondary rounded-xl md:rounded-2xl border border-border overflow-hidden hover:border-accent hover:shadow-lg hover:shadow-accent/10 transition-all duration-300 h-full">
         <div className="p-4 md:p-5 flex flex-col h-full">
           <div className="flex items-center gap-2 flex-wrap text-xs text-muted-foreground mb-3">
@@ -17,7 +21,9 @@ export function PostCard({ post }: { post: PostMetadata }) {
             {post.title}
           </h3>
           <p className="text-sm text-muted-foreground mb-1">{post.subtitle}</p>
-          <p className="text-xs md:text-sm text-muted-foreground leading-relaxed mb-4 line-clamp-2">{post.prefix}</p>
+          <p className="text-xs md:text-sm text-muted-foreground leading-relaxed mb-4 line-clamp-2">
+            {post.prefix}
+          </p>
 
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-4">
@@ -39,5 +45,5 @@ export function PostCard({ post }: { post: PostMetadata }) {
         </div>
       </article>
     </Link>
-  )
+  );
 }

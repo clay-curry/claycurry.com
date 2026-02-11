@@ -25,6 +25,11 @@ import {
   PromptInputSubmit,
   PromptInputTextarea,
 } from "@/lib/components/chat/prompt-input";
+import {
+  Reasoning,
+  ReasoningContent,
+  ReasoningTrigger,
+} from "@/lib/components/chat/reasoning";
 import { Shimmer } from "@/lib/components/chat/shimmer";
 import { Suggestion, Suggestions } from "@/lib/components/chat/suggestion";
 import { Button } from "@/lib/components/ui/button";
@@ -46,17 +51,7 @@ import { useIsMobile } from "@/lib/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { ChatToolbar } from "./chat-toolbar";
 import { MessageMetadata } from "./message-metadata";
-import {
-  Reasoning,
-  ReasoningContent,
-  ReasoningTrigger,
-} from "@/lib/components/chat/reasoning";
-import {
-  Source,
-  Sources,
-  SourcesContent,
-  SourcesTrigger,
-} from "./sources";
+import { Source, Sources, SourcesContent, SourcesTrigger } from "./sources";
 
 type ChatDrawerProps = {
   basePath?: string;
@@ -148,7 +143,7 @@ const ChatDrawerContent = ({ basePath, suggestions }: ChatDrawerProps) => {
                 message.role === "assistant" &&
                 (status === "streaming" || status === "submitted");
               const hasText = message.parts.some(
-                (part) => part.type === "text" && part.text
+                (part) => part.type === "text" && part.text,
               );
               return hasText || isStreaming;
             })
@@ -160,14 +155,14 @@ const ChatDrawerContent = ({ basePath, suggestions }: ChatDrawerProps) => {
                 isAssistantMessage &&
                 (status === "streaming" || status === "submitted");
               const hasTextContent = message.parts.some(
-                (part) => part.type === "text"
+                (part) => part.type === "text",
               );
 
               const sourceParts = message.parts.filter(
-                (part) => part.type === "source-url"
+                (part) => part.type === "source-url",
               );
               const reasoningParts = message.parts.filter(
-                (part) => part.type === "reasoning"
+                (part) => part.type === "reasoning",
               );
 
               return (
@@ -346,7 +341,7 @@ export function ChatDrawer({ basePath, suggestions }: ChatDrawerProps) {
             "fixed z-50 flex flex-col gap-4 bg-background transition-all",
             "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm",
             "translate-x-full data-[state=open]:translate-x-0",
-            "hidden md:flex"
+            "hidden md:flex",
           )}
           data-state={isDrawerOpen ? "open" : "closed"}
         >
@@ -365,10 +360,7 @@ export function ChatDrawer({ basePath, suggestions }: ChatDrawerProps) {
             </Button>
           </DrawerTrigger>
           <DrawerContent className="h-[80dvh]">
-            <ChatDrawerContent
-              basePath={basePath}
-              suggestions={suggestions}
-            />
+            <ChatDrawerContent basePath={basePath} suggestions={suggestions} />
           </DrawerContent>
         </Drawer>
       </div>

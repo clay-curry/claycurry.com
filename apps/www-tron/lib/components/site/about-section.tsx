@@ -1,8 +1,8 @@
-import { aboutData } from '@/lib/portfolio-data'
-import { SectionHeader } from './section-header'
+import { aboutData } from "@/lib/portfolio-data";
+import { SectionHeader } from "./section-header";
 
 export function AboutSection() {
-  const data = aboutData
+  const data = aboutData;
 
   return (
     <div className="mx-4">
@@ -13,5 +13,5 @@ export function AboutSection() {
         ))}
       </div>
     </div>
-  )
+  );
 }

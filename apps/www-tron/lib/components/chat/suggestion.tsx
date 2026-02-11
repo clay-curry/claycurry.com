@@ -1,9 +1,9 @@
 "use client";
 
+import type { ComponentProps } from "react";
 import { Button } from "@/lib/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/lib/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import type { ComponentProps } from "react";
 
 export type SuggestionsProps = ComponentProps<typeof ScrollArea>;
 
@@ -13,7 +13,9 @@ export const Suggestions = ({
   ...props
 }: SuggestionsProps) => (
   <ScrollArea className="w-full overflow-x-auto whitespace-nowrap" {...props}>
-    <div className={cn("flex w-full flex-nowrap justify-between gap-2", className)}>
+    <div
+      className={cn("flex w-full flex-nowrap justify-between gap-2", className)}
+    >
       {children}
     </div>
     <ScrollBar className="hidden" orientation="horizontal" />

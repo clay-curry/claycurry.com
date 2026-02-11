@@ -1,37 +1,36 @@
-"use client"
+"use client";
 
-import { Palette } from "lucide-react"
-import { useEffect, useState } from "react"
+import { Palette } from "lucide-react";
+import { useEffect, useState } from "react";
 
-
-const themePresets = ["cyan", "orange", "red", "green", "gray"] as const
-type ThemePreset = (typeof themePresets)[number]
+const themePresets = ["cyan", "orange", "red", "green", "gray"] as const;
+type ThemePreset = (typeof themePresets)[number];
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<ThemePreset>("red")
-  const [mounted, setMounted] = useState(false)
+  const [theme, setTheme] = useState<ThemePreset>("red");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-    const stored = localStorage.getItem("tron-theme") as ThemePreset | null
+    setMounted(true);
+    const stored = localStorage.getItem("tron-theme") as ThemePreset | null;
     if (stored && themePresets.includes(stored)) {
-      setTheme(stored)
+      setTheme(stored);
     }
-  }, [])
+  }, []);
 
   const cycleTheme = () => {
-    const currentIndex = themePresets.indexOf(theme)
-    const nextIndex = (currentIndex + 1) % themePresets.length
-    const next = themePresets[nextIndex]
+    const currentIndex = themePresets.indexOf(theme);
+    const nextIndex = (currentIndex + 1) % themePresets.length;
+    const next = themePresets[nextIndex];
 
-    const html = document.documentElement
+    const html = document.documentElement;
     for (const p of themePresets) {
-      html.classList.remove(`theme-${p}`)
+      html.classList.remove(`theme-${p}`);
     }
-    html.classList.add(`theme-${next}`)
-    setTheme(next)
-    localStorage.setItem("tron-theme", next)
-  }
+    html.classList.add(`theme-${next}`);
+    setTheme(next);
+    localStorage.setItem("tron-theme", next);
+  };
 
   if (!mounted) {
     return (
@@ -42,7 +41,7 @@ export function ThemeToggle() {
       >
         <Palette className="size-3.5 text-accent" />
       </button>
-    )
+    );
   }
 
   return (
@@ -55,5 +54,5 @@ export function ThemeToggle() {
     >
       <Palette className="size-3.5 text-accent" />
     </button>
-  )
+  );
 }

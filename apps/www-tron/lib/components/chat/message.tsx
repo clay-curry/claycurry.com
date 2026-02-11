@@ -1,14 +1,5 @@
 "use client";
 
-import { Button } from "@/lib/components/ui/button";
-import { ButtonGroup, ButtonGroupText } from "@/lib/components/ui/button-group";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from "@/lib/components/ui/tooltip";
-import { cn } from "@/lib/utils";
 import { cjk } from "@streamdown/cjk";
 import { code } from "@streamdown/code";
 import { math } from "@streamdown/math";
@@ -18,11 +9,20 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   PaperclipIcon,
-  XIcon
+  XIcon,
 } from "lucide-react";
 import type { ComponentProps, HTMLAttributes, ReactElement } from "react";
 import { createContext, memo, useContext, useEffect, useState } from "react";
 import { Streamdown } from "streamdown";
+import { Button } from "@/lib/components/ui/button";
+import { ButtonGroup, ButtonGroupText } from "@/lib/components/ui/button-group";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/lib/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 export type MessageProps = HTMLAttributes<HTMLDivElement> & {
   from: UIMessage["role"];
@@ -33,7 +33,7 @@ export const Message = ({ className, from, ...props }: MessageProps) => (
     className={cn(
       "group flex flex-col w-full gap-2",
       from === "user" ? "is-user ml-auto justify-end" : "is-assistant",
-      className
+      className,
     )}
     {...props}
   />
@@ -51,7 +51,7 @@ export const MessageContent = ({
       "is-user:dark flex w-full flex-col gap-2 overflow-x-auto text-sm",
       "group-[.is-user]:ml-auto group-[.is-user]:w-fit group-[.is-user]:rounded-lg group-[.is-user]:bg-secondary group-[.is-user]:px-4 group-[.is-user]:py-3 group-[.is-user]:text-foreground",
       "group-[.is-assistant]:text-foreground",
-      className
+      className,
     )}
     {...props}
   >
@@ -117,7 +117,7 @@ type MessageBranchContextType = {
 };
 
 const MessageBranchContext = createContext<MessageBranchContextType | null>(
-  null
+  null,
 );
 
 const useMessageBranch = () => {
@@ -125,7 +125,7 @@ const useMessageBranch = () => {
 
   if (!context) {
     throw new Error(
-      "MessageBranch components must be used within MessageBranch"
+      "MessageBranch components must be used within MessageBranch",
     );
   }
 
@@ -169,7 +169,7 @@ export const MessageBranch = ({
     goToPrevious,
     goToNext,
     branches,
-    setBranches
+    setBranches,
   };
 
   return (
@@ -201,7 +201,7 @@ export const MessageBranchContent = ({
     <div
       className={cn(
         "grid gap-2 [&>div]:pb-0",
-        index === currentBranch ? "block" : "hidden"
+        index === currentBranch ? "block" : "hidden",
       )}
       key={branch.key}
       {...props}
@@ -294,7 +294,7 @@ export const MessageBranchPage = ({
     <ButtonGroupText
       className={cn(
         "border-none bg-transparent text-muted-foreground shadow-none",
-        className
+        className,
       )}
       {...props}
     >
@@ -310,13 +310,13 @@ export const MessageResponse = memo(
     <Streamdown
       className={cn(
         "size-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
-        className
+        className,
       )}
       plugins={{ code, mermaid, math, cjk }}
       {...props}
     />
   ),
-  (prevProps, nextProps) => prevProps.children === nextProps.children
+  (prevProps, nextProps) => prevProps.children === nextProps.children,
 );
 
 MessageResponse.displayName = "MessageResponse";
@@ -343,7 +343,7 @@ export function MessageAttachment({
     <div
       className={cn(
         "group relative size-24 overflow-hidden rounded-lg",
-        className
+        className,
       )}
       {...props}
     >
@@ -420,7 +420,7 @@ export function MessageAttachments({
     <div
       className={cn(
         "ml-auto flex w-fit flex-wrap items-start gap-2",
-        className
+        className,
       )}
       {...props}
     >
@@ -439,7 +439,7 @@ export const MessageToolbar = ({
   <div
     className={cn(
       "mt-4 flex w-full items-center justify-between gap-4",
-      className
+      className,
     )}
     {...props}
   >

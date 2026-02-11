@@ -6,5 +6,5 @@ export function SectionHeader({ title }: { title: string }) {
       </span>
       <div className="w-3 h-px bg-foreground rounded-full" />
     </div>
-  )
+  );
 }

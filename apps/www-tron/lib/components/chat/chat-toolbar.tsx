@@ -18,8 +18,8 @@ import {
   TooltipTrigger,
 } from "@/lib/components/ui/tooltip";
 import { CHAT_MODELS } from "@/lib/hooks/use-chat-session";
-import { CopyChat } from "./copy-chat";
 import { cn } from "@/lib/utils";
+import { CopyChat } from "./copy-chat";
 
 export type ChatToolbarProps = ComponentProps<"div"> & {
   messages: UIMessage[];
@@ -46,7 +46,7 @@ export function ChatToolbar({
     <div
       className={cn(
         "flex items-center justify-between px-4 py-2.5 border-b",
-        className
+        className,
       )}
       {...props}
     >

@@ -1,12 +1,22 @@
 type MDXComponents = Record<string, React.ComponentType<any>>;
+
 import Image, { type ImageProps } from "next/image";
-import Summary from "@/lib/components/ui/summary";
 import { CodeBlock } from "@/lib/components/content/code-block";
+import {
+  AsciiContent,
+  DiagramContent,
+  DiagramTabs,
+  MermaidContent,
+} from "@/lib/components/content/diagram-tabs";
+import {
+  ExampleTabs,
+  RenderedContent,
+  SourceContent,
+} from "@/lib/components/content/example-tabs";
 import { Mermaid } from "@/lib/components/content/mermaid";
-import { DiagramTabs, DiagramContent, MermaidContent, AsciiContent } from "@/lib/components/content/diagram-tabs";
-import { ExampleTabs, RenderedContent, SourceContent } from "@/lib/components/content/example-tabs";
 import { PhotoCarousel } from "@/lib/components/content/photo-carousel";
 import { PhotoRow } from "@/lib/components/content/photo-row";
+import Summary from "@/lib/components/ui/summary";
 import { slugify } from "@/lib/utils";
 
 // TRON-themed MDX components
@@ -24,7 +34,14 @@ const components = {
       </h1>
     );
   },
-  h2: ({ children, id: existingId, ...props }: { children: React.ReactNode; id?: string }) => {
+  h2: ({
+    children,
+    id: existingId,
+    ...props
+  }: {
+    children: React.ReactNode;
+    id?: string;
+  }) => {
     const id = existingId || slugify(children);
     return (
       <h2
@@ -52,27 +69,32 @@ const components = {
     );
   },
   p: ({ children }: { children: React.ReactNode }) => (
-    <p className="my-4 leading-7 text-foreground">
-      {children}
-    </p>
+    <p className="my-4 leading-7 text-foreground">{children}</p>
   ),
   ul: ({ children }: { children: React.ReactNode }) => (
-    <ul className="my-4 ml-6 list-disc space-y-2" >
-      {children}
-    </ul>
+    <ul className="my-4 ml-6 list-disc space-y-2">{children}</ul>
   ),
   ol: ({ children }: { children: React.ReactNode }) => (
-    <ol className="my-4 ml-6 list-decimal space-y-2">
-      {children}
-    </ol>
+    <ol className="my-4 ml-6 list-decimal space-y-2">{children}</ol>
   ),
-  li: ({ children }: { children: React.ReactNode }) => <li className="leading-7">{children}</li>,
+  li: ({ children }: { children: React.ReactNode }) => (
+    <li className="leading-7">{children}</li>
+  ),
   blockquote: ({ children }: { children: React.ReactNode }) => (
     <blockquote className="my-6 border-l-4 border-primary pl-4">
       {children}
     </blockquote>
   ),
-  code: ({ children, style, ...props }: { children: React.ReactNode; "data-theme"?: string; "data-language"?: string; style?: React.CSSProperties }) => {
+  code: ({
+    children,
+    style,
+    ...props
+  }: {
+    children: React.ReactNode;
+    "data-theme"?: string;
+    "data-language"?: string;
+    style?: React.CSSProperties;
+  }) => {
     // Check if this is inline code (plaintext language typically means inline)
     const isInlineCode = props["data-language"] === "plaintext";
 
@@ -101,12 +123,23 @@ const components = {
       </code>
     );
   },
-  pre: ({ children, ...props }: { children: React.ReactNode; "data-language"?: string; title?: string }) => (
-    <CodeBlock {...props}>
-      {children}
-    </CodeBlock>
-  ),
-  span: ({ children, ...props }: { children: React.ReactNode; "data-line"?: boolean; "data-highlighted-line"?: boolean; "data-rehype-pretty-code-figure"?: string }) => {
+  pre: ({
+    children,
+    ...props
+  }: {
+    children: React.ReactNode;
+    "data-language"?: string;
+    title?: string;
+  }) => <CodeBlock {...props}>{children}</CodeBlock>,
+  span: ({
+    children,
+    ...props
+  }: {
+    children: React.ReactNode;
+    "data-line"?: boolean;
+    "data-highlighted-line"?: boolean;
+    "data-rehype-pretty-code-figure"?: string;
+  }) => {
     // Inline code from rehype-pretty-code is wrapped in span (not figure)
     if ("data-rehype-pretty-code-figure" in props) {
       return (
@@ -118,17 +151,20 @@ const components = {
     if ("data-line" in props) {
       const isHighlighted = "data-highlighted-line" in props;
       return (
-        <span
-          {...props}
-          className={isHighlighted ? "bg-primary/10" : ""}
-        >
+        <span {...props} className={isHighlighted ? "bg-primary/10" : ""}>
           {children}
         </span>
       );
     }
     return <span {...props}>{children}</span>;
   },
-  figure: ({ children, ...props }: { children: React.ReactNode; "data-rehype-pretty-code-figure"?: boolean }) => {
+  figure: ({
+    children,
+    ...props
+  }: {
+    children: React.ReactNode;
+    "data-rehype-pretty-code-figure"?: boolean;
+  }) => {
     if ("data-rehype-pretty-code-figure" in props) {
       // rehype-pretty-code wraps code in figure, just pass through children
       return <>{children}</>;
@@ -168,15 +204,13 @@ const components = {
     </a>
   ),
   strong: ({ children }: { children: React.ReactNode }) => (
-    <strong className="font-semibold text-foreground">
-      {children}
-    </strong>
+    <strong className="font-semibold text-foreground">{children}</strong>
   ),
-  em: ({ children }: { children: React.ReactNode }) => <em className="italic">{children}</em>,
+  em: ({ children }: { children: React.ReactNode }) => (
+    <em className="italic">{children}</em>
+  ),
   del: ({ children }: { children: React.ReactNode }) => (
-    <del className="text-muted-foreground line-through">
-      {children}
-    </del>
+    <del className="text-muted-foreground line-through">{children}</del>
   ),
   input: (props: React.InputHTMLAttributes<HTMLInputElement>) => {
     if (props.type === "checkbox") {
@@ -200,11 +234,15 @@ const components = {
     />
   ),
   sup: ({ children }: { children: React.ReactNode }) => (
-    <sup className="text-xs text-primary ml-0.5">
-      {children}
-    </sup>
+    <sup className="text-xs text-primary ml-0.5">{children}</sup>
   ),
-  section: ({ children, ...props }: { children: React.ReactNode; "data-footnotes"?: boolean }) => {
+  section: ({
+    children,
+    ...props
+  }: {
+    children: React.ReactNode;
+    "data-footnotes"?: boolean;
+  }) => {
     if ("data-footnotes" in props) {
       return (
         <section className="mt-12 pt-6 border-t border-border text-sm text-muted-foreground">

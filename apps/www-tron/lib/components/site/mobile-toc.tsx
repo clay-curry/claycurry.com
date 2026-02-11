@@ -1,41 +1,48 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { List } from 'lucide-react'
-import { slugify } from '@/lib/utils'
+import { List } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/lib/components/ui/accordion'
-import { SidebarTrigger } from '@/lib/components/ui/sidebar'
-import type { NavLink } from '@/lib/navigation'
+} from "@/lib/components/ui/accordion";
+import { SidebarTrigger } from "@/lib/components/ui/sidebar";
+import type { NavLink } from "@/lib/navigation";
+import { slugify } from "@/lib/utils";
 
 export type TocItem = {
-  depth: number
-  value: string
-  id?: string
-  href?: string
-}
+  depth: number;
+  value: string;
+  id?: string;
+  href?: string;
+};
 
-export function MobileToc({ toc, navLinks }: { toc: TocItem[]; navLinks: NavLink[] }) {
-  const [open, setOpen] = useState('')
-  const [mounted, setMounted] = useState(false)
-  const headings = toc.filter((item) => item.depth === 2)
+export function MobileToc({
+  toc,
+  navLinks,
+}: {
+  toc: TocItem[];
+  navLinks: NavLink[];
+}) {
+  const [open, setOpen] = useState("");
+  const [mounted, setMounted] = useState(false);
+  const headings = toc.filter((item) => item.depth === 2);
 
   // Delay rendering of Radix components to avoid hydration mismatch
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   if (headings.length === 0) {
-    return null
+    return null;
   }
 
   // Fixed full-width bar that sticks to top
-  const containerStyles = "xl:hidden fixed top-0 left-0 right-0 z-40 py-1 bg-background/95 backdrop-blur-sm border-b border-border px-3 sm:px-4 md:px-6"
+  const containerStyles =
+    "xl:hidden fixed top-0 left-0 right-0 z-40 py-1 bg-background/95 backdrop-blur-sm border-b border-border px-3 sm:px-4 md:px-6";
 
   if (!mounted) {
     return (
@@ -52,14 +59,19 @@ export function MobileToc({ toc, navLinks }: { toc: TocItem[]; navLinks: NavLink
         {/* Spacer to prevent content from being hidden behind fixed header */}
         <div className="xl:hidden h-12" />
       </>
-    )
+    );
   }
 
   return (
     <>
       <div className={containerStyles}>
         <div className="relative">
-          <Accordion type="single" collapsible value={open} onValueChange={setOpen}>
+          <Accordion
+            type="single"
+            collapsible
+            value={open}
+            onValueChange={setOpen}
+          >
             <AccordionItem value="toc" className="border-none">
               <AccordionTrigger className="py-2 hover:no-underline pr-10">
                 <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
@@ -81,27 +93,34 @@ export function MobileToc({ toc, navLinks }: { toc: TocItem[]; navLinks: NavLink
                 </div>
                 <ul className="py-4 text-sm">
                   {headings.map((item) => {
-                    const id = item.id || (item.value.toLowerCase() === 'footnotes' ? 'footnote-label' : slugify(item.value))
+                    const id =
+                      item.id ||
+                      (item.value.toLowerCase() === "footnotes"
+                        ? "footnote-label"
+                        : slugify(item.value));
                     return (
                       <li
                         key={id}
                         className="text-muted-foreground hover:text-primary active:text-primary transition-colors py-1.5 pl-6 cursor-pointer"
                         onClick={(e) => {
-                          e.stopPropagation()
-                          setOpen('')
-                          const targetId = id
+                          e.stopPropagation();
+                          setOpen("");
+                          const targetId = id;
                           setTimeout(() => {
-                            const el = document.getElementById(targetId)
+                            const el = document.getElementById(targetId);
                             if (el) {
-                              const y = el.getBoundingClientRect().top + window.scrollY - 80
-                              window.scrollTo({ top: y, behavior: 'instant' })
+                              const y =
+                                el.getBoundingClientRect().top +
+                                window.scrollY -
+                                80;
+                              window.scrollTo({ top: y, behavior: "instant" });
                             }
-                          }, 150)
+                          }, 150);
                         }}
                       >
                         {item.value}
                       </li>
-                    )
+                    );
                   })}
                 </ul>
               </AccordionContent>
@@ -113,5 +132,5 @@ export function MobileToc({ toc, navLinks }: { toc: TocItem[]; navLinks: NavLink
       {/* Spacer to prevent content from being hidden behind fixed header */}
       <div className="xl:hidden h-12" />
     </>
-  )
+  );
 }

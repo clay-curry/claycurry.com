@@ -1,8 +1,8 @@
 "use client";
 
-import { createContext, useContext, type ReactNode } from "react";
-import { ChatDrawer } from "@/lib/components/chat/chat-drawer";
+import { createContext, type ReactNode, useContext } from "react";
 import { ChatDialog } from "@/lib/components/chat/chat-dialog";
+import { ChatDrawer } from "@/lib/components/chat/chat-drawer";
 import { useChatUI } from "@/lib/hooks/use-chat-ui";
 
 // Context for suggestions (passed from provider)

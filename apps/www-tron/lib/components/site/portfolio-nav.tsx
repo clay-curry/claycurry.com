@@ -1,35 +1,33 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Menu, MessagesSquare } from 'lucide-react'
-
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
-import { motion } from 'motion/react'
-import { useChatUI } from '@/lib/hooks/use-chat-ui'
-import { Button } from '@/lib/components/ui/button'
-import { InitialsAvatar } from '@/lib/components/ui/initials-avatar'
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { Menu, MessagesSquare } from "lucide-react";
+import { motion } from "motion/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Button } from "@/lib/components/ui/button";
+import { InitialsAvatar } from "@/lib/components/ui/initials-avatar";
 import {
   Sheet,
   SheetContent,
   SheetTitle,
   SheetTrigger,
-} from '@/lib/components/ui/sheet'
-import { profileData } from '@/lib/portfolio-data'
-import type { NavLink } from '@/lib/navigation'
+} from "@/lib/components/ui/sheet";
+import { useChatUI } from "@/lib/hooks/use-chat-ui";
+import type { NavLink } from "@/lib/navigation";
 
 export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
-  const pathname = usePathname()
-  const activeSection = pathname === '/' ? 'about' : pathname.split('/')[1]
-  const [open, setOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const { setIsDialogOpen } = useChatUI()
+  const pathname = usePathname();
+  const activeSection = pathname === "/" ? "about" : pathname.split("/")[1];
+  const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { setIsDialogOpen } = useChatUI();
 
   // Delay rendering of Radix components to avoid hydration mismatch
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   return (
     <header className="sticky top-0 z-20 w-full border-b border-border/40 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -51,8 +49,8 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
               data-click-id={`nav:${section.label}`}
               className={`relative px-3 py-1.5 rounded-md text-sm font-medium capitalize transition-colors ${
                 activeSection === section.label
-                  ? 'text-accent'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? "text-accent"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {activeSection === section.label && (
@@ -108,8 +106,8 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
                         onClick={() => setOpen(false)}
                         className={`px-4 py-3 rounded-lg text-sm font-medium capitalize transition-colors ${
                           activeSection === section.label
-                            ? 'text-foreground bg-accent/10'
-                            : 'text-muted-foreground hover:bg-accent/20'
+                            ? "text-foreground bg-accent/10"
+                            : "text-muted-foreground hover:bg-accent/20"
                         }`}
                       >
                         {section.label}
@@ -132,5 +130,5 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
         </div>
       </nav>
     </header>
-  )
+  );
 }

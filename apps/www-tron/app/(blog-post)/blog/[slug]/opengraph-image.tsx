@@ -1,9 +1,9 @@
 import { ImageResponse } from "next/og";
-import { loadGoogleFont } from "@/lib/og/load-font";
 import {
   getAllPostsMetadata,
   getPostMetadata,
 } from "@/app/(portfolio)/blog/loader";
+import { loadGoogleFont } from "@/lib/og/load-font";
 
 export const alt = "Blog post";
 export const size = { width: 1200, height: 630 };

@@ -1,0 +1,78 @@
+name: Merge criteria
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  merge-criteria:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # ── Plugin check steps ──────────────────────────────────────────
+      # Each step outputs result=pass|fail.  To add a new plugin, add a
+      # step here and wire its output into the render step's env block.
+
+      - name: Check changelog
+        id: changelog
+        run: |
+          if git diff --name-only origin/${{ github.base_ref }}...HEAD \
+            | grep -q '^CHANGELOG.md$'; then
+            echo "result=pass" >> "$GITHUB_OUTPUT"
+          else
+            echo "result=fail" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check commit messages
+        id: commits
+        run: |
+          pnpm exec commitlint \
+            --from origin/${{ github.base_ref }} \
+            --to HEAD \
+            --verbose && echo "result=pass" >> "$GITHUB_OUTPUT" \
+            || echo "result=fail" >> "$GITHUB_OUTPUT"
+
+      # ── Render & post ───────────────────────────────────────────────
+
+      - name: Render comment
+        id: render
+        env:
+          CHANGELOG: ${{ steps.changelog.outputs.result }}
+          COMMITS: ${{ steps.commits.outputs.result }}
+        run: python3 .github/ci/render_comment.py
+
+      - name: Find existing comment
+        uses: peter-evans/find-comment@v3
+        id: find
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: "<!-- merge-criteria -->"
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.render.outputs.comment }}
+          edit-mode: replace
+
+      - name: Fail if criteria not met
+        if: steps.render.outputs.all_passed != 'true'
+        run: |
+          echo "::error::One or more merge criteria not met"
+          exit 1

@@ -1,14 +1,14 @@
-import { ProfileSidebar } from '@/lib/components/site/profile-sidebar'
-import { profileData } from '@/lib/portfolio-data'
-import { AppLayout } from '@/lib/components/site/AppLayout'
-import { getSiteNavLinks } from '@/lib/navigation'
+import { AppLayout } from "@/lib/components/site/AppLayout";
+import { ProfileSidebar } from "@/lib/components/site/profile-sidebar";
+import { getSiteNavLinks } from "@/lib/navigation";
+import { profileData } from "@/lib/portfolio-data";
 
 export default function PortfolioLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const navLinks = getSiteNavLinks()
+  const navLinks = getSiteNavLinks();
 
   return (
     <div className="min-h-screen p-0">
@@ -19,5 +19,5 @@ export default function PortfolioLayout({
         </div>
       </div>
     </div>
-  )
+  );
 }

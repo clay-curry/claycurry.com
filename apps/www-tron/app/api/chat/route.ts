@@ -1,8 +1,8 @@
-import { gateway, streamText, convertToModelMessages } from "ai";
-import type { UIMessage } from "ai";
 import type { GatewayProviderOptions } from "@ai-sdk/gateway";
+import type { UIMessage } from "ai";
+import { convertToModelMessages, gateway, streamText } from "ai";
 import { getPostContent } from "@/app/(portfolio)/blog/loader";
-import { profileData, siteConfig } from "@/lib/portfolio-data";
+import { profileData } from "@/lib/portfolio-data";
 
 interface GitHubRepo {
   name: string;
@@ -47,8 +47,13 @@ async function fetchGitHubData(): Promise<string> {
   try {
     // Fetch profile and repos in parallel
     const [profileRes, reposRes] = await Promise.all([
-      fetch(`https://api.github.com/users/${profileData.githubUsername}`, { headers }),
-      fetch(`https://api.github.com/users/${profileData.githubUsername}/repos?sort=updated&per_page=30`, { headers }),
+      fetch(`https://api.github.com/users/${profileData.githubUsername}`, {
+        headers,
+      }),
+      fetch(
+        `https://api.github.com/users/${profileData.githubUsername}/repos?sort=updated&per_page=30`,
+        { headers },
+      ),
     ]);
 
     if (!profileRes.ok || !reposRes.ok) {
@@ -95,7 +100,7 @@ ${ownRepos
 - Topics: ${repo.topics.length > 0 ? repo.topics.join(", ") : "None"}
 - URL: ${repo.url}
 - Last updated: ${new Date(repo.updated).toLocaleDateString()}
-`
+`,
   )
   .join("\n")}
 `;
@@ -256,7 +261,8 @@ ${postData.content}
   } else {
     // General context - use GitHub data
     const githubData = await fetchGitHubData();
-    fullSystemPrompt = SYSTEM_PROMPT + (githubData ? `\n\n### GitHub Data\n${githubData}` : "");
+    fullSystemPrompt =
+      SYSTEM_PROMPT + (githubData ? `\n\n### GitHub Data\n${githubData}` : "");
   }
 
   const result = streamText({

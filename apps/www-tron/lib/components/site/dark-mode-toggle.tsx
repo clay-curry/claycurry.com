@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { Lightbulb } from "lucide-react"
-import { useEffect, useState } from "react"
+import { Lightbulb } from "lucide-react";
+import { useEffect, useState } from "react";
 
 function LightbulbRays({ className }: { className?: string }) {
   return (
@@ -31,36 +31,40 @@ function LightbulbRays({ className }: { className?: string }) {
 }
 
 export function DarkModeToggle() {
-  const [mode, setMode] = useState<"dark" | "light">("dark")
-  const [mounted, setMounted] = useState(false)
+  const [mode, setMode] = useState<"dark" | "light">("dark");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-    const stored = localStorage.getItem("tron-mode") as "dark" | "light" | null
+    setMounted(true);
+    const stored = localStorage.getItem("tron-mode") as "dark" | "light" | null;
     if (stored === "light" || stored === "dark") {
-      setMode(stored)
+      setMode(stored);
     }
-  }, [])
+  }, []);
 
   const toggleMode = () => {
-    const next = mode === "dark" ? "light" : "dark"
-    const html = document.documentElement
+    const next = mode === "dark" ? "light" : "dark";
+    const html = document.documentElement;
     // Disable all transitions so the mode switch is instant
-    html.style.setProperty("transition", "none", "important")
-    document.body.style.setProperty("transition", "none", "important")
-    const all = document.querySelectorAll("*")
-    all.forEach((el) => (el as HTMLElement).style.setProperty("transition", "none", "important"))
-    html.classList.remove("dark", "light")
-    html.classList.add(next)
-    setMode(next)
-    localStorage.setItem("tron-mode", next)
+    html.style.setProperty("transition", "none", "important");
+    document.body.style.setProperty("transition", "none", "important");
+    const all = document.querySelectorAll("*");
+    all.forEach((el) => {
+      (el as HTMLElement).style.setProperty("transition", "none", "important");
+    });
+    html.classList.remove("dark", "light");
+    html.classList.add(next);
+    setMode(next);
+    localStorage.setItem("tron-mode", next);
     // Re-enable transitions on the next frame
     requestAnimationFrame(() => {
-      html.style.removeProperty("transition")
-      document.body.style.removeProperty("transition")
-      all.forEach((el) => (el as HTMLElement).style.removeProperty("transition"))
-    })
-  }
+      html.style.removeProperty("transition");
+      document.body.style.removeProperty("transition");
+      all.forEach((el) => {
+        (el as HTMLElement).style.removeProperty("transition");
+      });
+    });
+  };
 
   if (!mounted) {
     return (
@@ -71,7 +75,7 @@ export function DarkModeToggle() {
       >
         <Lightbulb className="size-3.5" />
       </button>
-    )
+    );
   }
 
   return (
@@ -88,5 +92,5 @@ export function DarkModeToggle() {
         <LightbulbRays className="size-3.5 text-foreground" />
       )}
     </button>
-  )
+  );
 }

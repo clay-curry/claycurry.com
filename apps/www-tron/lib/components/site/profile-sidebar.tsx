@@ -1,9 +1,9 @@
-import { Mail, Phone, MapPin, Github, Linkedin } from 'lucide-react'
-import { XIcon } from '@/lib/components/icons'
-import { profileData } from '@/lib/portfolio-data'
+import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { XIcon } from "@/lib/components/icons";
+import { profileData } from "@/lib/portfolio-data";
 
 interface ProfileSidebarProps {
-  data?: typeof profileData
+  data?: typeof profileData;
 }
 
 export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
@@ -22,7 +22,9 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           </div>
         </div>
 
-        <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">{data.name}</h1>
+        <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">
+          {data.name}
+        </h1>
         <p className="text-xs md:text-sm text-muted-foreground bg-secondary px-3 md:px-4 py-1 rounded-lg">
           {data.title}
         </p>
@@ -34,21 +36,36 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
       {/* Contact Info */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 md:gap-4">
         {[
-          { icon: Mail, label: 'Email', value: data.email, href: `mailto:${data.email}`, breakAll: true, clickId: 'sidebar:email' },
-          { icon: Phone, label: 'Phone', value: data.phone, href: `tel:${data.phone.replace(/\s/g, '')}`, clickId: 'sidebar:phone' },
-          { icon: MapPin, label: 'Location', value: data.location },
+          {
+            icon: Mail,
+            label: "Email",
+            value: data.email,
+            href: `mailto:${data.email}`,
+            breakAll: true,
+            clickId: "sidebar:email",
+          },
+          {
+            icon: Phone,
+            label: "Phone",
+            value: data.phone,
+            href: `tel:${data.phone.replace(/\s/g, "")}`,
+            clickId: "sidebar:phone",
+          },
+          { icon: MapPin, label: "Location", value: data.location },
         ].map(({ icon: Icon, label, value, href, breakAll, clickId }) => (
           <div key={label} className="flex items-start gap-3 pl-2">
             <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
               <Icon className="w-5 h-5 text-primary" />
             </div>
-            <div className={`flex-1${breakAll ? ' min-w-0' : ''}`}>
-              <p className="text-xs text-muted-foreground uppercase mb-1">{label}</p>
+            <div className={`flex-1${breakAll ? " min-w-0" : ""}`}>
+              <p className="text-xs text-muted-foreground uppercase mb-1">
+                {label}
+              </p>
               {href ? (
                 <a
                   href={href}
                   data-click-id={clickId}
-                  className={`text-sm text-foreground hover:text-accent transition-colors${breakAll ? ' break-all' : ''}`}
+                  className={`text-sm text-foreground hover:text-accent transition-colors${breakAll ? " break-all" : ""}`}
                 >
                   {value}
                 </a>
@@ -94,5 +111,5 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         </a>
       </div>
     </aside>
-  )
+  );
 }

@@ -6,10 +6,19 @@ import { CHAT_MODELS } from "@/lib/hooks/use-chat-session";
 
 // Atoms for cross-component UI coordination (open/close surfaces, external prompt, shared model)
 export const chatPromptAtom = atom<string>("");
-export const chatDrawerOpenAtom = atomWithStorage<boolean>("portfolio:chat-drawer-open", false);
-export const chatDialogOpenAtom = atomWithStorage<boolean>("portfolio:chat-dialog-open", false);
+export const chatDrawerOpenAtom = atomWithStorage<boolean>(
+  "portfolio:chat-drawer-open",
+  false,
+);
+export const chatDialogOpenAtom = atomWithStorage<boolean>(
+  "portfolio:chat-dialog-open",
+  false,
+);
 // Shared model atom: allows hero to pre-select model before dialog opens
-export const chatModelAtom = atomWithStorage<string>("portfolio:chat-model", CHAT_MODELS[0].value);
+export const chatModelAtom = atomWithStorage<string>(
+  "portfolio:chat-model",
+  CHAT_MODELS[0].value,
+);
 
 // Hook for UI coordination state: which surface is open, external prompt injection, shared model
 export const useChatUI = () => {
