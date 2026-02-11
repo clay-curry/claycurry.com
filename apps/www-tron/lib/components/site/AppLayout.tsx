@@ -11,7 +11,7 @@ export function AppLayout({
   navLinks: NavLink[];
 }) {
   return (
-    <div className="w-full border border-border/80 overflow-auto lg:my-8 lg:mr-8 bg-background/95">
+    <div className="w-full border border-border/80 lg:my-8 lg:mr-8 bg-background/95">
       <PortfolioNav navLinks={navLinks} />
       <div className="sticky top-16 z-20 px-2 lg:px-3 py-2 w-fit">
         <FloatingToolbar />
