@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
@@ -65,10 +66,10 @@ def _evaluate(plugin: dict[str, object]) -> bool:
     return value == "pass"
 
 
-def _render_row(plugin: dict[str, object], index: int, passed: bool) -> str:
+def _render_row(plugin: dict[str, object], index: int, passed: bool, now: str) -> str:
     icon = ":white_check_mark:" if passed else ":x:"
     action = plugin["pass_action"] if passed else plugin["fail_action"]
-    return f"| {index} | {plugin['label']} [^{index}] | {icon} | {action} |"
+    return f"| {index} | {plugin['label']} [^{index}] | {icon} | {now} | {action} |"
 
 
 def _render_footnote(plugin: dict[str, object], index: int) -> str:
@@ -83,6 +84,8 @@ def _render_footnote(plugin: dict[str, object], index: int) -> str:
 def main() -> None:
     template = TEMPLATE_PATH.read_text()
 
+    now = datetime.now(timezone.utc).strftime("%b %d, %H:%M")
+
     rows: list[str] = []
     footnotes: list[str] = []
     all_passed = True
@@ -91,7 +94,7 @@ def main() -> None:
         passed = _evaluate(plugin)
         if plugin["required"] and not passed:
             all_passed = False
-        rows.append(_render_row(plugin, i, passed))
+        rows.append(_render_row(plugin, i, passed, now))
         footnotes.append(_render_footnote(plugin, i))
 
     comment = template.format(

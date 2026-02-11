@@ -1,8 +1,10 @@
 <!-- merge-criteria -->
 ## Clay's criteria
 
-| # | Check | Status | Required action |
-|---|-------|--------|-----------------|
+The latest updates on your projects. Learn more about [merge criteria](https://github.com/clay-curry/claycurry.com/tree/main/.github/ci) for [claycurry.com](https://claycurry.com).
+
+| # | Check | Status | Updated (UTC) | Required action |
+|---|-------|--------|---------------|-----------------|
 {rows}
 
 {footnotes}
