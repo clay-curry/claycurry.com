@@ -16,6 +16,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
       # ── Plugin check steps ──────────────────────────────────────────
       # Each step outputs result=pass|fail.  To add a new plugin, add a
       # step here and wire its output into the render step's env block.
@@ -33,7 +40,7 @@ jobs:
       - name: Check commit messages
         id: commits
         run: |
-          npm exec -- commitlint \
+          pnpm exec commitlint \
             --from origin/${{ github.base_ref }} \
             --to HEAD \
             --verbose && echo "result=pass" >> "$GITHUB_OUTPUT" \
