@@ -37,6 +37,13 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 md:gap-4">
         {[
           {
+            icon: MapPin,
+            label: "Location",
+            value: data.location,
+            href: "https://www.google.com/maps/place/San+Francisco,+CA",
+            clickId: "sidebar:location",
+          },
+          {
             icon: Mail,
             label: "Email",
             value: data.email,
@@ -51,7 +58,6 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
             href: `tel:${data.phone.replace(/\s/g, "")}`,
             clickId: "sidebar:phone",
           },
-          { icon: MapPin, label: "Location", value: data.location },
         ].map(({ icon: Icon, label, value, href, breakAll, clickId }) => (
           <div key={label} className="flex items-start gap-3 pl-2">
             <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
