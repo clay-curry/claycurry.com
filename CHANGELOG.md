@@ -19,6 +19,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Destructive button variant uses `text-destructive-foreground` instead of `text-white`
 - Resume subheading to "Designer | Product Engineer"
 - Moved San Francisco location to top of profile sidebar with Google Maps link
+- Rewrote About section bio to describe engineering values and AI/ML interest
 - Applied biome formatting and lint fixes across codebase
 
 ### Removed
