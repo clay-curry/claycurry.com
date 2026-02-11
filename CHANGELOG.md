@@ -12,11 +12,17 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `CLAUDE.md` project instructions for Claude Code
 
 ### Changed
+- Grid background from solid lines to dotted pattern using `radial-gradient`
+- Grid color now uses theme-aware `--grid-color` variable instead of hardcoded values
+- Hero contact button uses semantic `bg-background`/`text-foreground` tokens instead of `text-white`
+- Ask AI buttons use `text-primary-foreground` instead of `text-white`
+- Destructive button variant uses `text-destructive-foreground` instead of `text-white`
 - Resume subheading to "Designer | Product Engineer"
 - Moved San Francisco location to top of profile sidebar with Google Maps link
 - Applied biome formatting and lint fixes across codebase
 
 ### Removed
+- `.light .grid-background` CSS override (no longer needed with `var(--grid-color)`)
 - Old `require-changelog` workflow (replaced by merge-criteria system)
 
 ## 2026-02-10
