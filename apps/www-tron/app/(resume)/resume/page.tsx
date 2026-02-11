@@ -30,8 +30,7 @@ export default function ResumePage() {
         {/* Header */}
         <HeaderSection
           name="Clay Curry"
-          title="Design | DevEx | Engineer"
-          quote="anyone can cook"
+          title="Designer | Product Engineer"
           socialLinks={[
             { icon: MapPin, href: 'https://www.google.com/maps/place/San+Francisco,+CA', label: 'Location', clickId: 'resume:location' },
             { icon: Mail, href: `mailto:${profileData.email}`, label: 'Email', clickId: 'resume:email' },
