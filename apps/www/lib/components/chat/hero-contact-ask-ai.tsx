@@ -24,11 +24,11 @@ export function HeroContactAskAI() {
       <Button
         variant="ghost"
         size="lg"
-        className="px-4 py-2 h-9 md:text-[0.8rem] shadow-none rounded-4xl bg-muted-foreground/30 hover:bg-muted-foreground/40 cursor-pointer"
+        className="px-4 py-2 h-9 md:text-[0.8rem] shadow-none rounded-4xl bg-background hover:bg-secondary border border-border cursor-pointer"
         asChild
       >
         <Link
-          className="text-white hover:text-white"
+          className="text-foreground hover:text-foreground"
           href="/contact"
           data-click-id="hero:contact"
         >
@@ -44,7 +44,7 @@ export function HeroContactAskAI() {
           variant="default"
           size="lg"
           data-click-id="hero:ask-ai"
-          className="h-9 md:text-[0.8rem] shadow-none rounded-l-4xl rounded-r-none border-r border-r-primary-foreground/20 cursor-pointer text-white!"
+          className="h-9 md:text-[0.8rem] shadow-none rounded-l-4xl rounded-r-none border-r border-r-primary-foreground/20 cursor-pointer bg-primary! hover:bg-primary/85! text-primary-foreground!"
           onClick={() => setIsDialogOpen(true)}
         >
           <IconMessageCircle className="size-3" />
@@ -58,7 +58,7 @@ export function HeroContactAskAI() {
               variant="default"
               size="lg"
               data-click-id="hero:model-select"
-              className="h-9 px-2.5! shadow-none rounded-r-4xl rounded-l-none cursor-pointer text-white!"
+              className="h-9 px-2.5! shadow-none rounded-r-4xl rounded-l-none cursor-pointer bg-primary! hover:bg-primary/85! text-primary-foreground!"
             >
               <ChevronDown className="size-4" />
             </Button>
