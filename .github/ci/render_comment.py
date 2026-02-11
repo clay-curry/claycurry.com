@@ -69,7 +69,7 @@ def _evaluate(plugin: dict[str, object]) -> bool:
 def _render_row(plugin: dict[str, object], index: int, passed: bool, now: str) -> str:
     icon = ":white_check_mark:" if passed else ":x:"
     action = plugin["pass_action"] if passed else plugin["fail_action"]
-    return f"| {index} | {plugin['label']} [^{index}] | {icon} | {now} | {action} |"
+    return f"| {index} | {plugin['label']} [^{index}] | {icon} | {action} | {now} |"
 
 
 def _render_footnote(plugin: dict[str, object], index: int) -> str:
@@ -84,7 +84,8 @@ def _render_footnote(plugin: dict[str, object], index: int) -> str:
 def main() -> None:
     template = TEMPLATE_PATH.read_text()
 
-    now = datetime.now(timezone.utc).strftime("%b %d, %H:%M")
+    dt = datetime.now(timezone.utc)
+    now = dt.strftime("%b %d, %Y %-I:%M.%S") + dt.strftime("%p").lower()
 
     rows: list[str] = []
     footnotes: list[str] = []
