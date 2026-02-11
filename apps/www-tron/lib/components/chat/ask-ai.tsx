@@ -1,23 +1,23 @@
-'use client'
+"use client";
 
-import { MessagesSquare } from 'lucide-react'
-import { Button } from '@/lib/components/ui/button'
-import { useChatUI } from '@/lib/hooks/use-chat-ui'
+import { MessagesSquare } from "lucide-react";
+import { Button } from "@/lib/components/ui/button";
+import { useChatUI } from "@/lib/hooks/use-chat-ui";
 
 interface AskAIProps {
-  mode?: 'drawer' | 'dialog'
+  mode?: "drawer" | "dialog";
 }
 
-export function AskAI({ mode = 'drawer' }: AskAIProps) {
-  const { setIsDrawerOpen, setIsDialogOpen } = useChatUI()
+export function AskAI({ mode = "drawer" }: AskAIProps) {
+  const { setIsDrawerOpen, setIsDialogOpen } = useChatUI();
 
   const handleClick = () => {
-    if (mode === 'dialog') {
-      setIsDialogOpen(true)
+    if (mode === "dialog") {
+      setIsDialogOpen(true);
     } else {
-      setIsDrawerOpen(true)
+      setIsDrawerOpen(true);
     }
-  }
+  };
 
   return (
     <Button
@@ -30,5 +30,5 @@ export function AskAI({ mode = 'drawer' }: AskAIProps) {
       <MessagesSquare className="size-4" />
       <span>Ask AI</span>
     </Button>
-  )
+  );
 }

@@ -1,11 +1,6 @@
 import { isToolUIPart } from "ai";
 import type { MyUIMessage } from "@/app/api/chat/types";
-import {
-  Source,
-  Sources,
-  SourcesContent,
-  SourcesTrigger
-} from "./sources";
+import { Source, Sources, SourcesContent, SourcesTrigger } from "./sources";
 
 type MessageMetadataProps = {
   messageId?: string;
@@ -17,7 +12,7 @@ type MessageMetadataProps = {
 export const MessageMetadata = ({
   parts,
   inProgress,
-  isStreaming
+  isStreaming,
 }: MessageMetadataProps) => {
   // Pull out last part that is either text or tool call
   const lastPart = parts
@@ -28,8 +23,8 @@ export const MessageMetadata = ({
     new Map(
       parts
         .filter((part) => part.type === "source-url")
-        .map((part) => [part.url, part])
-    ).values()
+        .map((part) => [part.url, part]),
+    ).values(),
   );
 
   const tool = lastPart && isToolUIPart(lastPart) ? lastPart : null;

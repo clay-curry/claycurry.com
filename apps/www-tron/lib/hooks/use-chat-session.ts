@@ -2,12 +2,12 @@
 
 import type { UIMessage } from "@ai-sdk/react";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport, type FileUIPart } from "ai";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
+import { DefaultChatTransport, type FileUIPart } from "ai";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { db, type ChatContext } from "@/lib/db";
+import { type ChatContext, db } from "@/lib/db";
 
 // Models available for chat
 export const CHAT_MODELS = [
@@ -60,12 +60,12 @@ export function useChatSession({
 
   // --- Persistence (IndexedDB via Dexie) ---
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined
+    undefined,
   );
 
   const storedMessages = useLiveQuery(
     () => db.messages.where("context").equals(context).sortBy("sequence"),
-    [context]
+    [context],
   );
 
   const initialMessages =
@@ -75,7 +75,7 @@ export function useChatSession({
         sequence: _sequence,
         context: _context,
         ...message
-      }) => message
+      }) => message,
     ) ?? [];
 
   const isLoading = storedMessages === undefined;
@@ -105,7 +105,7 @@ export function useChatSession({
         }
       }, 300);
     },
-    [context]
+    [context],
   );
 
   const clearMessagesFromDB = useCallback(async () => {
@@ -122,7 +122,7 @@ export function useChatSession({
         clearTimeout(saveTimeoutRef.current);
       }
     },
-    []
+    [],
   );
 
   // --- AI SDK ---
@@ -161,10 +161,10 @@ export function useChatSession({
       stop();
       void sendMessage(
         { text: text || "Sent with attachments", files },
-        { body: { model, webSearch, slug } }
+        { body: { model, webSearch, slug } },
       );
     },
-    [sendMessage, stop, model, webSearch, slug]
+    [sendMessage, stop, model, webSearch, slug],
   );
 
   const clear = useCallback(async () => {

@@ -13,9 +13,7 @@ export default function Summary({ children }: { children: React.ReactNode }) {
       </div>
       <div className="flex items-center gap-4 md:mt-6 mt-4">
         <div className="h-px flex-grow bg-border"></div>
-        <span className="text-sm font-light text-primary">
-          By Clay Curry.
-        </span>
+        <span className="text-sm font-light text-primary">By Clay Curry.</span>
         <div className="h-px w-8 bg-border"></div>
       </div>
     </div>

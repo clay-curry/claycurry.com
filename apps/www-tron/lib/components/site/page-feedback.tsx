@@ -1,61 +1,63 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { usePathname } from 'next/navigation'
-import { ThumbsUp, ThumbsDown, Loader2, Send } from 'lucide-react'
-import { toast } from 'sonner'
-import { Button } from '@/lib/components/ui/button'
+import { Loader2, Send, ThumbsDown, ThumbsUp } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Button } from "@/lib/components/ui/button";
 
-type Sentiment = 'positive' | 'negative' | null
+type Sentiment = "positive" | "negative" | null;
 
 interface PageFeedbackProps {
-  label?: string
+  label?: string;
 }
 
-export function PageFeedback({ label = 'Was this page helpful?' }: PageFeedbackProps) {
-  const pathname = usePathname()
-  const [sentiment, setSentiment] = useState<Sentiment>(null)
-  const [message, setMessage] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+export function PageFeedback({
+  label = "Was this page helpful?",
+}: PageFeedbackProps) {
+  const pathname = usePathname();
+  const [sentiment, setSentiment] = useState<Sentiment>(null);
+  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSentimentClick = (value: Sentiment) => {
-    setSentiment(value)
-  }
+    setSentiment(value);
+  };
 
   const handleSubmit = async () => {
-    if (!sentiment) return
+    if (!sentiment) return;
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           page: pathname,
           sentiment,
           message: message.trim() || undefined,
         }),
-      })
+      });
 
       if (!response.ok) {
-        throw new Error('Failed to submit feedback')
+        throw new Error("Failed to submit feedback");
       }
 
-      toast.success('Thanks for your feedback!')
-      setIsSubmitted(true)
+      toast.success("Thanks for your feedback!");
+      setIsSubmitted(true);
     } catch {
-      toast.error('Failed to submit feedback. Please try again.')
+      toast.error("Failed to submit feedback. Please try again.");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   if (isSubmitted) {
     return (
       <p className="text-sm text-muted-foreground">Thanks for your feedback!</p>
-    )
+    );
   }
 
   return (
@@ -64,20 +66,20 @@ export function PageFeedback({ label = 'Was this page helpful?' }: PageFeedbackP
         <p className="text-sm text-muted-foreground">{label}</p>
         <div className="flex items-center gap-3">
           <Button
-            variant={sentiment === 'positive' ? 'default' : 'outline'}
+            variant={sentiment === "positive" ? "default" : "outline"}
             size="sm"
             data-click-id="footer:feedback-yes"
-            onClick={() => handleSentimentClick('positive')}
+            onClick={() => handleSentimentClick("positive")}
             className="gap-1.5"
           >
             <ThumbsUp className="size-4" />
             Yes
           </Button>
           <Button
-            variant={sentiment === 'negative' ? 'default' : 'outline'}
+            variant={sentiment === "negative" ? "default" : "outline"}
             size="sm"
             data-click-id="footer:feedback-no"
-            onClick={() => handleSentimentClick('negative')}
+            onClick={() => handleSentimentClick("negative")}
             className="gap-1.5"
           >
             <ThumbsDown className="size-4" />
@@ -108,11 +110,11 @@ export function PageFeedback({ label = 'Was this page helpful?' }: PageFeedbackP
               ) : (
                 <Send className="size-4" />
               )}
-              {isSubmitting ? 'Sending...' : 'Submit Feedback'}
+              {isSubmitting ? "Sending..." : "Submit Feedback"}
             </Button>
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }

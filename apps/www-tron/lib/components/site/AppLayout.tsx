@@ -13,9 +13,7 @@ export function AppLayout({
   navLinks: NavLink[];
 }) {
   return (
-    <div
-      className="w-full border border-border/80 overflow-auto lg:my-8 lg:mr-8 bg-background/95"
-    >
+    <div className="w-full border border-border/80 overflow-auto lg:my-8 lg:mr-8 bg-background/95">
       <PortfolioNav navLinks={navLinks} />
 
       {/* Page Views - absolute so it doesn't shift content */}

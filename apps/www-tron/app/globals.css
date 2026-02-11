@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @source "../node_modules/streamdown/dist/*.js";
 
@@ -30,119 +30,154 @@
 /* ══ THEME PRESETS ══ */
 /* Each preset overrides only source parameters — the derivation chain does the rest.
    Chroma values pushed to sRGB gamut edge for neon fluorescence. */
-.theme-cyan   { --src-primary-h: 257; --src-primary-c: 0.22; --src-secondary-h: 68;  --src-secondary-c: 0.24; } /* blue → next: orange */
-.theme-orange { --src-primary-h: 68;  --src-primary-c: 0.24; --src-secondary-h: 29;  --src-secondary-c: 0.21; } /* orange → next: red */
-.theme-red    { --src-primary-h: 29;  --src-primary-c: 0.21; --src-secondary-h: 145; --src-secondary-c: 0.26; } /* red → next: green */
-.theme-green  { --src-primary-h: 145; --src-primary-c: 0.26; --src-secondary-h: 257; --src-secondary-c: 0.22; } /* green → next: gray */
-.theme-gray   { --src-primary-h: 0;   --src-primary-c: 0;    --src-secondary-h: 0;   --src-secondary-c: 0;    } /* gray → next: blue */
+.theme-cyan {
+  --src-primary-h: 257;
+  --src-primary-c: 0.22;
+  --src-secondary-h: 68;
+  --src-secondary-c: 0.24;
+} /* blue → next: orange */
+.theme-orange {
+  --src-primary-h: 68;
+  --src-primary-c: 0.24;
+  --src-secondary-h: 29;
+  --src-secondary-c: 0.21;
+} /* orange → next: red */
+.theme-red {
+  --src-primary-h: 29;
+  --src-primary-c: 0.21;
+  --src-secondary-h: 145;
+  --src-secondary-c: 0.26;
+} /* red → next: green */
+.theme-green {
+  --src-primary-h: 145;
+  --src-primary-c: 0.26;
+  --src-secondary-h: 257;
+  --src-secondary-c: 0.22;
+} /* green → next: gray */
+.theme-gray {
+  --src-primary-h: 0;
+  --src-primary-c: 0;
+  --src-secondary-h: 0;
+  --src-secondary-c: 0;
+} /* gray → next: blue */
 
 /* ══ COLOR ROLES (Dark Scheme — default) ══ */
 /* Derived from source parameters — never edit these values directly */
 :root {
-  --background:           oklch(0.08  var(--src-neutral-c)   var(--src-primary-h));
-  --foreground:           oklch(0.90  var(--src-neutral-c)   var(--src-neutral-h));
-  --card:                 oklch(0.20  var(--src-neutral-c)   var(--src-primary-h));
-  --card-foreground:      oklch(0.90  var(--src-neutral-c)   var(--src-neutral-h));
-  --popover:              oklch(0.20  var(--src-neutral-c)   var(--src-primary-h));
-  --popover-foreground:   oklch(0.90  var(--src-neutral-c)   var(--src-neutral-h));
-  --primary:              oklch(0.82  var(--src-primary-c)   var(--src-primary-h));
-  --primary-foreground:   oklch(0.08  var(--src-primary-c)   var(--src-primary-h));
-  --secondary:            oklch(0.16  var(--src-neutral-c)   var(--src-primary-h));
-  --secondary-foreground: oklch(0.85  var(--src-neutral-c)   var(--src-neutral-h));
-  --accent:               var(--primary);
-  --accent-foreground:    oklch(0.08  0 0);
-  --accent-2:             oklch(0.78  var(--src-secondary-c) var(--src-secondary-h));
-  --accent-2-foreground:  oklch(0.99  0 0);
-  --muted:                oklch(0.20  var(--src-neutral-c)   var(--src-primary-h));
-  --muted-foreground:     oklch(0.55  var(--src-neutral-c)   var(--src-neutral-h));
-  --destructive:          oklch(0.60  var(--src-error-c)     var(--src-error-h));
+  --background: oklch(0.08 var(--src-neutral-c) var(--src-primary-h));
+  --foreground: oklch(0.9 var(--src-neutral-c) var(--src-neutral-h));
+  --card: oklch(0.2 var(--src-neutral-c) var(--src-primary-h));
+  --card-foreground: oklch(0.9 var(--src-neutral-c) var(--src-neutral-h));
+  --popover: oklch(0.2 var(--src-neutral-c) var(--src-primary-h));
+  --popover-foreground: oklch(0.9 var(--src-neutral-c) var(--src-neutral-h));
+  --primary: oklch(0.82 var(--src-primary-c) var(--src-primary-h));
+  --primary-foreground: oklch(0.08 var(--src-primary-c) var(--src-primary-h));
+  --secondary: oklch(0.16 var(--src-neutral-c) var(--src-primary-h));
+  --secondary-foreground: oklch(0.85 var(--src-neutral-c) var(--src-neutral-h));
+  --accent: var(--primary);
+  --accent-foreground: oklch(0.08 0 0);
+  --accent-2: oklch(0.78 var(--src-secondary-c) var(--src-secondary-h));
+  --accent-2-foreground: oklch(0.99 0 0);
+  --muted: oklch(0.2 var(--src-neutral-c) var(--src-primary-h));
+  --muted-foreground: oklch(0.55 var(--src-neutral-c) var(--src-neutral-h));
+  --destructive: oklch(0.6 var(--src-error-c) var(--src-error-h));
   --destructive-foreground: oklch(0.99 0 0);
-  --border:               oklch(0.35  var(--src-neutral-c)   var(--src-primary-h));
-  --input:                oklch(0.15  var(--src-neutral-c)   var(--src-primary-h));
-  --ring:                 var(--primary);
-  --chart-1:              var(--primary);
-  --chart-2:              var(--accent-2);
-  --chart-3:              oklch(0.60  var(--src-primary-c)   var(--src-primary-h));
-  --chart-4:              oklch(0.55  var(--src-secondary-c) var(--src-secondary-h));
-  --chart-5:              oklch(0.50  var(--src-neutral-c)   var(--src-neutral-h));
+  --border: oklch(0.35 var(--src-neutral-c) var(--src-primary-h));
+  --input: oklch(0.15 var(--src-neutral-c) var(--src-primary-h));
+  --ring: var(--primary);
+  --chart-1: var(--primary);
+  --chart-2: var(--accent-2);
+  --chart-3: oklch(0.6 var(--src-primary-c) var(--src-primary-h));
+  --chart-4: oklch(0.55 var(--src-secondary-c) var(--src-secondary-h));
+  --chart-5: oklch(0.5 var(--src-neutral-c) var(--src-neutral-h));
   --radius: 0.25rem;
 
   /* Sidebar — derived from the same chain */
-  --sidebar:                    oklch(0.06  var(--src-neutral-c) var(--src-primary-h));
-  --sidebar-foreground:         oklch(0.90  var(--src-neutral-c) var(--src-neutral-h));
-  --sidebar-primary:            var(--primary);
-  --sidebar-primary-foreground: oklch(0.08  var(--src-neutral-c) var(--src-neutral-h));
-  --sidebar-accent:             oklch(0.12  var(--src-neutral-c) var(--src-primary-h));
-  --sidebar-accent-foreground:  oklch(0.90  var(--src-neutral-c) var(--src-neutral-h));
-  --sidebar-border:             oklch(0.20  var(--src-neutral-c) var(--src-primary-h));
-  --sidebar-ring:               var(--primary);
+  --sidebar: oklch(0.06 var(--src-neutral-c) var(--src-primary-h));
+  --sidebar-foreground: oklch(0.9 var(--src-neutral-c) var(--src-neutral-h));
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: oklch(
+    0.08 var(--src-neutral-c) var(--src-neutral-h)
+  );
+  --sidebar-accent: oklch(0.12 var(--src-neutral-c) var(--src-primary-h));
+  --sidebar-accent-foreground: oklch(
+    0.9 var(--src-neutral-c) var(--src-neutral-h)
+  );
+  --sidebar-border: oklch(0.2 var(--src-neutral-c) var(--src-primary-h));
+  --sidebar-ring: var(--primary);
 
   /* TRON Effect Tokens — always derived, never hardcoded */
-  --tron-glow:    var(--primary);
-  --tron-orange:  var(--accent-2);
-  --tron-grid:    oklch(0.82 var(--src-primary-c) var(--src-primary-h) / 0.08);
+  --tron-glow: var(--primary);
+  --tron-orange: var(--accent-2);
+  --tron-grid: oklch(0.82 var(--src-primary-c) var(--src-primary-h) / 0.08);
   --primary-accent: var(--primary);
-  --grid-color:   oklch(0.50 var(--src-neutral-c) var(--src-primary-h) / 0.3);
+  --grid-color: oklch(0.5 var(--src-neutral-c) var(--src-primary-h) / 0.3);
 }
 
 /* ══ COLOR ROLES (Light Scheme) ══ */
 /* Inverted lightness values for a clean light mode, same hues/chromas */
 .light {
-  --background:           oklch(0.97  var(--src-neutral-c)   var(--src-primary-h));
-  --foreground:           oklch(0.15  var(--src-neutral-c)   var(--src-neutral-h));
-  --card:                 oklch(0.90  var(--src-neutral-c)   var(--src-primary-h));
-  --card-foreground:      oklch(0.15  var(--src-neutral-c)   var(--src-neutral-h));
-  --popover:              oklch(0.90  var(--src-neutral-c)   var(--src-primary-h));
-  --popover-foreground:   oklch(0.15  var(--src-neutral-c)   var(--src-neutral-h));
-  --primary:              oklch(0.65  var(--src-primary-c)   var(--src-primary-h));
-  --primary-foreground:   oklch(0.99  0 0);
-  --secondary:            oklch(0.95  var(--src-neutral-c)   var(--src-primary-h));
-  --secondary-foreground: oklch(0.20  var(--src-neutral-c)   var(--src-neutral-h));
-  --accent:               var(--primary);
-  --accent-foreground:    oklch(0.99  0 0);
-  --accent-2:             oklch(0.65  var(--src-secondary-c) var(--src-secondary-h));
-  --accent-2-foreground:  oklch(0.99  0 0);
-  --muted:                oklch(0.92  var(--src-neutral-c)   var(--src-primary-h));
-  --muted-foreground:     oklch(0.45  var(--src-neutral-c)   var(--src-neutral-h));
-  --destructive:          oklch(0.55  var(--src-error-c)     var(--src-error-h));
+  --background: oklch(0.97 var(--src-neutral-c) var(--src-primary-h));
+  --foreground: oklch(0.15 var(--src-neutral-c) var(--src-neutral-h));
+  --card: oklch(0.9 var(--src-neutral-c) var(--src-primary-h));
+  --card-foreground: oklch(0.15 var(--src-neutral-c) var(--src-neutral-h));
+  --popover: oklch(0.9 var(--src-neutral-c) var(--src-primary-h));
+  --popover-foreground: oklch(0.15 var(--src-neutral-c) var(--src-neutral-h));
+  --primary: oklch(0.65 var(--src-primary-c) var(--src-primary-h));
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.95 var(--src-neutral-c) var(--src-primary-h));
+  --secondary-foreground: oklch(0.2 var(--src-neutral-c) var(--src-neutral-h));
+  --accent: var(--primary);
+  --accent-foreground: oklch(0.99 0 0);
+  --accent-2: oklch(0.65 var(--src-secondary-c) var(--src-secondary-h));
+  --accent-2-foreground: oklch(0.99 0 0);
+  --muted: oklch(0.92 var(--src-neutral-c) var(--src-primary-h));
+  --muted-foreground: oklch(0.45 var(--src-neutral-c) var(--src-neutral-h));
+  --destructive: oklch(0.55 var(--src-error-c) var(--src-error-h));
   --destructive-foreground: oklch(0.99 0 0);
-  --border:               oklch(0.82  var(--src-neutral-c)   var(--src-primary-h));
-  --input:                oklch(0.93  var(--src-neutral-c)   var(--src-primary-h));
-  --ring:                 var(--primary);
-  --chart-1:              var(--primary);
-  --chart-2:              var(--accent-2);
-  --chart-3:              oklch(0.45  var(--src-primary-c)   var(--src-primary-h));
-  --chart-4:              oklch(0.50  var(--src-secondary-c) var(--src-secondary-h));
-  --chart-5:              oklch(0.55  var(--src-neutral-c)   var(--src-neutral-h));
+  --border: oklch(0.82 var(--src-neutral-c) var(--src-primary-h));
+  --input: oklch(0.93 var(--src-neutral-c) var(--src-primary-h));
+  --ring: var(--primary);
+  --chart-1: var(--primary);
+  --chart-2: var(--accent-2);
+  --chart-3: oklch(0.45 var(--src-primary-c) var(--src-primary-h));
+  --chart-4: oklch(0.5 var(--src-secondary-c) var(--src-secondary-h));
+  --chart-5: oklch(0.55 var(--src-neutral-c) var(--src-neutral-h));
 
   /* Sidebar — light variant */
-  --sidebar:                    oklch(0.95  var(--src-neutral-c) var(--src-primary-h));
-  --sidebar-foreground:         oklch(0.15  var(--src-neutral-c) var(--src-neutral-h));
-  --sidebar-primary:            var(--primary);
-  --sidebar-primary-foreground: oklch(0.99  var(--src-neutral-c) var(--src-neutral-h));
-  --sidebar-accent:             oklch(0.90  var(--src-neutral-c) var(--src-primary-h));
-  --sidebar-accent-foreground:  oklch(0.15  var(--src-neutral-c) var(--src-neutral-h));
-  --sidebar-border:             oklch(0.85  var(--src-neutral-c) var(--src-primary-h));
-  --sidebar-ring:               var(--primary);
+  --sidebar: oklch(0.95 var(--src-neutral-c) var(--src-primary-h));
+  --sidebar-foreground: oklch(0.15 var(--src-neutral-c) var(--src-neutral-h));
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: oklch(
+    0.99 var(--src-neutral-c) var(--src-neutral-h)
+  );
+  --sidebar-accent: oklch(0.9 var(--src-neutral-c) var(--src-primary-h));
+  --sidebar-accent-foreground: oklch(
+    0.15 var(--src-neutral-c) var(--src-neutral-h)
+  );
+  --sidebar-border: oklch(0.85 var(--src-neutral-c) var(--src-primary-h));
+  --sidebar-ring: var(--primary);
 
   /* TRON Effect Tokens — toned down for light mode */
-  --tron-glow:    var(--primary);
-  --tron-orange:  var(--accent-2);
-  --tron-grid:    oklch(0.55 var(--src-primary-c) var(--src-primary-h) / 0.08);
+  --tron-glow: var(--primary);
+  --tron-orange: var(--accent-2);
+  --tron-grid: oklch(0.55 var(--src-primary-c) var(--src-primary-h) / 0.08);
   --primary-accent: var(--primary);
-  --grid-color:   oklch(0.50 var(--src-neutral-c) var(--src-primary-h) / 0.15);
+  --grid-color: oklch(0.5 var(--src-neutral-c) var(--src-primary-h) / 0.15);
 }
 
 @theme inline {
   --font-sans: var(--font-poppins), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), 'Geist Mono', ui-monospace, monospace;
-  --font-tourney: 'Tourney', system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, monospace;
+  --font-tourney: "Tourney", system-ui, sans-serif;
 
   /* TRON Custom Colors — derived from source params */
   --color-tron-cyan: var(--primary);
   --color-tron-cyan-dim: oklch(0.5 var(--src-primary-c) var(--src-primary-h));
   --color-tron-orange: var(--accent-2);
-  --color-tron-orange-dim: oklch(0.5 var(--src-secondary-c) var(--src-secondary-h));
+  --color-tron-orange-dim: oklch(
+    0.5 var(--src-secondary-c) var(--src-secondary-h)
+  );
   --color-tron-void: oklch(0.05 var(--src-neutral-c) var(--src-neutral-h));
   --color-tron-grid: oklch(0.12 var(--src-neutral-c) var(--src-neutral-h));
   --color-primary-accent: var(--primary-accent);
@@ -184,17 +219,24 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-
 }
 
 /* Accordion open/close animations (500ms) */
 @keyframes accordion-down {
-  from { height: 0; }
-  to   { height: var(--radix-accordion-content-height); }
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
 }
 @keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to   { height: 0; }
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 [data-slot="accordion-content"][data-state="open"] {
   animation: accordion-down 140ms ease-in-out;
@@ -214,8 +256,16 @@
     linear-gradient(90deg, oklch(1 0 0 / 0.1) 1px, transparent 1px);
   background-size: 40px 40px;
   background-position: center center;
-  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 0%, black 100%);
-  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 0%, black 100%);
+  mask-image: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 0%,
+    black 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 0%,
+    black 100%
+  );
 }
 
 .light .grid-background {
@@ -234,7 +284,12 @@
   }
 
   /* TRON Typography enhancements */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     letter-spacing: 0.05em;
   }
 
@@ -246,7 +301,7 @@
 
   .light ::selection {
     background: oklch(0.55 var(--src-primary-c) var(--src-primary-h) / 0.3);
-    color: oklch(0.10 0 0);
+    color: oklch(0.1 0 0);
   }
 }
 
@@ -268,7 +323,8 @@
 
 /* Neon pulse glow animation */
 @keyframes pulse-slow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.4;
     filter: drop-shadow(0 0 8px var(--tron-glow));
   }
@@ -284,15 +340,16 @@
 
 /* TRON glow effect */
 @keyframes tron-glow {
-  0%, 100% {
-    box-shadow: 
+  0%,
+  100% {
+    box-shadow:
       0 0 5px var(--tron-glow),
       0 0 10px var(--tron-glow),
       0 0 20px var(--tron-glow),
       inset 0 0 5px var(--tron-glow);
   }
   50% {
-    box-shadow: 
+    box-shadow:
       0 0 10px var(--tron-glow),
       0 0 20px var(--tron-glow),
       0 0 40px var(--tron-glow),
@@ -307,14 +364,15 @@
 
 /* TRON orange glow variant */
 @keyframes tron-glow-orange {
-  0%, 100% {
-    box-shadow: 
+  0%,
+  100% {
+    box-shadow:
       0 0 5px var(--tron-orange),
       0 0 10px var(--tron-orange),
       0 0 20px var(--tron-orange);
   }
   50% {
-    box-shadow: 
+    box-shadow:
       0 0 10px var(--tron-orange),
       0 0 20px var(--tron-orange),
       0 0 40px var(--tron-orange);
@@ -337,7 +395,7 @@
 }
 
 .tron-scanline::after {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
@@ -367,40 +425,44 @@
 .tron-border {
   position: relative;
   border: 1px solid transparent;
-  background: linear-gradient(var(--background), var(--background)) padding-box,
+  background:
+    linear-gradient(var(--background), var(--background)) padding-box,
     linear-gradient(
       90deg,
       var(--tron-glow),
       transparent 20%,
       transparent 80%,
       var(--tron-glow)
-    ) border-box;
+    )
+    border-box;
 }
 
 .tron-border-animated {
   position: relative;
   border: 1px solid transparent;
-  background: linear-gradient(var(--background), var(--background)) padding-box,
+  background:
+    linear-gradient(var(--background), var(--background)) padding-box,
     linear-gradient(
       90deg,
       var(--tron-glow),
       oklch(0.82 var(--src-primary-c) var(--src-primary-h) / 0.3),
       var(--tron-glow)
-    ) border-box;
+    )
+    border-box;
   background-size: 200% 100%;
   animation: light-trail 3s linear infinite;
 }
 
 /* Text glow utilities */
 .tron-text-glow {
-  text-shadow: 
+  text-shadow:
     0 0 10px var(--tron-glow),
     0 0 20px var(--tron-glow),
     0 0 40px var(--tron-glow);
 }
 
 .tron-text-glow-orange {
-  text-shadow: 
+  text-shadow:
     0 0 10px var(--tron-orange),
     0 0 20px var(--tron-orange),
     0 0 40px var(--tron-orange);
@@ -408,12 +470,25 @@
 
 /* Flicker effect for authentic CRT feel */
 @keyframes flicker {
-  0%, 100% { opacity: 1; }
-  92% { opacity: 1; }
-  93% { opacity: 0.8; }
-  94% { opacity: 1; }
-  95% { opacity: 0.9; }
-  96% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.8;
+  }
+  94% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 0.9;
+  }
+  96% {
+    opacity: 1;
+  }
 }
 
 .tron-flicker {
@@ -451,4 +526,3 @@
 .animate-marquee-slow:hover {
   animation-play-state: paused;
 }
-

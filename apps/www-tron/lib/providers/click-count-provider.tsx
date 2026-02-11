@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import type { ReactNode } from "react"
-import { useClickCountEngine } from "@/lib/hooks/use-click-counts"
-import { ClickCountOverlay } from "@/lib/components/site/click-count-overlay"
+import type { ReactNode } from "react";
+import { ClickCountOverlay } from "@/lib/components/site/click-count-overlay";
+import { useClickCountEngine } from "@/lib/hooks/use-click-counts";
 
 export function ClickCountProvider({ children }: { children: ReactNode }) {
-  useClickCountEngine()
+  useClickCountEngine();
   return (
     <>
       {children}
       <ClickCountOverlay />
     </>
-  )
+  );
 }

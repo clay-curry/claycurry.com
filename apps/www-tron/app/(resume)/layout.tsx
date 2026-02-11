@@ -1,12 +1,12 @@
-import { AppLayout } from '@/lib/components/site/AppLayout'
-import { getSiteNavLinks } from '@/lib/navigation'
+import { AppLayout } from "@/lib/components/site/AppLayout";
+import { getSiteNavLinks } from "@/lib/navigation";
 
 export default function ResumeLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const navLinks = getSiteNavLinks()
+  const navLinks = getSiteNavLinks();
 
   return (
     <div className="min-h-screen p-0">
@@ -16,5 +16,5 @@ export default function ResumeLayout({
         </div>
       </div>
     </div>
-  )
+  );
 }

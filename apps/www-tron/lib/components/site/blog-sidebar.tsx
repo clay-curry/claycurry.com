@@ -1,33 +1,30 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Star, FileText } from 'lucide-react'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { PostMetadata } from "@/app/(portfolio)/blog/loader";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
   SidebarSeparator,
-} from '@/lib/components/ui/sidebar'
-import type { PostMetadata } from '@/app/(portfolio)/blog/loader'
-import type { NavLink } from '@/lib/navigation'
+} from "@/lib/components/ui/sidebar";
+import type { NavLink } from "@/lib/navigation";
 
 interface BlogSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  posts: PostMetadata[]
-  navLinks: NavLink[]
+  posts: PostMetadata[];
+  navLinks: NavLink[];
 }
 
 export function BlogSidebar({ posts, navLinks, ...props }: BlogSidebarProps) {
-  const pathname = usePathname()
-  const starredPosts = posts.filter((post) => post.pinned)
-  const otherPosts = posts.filter((post) => !post.pinned)
+  const pathname = usePathname();
+  const starredPosts = posts.filter((post) => post.pinned);
+  const otherPosts = posts.filter((post) => !post.pinned);
 
   return (
     <Sidebar {...props}>
@@ -52,9 +49,7 @@ export function BlogSidebar({ posts, navLinks, ...props }: BlogSidebarProps) {
         {/* Starred Section */}
         {starredPosts.length > 0 && (
           <SidebarGroup>
-            <SidebarGroupLabel>
-              Starred
-            </SidebarGroupLabel>
+            <SidebarGroupLabel>Starred</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {starredPosts.map((post) => (
@@ -64,7 +59,9 @@ export function BlogSidebar({ posts, navLinks, ...props }: BlogSidebarProps) {
                       isActive={pathname === `/blog/${post.slug}`}
                     >
                       <Link href={`/blog/${post.slug}`}>
-                        <span className="truncate">{post.shortTitle || post.title}</span>
+                        <span className="truncate">
+                          {post.shortTitle || post.title}
+                        </span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -76,9 +73,7 @@ export function BlogSidebar({ posts, navLinks, ...props }: BlogSidebarProps) {
 
         {/* Other Posts Section */}
         <SidebarGroup>
-          <SidebarGroupLabel>
-            Posts
-          </SidebarGroupLabel>
+          <SidebarGroupLabel>Posts</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {otherPosts.map((post) => (
@@ -88,7 +83,9 @@ export function BlogSidebar({ posts, navLinks, ...props }: BlogSidebarProps) {
                     isActive={pathname === `/blog/${post.slug}`}
                   >
                     <Link href={`/blog/${post.slug}`}>
-                      <span className="truncate">{post.shortTitle || post.title}</span>
+                      <span className="truncate">
+                        {post.shortTitle || post.title}
+                      </span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -98,5 +95,5 @@ export function BlogSidebar({ posts, navLinks, ...props }: BlogSidebarProps) {
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }

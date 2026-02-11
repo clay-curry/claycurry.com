@@ -14,8 +14,8 @@
  *
  * @see https://nextjs.org/docs/app/building-your-application/routing/route-handlers
  */
-import { type NextRequest, NextResponse } from 'next/server'
-import { getRedisClient, getInMemoryStore, keyPrefix } from '@/lib/redis'
+import { type NextRequest, NextResponse } from "next/server";
+import { getInMemoryStore, getRedisClient, keyPrefix } from "@/lib/redis";
 
 /**
  * Retrieves the current view count for a given page slug.
@@ -24,18 +24,18 @@ import { getRedisClient, getInMemoryStore, keyPrefix } from '@/lib/redis'
  * @returns The current view count, or 0 if not found
  */
 async function getViewCount(slug: string): Promise<number> {
-  const inMemoryStore = getInMemoryStore()
+  const inMemoryStore = getInMemoryStore();
   try {
-    const client = await getRedisClient()
+    const client = await getRedisClient();
     if (!client) {
-      return inMemoryStore.get(slug) ?? 0
+      return inMemoryStore.get(slug) ?? 0;
     }
 
-    const count = await client.get(`${keyPrefix()}pageviews:${slug}`)
-    return count ? parseInt(count, 10) : 0
+    const count = await client.get(`${keyPrefix()}pageviews:${slug}`);
+    return count ? parseInt(count, 10) : 0;
   } catch (err) {
-    console.error('Redis get error:', err)
-    return inMemoryStore.get(slug) ?? 0
+    console.error("Redis get error:", err);
+    return inMemoryStore.get(slug) ?? 0;
   }
 }
 
@@ -46,24 +46,24 @@ async function getViewCount(slug: string): Promise<number> {
  * @returns The new view count after incrementing
  */
 async function incrementViewCount(slug: string): Promise<number> {
-  const inMemoryStore = getInMemoryStore()
+  const inMemoryStore = getInMemoryStore();
   try {
-    const client = await getRedisClient()
+    const client = await getRedisClient();
     if (!client) {
-      const current = inMemoryStore.get(slug) ?? 0
-      const newCount = current + 1
-      inMemoryStore.set(slug, newCount)
-      return newCount
+      const current = inMemoryStore.get(slug) ?? 0;
+      const newCount = current + 1;
+      inMemoryStore.set(slug, newCount);
+      return newCount;
     }
 
-    const count = await client.incr(`${keyPrefix()}pageviews:${slug}`)
-    return count
+    const count = await client.incr(`${keyPrefix()}pageviews:${slug}`);
+    return count;
   } catch (err) {
-    console.error('Redis incr error:', err)
-    const current = inMemoryStore.get(slug) ?? 0
-    const newCount = current + 1
-    inMemoryStore.set(slug, newCount)
-    return newCount
+    console.error("Redis incr error:", err);
+    const current = inMemoryStore.get(slug) ?? 0;
+    const newCount = current + 1;
+    inMemoryStore.set(slug, newCount);
+    return newCount;
   }
 }
 
@@ -83,23 +83,23 @@ async function incrementViewCount(slug: string): Promise<number> {
  * { "slug": "my-blog-post", "count": 42 }
  */
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url)
-  const slug = searchParams.get('slug')
+  const { searchParams } = new URL(request.url);
+  const slug = searchParams.get("slug");
 
   if (!slug) {
     return NextResponse.json(
-      { error: 'Missing slug parameter' },
+      { error: "Missing slug parameter" },
       { status: 400 },
-    )
+    );
   }
 
-  const count = await getViewCount(slug)
-  return NextResponse.json({ slug, count })
+  const count = await getViewCount(slug);
+  return NextResponse.json({ slug, count });
 }
 
 /** Max number of slugs stored in the dedup cookie */
-const MAX_VIEWED_PAGES = 100
-const VIEWED_PAGES_COOKIE = 'viewed_pages'
+const MAX_VIEWED_PAGES = 100;
+const VIEWED_PAGES_COOKIE = "viewed_pages";
 
 /**
  * POST /api/views
@@ -112,24 +112,24 @@ const VIEWED_PAGES_COOKIE = 'viewed_pages'
  */
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const slug = body.slug
+    const body = await request.json();
+    const slug = body.slug;
 
     if (!slug) {
       return NextResponse.json(
-        { error: 'Missing slug in request body' },
+        { error: "Missing slug in request body" },
         { status: 400 },
-      )
+      );
     }
 
     // Parse the viewed_pages cookie
-    let viewedPages: string[] = []
-    const cookie = request.cookies.get(VIEWED_PAGES_COOKIE)
+    let viewedPages: string[] = [];
+    const cookie = request.cookies.get(VIEWED_PAGES_COOKIE);
     if (cookie?.value) {
       try {
-        const parsed = JSON.parse(cookie.value)
+        const parsed = JSON.parse(cookie.value);
         if (Array.isArray(parsed)) {
-          viewedPages = parsed
+          viewedPages = parsed;
         }
       } catch {
         // Malformed cookie — treat as empty
@@ -138,32 +138,32 @@ export async function POST(request: NextRequest) {
 
     // Check if this slug was already viewed
     if (viewedPages.includes(slug)) {
-      const count = await getViewCount(slug)
-      return NextResponse.json({ slug, count, duplicate: true })
+      const count = await getViewCount(slug);
+      return NextResponse.json({ slug, count, duplicate: true });
     }
 
     // New view — increment
-    const count = await incrementViewCount(slug)
+    const count = await incrementViewCount(slug);
 
     // Update the cookie array (cap at MAX_VIEWED_PAGES, drop oldest)
-    viewedPages.push(slug)
+    viewedPages.push(slug);
     if (viewedPages.length > MAX_VIEWED_PAGES) {
-      viewedPages = viewedPages.slice(viewedPages.length - MAX_VIEWED_PAGES)
+      viewedPages = viewedPages.slice(viewedPages.length - MAX_VIEWED_PAGES);
     }
 
-    const response = NextResponse.json({ slug, count, duplicate: false })
+    const response = NextResponse.json({ slug, count, duplicate: false });
     response.cookies.set(VIEWED_PAGES_COOKIE, JSON.stringify(viewedPages), {
       httpOnly: true,
-      sameSite: 'lax',
-      path: '/',
+      sameSite: "lax",
+      path: "/",
       maxAge: 86400, // 24 hours
-    })
+    });
 
-    return response
+    return response;
   } catch {
     return NextResponse.json(
-      { error: 'Invalid request body' },
+      { error: "Invalid request body" },
       { status: 400 },
-    )
+    );
   }
 }

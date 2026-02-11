@@ -1,14 +1,14 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import {
   type CSSProperties,
   type ElementType,
   type JSX,
   memo,
-  useMemo
+  useMemo,
 } from "react";
+import { cn } from "@/lib/utils";
 
 export type TextShimmerProps = {
   children: string;
@@ -23,15 +23,15 @@ const ShimmerComponent = ({
   as: Component = "p",
   className,
   duration = 2,
-  spread = 2
+  spread = 2,
 }: TextShimmerProps) => {
   const MotionComponent = motion.create(
-    Component as keyof JSX.IntrinsicElements
+    Component as keyof JSX.IntrinsicElements,
   );
 
   const dynamicSpread = useMemo(
     () => (children?.length ?? 0) * spread,
-    [children, spread]
+    [children, spread],
   );
 
   return (
@@ -40,20 +40,20 @@ const ShimmerComponent = ({
       className={cn(
         "relative inline-block text-sm bg-[length:250%_100%,auto] bg-clip-text text-transparent",
         "[--bg:linear-gradient(90deg,#0000_calc(50%-var(--spread)),var(--color-background),#0000_calc(50%+var(--spread)))] [background-repeat:no-repeat,padding-box]",
-        className
+        className,
       )}
       initial={{ backgroundPosition: "100% center" }}
       style={
         {
           "--spread": `${dynamicSpread}px`,
           backgroundImage:
-            "var(--bg), linear-gradient(var(--color-muted-foreground), var(--color-muted-foreground))"
+            "var(--bg), linear-gradient(var(--color-muted-foreground), var(--color-muted-foreground))",
         } as CSSProperties
       }
       transition={{
         repeat: Number.POSITIVE_INFINITY,
         duration,
-        ease: "linear"
+        ease: "linear",
       }}
     >
       {children}

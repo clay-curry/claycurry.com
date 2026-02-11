@@ -1,45 +1,35 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useState } from "react";
 import {
   CopyIcon,
+  GlobeIcon,
   RefreshCcwIcon,
   ThumbsDownIcon,
   ThumbsUpIcon,
   XIcon,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-} from "@/lib/components/ui/dialog";
-import { Button } from "@/lib/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/lib/components/ui/tooltip";
-import { Spinner } from "@/lib/components/ui/spinner";
-import {
-  Conversation,
-  ConversationContent,
-  ConversationScrollButton,
-} from "@/lib/components/chat/conversation";
-import {
-  Message,
-  MessageContent,
-  MessageResponse,
-  MessageActions,
-  MessageAction,
-} from "@/lib/components/chat/message";
 import {
   Attachment,
   AttachmentPreview,
   AttachmentRemove,
   Attachments,
 } from "@/lib/components/chat/attachments";
+import {
+  Conversation,
+  ConversationContent,
+  ConversationScrollButton,
+} from "@/lib/components/chat/conversation";
+import { Loader } from "@/lib/components/chat/loader";
+import {
+  Message,
+  MessageAction,
+  MessageActions,
+  MessageContent,
+  MessageResponse,
+} from "@/lib/components/chat/message";
 import {
   PromptInput,
   PromptInputActionAddAttachments,
@@ -48,6 +38,7 @@ import {
   PromptInputActionMenuTrigger,
   PromptInputBody,
   PromptInputButton,
+  PromptInputFooter,
   PromptInputHeader,
   type PromptInputMessage,
   PromptInputSelect,
@@ -57,28 +48,32 @@ import {
   PromptInputSelectValue,
   PromptInputSubmit,
   PromptInputTextarea,
-  PromptInputFooter,
   PromptInputTools,
   usePromptInputAttachments,
 } from "@/lib/components/chat/prompt-input";
-import { Suggestion, Suggestions } from "@/lib/components/chat/suggestion";
+import {
+  Reasoning,
+  ReasoningContent,
+  ReasoningTrigger,
+} from "@/lib/components/chat/reasoning";
 import {
   Source,
   Sources,
   SourcesContent,
   SourcesTrigger,
 } from "@/lib/components/chat/sources";
+import { Suggestion, Suggestions } from "@/lib/components/chat/suggestion";
+import { Button } from "@/lib/components/ui/button";
+import { Dialog, DialogContent, DialogTitle } from "@/lib/components/ui/dialog";
+import { Spinner } from "@/lib/components/ui/spinner";
 import {
-  Reasoning,
-  ReasoningContent,
-  ReasoningTrigger,
-} from "@/lib/components/chat/reasoning";
-import { Loader } from "@/lib/components/chat/loader";
-import { GlobeIcon } from "lucide-react";
-import { useChatSession, CHAT_MODELS } from "@/lib/hooks/use-chat-session";
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/lib/components/ui/tooltip";
+import { CHAT_MODELS, useChatSession } from "@/lib/hooks/use-chat-session";
 import { useChatUI } from "@/lib/hooks/use-chat-ui";
 import { useChatSuggestions } from "@/lib/providers/chat-provider";
-import { useEffect } from "react";
 
 const BLOG_SUGGESTIONS = [
   "Summarize this article",
@@ -108,7 +103,13 @@ const PromptInputAttachmentsDisplay = () => {
 
 const ChatDialogContent = () => {
   const defaultSuggestions = useChatSuggestions();
-  const { setIsDialogOpen, prompt, setPrompt, model: sharedModel, setModel: setSharedModel } = useChatUI();
+  const {
+    setIsDialogOpen,
+    prompt,
+    setPrompt,
+    model: sharedModel,
+    setModel: setSharedModel,
+  } = useChatUI();
   const [input, setInput] = useState("");
   const [feedback, setFeedback] = useState<
     Record<string, "up" | "down" | null>
@@ -131,7 +132,7 @@ const ChatDialogContent = () => {
     isInitialized,
     send,
     clear,
-    stop,
+    stop: _stop,
     regenerate,
     setModel,
     setWebSearch,
@@ -238,7 +239,7 @@ const ChatDialogContent = () => {
                       <SourcesTrigger
                         count={
                           message.parts.filter(
-                            (part) => part.type === "source-url"
+                            (part) => part.type === "source-url",
                           ).length
                         }
                       />
@@ -259,10 +260,7 @@ const ChatDialogContent = () => {
                   switch (part.type) {
                     case "text":
                       return (
-                        <Message
-                          key={`${message.id}-${i}`}
-                          from={message.role}
-                        >
+                        <Message key={`${message.id}-${i}`} from={message.role}>
                           <MessageContent>
                             <MessageResponse>{part.text}</MessageResponse>
                           </MessageContent>

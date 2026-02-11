@@ -1,9 +1,9 @@
-import type { PostMetadata } from '@/app/(portfolio)/blog/loader'
-import { PostCard } from './post-card'
-import { SectionHeader } from './section-header'
+import type { PostMetadata } from "@/app/(portfolio)/blog/loader";
+import { PostCard } from "./post-card";
+import { SectionHeader } from "./section-header";
 
 export function WritingsSection({ posts }: { posts: PostMetadata[] }) {
-  const recentPosts = posts.slice(0, 3)
+  const recentPosts = posts.slice(0, 3);
 
   return (
     <div className="mx-4">
@@ -14,5 +14,5 @@ export function WritingsSection({ posts }: { posts: PostMetadata[] }) {
         ))}
       </div>
     </div>
-  )
+  );
 }

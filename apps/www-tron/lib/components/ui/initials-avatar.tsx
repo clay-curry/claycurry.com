@@ -1,18 +1,22 @@
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils";
 
 interface InitialsAvatarProps {
-  name: string
-  size?: number
-  className?: string
+  name: string;
+  size?: number;
+  className?: string;
 }
 
-export function InitialsAvatar({ name, size = 32, className }: InitialsAvatarProps) {
+export function InitialsAvatar({
+  name,
+  size = 32,
+  className,
+}: InitialsAvatarProps) {
   const initials = name
-    .split(' ')
+    .split(" ")
     .map((n) => n[0])
-    .join('')
+    .join("")
     .toUpperCase()
-    .slice(0, 2)
+    .slice(0, 2);
 
   return (
     <svg
@@ -42,5 +46,5 @@ export function InitialsAvatar({ name, size = 32, className }: InitialsAvatarPro
         {initials}
       </text>
     </svg>
-  )
+  );
 }

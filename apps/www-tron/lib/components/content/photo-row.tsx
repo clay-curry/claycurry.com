@@ -1,11 +1,11 @@
-import Image, { type StaticImageData } from "next/image"
+import Image, { type StaticImageData } from "next/image";
 
 type PhotoRowProps = {
-  images: { src: StaticImageData; alt?: string }[]
-}
+  images: { src: StaticImageData; alt?: string }[];
+};
 
 export function PhotoRow({ images }: PhotoRowProps) {
-  const sizes = `(max-width: 768px) 100vw, ${Math.round(100 / images.length)}vw`
+  const sizes = `(max-width: 768px) 100vw, ${Math.round(100 / images.length)}vw`;
 
   return (
     <div className="my-6 flex gap-2">
@@ -21,5 +21,5 @@ export function PhotoRow({ images }: PhotoRowProps) {
         </div>
       ))}
     </div>
-  )
+  );
 }

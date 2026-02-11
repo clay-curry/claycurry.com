@@ -1,27 +1,27 @@
-'use client'
+"use client";
 
-import { Eye } from 'lucide-react'
-import { usePathname } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { Eye } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 interface PageViewsProps {
   /** Custom slug to track (defaults to current pathname) */
-  slug?: string
+  slug?: string;
   /** Whether to increment the view count (default: true) */
-  increment?: boolean
+  increment?: boolean;
   /** Additional CSS classes */
-  className?: string
+  className?: string;
 }
 
 interface UsePageViewsOptions {
   /** Whether to increment the view count (default: true) */
-  increment?: boolean
+  increment?: boolean;
 }
 
 interface UsePageViewsReturn {
-  count: number | null
-  isLoading: boolean
-  error: Error | null
+  count: number | null;
+  isLoading: boolean;
+  error: Error | null;
 }
 
 /**
@@ -31,16 +31,16 @@ interface UsePageViewsReturn {
 export function PageViews({
   slug,
   increment = true,
-  className = '',
+  className = "",
 }: PageViewsProps) {
-  const pathname = usePathname()
-  const effectiveSlug = slug ?? pathname
+  const pathname = usePathname();
+  const effectiveSlug = slug ?? pathname;
   const { count, isLoading, error } = usePageViews(effectiveSlug, {
     increment,
-  })
+  });
 
   if (error) {
-    return null // Silently fail - don't break the page for analytics
+    return null; // Silently fail - don't break the page for analytics
   }
 
   return (
@@ -62,15 +62,15 @@ export function PageViews({
         <span className="animate-pulse">—</span>
       ) : (
         <>
-              <Eye
-        className="h-4 w-4"
-        style={{ animation: 'blink3 0.7s ease-in-out forwards' }}
-      />
-        <span>{count?.toLocaleString() ?? 0} views</span>
+          <Eye
+            className="h-4 w-4"
+            style={{ animation: "blink3 0.7s ease-in-out forwards" }}
+          />
+          <span>{count?.toLocaleString() ?? 0} views</span>
         </>
       )}
     </div>
-  )
+  );
 }
 
 /**
@@ -81,61 +81,61 @@ export function usePageViews(
   slug: string,
   options: UsePageViewsOptions = {},
 ): UsePageViewsReturn {
-  const { increment = true } = options
-  const [count, setCount] = useState<number | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
+  const { increment = true } = options;
+  const [count, setCount] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
   // Track which slug was last incremented to prevent Strict Mode double-fires
   // while still allowing updates when the slug changes across navigations
-  const trackedSlug = useRef<string | null>(null)
+  const trackedSlug = useRef<string | null>(null);
 
   useEffect(() => {
     if (increment && trackedSlug.current === slug) {
-      return
+      return;
     }
 
     const trackView = async () => {
       try {
-        setIsLoading(true)
-        setError(null)
+        setIsLoading(true);
+        setError(null);
 
         if (increment) {
-          trackedSlug.current = slug
+          trackedSlug.current = slug;
 
-          const response = await fetch('/api/views', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          const response = await fetch("/api/views", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ slug }),
-          })
+          });
 
           if (!response.ok) {
-            throw new Error('Failed to track page view')
+            throw new Error("Failed to track page view");
           }
 
-          const data = await response.json()
-          setCount(data.count)
+          const data = await response.json();
+          setCount(data.count);
         } else {
           const response = await fetch(
             `/api/views?slug=${encodeURIComponent(slug)}`,
-          )
+          );
 
           if (!response.ok) {
-            throw new Error('Failed to fetch page views')
+            throw new Error("Failed to fetch page views");
           }
 
-          const data = await response.json()
-          setCount(data.count)
+          const data = await response.json();
+          setCount(data.count);
         }
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('Unknown error'))
+        setError(err instanceof Error ? err : new Error("Unknown error"));
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    trackView()
-  }, [slug, increment])
+    trackView();
+  }, [slug, increment]);
 
-  return { count, isLoading, error }
+  return { count, isLoading, error };
 }

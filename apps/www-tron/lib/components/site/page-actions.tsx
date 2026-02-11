@@ -1,16 +1,25 @@
-'use client'
+"use client";
 
-import { useCallback, useState } from 'react'
-import { ArrowUpCircle, Copy, Check, MessageSquare, Bot, ExternalLink, Github } from 'lucide-react'
-import { Button } from '@/lib/components/ui/button'
-import { siteConfig } from '@/lib/portfolio-data'
+import {
+  ArrowUpCircle,
+  Bot,
+  Check,
+  Copy,
+  ExternalLink,
+  Github,
+  MessageSquare,
+} from "lucide-react";
+import { useCallback, useState } from "react";
+import { Button } from "@/lib/components/ui/button";
+import { siteConfig } from "@/lib/portfolio-data";
 
-const actionStyles = "my-2 flex items-center gap-1.5 text-muted-foreground text-sm transition-colors hover:text-foreground"
+const actionStyles =
+  "my-2 flex items-center gap-1.5 text-muted-foreground text-sm transition-colors hover:text-foreground";
 
 export function ScrollToTop() {
   const handleScrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [])
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <button
@@ -22,20 +31,20 @@ export function ScrollToTop() {
       <ArrowUpCircle className="size-3.5" />
       <span>Scroll to top</span>
     </button>
-  )
+  );
 }
 
 export function CopyPage() {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
-    const content = document.querySelector('article')?.innerText || ''
-    await navigator.clipboard.writeText(content)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }, [])
+    const content = document.querySelector("article")?.innerText || "";
+    await navigator.clipboard.writeText(content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }, []);
 
-  const Icon = copied ? Check : Copy
+  const Icon = copied ? Check : Copy;
 
   return (
     <button
@@ -45,22 +54,22 @@ export function CopyPage() {
       type="button"
     >
       <Icon className="size-3.5" />
-      <span>{copied ? 'Copied!' : 'Copy page'}</span>
+      <span>{copied ? "Copied!" : "Copy page"}</span>
     </button>
-  )
+  );
 }
 
 export function CopyPageButton() {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
-    const content = document.querySelector('article')?.innerText || ''
-    await navigator.clipboard.writeText(content)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }, [])
+    const content = document.querySelector("article")?.innerText || "";
+    await navigator.clipboard.writeText(content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }, []);
 
-  const Icon = copied ? Check : Copy
+  const Icon = copied ? Check : Copy;
 
   return (
     <Button
@@ -69,16 +78,18 @@ export function CopyPageButton() {
       data-click-id="post:copy-button"
       onClick={handleCopy}
       className="shadow-none shrink-0"
-      title={copied ? 'Copied!' : 'Copy Page'}
+      title={copied ? "Copied!" : "Copy Page"}
     >
       <Icon />
-      <span className="hidden sm:inline">{copied ? 'Copied!' : 'Copy Page'}</span>
+      <span className="hidden sm:inline">
+        {copied ? "Copied!" : "Copy Page"}
+      </span>
     </Button>
-  )
+  );
 }
 
 export function EditOnGitHub({ slug }: { slug: string }) {
-  const url = `${siteConfig.repo}/edit/main/apps/www-tron/blog/${slug}.mdx`
+  const url = `${siteConfig.repo}/edit/main/apps/www-tron/blog/${slug}.mdx`;
 
   return (
     <a
@@ -91,11 +102,11 @@ export function EditOnGitHub({ slug }: { slug: string }) {
       <Github className="size-3.5" />
       <span>Edit this page on GitHub</span>
     </a>
-  )
+  );
 }
 
 export function GiveFeedback({ slug }: { slug: string }) {
-  const url = `${siteConfig.repo}/issues/new?title=Feedback on: ${slug}&labels=feedback`
+  const url = `${siteConfig.repo}/issues/new?title=Feedback on: ${slug}&labels=feedback`;
 
   return (
     <a
@@ -108,11 +119,11 @@ export function GiveFeedback({ slug }: { slug: string }) {
       <MessageSquare className="size-3.5" />
       <span>Give feedback</span>
     </a>
-  )
+  );
 }
 
 export function AskAI({ slug }: { slug: string }) {
-  const url = `https://claude.ai/new?q=${encodeURIComponent(`Help me understand this article: https://claycurry.com/blog/${slug}`)}`
+  const url = `https://claude.ai/new?q=${encodeURIComponent(`Help me understand this article: https://claycurry.com/blog/${slug}`)}`;
 
   return (
     <a
@@ -125,11 +136,11 @@ export function AskAI({ slug }: { slug: string }) {
       <Bot className="size-3.5" />
       <span>Ask AI about this page</span>
     </a>
-  )
+  );
 }
 
 export function OpenInChat({ slug }: { slug: string }) {
-  const url = `https://chatgpt.com/?q=${encodeURIComponent(`Summarize this article: https://claycurry.com/blog/${slug}`)}`
+  const url = `https://chatgpt.com/?q=${encodeURIComponent(`Summarize this article: https://claycurry.com/blog/${slug}`)}`;
 
   return (
     <a
@@ -142,12 +153,12 @@ export function OpenInChat({ slug }: { slug: string }) {
       <ExternalLink className="size-3.5" />
       <span>Open in chat</span>
     </a>
-  )
+  );
 }
 
 export function ShareOnX({ slug, title }: { slug: string; title: string }) {
-  const postUrl = `https://claycurry.com/blog/${slug}`
-  const url = `https://x.com/intent/tweet?text=${encodeURIComponent(`"${title}"`)}&url=${encodeURIComponent(postUrl)}`
+  const postUrl = `https://claycurry.com/blog/${slug}`;
+  const url = `https://x.com/intent/tweet?text=${encodeURIComponent(`"${title}"`)}&url=${encodeURIComponent(postUrl)}`;
 
   return (
     <a
@@ -163,12 +174,12 @@ export function ShareOnX({ slug, title }: { slug: string; title: string }) {
       </svg>
       <span className="hidden sm:inline">Share on X</span>
     </a>
-  )
+  );
 }
 
 export function ShareOnLinkedIn({ slug }: { slug: string }) {
-  const postUrl = `https://claycurry.com/blog/${slug}`
-  const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`
+  const postUrl = `https://claycurry.com/blog/${slug}`;
+  const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`;
 
   return (
     <a
@@ -184,7 +195,7 @@ export function ShareOnLinkedIn({ slug }: { slug: string }) {
       </svg>
       <span className="hidden sm:inline">Share on LinkedIn</span>
     </a>
-  )
+  );
 }
 
 export function PageActions({ slug }: { slug: string }) {
@@ -199,5 +210,5 @@ export function PageActions({ slug }: { slug: string }) {
         <OpenInChat slug={slug} />
       </div>
     </div>
-  )
+  );
 }

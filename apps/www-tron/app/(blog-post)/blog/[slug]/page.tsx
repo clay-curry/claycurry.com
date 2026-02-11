@@ -1,17 +1,22 @@
+import { Calendar, Clock } from "lucide-react";
 import type { Metadata } from "next";
-import { Clock, Calendar } from "lucide-react";
 import {
   getAllPostsMetadata,
   getPost,
   getPostMetadata,
 } from "@/app/(portfolio)/blog/loader";
-import { MobileToc } from "@/lib/components/site/mobile-toc";
-import { getSiteNavLinks } from "@/lib/navigation";
-import { OnThisPage } from "@/lib/components/site/on-this-page";
-import { PageActions, ShareOnX, ShareOnLinkedIn, CopyPageButton } from "@/lib/components/site/page-actions";
-import { PageViews } from "@/lib/components/site/page-views";
-import { PageFeedback } from "@/lib/components/site/page-feedback";
 import { AskQuestionBubble } from "@/lib/components/chat/ask-question-bubble";
+import { MobileToc } from "@/lib/components/site/mobile-toc";
+import { OnThisPage } from "@/lib/components/site/on-this-page";
+import {
+  CopyPageButton,
+  PageActions,
+  ShareOnLinkedIn,
+  ShareOnX,
+} from "@/lib/components/site/page-actions";
+import { PageFeedback } from "@/lib/components/site/page-feedback";
+import { PageViews } from "@/lib/components/site/page-views";
+import { getSiteNavLinks } from "@/lib/navigation";
 
 export const dynamicParams = false;
 
@@ -43,7 +48,12 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { metadata: postMeta, Content: BlogArticle, toc, readTime } = await getPost(slug);
+  const {
+    metadata: postMeta,
+    Content: BlogArticle,
+    toc,
+    readTime,
+  } = await getPost(slug);
   const navLinks = getSiteNavLinks();
   const { title } = postMeta;
 
@@ -65,8 +75,7 @@ export default async function BlogPostPage({
           <article className="pt-12 pb-4 md:py-8">
             {/* Header */}
             <header className="mb-14 pb-6 border-b border-border">
-
-              { /* Title and subtitle */ }
+              {/* Title and subtitle */}
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2 sm:mb-4 wrap-break-word">
                 {title}
               </h1>
@@ -74,9 +83,12 @@ export default async function BlogPostPage({
                 {postMeta.subtitle}
               </p>
 
-              { /* Meta for article */ }
+              {/* Meta for article */}
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2 sm:gap-3 md:gap-4 text-sm sm:text-sm text-muted-foreground">
-                <PageViews slug={`/blog/${slug}`} className="text-sm text-muted-foreground" />
+                <PageViews
+                  slug={`/blog/${slug}`}
+                  className="text-sm text-muted-foreground"
+                />
                 <div className="h-4 w-px bg-border" />
                 <span className="flex items-center gap-1">
                   <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />

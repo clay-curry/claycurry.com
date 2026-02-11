@@ -1,87 +1,87 @@
-import { type NextRequest, NextResponse } from 'next/server'
-import { getRedisClient, getInMemoryStore, keyPrefix } from '@/lib/redis'
+import { type NextRequest, NextResponse } from "next/server";
+import { getInMemoryStore, getRedisClient, keyPrefix } from "@/lib/redis";
 
 export async function GET() {
-  const inMemoryStore = getInMemoryStore()
+  const inMemoryStore = getInMemoryStore();
   try {
-    const client = await getRedisClient()
+    const client = await getRedisClient();
     if (!client) {
-      const counts: Record<string, number> = {}
+      const counts: Record<string, number> = {};
       for (const [key, value] of inMemoryStore) {
-        counts[key] = value
+        counts[key] = value;
       }
-      return NextResponse.json({ counts })
+      return NextResponse.json({ counts });
     }
 
-    const raw = await client.hGetAll(`${keyPrefix()}clicks`)
-    const counts: Record<string, number> = {}
+    const raw = await client.hGetAll(`${keyPrefix()}clicks`);
+    const counts: Record<string, number> = {};
     for (const [key, value] of Object.entries(raw)) {
-      counts[key] = parseInt(value, 10)
+      counts[key] = parseInt(value, 10);
     }
-    return NextResponse.json({ counts })
+    return NextResponse.json({ counts });
   } catch (err) {
-    console.error('Redis hGetAll error:', err)
-    const counts: Record<string, number> = {}
+    console.error("Redis hGetAll error:", err);
+    const counts: Record<string, number> = {};
     for (const [key, value] of inMemoryStore) {
-      counts[key] = value
+      counts[key] = value;
     }
-    return NextResponse.json({ counts })
+    return NextResponse.json({ counts });
   }
 }
 
 export async function POST(request: NextRequest) {
-  const inMemoryStore = getInMemoryStore()
+  const inMemoryStore = getInMemoryStore();
   try {
-    const body = await request.json()
-    const ids: string[] = body.ids
+    const body = await request.json();
+    const ids: string[] = body.ids;
 
     if (!Array.isArray(ids) || ids.length === 0) {
       return NextResponse.json(
-        { error: 'Missing or empty ids array' },
+        { error: "Missing or empty ids array" },
         { status: 400 },
-      )
+      );
     }
 
     // Tally repeats
-    const tally = new Map<string, number>()
+    const tally = new Map<string, number>();
     for (const id of ids) {
-      tally.set(id, (tally.get(id) ?? 0) + 1)
+      tally.set(id, (tally.get(id) ?? 0) + 1);
     }
 
-    const counts: Record<string, number> = {}
-    const hashKey = `${keyPrefix()}clicks`
+    const counts: Record<string, number> = {};
+    const hashKey = `${keyPrefix()}clicks`;
 
     try {
-      const client = await getRedisClient()
+      const client = await getRedisClient();
       if (!client) {
         for (const [id, n] of tally) {
-          const current = inMemoryStore.get(id) ?? 0
-          const newCount = current + n
-          inMemoryStore.set(id, newCount)
-          counts[id] = newCount
+          const current = inMemoryStore.get(id) ?? 0;
+          const newCount = current + n;
+          inMemoryStore.set(id, newCount);
+          counts[id] = newCount;
         }
-        return NextResponse.json({ counts })
+        return NextResponse.json({ counts });
       }
 
       for (const [id, n] of tally) {
-        const newCount = await client.hIncrBy(hashKey, id, n)
-        counts[id] = newCount
+        const newCount = await client.hIncrBy(hashKey, id, n);
+        counts[id] = newCount;
       }
-      return NextResponse.json({ counts })
+      return NextResponse.json({ counts });
     } catch (err) {
-      console.error('Redis hIncrBy error:', err)
+      console.error("Redis hIncrBy error:", err);
       for (const [id, n] of tally) {
-        const current = inMemoryStore.get(id) ?? 0
-        const newCount = current + n
-        inMemoryStore.set(id, newCount)
-        counts[id] = newCount
+        const current = inMemoryStore.get(id) ?? 0;
+        const newCount = current + n;
+        inMemoryStore.set(id, newCount);
+        counts[id] = newCount;
       }
-      return NextResponse.json({ counts })
+      return NextResponse.json({ counts });
     }
   } catch {
     return NextResponse.json(
-      { error: 'Invalid request body' },
+      { error: "Invalid request body" },
       { status: 400 },
-    )
+    );
   }
 }

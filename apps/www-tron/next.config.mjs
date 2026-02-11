@@ -1,11 +1,11 @@
 import createMDX from "@next/mdx";
-import rehypePrettyCode from "rehype-pretty-code";
 import rehypeKatex from "rehype-katex";
+import rehypeMdxToc from "rehype-mdx-toc";
+import rehypePrettyCode from "rehype-pretty-code";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
-import rehypeMdxToc from "rehype-mdx-toc";
 
 /**
  * Rehype plugin that moves the title from rehype-pretty-code's
@@ -64,26 +64,31 @@ const nextConfig = {
   // - monitor for anomalies or trends
   redirects: async () => {
     return [
-      { source: '/x', destination: '/?ref=x', permanent: false },
-      { source: '/l', destination: '/?ref=linkedin', permanent: false },
-      { source: '/g', destination: '/?ref=github', permanent: false },
-      { source: '/m', destination: '/?ref=me', permanent: false },
-      { source: '/r', destination: '/?ref=resume', permanent: false },
-      { source: '/rd', destination: '/?ref=readme', permanent: false },
-    ]
+      { source: "/x", destination: "/?ref=x", permanent: false },
+      { source: "/l", destination: "/?ref=linkedin", permanent: false },
+      { source: "/g", destination: "/?ref=github", permanent: false },
+      { source: "/m", destination: "/?ref=me", permanent: false },
+      { source: "/r", destination: "/?ref=resume", permanent: false },
+      { source: "/rd", destination: "/?ref=readme", permanent: false },
+    ];
   },
   rewrites: async () => {
     return [
       {
-        source: '/writing',
-        destination: '/blog'
-      }
-    ]
-  }
-}
+        source: "/writing",
+        destination: "/blog",
+      },
+    ];
+  },
+};
 
 export const mdxOptions = {
-  remarkPlugins: [remarkFrontmatter, remarkGfm, remarkMath, remarkMdxFrontmatter],
+  remarkPlugins: [
+    remarkFrontmatter,
+    remarkGfm,
+    remarkMath,
+    remarkMdxFrontmatter,
+  ],
   rehypePlugins: [
     [
       rehypePrettyCode, // code syntax highlighting
@@ -96,7 +101,7 @@ export const mdxOptions = {
     ],
     rehypeCodeTitle, // move title from <div> onto <pre> for CodeBlock
     rehypeKatex, // math typesetting
-    rehypeMdxToc // table of contents generation
+    rehypeMdxToc, // table of contents generation
   ],
 };
 

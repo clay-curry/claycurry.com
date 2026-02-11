@@ -1,5 +1,5 @@
-import { Resend } from "resend";
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
 import { contactData } from "@/lib/portfolio-data";
 
 export async function POST(request: Request) {
@@ -10,14 +10,14 @@ export async function POST(request: Request) {
     if (!page || !sentiment) {
       return NextResponse.json(
         { error: "Missing required fields" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!["positive", "negative"].includes(sentiment)) {
       return NextResponse.json(
         { error: "Invalid sentiment value" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       console.error("Resend error:", error);
       return NextResponse.json(
         { error: "Failed to send feedback" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     console.error("Feedback error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

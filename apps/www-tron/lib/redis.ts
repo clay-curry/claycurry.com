@@ -1,35 +1,35 @@
-import { createClient } from 'redis'
+import { createClient } from "redis";
 
-const inMemoryStore = new Map<string, number>()
+const inMemoryStore = new Map<string, number>();
 
-let redisClient: ReturnType<typeof createClient> | null = null
+let redisClient: ReturnType<typeof createClient> | null = null;
 
 export async function getRedisClient() {
   if (!process.env.KV_REST_API_REDIS_URL) {
-    return null
+    return null;
   }
 
   if (!redisClient) {
     redisClient = createClient({
       url: process.env.KV_REST_API_REDIS_URL,
-    })
-    redisClient.on('error', (err) => console.error('Redis Client Error', err))
-    await redisClient.connect()
+    });
+    redisClient.on("error", (err) => console.error("Redis Client Error", err));
+    await redisClient.connect();
   }
 
-  return redisClient
+  return redisClient;
 }
 
 export function getInMemoryStore() {
-  return inMemoryStore
+  return inMemoryStore;
 }
 
 export function keyPrefix(): string {
-  const vercelEnv = process.env.VERCEL_ENV
-  if (vercelEnv === 'production') return 'prod:'
-  if (vercelEnv === 'preview') return 'preview:'
-  if (vercelEnv === 'development') return 'dev:'
+  const vercelEnv = process.env.VERCEL_ENV;
+  if (vercelEnv === "production") return "prod:";
+  if (vercelEnv === "preview") return "preview:";
+  if (vercelEnv === "development") return "dev:";
   // Local dev (VERCEL_ENV not set)
-  if (process.env.NODE_ENV === 'development') return 'dev:'
-  return 'dev:'
+  if (process.env.NODE_ENV === "development") return "dev:";
+  return "dev:";
 }

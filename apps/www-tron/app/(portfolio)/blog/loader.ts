@@ -43,7 +43,11 @@ export function getAllPostsMetadata(): PostMetadata[] {
       const slug = file.replace(/\.mdx$/, "");
       return getPostMetadata(slug);
     })
-    .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
+    .sort(
+      (a, b) =>
+        new Date(b.publishedDate).getTime() -
+        new Date(a.publishedDate).getTime(),
+    );
 
   // In production, filter out posts with published: false
   if (process.env.NODE_ENV === "production") {
@@ -75,7 +79,9 @@ export async function getPost(slug: string) {
 }
 
 // Get raw article content for AI chat context
-export function getPostContent(slug: string): { metadata: PostMetadata; content: string } | null {
+export function getPostContent(
+  slug: string,
+): { metadata: PostMetadata; content: string } | null {
   try {
     const metadata = getAllPostsMetadata().find((o) => o.slug === slug);
     if (!metadata) {

@@ -1,19 +1,17 @@
-import Link from 'next/link'
-import { BlogSidebar } from '@/lib/components/site/blog-sidebar'
-import { SidebarProvider, SidebarInset } from '@/lib/components/ui/sidebar'
-import { getAllPostsMetadata } from '../(portfolio)/blog/loader'
-import { getSiteNavLinks } from '@/lib/navigation'
-
-import { AskAI } from '@/lib/components/chat/ask-ai'
-
+import Link from "next/link";
+import { AskAI } from "@/lib/components/chat/ask-ai";
+import { BlogSidebar } from "@/lib/components/site/blog-sidebar";
+import { SidebarInset, SidebarProvider } from "@/lib/components/ui/sidebar";
+import { getSiteNavLinks } from "@/lib/navigation";
+import { getAllPostsMetadata } from "../(portfolio)/blog/loader";
 
 export default function BlogPostLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const posts = getAllPostsMetadata()
-  const navLinks = getSiteNavLinks()
+  const posts = getAllPostsMetadata();
+  const navLinks = getSiteNavLinks();
 
   return (
     <div className="min-h-screen w-full">
@@ -39,5 +37,5 @@ export default function BlogPostLayout({
         </SidebarInset>
       </SidebarProvider>
     </div>
-  )
+  );
 }
