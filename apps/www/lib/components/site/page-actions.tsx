@@ -89,7 +89,7 @@ export function CopyPageButton() {
 }
 
 export function EditOnGitHub({ slug }: { slug: string }) {
-  const url = `${siteConfig.repo}/edit/main/apps/www-tron/blog/${slug}.mdx`;
+  const url = `${siteConfig.repo}/edit/main/apps/www/blog/${slug}.mdx`;
 
   return (
     <a

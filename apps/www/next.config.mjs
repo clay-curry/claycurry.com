@@ -55,6 +55,7 @@ function rehypeCodeTitle() {
 }
 
 import { createRequire } from "node:module";
+
 const require = createRequire(import.meta.url);
 
 /** @type {import('next').NextConfig} */
@@ -65,7 +66,9 @@ const nextConfig = {
 
   // deduplicate jotai to a single instance in the monorepo
   webpack: (config) => {
-    const jotaiDir = require.resolve("jotai/package.json").replace("/package.json", "");
+    const jotaiDir = require
+      .resolve("jotai/package.json")
+      .replace("/package.json", "");
     config.resolve.alias = {
       ...config.resolve.alias,
       jotai: jotaiDir,

@@ -70,7 +70,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Removed
 - Contrast toggle button and related CSS
 - Weather effects feature (added and removed in same cycle)
-- Old apps/www directory (replaced by apps/www-tron)
+- Old apps/www directory (replaced by apps/www)
 - Old packages/www directory
 - Redundant GitHub link from footer
 - Stale npm lockfile
@@ -252,7 +252,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## 2026-01-18
 
 ### Added
-- www-tron app with TRON Legacy inspired design system
+- www app with TRON Legacy inspired design system
 - Vercel React best practices agent skills
 - Web design guidelines skill
 

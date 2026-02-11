@@ -12,12 +12,12 @@ pnpm check                  # Biome lint + fix
 pnpm check-types            # TypeScript type-checking
 
 # All commands run through Turborepo from the root
-# The main app is at apps/www-tron/
+# The main app is at apps/www/
 ```
 
 ## Architecture
 
-**Turborepo monorepo** with pnpm workspaces. One app (`apps/www-tron` — Next.js 16, React 19, App Router) and one utility package (`packages/link-checker`).
+**Turborepo monorepo** with pnpm workspaces. One app (`apps/www` — Next.js 16, React 19, App Router) and one utility package (`packages/link-checker`).
 
 ### Routing
 
@@ -32,7 +32,7 @@ Short redirects (`/x`, `/l`, `/g`, `/m`, `/r`, `/rd`) in `next.config.mjs` track
 
 ### MDX Blog
 
-Blog posts live in `apps/www-tron/blog/*.mdx` with gray-matter frontmatter (`slug`, `title`, `publishedDate`, `tags`, `pinned`). The loader at `lib/components/content/loader.ts` provides `getAllPostsMetadata()` and `getPost(slug)`.
+Blog posts live in `apps/www/blog/*.mdx` with gray-matter frontmatter (`slug`, `title`, `publishedDate`, `tags`, `pinned`). The loader at `lib/components/content/loader.ts` provides `getAllPostsMetadata()` and `getPost(slug)`.
 
 MDX processing chain: remark-gfm, remark-math, remark-frontmatter → rehype-pretty-code (shiki, github-dark), rehype-katex, rehype-mdx-toc. Custom components in `mdx-components.tsx` provide auto-slugified headings, code blocks, PhotoCarousel, Mermaid diagrams, and tabbed content.
 
@@ -57,7 +57,7 @@ Chat API at `app/api/chat/route.ts` uses Vercel AI SDK with gateway routing (gro
 - `lib/components/content/` — Code blocks, Mermaid, photo galleries, blog loader
 - `lib/components/site/` — Navigation, theme toggles, page views, hero, sidebars
 
-Path aliases: `@/` → `apps/www-tron/` root. shadcn/ui configured in `components.json` with aliases `@/lib/components/ui`, `@/lib/hooks`.
+Path aliases: `@/` → `apps/www/` root. shadcn/ui configured in `components.json` with aliases `@/lib/components/ui`, `@/lib/hooks`.
 
 ### Formatting & Linting
 

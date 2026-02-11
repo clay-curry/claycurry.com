@@ -68,7 +68,7 @@ The app uses **one** env var for persistent storage:
 **With Redis:** Create a `.env.local` file in the app directory:
 
 ```bash
-# apps/www-tron/.env.local
+# apps/www/.env.local
 KV_REST_API_REDIS_URL="redis://localhost:6379"
 ```
 
@@ -85,13 +85,13 @@ pnpm dev
 This starts all apps via Turborepo. To run only this app:
 
 ```bash
-pnpm dev --filter www-tron
+pnpm dev --filter www
 ```
 
 Or from the app directory:
 
 ```bash
-cd apps/www-tron
+cd apps/www
 pnpm dev
 ```
 
@@ -101,17 +101,17 @@ The dev server starts at `http://localhost:3000` (or the next available port).
 
 ```bash
 # Type check
-pnpm check-types --filter www-tron
+pnpm check-types --filter www
 
 # Biome check (formatting + linting with auto-fix)
-pnpm check --filter www-tron
+pnpm check --filter www
 ```
 
 ### 5. Building for production locally
 
 ```bash
-pnpm build --filter www-tron
-pnpm start --filter www-tron
+pnpm build --filter www
+pnpm start --filter www
 ```
 
 ---
@@ -175,7 +175,7 @@ For deployed environments to use Redis:
 If you have existing data in un-prefixed Redis keys (`clicks`, `pageviews:*`) from before environment partitioning was added, run the migration script to copy them to the `prod:` namespace:
 
 ```bash
-KV_REST_API_REDIS_URL="redis://your-production-redis-url" npx tsx apps/www-tron/scripts/migrate-redis-keys.ts
+KV_REST_API_REDIS_URL="redis://your-production-redis-url" npx tsx apps/www/scripts/migrate-redis-keys.ts
 ```
 
 The script:
@@ -197,7 +197,7 @@ redis-cli KEYS "pageviews:*" | xargs redis-cli DEL
 ## Project Structure (key files)
 
 ```
-apps/www-tron/
+apps/www/
   app/
     api/
       clicks/route.ts    # Click counter API (GET all counts, POST increment)

@@ -8,7 +8,7 @@
  * Idempotent: safe to run multiple times.
  *
  * Usage:
- *   KV_REST_API_REDIS_URL="redis://..." npx tsx apps/www-tron/scripts/migrate-redis-keys.ts
+ *   KV_REST_API_REDIS_URL="redis://..." npx tsx apps/www/scripts/migrate-redis-keys.ts
  */
 import { createClient } from "redis";
 
