@@ -21,6 +21,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Moved San Francisco location to top of profile sidebar with Google Maps link
 - Rewrote About section bio to describe engineering values and AI/ML interest
 - Applied biome formatting and lint fixes across codebase
+- Replaced deprecated `lucide-react` `Github`/`Linkedin` imports with `GithubIcon`/`LinkedinIcon`
 
 ### Removed
 - `.light .grid-background` CSS override (no longer needed with `var(--grid-color)`)
