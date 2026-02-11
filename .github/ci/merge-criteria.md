@@ -1,8 +1,8 @@
 <!-- merge-criteria -->
-## Merge criteria
+## Clay's criteria
 
-| Check | Status | Required action |
-|-------|--------|-----------------|
+| # | Check | Status | Required action |
+|---|-------|--------|-----------------|
 {rows}
 
 {footnotes}

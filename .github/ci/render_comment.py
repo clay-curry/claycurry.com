@@ -68,7 +68,7 @@ def _evaluate(plugin: dict[str, object]) -> bool:
 def _render_row(plugin: dict[str, object], index: int, passed: bool) -> str:
     icon = ":white_check_mark:" if passed else ":x:"
     action = plugin["pass_action"] if passed else plugin["fail_action"]
-    return f"| [{plugin['label']}][^{index}] | {icon} | {action} |"
+    return f"| {index} | {plugin['label']} [^{index}] | {icon} | {action} |"
 
 
 def _render_footnote(plugin: dict[str, object], index: int) -> str:
