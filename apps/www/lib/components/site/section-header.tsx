@@ -1,6 +1,6 @@
 export function SectionHeader({ title }: { title: string }) {
   return (
-    <div className="flex items-center gap-4 mb-6">
+    <div className="flex items-center gap-4 my-6">
       <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">
         {title}
       </span>

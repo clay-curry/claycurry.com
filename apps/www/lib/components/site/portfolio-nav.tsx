@@ -4,7 +4,7 @@ import { Github, Menu, MessagesSquare, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "@/lib/components/ui/button";
 import { InitialsAvatar } from "@/lib/components/ui/initials-avatar";
@@ -15,7 +15,10 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
   const pathname = usePathname();
   const activeSection = pathname === "/" ? "about" : pathname.split("/")[1];
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { setIsDialogOpen } = useChatUI();
+
+  useEffect(() => setMounted(true), []);
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -90,62 +93,63 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
           >
             <Menu className="size-5" />
           </Button>
-          {createPortal(
-            <AnimatePresence>
-              {open && (
-                <>
-                  <motion.div
-                    key="backdrop"
-                    className="fixed inset-0 z-50 bg-black/50"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    onClick={close}
-                  />
-                  <motion.div
-                    key="drawer"
-                    role="dialog"
-                    aria-label="Navigation menu"
-                    className="fixed inset-y-0 left-0 z-50 flex h-full w-64 flex-col gap-4 border-r bg-background shadow-lg will-change-transform"
-                    initial={{ x: "-100%" }}
-                    animate={{ x: 0 }}
-                    exit={{ x: "-100%" }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                  >
-                    <button
-                      type="button"
+          {mounted &&
+            createPortal(
+              <AnimatePresence>
+                {open && (
+                  <>
+                    <motion.div
+                      key="backdrop"
+                      className="fixed inset-0 z-50 bg-black/50"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
                       onClick={close}
-                      className="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100"
-                      aria-label="Close menu"
+                    />
+                    <motion.div
+                      key="drawer"
+                      role="dialog"
+                      aria-label="Navigation menu"
+                      className="fixed inset-y-0 left-0 z-50 flex h-full w-64 flex-col gap-4 border-r bg-background shadow-lg will-change-transform"
+                      initial={{ x: "-100%" }}
+                      animate={{ x: 0 }}
+                      exit={{ x: "-100%" }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
                     >
-                      <X className="size-4" />
-                    </button>
-                    <div className="flex flex-col gap-6 mt-12">
-                      <nav className="flex flex-col gap-1">
-                        {navLinks.map((section) => (
-                          <Link
-                            key={section.label}
-                            href={section.href}
-                            data-click-id={`nav:mobile-${section.label}`}
-                            onClick={close}
-                            className={`px-4 py-3 rounded-lg text-sm font-medium capitalize transition-colors ${
-                              activeSection === section.label
-                                ? "text-foreground bg-accent/10"
-                                : "text-muted-foreground hover:bg-accent/20"
-                            }`}
-                          >
-                            {section.label}
-                          </Link>
-                        ))}
-                      </nav>
-                    </div>
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>,
-            document.body,
-          )}
+                      <button
+                        type="button"
+                        onClick={close}
+                        className="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100"
+                        aria-label="Close menu"
+                      >
+                        <X className="size-4" />
+                      </button>
+                      <div className="flex flex-col gap-6 mt-12">
+                        <nav className="flex flex-col gap-1">
+                          {navLinks.map((section) => (
+                            <Link
+                              key={section.label}
+                              href={section.href}
+                              data-click-id={`nav:mobile-${section.label}`}
+                              onClick={close}
+                              className={`px-4 py-3 rounded-lg text-sm font-medium capitalize transition-colors ${
+                                activeSection === section.label
+                                  ? "text-foreground bg-accent/10"
+                                  : "text-muted-foreground hover:bg-accent/20"
+                              }`}
+                            >
+                              {section.label}
+                            </Link>
+                          ))}
+                        </nav>
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>,
+              document.body,
+            )}
         </div>
       </nav>
     </header>

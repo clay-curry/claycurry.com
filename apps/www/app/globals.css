@@ -17,10 +17,10 @@
    Sam Flynn #6EE2FF, Light Cycle #0EF8F8, CLU #F7C530,
    CLU Follower #F79D1E, BlackGuard #FF410D, Underclass #95CC5E */
 :root {
-  --src-primary-h: 29;
-  --src-primary-c: 0.21;
-  --src-secondary-h: 145;
-  --src-secondary-c: 0.26;
+  --src-primary-h: 145;
+  --src-primary-c: 0.26;
+  --src-secondary-h: 0;
+  --src-secondary-c: 0;
   --src-neutral-h: 70;
   --src-neutral-c: 0.02;
   --src-error-h: 25;
@@ -51,16 +51,16 @@
 .theme-green {
   --src-primary-h: 145;
   --src-primary-c: 0.26;
-  --src-secondary-h: 257;
-  --src-secondary-c: 0.22;
+  --src-secondary-h: 0;
+  --src-secondary-c: 0;
 } /* green → next: gray */
 .theme-gray {
   --src-primary-h: 0;
   --src-primary-c: 0;
-  --src-secondary-h: 0;
-  --src-secondary-c: 0;
+  --src-secondary-h: 257;
+  --src-secondary-c: 0.22;
   --src-neutral-c: 0;
-} /* gray → next: blue */
+} /* gray → next: cyan */
 
 /* ══ COLOR ROLES (Dark Scheme — default) ══ */
 /* Derived from source parameters — never edit these values directly */
@@ -77,7 +77,7 @@
   --secondary-foreground: oklch(0.85 var(--src-neutral-c) var(--src-neutral-h));
   --accent: var(--primary);
   --accent-foreground: oklch(0.08 0 0);
-  --accent-2: oklch(0.78 var(--src-secondary-c) var(--src-secondary-h));
+  --accent-2: oklch(0.82 var(--src-secondary-c) var(--src-secondary-h));
   --accent-2-foreground: oklch(0.99 0 0);
   --muted: oklch(0.2 var(--src-neutral-c) var(--src-primary-h));
   --muted-foreground: oklch(0.55 var(--src-neutral-c) var(--src-neutral-h));
@@ -178,7 +178,6 @@
   --primary-foreground: oklch(1 0 0);
   --accent: oklch(0 0 0);
   --accent-foreground: oklch(1 0 0);
-  --accent-2: oklch(0 0 0);
   --accent-2-foreground: oklch(1 0 0);
 }
 
