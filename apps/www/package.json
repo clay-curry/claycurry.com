@@ -6,7 +6,8 @@
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
-    "check": "biome check --fix",
+    "check": "biome check --fix && node scripts/check-social-metadata.mjs",
+    "check-social-metadata": "node scripts/check-social-metadata.mjs",
     "check-types": "tsc --noEmit",
     "lint": "eslint ."
   },

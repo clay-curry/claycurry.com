@@ -8,6 +8,7 @@
  * @see https://developers.google.com/search/docs/crawling-indexing/robots/intro
  */
 import type { MetadataRoute } from "next";
+import { toSiteUrl } from "@/lib/site-url";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -15,6 +16,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://claycurry.com/sitemap.xml",
+    sitemap: toSiteUrl("/sitemap.xml"),
   };
 }

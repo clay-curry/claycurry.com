@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import { ChatProvider } from "@/lib/providers/chat-provider";
 import { ClickCountProvider } from "@/lib/providers/click-count-provider";
+import { SITE_ORIGIN } from "@/lib/site-url";
 
 import "tw-animate-css";
 import "katex/dist/katex.min.css";
@@ -33,10 +34,40 @@ const tourney = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://claycurry.com"),
+  metadataBase: new URL(SITE_ORIGIN),
   title: "Clay Curry - Software Engineer",
   description:
     "Portfolio of Clay Curry, a Software Engineer experienced in web technologies",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Clay Curry - Software Engineer",
+    description:
+      "Portfolio of Clay Curry, a Software Engineer experienced in web technologies",
+    type: "website",
+    url: "/",
+    images: [
+      {
+        alt: "Clay Curry - Software Engineer",
+        height: 630,
+        url: "/opengraph-image",
+        width: 1200,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Clay Curry - Software Engineer",
+    description:
+      "Portfolio of Clay Curry, a Software Engineer experienced in web technologies",
+    images: [
+      {
+        alt: "Clay Curry - Software Engineer",
+        url: "/twitter-image",
+      },
+    ],
+  },
   icons: {
     icon: "/favicon.svg",
   },
