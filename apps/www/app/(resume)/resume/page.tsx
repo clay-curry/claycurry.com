@@ -17,6 +17,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { XIcon } from "@/lib/components/icons";
+import { AboutSection } from "@/lib/components/site/about-section";
 import {
   Accordion,
   AccordionContent,
@@ -73,6 +74,9 @@ export default function ResumePage() {
             },
           ]}
         />
+
+        {/* Objective */}
+        <AboutSection />
 
         {/* Professional Experience */}
         <AccordionSection>
@@ -442,9 +446,9 @@ const _AboutMeSection = ({ paragraphs }: { paragraphs: string[] }) => (
   <Card className="mt-4">
     <SectionHeading icon={User}>About Me</SectionHeading>
     <div className="space-y-3 my-8">
-      {paragraphs.map((text, index) => (
+      {paragraphs.map((text) => (
         <p
-          key={index}
+          key={text}
           className="text-sm md:text-base text-card-foreground leading-relaxed"
         >
           {text}
