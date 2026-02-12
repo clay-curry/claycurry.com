@@ -10,7 +10,9 @@ function HeroPrimaryText({ children }: { children: React.ReactNode }) {
 
 function HeroSubtext({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-lg md:text-xl text-muted-foreground mb-10">{children}</p>
+    <p className="text-lg md:text-xl text-muted-foreground italic mb-10">
+      {children}
+    </p>
   );
 }
 
@@ -18,7 +20,7 @@ export function Hero() {
   return (
     <div className="text-center py-20">
       <HeroPrimaryText>Clay Curry</HeroPrimaryText>
-      <HeroSubtext>Portfolio Website</HeroSubtext>
+      <HeroSubtext>PORTFOLIO WEBSITE</HeroSubtext>
       <HeroContactAskAI />
     </div>
   );
