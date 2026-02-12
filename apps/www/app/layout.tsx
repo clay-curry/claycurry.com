@@ -24,13 +24,13 @@ const geistMono = Geist_Mono({
 });
 
 const tourney = localFont({
-  src: [
-    { path: "../public/fonts/Tourney-Regular.ttf", weight: "400" },
-    { path: "../public/fonts/Tourney-Medium.ttf", weight: "500" },
-    { path: "../public/fonts/Tourney-SemiBold.ttf", weight: "600" },
-    { path: "../public/fonts/Tourney-Bold.ttf", weight: "700" },
-  ],
+  src: [{ path: "../public/fonts/Tourney-Regular.ttf", weight: "600" }],
   variable: "--font-tourney",
+});
+
+const anders = localFont({
+  src: [{ path: "../public/fonts/Anders.ttf", weight: "100" }],
+  variable: "--font-anders",
 });
 
 export const metadata: Metadata = {
@@ -100,7 +100,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}
+        className={`${anders.variable} ${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}
       >
         <div className="grid-background" aria-hidden="true" />
         <ClickCountProvider>

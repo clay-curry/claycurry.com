@@ -182,9 +182,11 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-poppins), system-ui, sans-serif;
+  --font-sans:
+    var(--font-poppins), "Helvetica Neue", Helvetica, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, monospace;
   --font-tourney: "Tourney", system-ui, sans-serif;
+  --font-anders: var(--font-anders), system-ui, sans-serif;
 
   /* TRON Custom Colors — derived from source params */
   --color-tron-cyan: var(--primary);

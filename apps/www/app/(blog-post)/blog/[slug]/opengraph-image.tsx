@@ -10,7 +10,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const DOMAIN = "claycurry.com";
-const ACCENT = "#e8451a";
+const ACCENT = "#4FE3C2";
 
 export function generateStaticParams() {
   return getAllPostsMetadata().map((p) => ({ slug: p.slug }));
@@ -46,7 +46,7 @@ export default async function Image({
         fontFamily: "Poppins",
       }}
     >
-      {/* Red accent bar at top */}
+      {/* Accent bar at top */}
       <div
         style={{
           width: "100%",

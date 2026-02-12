@@ -8,7 +8,7 @@ export const contentType = "image/png";
 const NAME = "Clay Curry";
 const TITLE = "Software Engineer";
 const DOMAIN = "claycurry.com";
-const ACCENT = "#e8451a";
+const ACCENT = "#4FE3C2";
 
 export default async function Image() {
   const poppinsBold = await loadGoogleFont(
@@ -28,11 +28,11 @@ export default async function Image() {
         fontFamily: "Poppins",
       }}
     >
-      {/* Red accent line at top */}
+      {/* Accent line at top */}
       <div
         style={{
           width: "100%",
-          height: "4px",
+          height: "10px",
           background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT}88, transparent)`,
         }}
       />
