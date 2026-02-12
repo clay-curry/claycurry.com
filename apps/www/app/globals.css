@@ -17,8 +17,8 @@
    Sam Flynn #6EE2FF, Light Cycle #0EF8F8, CLU #F7C530,
    CLU Follower #F79D1E, BlackGuard #FF410D, Underclass #95CC5E */
 :root {
-  --src-primary-h: 175;
-  --src-primary-c: 0.134;
+  --src-primary-h: 160.5;
+  --src-primary-c: 0.142;
   --src-secondary-h: 0;
   --src-secondary-c: 0;
   --src-neutral-h: 70;
@@ -45,12 +45,12 @@
 .theme-red {
   --src-primary-h: 29;
   --src-primary-c: 0.21;
-  --src-secondary-h: 175;
-  --src-secondary-c: 0.134;
+  --src-secondary-h: 160.5;
+  --src-secondary-c: 0.142;
 } /* red → next: green */
 .theme-green {
-  --src-primary-h: 175;
-  --src-primary-c: 0.134;
+  --src-primary-h: 160.5;
+  --src-primary-c: 0.142;
   --src-secondary-h: 0;
   --src-secondary-c: 0;
 } /* green → next: gray */

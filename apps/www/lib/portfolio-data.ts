@@ -19,7 +19,7 @@ export const siteConfig = {
 
 export const aboutData = {
   description: [
-    "Product engineer drawn to ambitious yet pragmatic teams that use feedback loops with users to ship work worth defending. I am particularly energized by the intersection of DX, AI/ML and well-crafted web experiences — where smarts and great design meet.",
+    "Design engineer who enjoys making my work visible and learning from user feedback. I am particularly energized by the intersection of DX, AI/ML and well-crafted web experiences — where smarts and great design meet.",
   ],
   skills: [
     "Claude Code",

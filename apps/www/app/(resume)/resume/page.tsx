@@ -39,7 +39,7 @@ export default function ResumePage() {
         {/* Header */}
         <HeaderSection
           name="Clay Curry"
-          title="Designer | Product Engineer"
+          title="Product | Design Engineer"
           socialLinks={[
             {
               icon: MapPin,
@@ -95,10 +95,12 @@ export default function ResumePage() {
                   <CVOrgLocation
                     org={
                       <div className="flex flex-col md:flex-row gap-1 text-card-foreground">
-                        <span>Core Shopping → Product Detail Page →</span>
-                        <CVLink href="https://www.helium10.com/blog/what-is-the-amazon-buy-box/">
-                          BuyBox
-                        </CVLink>
+                        <span>
+                          Core Shopping → Product Detail Page →{" "}
+                          <CVLink href="https://www.helium10.com/blog/what-is-the-amazon-buy-box/">
+                            BuyBox
+                          </CVLink>
+                        </span>
                       </div>
                     }
                     location="Seattle, WA"

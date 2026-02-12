@@ -10,7 +10,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const DOMAIN = "claycurry.com";
-const ACCENT = "#4FE3C2";
+const ACCENT = "#39BE85";
 
 export function generateStaticParams() {
   return getAllPostsMetadata().map((p) => ({ slug: p.slug }));

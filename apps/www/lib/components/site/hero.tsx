@@ -12,7 +12,7 @@ export function Hero() {
 
 function HeroPrimaryText({ children }: { children: React.ReactNode }) {
   return (
-    <h1 className="font-anders tracking-wider text-accent text-[42px] md:text-6xl font-bold tracking-tight">
+    <h1 className="font-anders tracking-wide text-accent text-[42px] md:text-6xl font-[1000] tracking-tight">
       {children}
     </h1>
   );

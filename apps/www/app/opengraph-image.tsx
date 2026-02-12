@@ -8,7 +8,7 @@ export const contentType = "image/png";
 const NAME = "Clay Curry";
 const TITLE = "Software Engineer";
 const DOMAIN = "claycurry.com";
-const ACCENT = "#4FE3C2";
+const ACCENT = "#39BE85";
 
 export default async function Image() {
   const poppinsBold = await loadGoogleFont(

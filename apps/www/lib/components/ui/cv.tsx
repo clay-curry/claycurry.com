@@ -21,20 +21,6 @@ export function CVText({
   );
 }
 
-export function CVLabel({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <span className={cn("font-bold text-foreground", className)}>
-      {children}
-    </span>
-  );
-}
-
 export function CVLink({
   href,
   children,
@@ -67,7 +53,7 @@ export function CVContentBody({
 }) {
   return (
     <div className={cn("mt-3 text-foreground", className)}>
-      <div className="border bg-card border-primary/10 rounded-2xl my-0.5 px-4 py-4 space-y-4">
+      <div className="border bg-card border-primary/10 rounded-lg my-0.5 px-2 py-10 space-y-4">
         {children}
       </div>
     </div>
@@ -104,8 +90,10 @@ export function CVRowItem({
   className?: string;
 }) {
   return (
-    <div className={cn("mb-6 flex flex-col md:flex-row", className)}>
-      <CVLabel>{label}:&nbsp;&nbsp;</CVLabel>
+    <div className={cn("mb-6", className)}>
+      <span className={cn("font-bold text-foreground", className)}>
+        {label}:&nbsp;&nbsp;
+      </span>
       {children}
     </div>
   );
