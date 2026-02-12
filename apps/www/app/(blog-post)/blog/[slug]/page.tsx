@@ -32,12 +32,25 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostMetadata(slug);
+  const description = post.subtitle ?? "";
+  const articlePath = `/blog/${slug}`;
+
   return {
     title: post.title,
-    description: post.subtitle,
+    description,
+    alternates: {
+      canonical: articlePath,
+    },
     openGraph: {
       title: post.title,
-      description: post.subtitle,
+      description,
+      url: articlePath,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description,
     },
   };
 }

@@ -9,12 +9,13 @@
  */
 import type { MetadataRoute } from "next";
 import { getAllPostsMetadata } from "@/app/(portfolio)/blog/loader";
+import { toSiteUrl } from "@/lib/site-url";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPostsMetadata();
 
   const blogPostUrls = posts.map((post) => ({
-    url: `https://claycurry.com/blog/${post.slug}`,
+    url: toSiteUrl(`/blog/${post.slug}`),
     lastModified: new Date(post.publishedDate).toISOString(),
     changeFrequency: "hourly" as const,
   }));
@@ -23,12 +24,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       changeFrequency: "hourly",
       lastModified: new Date().toISOString(),
-      url: "https://claycurry.com",
+      url: toSiteUrl("/"),
     },
     {
       changeFrequency: "hourly",
       lastModified: new Date().toISOString(),
-      url: "https://claycurry.com/blog",
+      url: toSiteUrl("/blog"),
     },
     ...blogPostUrls,
   ];

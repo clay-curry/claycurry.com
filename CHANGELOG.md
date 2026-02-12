@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-02-12
+
+### Added
+- `twitter-image` metadata routes for homepage and blog post pages
+- Automated social metadata regression check script (`apps/www/scripts/check-social-metadata.mjs`) wired into `pnpm --filter www check`
+
+### Changed
+- Standardized canonical metadata origin to `https://www.claycurry.com` for `metadataBase`, robots sitemap URL, and sitemap entries
+- Expanded homepage and blog metadata with explicit canonical, Open Graph, and Twitter card fields for stable social previews
+
 ## 2026-02-11
 
 ### Added
