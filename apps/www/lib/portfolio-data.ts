@@ -19,8 +19,7 @@ export const siteConfig = {
 
 export const aboutData = {
   description: [
-    "I am a software engineer passionate about building products that rely on mechanisms to continuously learn from user behavior through feedback loops. I value working on teams that build iteratively, make pragmatic technology choices, and ship work I can personally stand behind.",
-    "I am especially drawn to the intersection of AI/ML and web platforms, where intelligent systems and great design converge.",
+    "Product engineer drawn to ambitious yet pragmatic teams that use feedback loops with users to ship work worth defending. I am particularly energized by the intersection of DX, AI/ML and well-crafted web experiences — where smarts and great design meet.",
   ],
   skills: [
     "Claude Code",
