@@ -18,9 +18,6 @@ export const siteConfig = {
 } as const;
 
 export const aboutData = {
-  description: [
-    "Design engineer energized by the intersection of DX, AI/ML and well-crafted web experiences — where building and design meet.",
-  ],
   skills: [
     "Claude Code",
     "Codex",

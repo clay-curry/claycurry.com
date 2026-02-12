@@ -21,7 +21,7 @@ function HeroPrimaryText({ children }: { children: React.ReactNode }) {
 function HeroSubtext({ children }: { children: React.ReactNode }) {
   return (
     <p
-      className="text-[19px] text-card-foreground font-[1000] mb-18 md:mb-10"
+      className="text-[19px] text-card-foreground font-[1000] mb-16 md:mb-10"
       style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
     >
       {children}

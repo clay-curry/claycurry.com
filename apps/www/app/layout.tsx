@@ -102,13 +102,27 @@ export default function RootLayout({
       <body
         className={`${anders.variable} ${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}
       >
-        <div className="grid-background" aria-hidden="true" />
-        <ClickCountProvider>
-          <ChatProvider>{children}</ChatProvider>
-        </ClickCountProvider>
-        <Toaster theme="dark" position="bottom-right" />
-        <Analytics />
+        <CompositeProviders>
+          <div className="grid-background" aria-hidden="true" />
+          {children}
+        </CompositeProviders>
       </body>
     </html>
+  );
+}
+
+function CompositeProviders({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <>
+      <ClickCountProvider>
+        <ChatProvider>{children}</ChatProvider>
+      </ClickCountProvider>
+      <Toaster theme="dark" position="bottom-right" />
+      <Analytics />
+    </>
   );
 }

@@ -17,7 +17,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { XIcon } from "@/lib/components/icons";
-import { AboutSection } from "@/lib/components/site/about-section";
 import {
   Accordion,
   AccordionContent,
@@ -76,7 +75,18 @@ export default function ResumePage() {
         />
 
         {/* Objective */}
-        <AboutSection />
+        <AccordionSection>
+          <AccordionSectionHeader icon={Briefcase}>
+            What I'm looking for
+          </AccordionSectionHeader>
+          <AccordionSectionContent>
+            <p className="py-2 p-1 leading-6">
+              A company that cares deeply about craft, where engineers are
+              trusted to shape systems (not just resolve tickets), and values
+              technical, intellectual, and professional growth.
+            </p>
+          </AccordionSectionContent>
+        </AccordionSection>
 
         {/* Professional Experience */}
         <AccordionSection>
