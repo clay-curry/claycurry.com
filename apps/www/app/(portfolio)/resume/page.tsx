@@ -77,72 +77,91 @@ export default function ResumePage() {
         {/* Objective */}
         <AccordionSection>
           <AccordionSectionHeader icon={Briefcase}>
-            TL;DR
+            Objective
           </AccordionSectionHeader>
           <AccordionSectionContent>
-            <p className="py-4 p-1 leading-6">
-              Hi. I have 14 months of experience as a software engineer,
-              contributing at all stages of the product release lifecycle. After
-              mixed results with this approach, I'm exploring a pivot toward a
-              more iterative product release framework — one in which each stage
-              is informed by user metrics and feedback loops.
-            </p>
-            <p className="py-4 p-1 leading-6">
-              By anchoring each stage to the customer, this approach naturally
-              boosts user engagement, promotes feature adoption, and improves
-              products and business outcomes at scale.
-            </p>
+            <AccordionItem value="item-0">
+              <AccordionTrigger className="py-4 p-1 leading-6 text-sm">
+                <div>
+                  <p className="text-sm flex-1 pb-4">TL;DR: -</p>
+                  <ol className="list-disc pl-4">
+                    <li>Amazon (1 year) + University of Oklahoma (3 years).</li>
+                    <li>
+                      Computer scientist / Product Engineer / I get shit done.
+                    </li>
+                    <li>
+                      Have important things to automate but would rather to vibe
+                      on something else? - Hire me!
+                    </li>
+                  </ol>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <p className="pt-32 py-4 p-1 leading-6">
+                  Hi. I have 14 months of experience contributing software to
+                  distributed machine learning systems on Amazon homepage and
+                  product overview. Over this period, I contributed to every
+                  stage in the product release lifecycle at scale — from design
+                  and implementation to deployment and operational support.
+                </p>
+                <p className="py-4 p-1 leading-6">
+                  I'm now looking for a role at a growth-stage company where
+                  each release cycle is anchored to the customer — driven by
+                  user metrics and feedback loops that boost engagement, improve
+                  adoption, and compound business outcomes over time.
+                </p>
+                <p className="py-4 p-1 leading-6">
+                  Long-term, my goal is to own this lifecycle end-to-end by
+                  integrating engineering, design, and business strategy.
+                </p>
 
-            <p className="py-4 p-1 leading-6">
-              To deepen my experience in this area, I'm seeking an engineering
-              role at a mission-driven organization that fosters professional,
-              intellectual, and technical growth. Long-term, my goal is to drive
-              this lifecycle end-to-end by integrating engineering, design, and
-              business strategy.
-            </p>
-
-            <h4 className="font-semibold mt-6">Reasons to hire me:</h4>
-            <ol className="list-disc px-8 grid grid-cols-1 gap-4">
-              <li>
-                <span className="font-bold">Not a dick.</span> brutally honest,
-                without the Steve Jobs complex.
-              </li>
-              <li>
-                <span className="font-bold">Builder instinct.</span> anything in
-                my life that is mundane, repetitive, and not automated, will be.
-              </li>
-              <li>
-                <span className="font-bold"> AI/ML system.</span> i
-                decomissioned the offer ranking service deciding the price for
-                used books across Amazon.
-              </li>
-              <li>
-                <span className="font-bold">Breadth. </span>I move comfortably
-                from TypeScript frontends to Python backends to Kubernetes
-                deployments to AWS infrastructure.
-              </li>
-            </ol>
-
-            <h4 className="font-semibold mt-6">Reasons not to hire me:</h4>
-            <ol className="list-disc px-8 grid grid-cols-1 gap-4">
-              <li className="font-bold">No Open Source</li>
-              <li>
-                <span className="font-bold">Unrealistic Expectations.</span>{" "}
-                Don't hire me if
-                <ol>
-                  <li>By EOD on Day 1, I am expected to</li>
+                <h4 className="font-semibold mt-6">Reasons to hire me:</h4>
+                <ol className="list-disc px-8 grid grid-cols-1 gap-4 pt-4">
                   <li>
-                    By EOD on Day 30, you expect me to merge a change involve
-                    multiple production systems
+                    <span className="font-bold">Not a dick.</span> brutally
+                    honest, without the Steve Jobs complex.
+                  </li>
+                  <li>
+                    <span className="font-bold">High Agency.</span> anything in
+                    my life that is mundane, repetitive, and not automated, will
+                    be.
+                  </li>
+                  <li>
+                    <span className="font-bold"> AI/ML infra.</span> i
+                    decommissioned the offer ranking service deciding the price
+                    for used books across Amazon.
+                  </li>
+                  <li>
+                    <span className="font-bold">Breadth. </span>I move
+                    comfortably from TypeScript frontend to Python backends to
+                    Kubernetes deployments to AWS infrastructure.
                   </li>
                 </ol>
-                By EOD on Day 60, if I have not identified even one growth
-                opportunity, captured it in a document(s), circulated it with
-                relevant peers to collect feedback, then I have faiiled to
-                achieve my own criteria required for me to "meet expections".
-              </li>
-              <li>Open Source users</li>
-            </ol>
+
+                <h4 className="font-semibold mt-6">Reasons not to hire me:</h4>
+                <ol className="list-disc px-8 grid grid-cols-1 gap-4 pt-4">
+                  <li>
+                    <span className="font-bold">Location. Nomad.</span> HB (my
+                    cat) and I are relocating to San Francisco on 02/15/2026.
+                    She tells me its this magical dystopia where nobody can
+                    afford a house (?), yet anyone can afford enough lululemon
+                    to open their own store.
+                  </li>
+                  <li>
+                    <span className="font-bold">
+                      My Self-Doubt Demon. (OCD?)
+                    </span>
+                    often whenever i catch my own mistake, I let down my guard
+                    long enough for a Demon to ambush my consciousness. the
+                    demon takes the exact form of an imaginary Power law
+                    relationship between the "Quality" of my work and the
+                    "Efficiency" required to complete it. this creates
+                    self-doubt inside me, which manifests externally as possible
+                    performance.
+                  </li>
+                </ol>
+              </AccordionContent>
+            </AccordionItem>
           </AccordionSectionContent>
         </AccordionSection>
 
