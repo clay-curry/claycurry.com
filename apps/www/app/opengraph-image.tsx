@@ -6,7 +6,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const NAME = "Clay Curry";
-const TITLE = "Software Engineer";
+const TITLE = "Product Engineer | Web Technology | AI / MLOps";
 const DOMAIN = "claycurry.com";
 const ACCENT = "#39BE85";
 

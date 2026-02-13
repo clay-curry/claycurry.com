@@ -87,7 +87,8 @@ export default function ResumePage() {
                   <ol className="list-disc pl-4">
                     <li>Amazon (1 year) + University of Oklahoma (3 years).</li>
                     <li>
-                      Computer scientist / Product Engineer / I get shit done.
+                      Computer scientist / Product Engineer / I make shit
+                      happen.
                     </li>
                     <li>
                       Have important things to automate but would rather to vibe
@@ -98,16 +99,14 @@ export default function ResumePage() {
               </AccordionTrigger>
               <AccordionContent>
                 <p className="pt-32 py-4 p-1 leading-6">
-                  Hi. I have 14 months of experience contributing software to
-                  distributed machine learning systems on Amazon homepage and
-                  product overview. Over this period, I contributed to every
-                  stage in the product release lifecycle at scale — from design
-                  and implementation to deployment and operational support.
+                  Hi. I bring 14 months of experience contributing software to 2
+                  REST API services producing a machine learning recommended
+                  Featured Offer about 25 billion times per day.
                 </p>
                 <p className="py-4 p-1 leading-6">
-                  I'm now looking for a role at a growth-stage company where
-                  each release cycle is anchored to the customer — driven by
-                  user metrics and feedback loops that boost engagement, improve
+                  I'm looking for a role at a growth-stage company where each
+                  release cycle is anchored to the customer — driven by user
+                  metrics and feedback loops that boost engagement, improve
                   adoption, and compound business outcomes over time.
                 </p>
                 <p className="py-4 p-1 leading-6">
