@@ -2,6 +2,7 @@
 
 import { Palette } from "lucide-react";
 import { useEffect, useState } from "react";
+import { updateFavicon } from "@/lib/favicon";
 
 const themePresets = ["cyan", "orange", "red", "green", "gray"] as const;
 type ThemePreset = (typeof themePresets)[number];
@@ -30,6 +31,7 @@ export function ThemeToggle() {
     html.classList.add(`theme-${next}`);
     setTheme(next);
     localStorage.setItem("tron-theme", next);
+    updateFavicon(next);
   };
 
   if (!mounted) {

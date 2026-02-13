@@ -94,6 +94,10 @@ export default function RootLayout({
     if (t && ['cyan','orange','red','green','gray'].includes(t)) {
       document.documentElement.classList.add('theme-' + t);
     }
+    var colors = {cyan:'%2338BDF8',orange:'%23F97316',red:'%23EF4444',green:'%234FE3C2',gray:'%2394A3B8'};
+    var c = colors[t] || colors.green;
+    var l = document.querySelector('link[rel="icon"]');
+    if (l) l.href = 'data:image/svg+xml,' + '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" fill="%230F172A" stroke="' + c + '" stroke-width="2"/><text x="32" y="38" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" font-weight="700" fill="%23E2E8F0" letter-spacing="0.5">CC</text></svg>';
   } catch(e) {}
 })()`,
           }}

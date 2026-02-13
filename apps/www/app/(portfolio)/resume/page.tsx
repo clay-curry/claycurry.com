@@ -34,7 +34,7 @@ import { aboutData, profileData } from "@/lib/portfolio-data";
 
 export default function ResumePage() {
   return (
-    <article className="py-8 md:py-12 md:px-16">
+    <article className="py-8 md:py-12 md:px-4">
       <section className="flex flex-col items-center w-full">
         {/* Header */}
         <HeaderSection
@@ -77,14 +77,72 @@ export default function ResumePage() {
         {/* Objective */}
         <AccordionSection>
           <AccordionSectionHeader icon={Briefcase}>
-            What I'm looking for
+            TL;DR
           </AccordionSectionHeader>
           <AccordionSectionContent>
-            <p className="py-2 p-1 leading-6">
-              A company that cares deeply about craft, where engineers are
-              trusted to shape systems (not just resolve tickets), and values
-              technical, intellectual, and professional growth.
+            <p className="py-4 p-1 leading-6">
+              Hi. I have 14 months of experience as a software engineer,
+              contributing at all stages of the product release lifecycle. After
+              mixed results with this approach, I'm exploring a pivot toward a
+              more iterative product release framework — one in which each stage
+              is informed by user metrics and feedback loops.
             </p>
+            <p className="py-4 p-1 leading-6">
+              By anchoring each stage to the customer, this approach naturally
+              boosts user engagement, promotes feature adoption, and improves
+              products and business outcomes at scale.
+            </p>
+
+            <p className="py-4 p-1 leading-6">
+              To deepen my experience in this area, I'm seeking an engineering
+              role at a mission-driven organization that fosters professional,
+              intellectual, and technical growth. Long-term, my goal is to drive
+              this lifecycle end-to-end by integrating engineering, design, and
+              business strategy.
+            </p>
+
+            <h4 className="font-semibold mt-6">Reasons to hire me:</h4>
+            <ol className="list-disc px-8 grid grid-cols-1 gap-4">
+              <li>
+                <span className="font-bold">Not a dick.</span> brutally honest,
+                without the Steve Jobs complex.
+              </li>
+              <li>
+                <span className="font-bold">Builder instinct.</span> anything in
+                my life that is mundane, repetitive, and not automated, will be.
+              </li>
+              <li>
+                <span className="font-bold"> AI/ML system.</span> i
+                decomissioned the offer ranking service deciding the price for
+                used books across Amazon.
+              </li>
+              <li>
+                <span className="font-bold">Breadth. </span>I move comfortably
+                from TypeScript frontends to Python backends to Kubernetes
+                deployments to AWS infrastructure.
+              </li>
+            </ol>
+
+            <h4 className="font-semibold mt-6">Reasons not to hire me:</h4>
+            <ol className="list-disc px-8 grid grid-cols-1 gap-4">
+              <li className="font-bold">No Open Source</li>
+              <li>
+                <span className="font-bold">Unrealistic Expectations.</span>{" "}
+                Don't hire me if
+                <ol>
+                  <li>By EOD on Day 1, I am expected to</li>
+                  <li>
+                    By EOD on Day 30, you expect me to merge a change involve
+                    multiple production systems
+                  </li>
+                </ol>
+                By EOD on Day 60, if I have not identified even one growth
+                opportunity, captured it in a document(s), circulated it with
+                relevant peers to collect feedback, then I have faiiled to
+                achieve my own criteria required for me to "meet expections".
+              </li>
+              <li>Open Source users</li>
+            </ol>
           </AccordionSectionContent>
         </AccordionSection>
 
@@ -121,7 +179,7 @@ export default function ResumePage() {
                   />
                   <CVBulletList
                     items={[
-                      "Launched a BuyBox ranking upgrade that produced $30.2 MM revenue growth and 9.7MM lift in annualized units sold.",
+                      "Designed, implemented, and production-ized a BuyBox ranking major upgrade that produced $30.2 MM revenue growth and 9.7MM lift in annualized units sold.",
                       'Expanded the "Join Prime" accordion button to 24 countries, producing 5 additional service and business metrics.',
                       "Participated in a 24x7 engineering on-call rotation to ensure service uptime and subject matter expert availability.",
                     ]}
