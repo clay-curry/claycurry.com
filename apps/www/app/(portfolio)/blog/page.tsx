@@ -8,7 +8,7 @@ export default function BlogPage() {
   const recentPosts = posts.filter((post) => !post.pinned);
 
   return (
-    <div className="py-8 md:py-12 space-y-12 md:space-y-14">
+    <div className="py-8 md:py-12 px-2 md:px-4 space-y-12 md:space-y-14">
       {/* Pinned Posts */}
       {pinnedPosts.length > 0 && (
         <div className="mt-10">

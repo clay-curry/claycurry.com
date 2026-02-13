@@ -34,7 +34,7 @@ import { aboutData, profileData } from "@/lib/portfolio-data";
 
 export default function ResumePage() {
   return (
-    <article className="py-8 md:py-12 md:px-4">
+    <article className="py-8 md:py-12 px-2 md:px-4">
       <section className="flex flex-col items-center w-full">
         {/* Header */}
         <HeaderSection
@@ -82,80 +82,80 @@ export default function ResumePage() {
           <AccordionSectionContent>
             <AccordionItem value="item-0">
               <AccordionTrigger className="py-4 p-1 leading-6 text-sm">
-                <div>
-                  <p className="text-sm flex-1 pb-4">TL;DR: -</p>
-                  <ol className="list-disc pl-4">
+                <div className="flex-1">
+                  <p className="text-sm pb-4">TL;DR:</p>
+                  <ul className="list-disc pl-4">
                     <li>Product Engineer looking for high growth</li>
                     <li>
                       Experience: Amazon (1 year) + University of Oklahoma (3
                       years).
                     </li>
                     <li>Hate manual bullshit? I automate it. Hire me.</li>
-                  </ol>
+                  </ul>
                 </div>
               </AccordionTrigger>
               <AccordionContent>
-                <p className="pt-32 py-4 p-1 leading-6">
-                  Hi. I have 14 months of experience contributing backend
-                  software in amazon.com machine learning recommendation
-                  systems. Featured Offer about 25 billion times per day.
-                </p>
-                <p className="py-4 p-1 leading-6">
-                  I'm looking for a role at a growth-stage company where each
-                  release cycle is anchored to the customer — driven by user
-                  metrics and feedback loops that boost engagement, improve
-                  adoption, and compound business outcomes over time.
-                </p>
-                <p className="py-4 p-1 leading-6">
-                  Long-term, my goal is to own this lifecycle end-to-end by
-                  integrating engineering, design, and business strategy.
-                </p>
+                <CVContentBody className="mt-10">
+                  <p className="py-4 p-1 leading-6">
+                    Hi. I'm looking for a product engineering role at a
+                    growth-stage business organization or company. Where each
+                    release cycle is anchored to the customer — driven by user
+                    metrics and feedback loops that boost engagement, improve
+                    adoption, and compound business outcomes over time.
+                  </p>
+                  <p className="py-4 p-1 leading-6">
+                    Long-term, my goal is to own this lifecycle end-to-end by
+                    integrating engineering, design, and business strategy.
+                  </p>
 
-                <h4 className="font-semibold mt-6">Reasons to hire me:</h4>
-                <ol className="list-disc px-8 grid grid-cols-1 gap-4 pt-4">
-                  <li>
-                    <span className="font-bold">Not a dick.</span> brutally
-                    honest, without the Steve Jobs complex.
-                  </li>
-                  <li>
-                    <span className="font-bold">High Agency.</span> anything in
-                    my life that is mundane, repetitive, and not automated, will
-                    be.
-                  </li>
-                  <li>
-                    <span className="font-bold"> AI/ML infra.</span> i
-                    decommissioned the offer ranking service deciding the price
-                    for used books across Amazon.
-                  </li>
-                  <li>
-                    <span className="font-bold">Breadth. </span>I move
-                    comfortably from TypeScript frontend to Python backends to
-                    Kubernetes deployments to AWS infrastructure.
-                  </li>
-                </ol>
+                  <h4 className="font-semibold mt-6">Reasons to hire me:</h4>
+                  <ol className="list-disc px-8 grid grid-cols-1 gap-4 pt-4">
+                    <li>
+                      <span className="font-bold">Not a dick.</span> brutally
+                      honest, without the Steve Jobs complex.
+                    </li>
+                    <li>
+                      <span className="font-bold">High Agency.</span> anything
+                      in my life that is mundane, repetitive, and not automated,
+                      will be.
+                    </li>
+                    <li>
+                      <span className="font-bold"> AI/ML infra.</span> i
+                      decommissioned the offer ranking service deciding the
+                      price for used books across Amazon.
+                    </li>
+                    <li>
+                      <span className="font-bold">Breadth. </span>I move
+                      comfortably from TypeScript frontend to Python backends to
+                      Kubernetes deployments to AWS infrastructure.
+                    </li>
+                  </ol>
 
-                <h4 className="font-semibold mt-6">Reasons not to hire me:</h4>
-                <ol className="list-disc px-8 grid grid-cols-1 gap-4 pt-4">
-                  <li>
-                    <span className="font-bold">Location. Nomad.</span> HB (my
-                    cat) and I are relocating to San Francisco on 02/15/2026.
-                    She tells me its this magical dystopia where nobody can
-                    afford a house (?), yet anyone can afford enough lululemon
-                    to open their own store.
-                  </li>
-                  <li>
-                    <span className="font-bold">
-                      My Self-Doubt Demon. (OCD?)
-                    </span>
-                    often whenever i catch my own mistake, I let down my guard
-                    long enough for a Demon to ambush my consciousness. the
-                    demon takes the exact form of an imaginary Power law
-                    relationship between the "Quality" of my work and the
-                    "Efficiency" required to complete it. this creates
-                    self-doubt inside me, which manifests externally as possible
-                    performance.
-                  </li>
-                </ol>
+                  <h4 className="font-semibold mt-6">
+                    Reasons not to hire me:
+                  </h4>
+                  <ol className="list-disc px-8 grid grid-cols-1 gap-4 pt-4">
+                    <li>
+                      <span className="font-bold">Location. Nomad.</span> HB (my
+                      cat) and I are relocating to San Francisco on 02/15/2026.
+                      She tells me its this magical dystopia where nobody can
+                      afford a house (?), yet anyone can afford enough lululemon
+                      to open their own store.
+                    </li>
+                    <li>
+                      <span className="font-bold">
+                        My Self-Doubt Demon. (OCD?)
+                      </span>
+                      often whenever i catch my own mistake, I let down my guard
+                      long enough for a Demon to ambush my consciousness. the
+                      demon takes the exact form of an imaginary Power law
+                      relationship between the "Quality" of my work and the
+                      "Efficiency" required to complete it. this creates
+                      self-doubt inside me, which manifests externally as
+                      possible performance.
+                    </li>
+                  </ol>
+                </CVContentBody>
               </AccordionContent>
             </AccordionItem>
           </AccordionSectionContent>

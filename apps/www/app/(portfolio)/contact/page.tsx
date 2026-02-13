@@ -39,8 +39,8 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="py-8 md:py-12 space-y-12 md:space-y-14">
-      <div className="mx-2">
+    <div className="py-8 md:py-12 px-2 md:px-4 space-y-12 md:space-y-14">
+      <div>
         <div className="flex items-center gap-4 my-10">
           <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">
             Contact
@@ -49,7 +49,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <div className="mx-0 sm:mx-4">
+      <div>
         <div className="w-full h-48 md:h-72 rounded-xl md:rounded-2xl overflow-hidden border border-border bg-secondary">
           <iframe
             src={data.mapEmbedUrl}
@@ -64,7 +64,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <div className="mx-2">
+      <div>
         <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
             <div>
