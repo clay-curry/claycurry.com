@@ -39,7 +39,7 @@ export default function ResumePage() {
         {/* Header */}
         <HeaderSection
           name="Clay Curry"
-          title="Product | Design Engineer"
+          title='"Make Shit Fucking Happen" Product Engineer'
           socialLinks={[
             {
               icon: MapPin,
@@ -85,23 +85,20 @@ export default function ResumePage() {
                 <div>
                   <p className="text-sm flex-1 pb-4">TL;DR: -</p>
                   <ol className="list-disc pl-4">
-                    <li>Amazon (1 year) + University of Oklahoma (3 years).</li>
+                    <li>Product Engineer looking for high growth</li>
                     <li>
-                      Computer scientist / Product Engineer / I make shit
-                      happen.
+                      Experience: Amazon (1 year) + University of Oklahoma (3
+                      years).
                     </li>
-                    <li>
-                      Have important things to automate but would rather to vibe
-                      on something else? - Hire me!
-                    </li>
+                    <li>Hate manual bullshit? I automate it. Hire me.</li>
                   </ol>
                 </div>
               </AccordionTrigger>
               <AccordionContent>
                 <p className="pt-32 py-4 p-1 leading-6">
-                  Hi. I bring 14 months of experience contributing software to 2
-                  REST API services producing a machine learning recommended
-                  Featured Offer about 25 billion times per day.
+                  Hi. I have 14 months of experience contributing backend
+                  software in amazon.com machine learning recommendation
+                  systems. Featured Offer about 25 billion times per day.
                 </p>
                 <p className="py-4 p-1 leading-6">
                   I'm looking for a role at a growth-stage company where each
