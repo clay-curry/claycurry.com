@@ -6,6 +6,11 @@ function base64url(buffer: Buffer): string {
   return buffer.toString("base64url");
 }
 
+// In-memory fallback for PKCE state when Redis is not configured
+const oauthStateStore = new Map<string, string>();
+
+export { oauthStateStore };
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const secret = searchParams.get("secret");
@@ -29,12 +34,15 @@ export async function GET(request: NextRequest) {
   );
   const state = base64url(crypto.randomBytes(16));
 
-  // Store code_verifier in Redis keyed by state (5 min TTL)
+  // Store code_verifier keyed by state (Redis or in-memory fallback)
   const client = await getRedisClient();
   if (client) {
     await client.set(`${keyPrefix()}x:oauth:${state}`, codeVerifier, {
       EX: 300,
     });
+  } else {
+    oauthStateStore.set(state, codeVerifier);
+    setTimeout(() => oauthStateStore.delete(state), 300_000);
   }
 
   const callbackUrl = new URL("/api/x/callback", request.url).toString();

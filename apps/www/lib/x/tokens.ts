@@ -8,6 +8,9 @@ interface StoredTokens {
 
 const TOKEN_KEY = "x:tokens";
 
+// In-memory fallback when Redis is not configured (local dev)
+let inMemoryTokens: StoredTokens | null = null;
+
 export async function storeTokens(
   accessToken: string,
   refreshToken: string,
@@ -22,12 +25,14 @@ export async function storeTokens(
   const client = await getRedisClient();
   if (client) {
     await client.set(`${keyPrefix()}${TOKEN_KEY}`, JSON.stringify(tokens));
+  } else {
+    inMemoryTokens = tokens;
   }
 }
 
 async function getStoredTokens(): Promise<StoredTokens | null> {
   const client = await getRedisClient();
-  if (!client) return null;
+  if (!client) return inMemoryTokens;
 
   const raw = await client.get(`${keyPrefix()}${TOKEN_KEY}`);
   if (!raw) return null;

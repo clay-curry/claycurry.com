@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getRedisClient, keyPrefix } from "@/lib/redis";
 import { storeTokens } from "@/lib/x/tokens";
+import { oauthStateStore } from "../auth/route";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -22,15 +23,17 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Retrieve code_verifier from Redis
+  // Retrieve code_verifier from Redis or in-memory fallback
+  let codeVerifier: string | null = null;
   const client = await getRedisClient();
-  if (!client) {
-    return NextResponse.json({ error: "Redis not available" }, { status: 500 });
+  if (client) {
+    const stateKey = `${keyPrefix()}x:oauth:${state}`;
+    codeVerifier = await client.get(stateKey);
+    await client.del(stateKey);
+  } else {
+    codeVerifier = oauthStateStore.get(state) ?? null;
+    oauthStateStore.delete(state);
   }
-
-  const stateKey = `${keyPrefix()}x:oauth:${state}`;
-  const codeVerifier = await client.get(stateKey);
-  await client.del(stateKey);
 
   if (!codeVerifier) {
     return NextResponse.json(
