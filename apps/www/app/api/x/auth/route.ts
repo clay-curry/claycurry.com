@@ -1,15 +1,11 @@
 import crypto from "node:crypto";
 import { type NextRequest, NextResponse } from "next/server";
 import { getRedisClient, keyPrefix } from "@/lib/redis";
+import { oauthStateStore } from "@/lib/x/tokens";
 
 function base64url(buffer: Buffer): string {
   return buffer.toString("base64url");
 }
-
-// In-memory fallback for PKCE state when Redis is not configured
-const oauthStateStore = new Map<string, string>();
-
-export { oauthStateStore };
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getRedisClient, keyPrefix } from "@/lib/redis";
-import { storeTokens } from "@/lib/x/tokens";
-import { oauthStateStore } from "../auth/route";
+import { oauthStateStore, storeTokens } from "@/lib/x/tokens";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

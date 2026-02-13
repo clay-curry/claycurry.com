@@ -8,8 +8,9 @@ interface StoredTokens {
 
 const TOKEN_KEY = "x:tokens";
 
-// In-memory fallback when Redis is not configured (local dev)
+// In-memory fallbacks when Redis is not configured (local dev)
 let inMemoryTokens: StoredTokens | null = null;
+export const oauthStateStore = new Map<string, string>();
 
 export async function storeTokens(
   accessToken: string,
