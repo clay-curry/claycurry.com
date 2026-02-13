@@ -74,12 +74,15 @@ export function BookmarksToolbar({
 
       {/* Folder select */}
       {folders.length > 0 && (
-        <Select value={folder} onValueChange={setFolder}>
+        <Select
+          value={folder || "all"}
+          onValueChange={(v) => setFolder(v === "all" ? "" : v)}
+        >
           <SelectTrigger className="w-[160px] h-8 text-xs">
             <SelectValue placeholder="All Bookmarks" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Bookmarks</SelectItem>
+            <SelectItem value="all">All Bookmarks</SelectItem>
             {folders.map((f) => (
               <SelectItem key={f.id} value={f.id}>
                 {f.name}
