@@ -40,7 +40,10 @@ export default function ResumePage() {
         {/* Header */}
         <HeaderSection>
           <HeaderName>Clay Curry</HeaderName>
-          <HeaderTitle>"Make Shit Fucking Happen" Product Engineer</HeaderTitle>
+          <HeaderTitle>
+            <p>"Make Shit Fucking Happen"</p>
+            <p>Product Engineer</p>
+          </HeaderTitle>
           <HeaderSocialLinks>
             <HeaderSocialLink
               icon={MapPin}
@@ -78,54 +81,26 @@ export default function ResumePage() {
         {/* Objective */}
         <AccordionSection>
           <AccordionSectionHeader icon={Briefcase}>
-            Objective
+            Summary
           </AccordionSectionHeader>
           <AccordionSectionContent>
-            <AccordionItem value="item-0">
-              <AccordionTrigger className="py-4 p-1 leading-6 text-sm">
-                <div className="flex-1">
-                  <p className="text-sm pb-4">TL;DR:</p>
-                  <ul className="list-disc pl-4">
-                    <li>
-                      Scrappy programmer energized by high-impact problems.
-                    </li>
-                    <li>
-                      Looking for programming-related roles at startup and
-                      growing organizations.
-                    </li>
-                    <li>Salary not required.</li>
-                    <li>Hate manual bullshit? I can automate it. Hire me.</li>
-                    <li>
-                      Hobbies include exercising and fixing / building in
-                      public.
-                    </li>
-                  </ul>
+            <p className="text-sm pb-4">TL;DR:</p>
+            <ul className="list-disc pl-4">
+              <li>
+                I am a pragmatic engineer with a strong bias toward getting shit
+                done.
+              </li>
+              <li>
+                Actively looking to join early-to-mid stage startups or
+                fast-growing teams.
+              </li>
+              <li>
+                <div>Got any tedious work but too busy to automate it?</div>
+                <div>
+                  I built my first data pipeline before I could legally drive.
                 </div>
-              </AccordionTrigger>
-              <AccordionContent>
-                <CVContentBody className="mt-10">
-                  <p className="py-4 p-1 leading-6">
-                    I am a scrappy programmer who gets energy from high-impact
-                    problems. I spent a year at Amazon shipping ML
-                    infrastructure ranking offers billions of times per day. I
-                    spent three years at the University of Oklahoma setting up
-                    accelerated training, training computer vision models, and
-                    administering Linux systems. Now I am looking for
-                    programming-related roles at startups and growing
-                    organizations where I can help turn messy, manual workflows
-                    into reliable automated systems. Salary is nice but not
-                    required — I am happy accept connections / referrals in lieu
-                    of currency.
-                  </p>
-                  <p className="py-4 p-1 leading-6">
-                    To relax, I try to exercise daily, build side projects in
-                    public, and look for anything tedious enough to deserve a
-                    script. If you hate manual bullshit and want someone who
-                    will automate it — hire me.
-                  </p>
-                </CVContentBody>
-              </AccordionContent>
-            </AccordionItem>
+              </li>
+            </ul>
           </AccordionSectionContent>
         </AccordionSection>
 
@@ -162,9 +137,8 @@ export default function ResumePage() {
                   />
                   <CVBulletList
                     items={[
+                      "Shipped 2 plugins consumed by amazon.com's real-time offer recommendation engine, handling billions of requests per day.",
                       "Drove the launch of an offer recommendation subsystem,  which $30.2 MM revenue growth and 9.7MM lift in annualized units sold.",
-                      "Ramped-up on company-internal processes, systems, ",
-                      "Leveraged feature flags and existing frameworks to administer 32 randomized controlled trials ",
                       'Expanded the "Join Prime" accordion button to 24 countries, producing 5 additional service and business metrics.',
                       "Participated in a 24x7 engineering on-call rotation to ensure service uptime and subject matter expert availability.",
                     ]}
