@@ -44,7 +44,7 @@ export function HeroContactAskAI() {
           variant="default"
           size="lg"
           data-click-id="hero:ask-ai"
-          className="h-9 md:text-[0.8rem] shadow-none rounded-l-4xl rounded-r-none border-r border-r-primary-foreground/20 cursor-pointer bg-primary! hover:bg-primary/85! text-primary-foreground!"
+          className="h-9 md:text-[0.8rem] shadow-none rounded-l-4xl rounded-r-none border-r border-r-primary-foreground/20 cursor-pointer bg-primary! hover:bg-primary/85! text-primary-foreground! px-2"
           onClick={() => setIsDialogOpen(true)}
         >
           <IconMessageCircle className="size-3" />
