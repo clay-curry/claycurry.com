@@ -1,7 +1,6 @@
-import { GithubIcon, LinkedinIcon, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import type React from "react";
-import { XIcon } from "@/lib/components/icons";
 import { FloatingToolbar } from "@/lib/components/site/floating-toolbar";
 import { PageViews } from "@/lib/components/site/page-views";
 import { PortfolioNav } from "@/lib/components/site/portfolio-nav";
@@ -120,40 +119,6 @@ export function AsideProfile({ data = profileData }: AsideProfileProps) {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Social Links */}
-      <div className="flex items-center justify-center gap-4 mt-4 md:mt-6 pt-4 md:pt-6 border-t border-border">
-        <a
-          href={data.social.x}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-click-id="sidebar:x"
-          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
-          aria-label="X"
-        >
-          <XIcon className="w-5 h-5" />
-        </a>
-        <a
-          href={data.social.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-click-id="sidebar:github"
-          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
-          aria-label="GitHub"
-        >
-          <GithubIcon className="w-5 h-5" />
-        </a>
-        <a
-          href={data.social.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-click-id="sidebar:linkedin"
-          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all flex items-center justify-center"
-          aria-label="LinkedIn"
-        >
-          <LinkedinIcon className="w-5 h-5" />
-        </a>
       </div>
     </aside>
   );

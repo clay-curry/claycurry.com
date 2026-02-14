@@ -50,9 +50,9 @@ export const metadata: Metadata = {
     images: [
       {
         alt: "Clay Curry - Software Engineer",
-        height: 630,
-        url: "/opengraph-image",
-        width: 1200,
+        height: 2744,
+        url: "/og-image.png",
+        width: 4032,
       },
     ],
   },
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     images: [
       {
         alt: "Clay Curry - Software Engineer",
-        url: "/twitter-image",
+        url: "/og-image.png",
       },
     ],
   },

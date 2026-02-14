@@ -86,76 +86,43 @@ export default function ResumePage() {
                 <div className="flex-1">
                   <p className="text-sm pb-4">TL;DR:</p>
                   <ul className="list-disc pl-4">
-                    <li>Product Engineer looking for high growth</li>
                     <li>
-                      Experience: Amazon (1 year) + University of Oklahoma (3
-                      years).
+                      Scrappy programmer energized by high-impact problems.
                     </li>
-                    <li>Hate manual bullshit? I automate it. Hire me.</li>
+                    <li>
+                      Looking for programming-related roles at startup and
+                      growing organizations.
+                    </li>
+                    <li>Salary not required.</li>
+                    <li>Hate manual bullshit? I can automate it. Hire me.</li>
+                    <li>
+                      Hobbies include exercising and fixing / building in
+                      public.
+                    </li>
                   </ul>
                 </div>
               </AccordionTrigger>
               <AccordionContent>
                 <CVContentBody className="mt-10">
                   <p className="py-4 p-1 leading-6">
-                    Hi. I'm looking for a product engineering role at a
-                    growth-stage business organization or company. Where each
-                    release cycle is anchored to the customer — driven by user
-                    metrics and feedback loops that boost engagement, improve
-                    adoption, and compound business outcomes over time.
+                    I am a scrappy programmer who gets energy from high-impact
+                    problems. I spent a year at Amazon shipping ML
+                    infrastructure ranking offers billions of times per day. I
+                    spent three years at the University of Oklahoma setting up
+                    accelerated training, training computer vision models, and
+                    administering Linux systems. Now I am looking for
+                    programming-related roles at startups and growing
+                    organizations where I can help turn messy, manual workflows
+                    into reliable automated systems. Salary is nice but not
+                    required — I am happy accept connections / referrals in lieu
+                    of currency.
                   </p>
                   <p className="py-4 p-1 leading-6">
-                    Long-term, my goal is to own this lifecycle end-to-end by
-                    integrating engineering, design, and business strategy.
+                    To relax, I try to exercise daily, build side projects in
+                    public, and look for anything tedious enough to deserve a
+                    script. If you hate manual bullshit and want someone who
+                    will automate it — hire me.
                   </p>
-
-                  <h4 className="font-semibold mt-6">Reasons to hire me:</h4>
-                  <ol className="list-disc px-8 grid grid-cols-1 gap-4 pt-4">
-                    <li>
-                      <span className="font-bold">Not a dick.</span> brutally
-                      honest, without the Steve Jobs complex.
-                    </li>
-                    <li>
-                      <span className="font-bold">High Agency.</span> anything
-                      in my life that is mundane, repetitive, and not automated,
-                      will be.
-                    </li>
-                    <li>
-                      <span className="font-bold"> AI/ML infra.</span> i
-                      decommissioned the offer ranking service deciding the
-                      price for used books across Amazon.
-                    </li>
-                    <li>
-                      <span className="font-bold">Breadth. </span>I move
-                      comfortably from TypeScript frontend to Python backends to
-                      Kubernetes deployments to AWS infrastructure.
-                    </li>
-                  </ol>
-
-                  <h4 className="font-semibold mt-6">
-                    Reasons not to hire me:
-                  </h4>
-                  <ol className="list-disc px-8 grid grid-cols-1 gap-4 pt-4">
-                    <li>
-                      <span className="font-bold">Location. Nomad.</span> HB (my
-                      cat) and I are relocating to San Francisco on 02/15/2026.
-                      She tells me its this magical dystopia where nobody can
-                      afford a house (?), yet anyone can afford enough lululemon
-                      to open their own store.
-                    </li>
-                    <li>
-                      <span className="font-bold">
-                        My Self-Doubt Demon. (OCD?)
-                      </span>
-                      often whenever i catch my own mistake, I let down my guard
-                      long enough for a Demon to ambush my consciousness. the
-                      demon takes the exact form of an imaginary Power law
-                      relationship between the "Quality" of my work and the
-                      "Efficiency" required to complete it. this creates
-                      self-doubt inside me, which manifests externally as
-                      possible performance.
-                    </li>
-                  </ol>
                 </CVContentBody>
               </AccordionContent>
             </AccordionItem>
@@ -195,7 +162,9 @@ export default function ResumePage() {
                   />
                   <CVBulletList
                     items={[
-                      "Designed, implemented, and production-ized a BuyBox ranking major upgrade that produced $30.2 MM revenue growth and 9.7MM lift in annualized units sold.",
+                      "Drove the launch of an offer recommendation subsystem,  which $30.2 MM revenue growth and 9.7MM lift in annualized units sold.",
+                      "Ramped-up on company-internal processes, systems, ",
+                      "Leveraged feature flags and existing frameworks to administer 32 randomized controlled trials ",
                       'Expanded the "Join Prime" accordion button to 24 countries, producing 5 additional service and business metrics.',
                       "Participated in a 24x7 engineering on-call rotation to ensure service uptime and subject matter expert availability.",
                     ]}

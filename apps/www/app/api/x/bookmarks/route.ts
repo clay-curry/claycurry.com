@@ -10,8 +10,19 @@ import {
   fetchBookmarkFolders,
   fetchBookmarksByFolder,
 } from "@/lib/x/client";
+import { FAKE_BOOKMARKS, FAKE_FOLDERS } from "@/lib/x/fixtures";
 
 export async function GET(request: NextRequest) {
+  // Serve fake data when X credentials aren't configured (localhost dev)
+  if (!process.env.X_OWNER_USER_ID) {
+    return NextResponse.json({
+      bookmarks: FAKE_BOOKMARKS,
+      folders: FAKE_FOLDERS,
+      cachedAt: new Date().toISOString(),
+      fixture: true,
+    });
+  }
+
   const { searchParams } = new URL(request.url);
   const folderId = searchParams.get("folder") || undefined;
 

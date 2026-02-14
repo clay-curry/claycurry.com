@@ -4,7 +4,7 @@ import { SectionHeader } from "./section-header";
 export function BookmarksSection() {
   return (
     <div className="mx-4">
-      <SectionHeader title="Bookmarks" />
+      <SectionHeader title="X Bookmarks -" />
       <BookmarksGallery />
     </div>
   );

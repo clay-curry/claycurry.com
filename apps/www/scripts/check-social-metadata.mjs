@@ -46,13 +46,8 @@ assertIncludes(
 );
 assertIncludes(
   rootLayout,
-  'url: "/opengraph-image"',
+  'url: "/og-image.png"',
   "Root metadata must include a static openGraph image.",
-);
-assertIncludes(
-  rootLayout,
-  'url: "/twitter-image"',
-  "Root metadata must include a static twitter image.",
 );
 assertIncludes(
   rootLayout,
@@ -90,13 +85,6 @@ assertNotIncludes(
   blogPage,
   "https://claycurry.com",
   "Blog metadata must not hardcode the apex host.",
-);
-
-const rootTwitterImage = read("app/twitter-image.tsx");
-assertIncludes(
-  rootTwitterImage,
-  'from "./opengraph-image"',
-  "Root twitter-image route must exist and source the OG image renderer.",
 );
 
 const blogTwitterImage = read("app/(blog-post)/blog/[slug]/twitter-image.tsx");
