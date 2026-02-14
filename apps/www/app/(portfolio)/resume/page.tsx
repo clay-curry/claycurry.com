@@ -31,48 +31,49 @@ import {
   CVRowItem,
 } from "@/lib/components/ui/cv";
 import { aboutData, profileData } from "@/lib/portfolio-data";
+import { cn } from "@/lib/utils";
 
 export default function ResumePage() {
   return (
     <article className="py-8 md:py-12 px-2 md:px-4">
       <section className="flex flex-col items-center w-full">
         {/* Header */}
-        <HeaderSection
-          name="Clay Curry"
-          title='"Make Shit Fucking Happen" Product Engineer'
-          socialLinks={[
-            {
-              icon: MapPin,
-              href: "https://www.google.com/maps/place/San+Francisco,+CA",
-              label: "Location",
-              clickId: "resume:location",
-            },
-            {
-              icon: Mail,
-              href: `mailto:${profileData.email}`,
-              label: "Email",
-              clickId: "resume:email",
-            },
-            {
-              icon: XIcon,
-              href: profileData.social.x,
-              label: "X",
-              clickId: "resume:x",
-            },
-            {
-              icon: GithubIcon,
-              href: profileData.social.github,
-              label: "GitHub",
-              clickId: "resume:github",
-            },
-            {
-              icon: LinkedinIcon,
-              href: profileData.social.linkedin,
-              label: "LinkedIn",
-              clickId: "resume:linkedin",
-            },
-          ]}
-        />
+        <HeaderSection>
+          <HeaderName>Clay Curry</HeaderName>
+          <HeaderTitle>"Make Shit Fucking Happen" Product Engineer</HeaderTitle>
+          <HeaderSocialLinks>
+            <HeaderSocialLink
+              icon={MapPin}
+              href="https://www.google.com/maps/place/San+Francisco,+CA"
+              label="Location"
+              clickId="resume:location"
+            />
+            <HeaderSocialLink
+              icon={Mail}
+              href={`mailto:${profileData.email}`}
+              label="Email"
+              clickId="resume:email"
+            />
+            <HeaderSocialLink
+              icon={XIcon}
+              href={profileData.social.x}
+              label="X"
+              clickId="resume:x"
+            />
+            <HeaderSocialLink
+              icon={GithubIcon}
+              href={profileData.social.github}
+              label="GitHub"
+              clickId="resume:github"
+            />
+            <HeaderSocialLink
+              icon={LinkedinIcon}
+              href={profileData.social.linkedin}
+              label="LinkedIn"
+              clickId="resume:linkedin"
+            />
+          </HeaderSocialLinks>
+        </HeaderSection>
 
         {/* Objective */}
         <AccordionSection>
@@ -434,49 +435,96 @@ const SkillChip = ({ children }: { children: ReactNode }) => (
   </span>
 );
 
-// Header section with TRON glow effect
+// Header compound components
 const HeaderSection = ({
-  name,
-  title,
-  quote,
-  socialLinks,
+  children,
+  className,
 }: {
-  name: string;
-  title: string;
-  quote?: string;
-  socialLinks: {
-    icon: React.ComponentType<{ className?: string }>;
-    href: string;
-    label: string;
-    clickId?: string;
-  }[];
+  children: ReactNode;
+  className?: string;
 }) => (
-  <div className="flex flex-col gap-2 w-full py-16 tracking-tight text-center">
-    <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl text-foreground text-shadow-none">
-      {name}
-    </h1>
-    <p className="mt-4 text-muted-foreground text-md md:text-lg">{title}</p>
-    <div className="mt-4 flex items-center justify-center gap-[1.125rem]">
-      {socialLinks.map((link) => (
-        <a
-          key={link.href}
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-click-id={link.clickId}
-          className="inline-flex items-center justify-center size-9 rounded-xl border border-border text-foreground bg-muted hover:bg-muted/80 transition-colors"
-          aria-label={link.label}
-        >
-          <link.icon className="size-4" />
-        </a>
-      ))}
-    </div>
-    {quote && (
-      <p className="mt-6 text-lg font-bold italic text-muted-foreground">
-        &ldquo;{quote}&rdquo;
-      </p>
+  <div
+    className={cn(
+      "flex flex-col gap-2 w-full py-16 tracking-tight text-center",
+      className,
     )}
+  >
+    {children}
   </div>
+);
+
+const HeaderName = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => (
+  <h1
+    className={cn(
+      "text-3xl font-bold md:text-4xl lg:text-5xl text-foreground text-shadow-none",
+      className,
+    )}
+  >
+    {children}
+  </h1>
+);
+
+const HeaderTitle = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => (
+  <p className={cn("mt-4 text-muted-foreground text-md md:text-lg", className)}>
+    {children}
+  </p>
+);
+
+const HeaderSocialLinks = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => (
+  <div
+    className={cn(
+      "mt-4 flex items-center justify-center gap-[1.125rem]",
+      className,
+    )}
+  >
+    {children}
+  </div>
+);
+
+const HeaderSocialLink = ({
+  icon: Icon,
+  href,
+  label,
+  clickId,
+  className,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  href: string;
+  label: string;
+  clickId?: string;
+  className?: string;
+}) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    data-click-id={clickId}
+    className={cn(
+      "inline-flex items-center justify-center size-9 rounded-xl border border-border text-foreground bg-muted hover:bg-muted/80 transition-colors",
+      className,
+    )}
+    aria-label={label}
+  >
+    <Icon className="size-4" />
+  </a>
 );
 
 // Section heading with TRON accent
