@@ -8,7 +8,7 @@ export default function AboutPage() {
       <Hero />
 
       <Link
-        href="/projects/x-bookmarks"
+        href="/work/x-bookmarks"
         className="bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent hover:shadow-lg transition-all p-6 flex items-center gap-4 group"
       >
         <svg

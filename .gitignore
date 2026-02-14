@@ -58,3 +58,4 @@ playwright/.auth/
 
 # Node compile cache
 node-compile-cache/
+.env*.local

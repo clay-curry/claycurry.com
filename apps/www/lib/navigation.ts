@@ -8,6 +8,7 @@ export type NavLink = { label: string; href: string };
 const navRoutes = [
   { segment: "", label: "about", href: "/" },
   { segment: "resume", label: "resume" },
+  { segment: "work", label: "work" },
   { segment: "blog", label: "writing", href: "/writing" },
   { segment: "contact", label: "contact" },
 ];

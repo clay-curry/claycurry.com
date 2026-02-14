@@ -40,10 +40,7 @@ export default function ResumePage() {
         {/* Header */}
         <HeaderSection>
           <HeaderName>Clay Curry</HeaderName>
-          <HeaderTitle>
-            <p>"Make Shit Fucking Happen"</p>
-            <p>Product Engineer</p>
-          </HeaderTitle>
+          <HeaderTitle>Product Engineer</HeaderTitle>
           <HeaderSocialLinks>
             <HeaderSocialLink
               icon={MapPin}
@@ -84,8 +81,8 @@ export default function ResumePage() {
             Summary
           </AccordionSectionHeader>
           <AccordionSectionContent>
-            <p className="text-sm pb-4">TL;DR:</p>
-            <ul className="list-disc pl-4">
+            <p className="pb-4">TL;DR:</p>
+            <ul className="pb-4 list-disc pl-4 gap-4 grid">
               <li>
                 I am a pragmatic engineer with a strong bias toward getting shit
                 done.
@@ -138,7 +135,7 @@ export default function ResumePage() {
                   <CVBulletList
                     items={[
                       "Shipped 2 plugins consumed by amazon.com's real-time offer recommendation engine, handling billions of requests per day.",
-                      "Drove the launch of an offer recommendation subsystem,  which $30.2 MM revenue growth and 9.7MM lift in annualized units sold.",
+                      "Launched a used-book offer recommendation feature driving $30.2MM in revenue growth and 9.7MM additional annualized units sold.",
                       'Expanded the "Join Prime" accordion button to 24 countries, producing 5 additional service and business metrics.',
                       "Participated in a 24x7 engineering on-call rotation to ensure service uptime and subject matter expert availability.",
                     ]}
