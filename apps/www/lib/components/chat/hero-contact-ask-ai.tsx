@@ -48,7 +48,7 @@ export function HeroContactAskAI() {
           onClick={() => setIsDialogOpen(true)}
         >
           <IconMessageCircle className="size-3" />
-          Ask OpenClaw
+          Ask AI
         </Button>
 
         {/* Dropdown trigger - model selection */}
