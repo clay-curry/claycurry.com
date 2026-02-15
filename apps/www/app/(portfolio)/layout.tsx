@@ -13,8 +13,8 @@ export default function PortfolioLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen p-0 mx-auto max-w-7xl">
-      <div className="flex flex-col-reverse lg:flex-row gap-1 sm:gap-4 md:gap-6">
+    <div className="min-h-screen lg:h-screen lg:overflow-hidden p-0 mx-auto max-w-7xl">
+      <div className="flex flex-col-reverse lg:flex-row gap-1 sm:gap-4 md:gap-6 lg:h-full">
         <AsideProfile data={profileData} />
         <MainBody>{children}</MainBody>
       </div>
@@ -26,26 +26,26 @@ interface AsideProfileProps {
   data?: typeof profileData;
 }
 
-export function MainBody({ children }: { children: React.ReactNode }) {
+function MainBody({ children }: { children: React.ReactNode }) {
   const navLinks = getSiteNavLinks();
 
   return (
-    <div className="w-full border border-border/80 lg:my-8 lg:mr-8 bg-background/95">
+    <div className="w-full border border-border/80 lg:my-8 lg:mr-8 bg-background/95 lg:flex lg:flex-col lg:overflow-hidden">
       <PortfolioNav navLinks={navLinks} />
-      <div className="flex justify-between px-2 lg:px-3 py-2">
+      <div className="flex justify-between px-2 lg:px-3 py-2 lg:shrink-0">
         <FloatingToolbar />
         <PageViews />
       </div>
-      <div className="p-2 lg:p-3 backdrop-blur supports-backdrop-filter:bg-background/60">
+      <div className="p-2 lg:p-3 backdrop-blur supports-backdrop-filter:bg-background/60 lg:overflow-y-auto lg:flex-1">
         {children}
       </div>
     </div>
   );
 }
 
-export function AsideProfile({ data = profileData }: AsideProfileProps) {
+function AsideProfile({ data = profileData }: AsideProfileProps) {
   return (
-    <aside className="w-full h-fit lg:w-96 bg-background/95 border border-border/80 p-4 md:p-6 lg:sticky lg:top-8 lg:my-8 lg:ml-8 overflow-none">
+    <aside className="w-full h-fit lg:w-96 bg-background/95 border border-border/80 p-4 md:p-6 lg:my-8 lg:ml-8 lg:overflow-y-auto lg:shrink-0">
       {/* Profile Image */}
       <div className="flex flex-col items-center">
         <div className="relative w-24 h-24 md:w-32 md:h-32 mb-4 md:mb-6">
