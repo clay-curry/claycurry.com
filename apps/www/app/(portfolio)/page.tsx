@@ -26,8 +26,7 @@ export default function AboutPage() {
             X Bookmarks
           </h2>
           <p className="text-muted-foreground text-sm mt-1">
-            I love using this product. But if it had just one thing, I might
-            marry it.
+            I love using bookmarks, until I don.
           </p>
         </div>
         <ArrowRight className="size-5 text-muted-foreground group-hover:text-accent transition-colors shrink-0" />

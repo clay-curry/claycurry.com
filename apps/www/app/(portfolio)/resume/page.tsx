@@ -87,15 +87,11 @@ export default function ResumePage() {
           <AccordionSectionContent>
             <ul className="pb-4 list-disc pl-4 gap-4 grid">
               <li>
-                I am a high agency engineer formerly with Amazon Core Shopping.
+                I am a product designer and engineer networking with early- and
+                mid-sized startups.
               </li>
 
-              <li>
-                I am currently based in San Francisco. I am looking to meet
-                teams working on hard distributed technical problems with
-                demand.
-              </li>
-              <li></li>
+              <li>Currently based in San Francisco.</li>
             </ul>
           </AccordionSectionContent>
         </AccordionSection>
