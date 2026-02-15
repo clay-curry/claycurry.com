@@ -85,22 +85,17 @@ export default function ResumePage() {
             Summary
           </AccordionSectionHeader>
           <AccordionSectionContent>
-            <p className="pb-4">TL;DR:</p>
             <ul className="pb-4 list-disc pl-4 gap-4 grid">
               <li>
-                I am a product engineer with a strong bias toward getting shit
-                done.
+                I am a high agency engineer formerly with Amazon Core Shopping.
               </li>
+
               <li>
-                Actively looking to join early-to-mid stage startups or
-                fast-growing teams.
+                I am currently based in San Francisco. I am looking to meet
+                teams working on hard distributed technical problems with
+                demand.
               </li>
-              <li>
-                <div>Got any tedious work but too busy to automate it?</div>
-                <div>
-                  I built my first data pipeline before I could legally drive.
-                </div>
-              </li>
+              <li></li>
             </ul>
           </AccordionSectionContent>
         </AccordionSection>
