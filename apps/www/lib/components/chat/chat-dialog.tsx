@@ -6,6 +6,7 @@ import {
   RefreshCcwIcon,
   ThumbsDownIcon,
   ThumbsUpIcon,
+  Trash2Icon,
   XIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -186,7 +187,7 @@ const ChatDialogContent = () => {
                 size="icon"
                 variant="ghost"
               >
-                <XIcon className="size-3.5" />
+                <Trash2Icon className="size-3.5" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Clear chat</TooltipContent>
