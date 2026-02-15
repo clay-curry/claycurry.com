@@ -33,6 +33,16 @@ const anders = localFont({
   variable: "--font-anders",
 });
 
+const chirp = localFont({
+  src: [
+    { path: "../public/fonts/chirp-regular-web.woff", weight: "400" },
+    { path: "../public/fonts/chirp-medium-web.woff", weight: "500" },
+    { path: "../public/fonts/chirp-bold-web.woff", weight: "700" },
+    { path: "../public/fonts/chirp-heavy-web.woff", weight: "800" },
+  ],
+  variable: "--font-chirp",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: "Clay Curry - Software Engineer",
@@ -104,7 +114,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${anders.variable} ${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}
+        className={`${anders.variable} ${chirp.variable} ${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}
       >
         <CompositeProviders>
           <div className="grid-background" aria-hidden="true" />

@@ -1,12 +1,14 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Hero } from "@/lib/components/site/hero";
+import { SectionHeader } from "@/lib/components/site/section-header";
 
 export default function AboutPage() {
   return (
     <div className="py-8 md:py-12 px-2 md:px-4 space-y-12 md:space-y-14 flex flex-col gap-10">
       <Hero />
 
+      <SectionHeader title="Recent Builds" />
       <Link
         href="/work/x-bookmarks"
         className="bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent hover:shadow-lg transition-all p-6 flex items-center gap-4 group"
@@ -20,10 +22,11 @@ export default function AboutPage() {
         </svg>
         <div className="flex-1 min-w-0">
           <h2 className="font-sans font-semibold tracking-wider text-lg md:text-xl">
-            Bookmarks
+            X Bookmarks
           </h2>
           <p className="text-muted-foreground text-sm mt-1">
-            A curated collection of posts I've bookmarked on X.
+            I love using this product. But if it had just one thing, I might
+            marry it.
           </p>
         </div>
         <ArrowRight className="size-5 text-muted-foreground group-hover:text-accent transition-colors shrink-0" />

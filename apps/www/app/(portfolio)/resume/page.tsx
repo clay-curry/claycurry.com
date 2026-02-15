@@ -1,7 +1,3 @@
-"use client";
-
-import { cva } from "class-variance-authority";
-import type { LucideIcon } from "lucide-react";
 import {
   Award,
   BookOpen,
@@ -10,15 +6,9 @@ import {
   LinkedinIcon,
   Mail,
   MapPin,
-  User,
-  Wrench,
 } from "lucide-react";
-import Link from "next/link";
-import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
 import { XIcon } from "@/lib/components/icons";
 import {
-  Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
@@ -30,8 +20,21 @@ import {
   CVOrgLocation,
   CVRowItem,
 } from "@/lib/components/ui/cv";
-import { aboutData, profileData } from "@/lib/portfolio-data";
-import { cn } from "@/lib/utils";
+import { profileData } from "@/lib/portfolio-data";
+import {
+  AccordionHeader,
+  AccordionSection,
+  AccordionSectionContent,
+  AccordionSectionHeader,
+  ContributionSection,
+  HeaderName,
+  HeaderSection,
+  HeaderSocialLink,
+  HeaderSocialLinks,
+  HeaderTitle,
+  PrimaryLink,
+  SkillsSection,
+} from "@/lib/resume";
 
 export default function ResumePage() {
   return (
@@ -43,31 +46,31 @@ export default function ResumePage() {
           <HeaderTitle>Product Engineer</HeaderTitle>
           <HeaderSocialLinks>
             <HeaderSocialLink
-              icon={MapPin}
+              icon={<MapPin className="size-4" />}
               href="https://www.google.com/maps/place/San+Francisco,+CA"
               label="Location"
               clickId="resume:location"
             />
             <HeaderSocialLink
-              icon={Mail}
+              icon={<Mail className="size-4" />}
               href={`mailto:${profileData.email}`}
               label="Email"
               clickId="resume:email"
             />
             <HeaderSocialLink
-              icon={XIcon}
+              icon={<XIcon className="size-4" />}
               href={profileData.social.x}
               label="X"
               clickId="resume:x"
             />
             <HeaderSocialLink
-              icon={GithubIcon}
+              icon={<GithubIcon className="size-4" />}
               href={profileData.social.github}
               label="GitHub"
               clickId="resume:github"
             />
             <HeaderSocialLink
-              icon={LinkedinIcon}
+              icon={<LinkedinIcon className="size-4" />}
               href={profileData.social.linkedin}
               label="LinkedIn"
               clickId="resume:linkedin"
@@ -77,7 +80,9 @@ export default function ResumePage() {
 
         {/* Objective */}
         <AccordionSection>
-          <AccordionSectionHeader icon={Briefcase}>
+          <AccordionSectionHeader
+            icon={<Briefcase className="w-5 h-5 md:w-6 md:h-6 text-accent" />}
+          >
             Summary
           </AccordionSectionHeader>
           <AccordionSectionContent>
@@ -103,7 +108,9 @@ export default function ResumePage() {
 
         {/* Professional Experience */}
         <AccordionSection>
-          <AccordionSectionHeader icon={Briefcase}>
+          <AccordionSectionHeader
+            icon={<Briefcase className="w-5 h-5 md:w-6 md:h-6 text-accent" />}
+          >
             Experience
           </AccordionSectionHeader>
           <AccordionSectionContent autoOpenValue="item-1">
@@ -203,7 +210,9 @@ export default function ResumePage() {
 
         {/* Education */}
         <AccordionSection>
-          <AccordionSectionHeader icon={BookOpen}>
+          <AccordionSectionHeader
+            icon={<BookOpen className="w-5 h-5 md:w-6 md:h-6 text-accent" />}
+          >
             Education
           </AccordionSectionHeader>
           <AccordionSectionContent>
@@ -256,7 +265,9 @@ export default function ResumePage() {
 
         {/* Awards and Certifications */}
         <AccordionSection>
-          <AccordionSectionHeader icon={Award}>
+          <AccordionSectionHeader
+            icon={<Award className="w-5 h-5 md:w-6 md:h-6 text-accent" />}
+          >
             Awards and Certifications
           </AccordionSectionHeader>
           <AccordionSectionContent>
@@ -322,248 +333,11 @@ export default function ResumePage() {
         </AccordionSection>
 
         {/* Skills */}
-        <Card className="mb-8">
-          <SectionHeading icon={Wrench}>Skills</SectionHeading>
-          <div className="flex flex-wrap gap-2">
-            {aboutData.skills.map((skill) => (
-              <SkillChip key={skill}>{skill}</SkillChip>
-            ))}
-          </div>
-        </Card>
+        <SkillsSection />
+
+        {/* Activity */}
+        <ContributionSection />
       </section>
     </article>
   );
 }
-
-// TRON-styled link component
-const PrimaryLink = ({
-  href,
-  children,
-}: {
-  href: string;
-  children: ReactNode;
-}) => (
-  <Link
-    href={href}
-    className="text-primary underline underline-offset-4 decoration-primary/50 hover:text-primary/80 transition-colors"
-  >
-    {children}
-  </Link>
-);
-
-// TRON Card with glow effect
-const Card = ({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) => (
-  <div
-    className={cva(
-      "w-full mt-10 md:mt-14 p-2 md:p-4 rounded-xl bg-secondary border border-border/65",
-    )({ className })}
-  >
-    {children}
-  </div>
-);
-
-// Skill chip
-const SkillChip = ({ children }: { children: ReactNode }) => (
-  <span className="px-3 py-1.5 text-sm font-mono bg-secondary rounded-lg border border-border">
-    {children}
-  </span>
-);
-
-// Header compound components
-const HeaderSection = ({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) => (
-  <div
-    className={cn(
-      "flex flex-col gap-2 w-full py-16 tracking-tight text-center",
-      className,
-    )}
-  >
-    {children}
-  </div>
-);
-
-const HeaderName = ({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) => (
-  <h1
-    className={cn(
-      "text-3xl font-bold md:text-4xl lg:text-5xl text-foreground text-shadow-none",
-      className,
-    )}
-  >
-    {children}
-  </h1>
-);
-
-const HeaderTitle = ({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) => (
-  <p className={cn("mt-4 text-muted-foreground text-md md:text-lg", className)}>
-    {children}
-  </p>
-);
-
-const HeaderSocialLinks = ({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) => (
-  <div
-    className={cn(
-      "mt-4 flex items-center justify-center gap-[1.125rem]",
-      className,
-    )}
-  >
-    {children}
-  </div>
-);
-
-const HeaderSocialLink = ({
-  icon: Icon,
-  href,
-  label,
-  clickId,
-  className,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  href: string;
-  label: string;
-  clickId?: string;
-  className?: string;
-}) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    data-click-id={clickId}
-    className={cn(
-      "inline-flex items-center justify-center size-9 rounded-xl border border-border text-foreground bg-muted hover:bg-muted/80 transition-colors",
-      className,
-    )}
-    aria-label={label}
-  >
-    <Icon className="size-4" />
-  </a>
-);
-
-// Section heading with TRON accent
-const SectionHeading = ({
-  children,
-  icon: Icon,
-}: {
-  children: ReactNode;
-  icon?: LucideIcon;
-}) => (
-  <div className="flex items-center gap-2 md:gap-3 my-3 border-b border-primary/30 pb-2">
-    {Icon && <Icon className="w-5 h-5 md:w-6 md:h-6 text-accent" />}
-    <h2 className="text-xl font-semibold md:text-2xl text-foreground text-shadow-none">
-      {children}
-    </h2>
-  </div>
-);
-
-// Accordion trigger header with title and date
-const AccordionHeader = ({ title, date }: { title: string; date: string }) => {
-  const dateParts = date.split(/\s*[–-]\s*/);
-
-  return (
-    <>
-      <span className="flex-1 text-left text-card-foreground hover:text-primary">
-        {title}
-      </span>
-      <span className="font-normal leading-tight text-center text-primary shrink-0 md:text-right md:leading-normal">
-        {dateParts.length > 1 ? (
-          <>
-            <span className="block whitespace-nowrap md:inline">
-              {dateParts[0]}
-            </span>
-            <span className="hidden md:inline"> – </span>
-            <span className="block text-xs leading-none md:hidden">–</span>
-            <span className="block whitespace-nowrap md:inline">
-              {dateParts[1]}
-            </span>
-          </>
-        ) : (
-          <span className="whitespace-nowrap">{date}</span>
-        )}
-      </span>
-    </>
-  );
-};
-
-// About Me section component
-const _AboutMeSection = ({ paragraphs }: { paragraphs: string[] }) => (
-  <Card className="mt-4">
-    <SectionHeading icon={User}>About Me</SectionHeading>
-    <div className="space-y-3 my-8">
-      {paragraphs.map((text) => (
-        <p
-          key={text}
-          className="text-sm md:text-base text-card-foreground leading-relaxed"
-        >
-          {text}
-        </p>
-      ))}
-    </div>
-  </Card>
-);
-
-// Accordion section components
-const AccordionSection = ({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) => <Card className={className}>{children}</Card>;
-
-const AccordionSectionHeader = ({
-  children,
-  icon,
-}: {
-  children: ReactNode;
-  icon?: LucideIcon;
-}) => <SectionHeading icon={icon}>{children}</SectionHeading>;
-
-const AccordionSectionContent = ({
-  children,
-  autoOpenValue,
-}: {
-  children: ReactNode;
-  autoOpenValue?: string;
-}) => {
-  const [value, setValue] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (!autoOpenValue) return;
-    const timer = setTimeout(() => setValue([autoOpenValue]), 100);
-    return () => clearTimeout(timer);
-  }, [autoOpenValue]);
-
-  return (
-    <Accordion type="multiple" value={value} onValueChange={setValue}>
-      {children}
-    </Accordion>
-  );
-};

@@ -24,9 +24,14 @@ export function getSiteNavLinks(): NavLink[] {
           route.segment === ""
             ? path.join(APP_DIR, "app", group)
             : path.join(APP_DIR, "app", group, route.segment);
-        return ["page.tsx", "page.ts", "page.jsx", "page.js"].some((f) =>
-          fs.existsSync(path.join(dir, f)),
-        );
+        return [
+          "page.tsx",
+          "page.ts",
+          "page.jsx",
+          "page.js",
+          "page.mdx",
+          "page.md",
+        ].some((f) => fs.existsSync(path.join(dir, f)));
       });
     })
     .map((route) => ({

@@ -107,12 +107,36 @@
   --sidebar-border: oklch(0.2 var(--src-neutral-c) var(--src-primary-h));
   --sidebar-ring: var(--primary);
 
+  /* Contribution graph intensity levels */
+  --contrib-0: oklch(0.22 var(--src-neutral-c) var(--src-primary-h));
+  --contrib-1: oklch(0.3 var(--src-primary-c) var(--src-primary-h));
+  --contrib-2: oklch(0.45 var(--src-primary-c) var(--src-primary-h));
+  --contrib-3: oklch(0.62 var(--src-primary-c) var(--src-primary-h));
+  --contrib-4: oklch(0.83 var(--src-primary-c) var(--src-primary-h));
+
   /* TRON Effect Tokens — always derived, never hardcoded */
   --tron-glow: var(--primary);
   --tron-orange: var(--accent-2);
   --tron-grid: oklch(0.83 var(--src-primary-c) var(--src-primary-h) / 0.08);
   --primary-accent: var(--primary);
   --grid-color: oklch(0.5 var(--src-neutral-c) var(--src-primary-h) / 0.3);
+}
+
+/* Contribution graph fill by activity level — outside @layer for full specificity */
+rect[data-level="0"] {
+  fill: var(--contrib-0);
+}
+rect[data-level="1"] {
+  fill: var(--contrib-1);
+}
+rect[data-level="2"] {
+  fill: var(--contrib-2);
+}
+rect[data-level="3"] {
+  fill: var(--contrib-3);
+}
+rect[data-level="4"] {
+  fill: var(--contrib-4);
 }
 
 /* ══ COLOR ROLES (Light Scheme) ══ */
@@ -162,6 +186,13 @@
   --sidebar-border: oklch(0.82 var(--src-neutral-c) var(--src-primary-h));
   --sidebar-ring: var(--primary);
 
+  /* Contribution graph intensity levels — light mode */
+  --contrib-0: oklch(0.88 var(--src-neutral-c) var(--src-primary-h));
+  --contrib-1: oklch(0.8 var(--src-primary-c) var(--src-primary-h));
+  --contrib-2: oklch(0.65 var(--src-primary-c) var(--src-primary-h));
+  --contrib-3: oklch(0.48 var(--src-primary-c) var(--src-primary-h));
+  --contrib-4: oklch(0.3 var(--src-primary-c) var(--src-primary-h));
+
   /* TRON Effect Tokens — toned down for light mode */
   --tron-glow: var(--primary);
   --tron-orange: var(--accent-2);
@@ -187,6 +218,7 @@
   --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, monospace;
   --font-tourney: "Tourney", system-ui, sans-serif;
   --font-anders: var(--font-anders), system-ui, sans-serif;
+  --font-chirp: var(--font-chirp), system-ui, sans-serif;
 
   /* TRON Custom Colors — derived from source params */
   --color-tron-cyan: var(--primary);
