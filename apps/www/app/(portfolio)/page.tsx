@@ -2,13 +2,14 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Hero } from "@/lib/components/site/hero";
 import { SectionHeader } from "@/lib/components/site/section-header";
+import { ContributionSection } from "@/lib/resume";
 
 export default function AboutPage() {
   return (
     <div className="py-8 md:py-12 px-2 md:px-4 space-y-12 md:space-y-14 flex flex-col gap-10">
       <Hero />
 
-      <SectionHeader title="Recent Builds" />
+      <SectionHeader title="Recent Activity" />
       <Link
         href="/work/x-bookmarks"
         className="bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent hover:shadow-lg transition-all p-6 flex items-center gap-4 group"
@@ -31,6 +32,9 @@ export default function AboutPage() {
         </div>
         <ArrowRight className="size-5 text-muted-foreground group-hover:text-accent transition-colors shrink-0" />
       </Link>
+
+      {/* Activity */}
+      <ContributionSection />
     </div>
   );
 }

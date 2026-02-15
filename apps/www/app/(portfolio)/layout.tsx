@@ -45,7 +45,7 @@ function MainBody({ children }: { children: React.ReactNode }) {
 
 function AsideProfile({ data = profileData }: AsideProfileProps) {
   return (
-    <aside className="w-full h-fit lg:w-96 bg-background/95 border border-border/80 p-4 md:p-6 lg:my-8 lg:ml-8 lg:overflow-y-auto lg:shrink-0">
+    <aside className="w-full h-fit lg:w-72 bg-background/95 border border-border/80 p-4 md:p-6 lg:my-8 lg:ml-8 lg:overflow-y-auto lg:shrink-0">
       {/* Profile Image */}
       <div className="flex flex-col items-center">
         <div className="relative w-24 h-24 md:w-32 md:h-32 mb-4 md:mb-6">

@@ -26,7 +26,6 @@ import {
   AccordionSection,
   AccordionSectionContent,
   AccordionSectionHeader,
-  ContributionSection,
   HeaderName,
   HeaderSection,
   HeaderSocialLink,
@@ -89,7 +88,7 @@ export default function ResumePage() {
             <p className="pb-4">TL;DR:</p>
             <ul className="pb-4 list-disc pl-4 gap-4 grid">
               <li>
-                I am a pragmatic engineer with a strong bias toward getting shit
+                I am a product engineer with a strong bias toward getting shit
                 done.
               </li>
               <li>
@@ -334,9 +333,6 @@ export default function ResumePage() {
 
         {/* Skills */}
         <SkillsSection />
-
-        {/* Activity */}
-        <ContributionSection />
       </section>
     </article>
   );
