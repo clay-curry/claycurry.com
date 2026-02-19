@@ -1,6 +1,7 @@
 type MDXComponents = Record<string, React.ComponentType<any>>;
 
 import Image, { type ImageProps } from "next/image";
+import { Callout } from "@/lib/components/content/callout";
 import { CodeBlock } from "@/lib/components/content/code-block";
 import {
   AsciiContent,
@@ -252,6 +253,7 @@ const components = {
     }
     return <section {...props}>{children}</section>;
   },
+  Callout,
   Summary,
   Mermaid,
   DiagramTabs,
