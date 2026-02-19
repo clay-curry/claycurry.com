@@ -18,6 +18,7 @@ import {
   Fragment,
   type HTMLAttributes,
   type ReactNode,
+  useCallback,
   useContext,
   useMemo,
 } from "react";
@@ -368,8 +369,15 @@ export const ContributionGraphCalendar = ({
     [weeks, labels.months],
   );
 
+  const scrollRef = useCallback((node: HTMLDivElement | null) => {
+    if (node) {
+      node.scrollLeft = node.scrollWidth;
+    }
+  }, []);
+
   return (
     <div
+      ref={scrollRef}
       className={cn("max-w-full overflow-x-auto overflow-y-hidden", className)}
       {...props}
     >
