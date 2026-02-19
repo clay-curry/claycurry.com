@@ -1,0 +1,69 @@
+---
+slug: indexing
+pinned: false
+published: false
+publishedDate: "16 Feb 2026"
+title: What is Indexing
+subtitle: Building Searchable Catalogs for Near-Instant Results
+tags:
+  - Computer Science
+---
+
+<Summary>
+
+Indexing describes a process or the action of . An index is the resulting sorted structure (like a B-tree or hash table) that acts as a lookup table, using pointers to quickly
+locate data without scanning every row in a database.
+
+</Summary>
+
+# What is Indexing
+
+In computer science and database management, indexing is the process or action of creating a data structure, while an index is the actual data structure itself. [1, 2, 3]  
+Indexing refers to the method used to organize data to optimize search performance, involving the scanning, parsing, and storing of data.An index is the resulting sorted structure (like a B-tree or hash table) that acts as a lookup table, using pointers to quickly locate data without scanning every row in a database. [4, 5, 6, 7]  
+Key Differences 
+
+| Feature [1, 4, 6, 7, 8, 9] | Indexing (Process) | Index (Structure)  |
+| --- | --- | --- |
+| Definition | The action of creating, updating, and organizing a data structure. | The actual data structure (e.g., B-Tree) that stores references.  |
+| Analogy | The act of creating a book's index. | The index at the back of a book.  |
+| Purpose | To prepare data for efficient searching. | To facilitate fast data retrieval.  |
+| Operation | Consumes system resources (CPU/IO) during updates. | Occupies disk space for improved read performance.  |
+| Component | Often performed by an "indexer" component. | A file or database object stored on disk/memory.  |
+
+Indexing (The Process) 
+Indexing is the systematic, often automated, process of analyzing documents or data, extracting keywords, and building an index to improve search speed. 
+
+• Database Indexing: The process of choosing specific columns (keys) and building a sorted structure to avoid full table scans. 
+• Search Engine Indexing: The process of crawling, parsing, and storing web page data into a searchable, inverted index. 
+• Maintenance: A continuous process that updates the index when data is modified. [4, 6, 11]  
+
+Index (The Structure) 
+An index is the resulting database object that stores indexed column values along with pointers to the corresponding rows in a table. 
+
+• B-Tree/B+ Tree: The most common index, which stores data in a sorted tree structure for rapid lookup. 
+• Inverted Index: Maps keywords to the documents containing them (common in search engines). 
+• Bitmap Index: Uses bit arrays to represent data, efficient for low-cardinality columns (e.g., gender, status). 
+• Clustered Index: Defines the physical order in which data is stored in a table. 
+• Non-Clustered Index: A separate, secondary structure that does not affect physical data storage. [1, 9, 11, 13, 14]  
+
+Summary of Interdependence 
+You cannot have an index without indexing. The efficiency of a search depends directly on the quality of the indexing process and the structure of the resulting index. While indexing increases read speed, it can slow down data insertion and updates because the index must be constantly updated. [1, 6, 9, 15]  
+
+AI responses may include mistakes.
+
+[1] https://www.sciencedirect.com/topics/computer-science/data-indexing
+[2] https://dev.to/eyochen/a-straightforward-guide-for-btrees-33h9
+[3] https://www.geeksforgeeks.org/dbms/secondary-indexing-in-databases/
+[4] https://en.wikipedia.org/wiki/Search_engine_indexing
+[5] https://www.atlassian.com/data/databases/how-does-indexing-work
+[6] https://www.vaia.com/en-us/textbooks/economics/principles-of-macroeconomics-2-edition/chapter-9/problem-20-what-is-indexing/
+[7] https://en.wikipedia.org/wiki/Database_index
+[8] https://medium.com/@kwtrelbakouri1/azure-ai-search-azure-cognitive-search-index-and-indexer-ef1df8b5a212
+[9] https://blog.bytebytego.com/p/database-indexing-demystified-index
+[10] https://en.wikipedia.org/wiki/Subject_indexing
+[11] https://en.wikipedia.org/wiki/Search_engine_indexing
+[12] https://blog.algomaster.io/p/a-detailed-guide-on-database-indexes
+[13] https://en.wikipedia.org/wiki/Database_index
+[14] https://blog.bytebytego.com/p/database-indexing-demystified-index
+[15] https://www.prestashop.com/forums/topic/1098053-prestashop-seo-google-indexing-api-module-support-16x17x8xx/
+

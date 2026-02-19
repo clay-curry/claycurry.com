@@ -1,5 +1,26 @@
 import { BookmarksGallery } from "@/lib/components/site/bookmarks-gallery";
 
+/**
+ * 
+ * @returns 
+
+
+["Sports", "Technology", "Art", "Entertainment", "Gaming", "Politics", "Business", "Culture", "Science", "Food", "Animals",
+  "Education", "Fashion & Beauty", "Health & Fitness", "News", "Cryptocurrency", "Travel", "X Official"]
+
+
+Global Trending Carousel
+
+["Technology", "Business & Finance", "Travel", "Relationships", "Music", "Science", "Movies & TV", "Gaming", "Health &
+  Fitness", "News", "Sports", "Dance", "Celebrity", "Cryptocurrency", "Cars", "Nature & Outdoors", "Home & Garden", "Pets",
+  "Food", "Memes", "Beauty", "Fashion", "Anime", "Religion"]
+
+Inspiration:
+
+  ["Most Likes", "Most Replies", "Most Quotes", "Most Bookmarks", "Most Shares", "Most Video Views"]
+
+ */
+
 export default function XBookmarksPage() {
   return (
     <div className="py-8 md:py-12 px-2 md:px-4">
