@@ -45,23 +45,15 @@ export function DarkModeToggle() {
   const toggleMode = () => {
     const next = mode === "dark" ? "light" : "dark";
     const html = document.documentElement;
-    // Disable all transitions so the mode switch is instant
-    html.style.setProperty("transition", "none", "important");
-    document.body.style.setProperty("transition", "none", "important");
-    const all = document.querySelectorAll("*");
-    all.forEach((el) => {
-      (el as HTMLElement).style.setProperty("transition", "none", "important");
-    });
+    html.classList.add("theme-switching");
     html.classList.remove("dark", "light");
     html.classList.add(next);
     setMode(next);
     localStorage.setItem("tron-mode", next);
-    // Re-enable transitions on the next frame
+    // Re-enable transitions after the mode class has been applied for one frame.
     requestAnimationFrame(() => {
-      html.style.removeProperty("transition");
-      document.body.style.removeProperty("transition");
-      all.forEach((el) => {
-        (el as HTMLElement).style.removeProperty("transition");
+      requestAnimationFrame(() => {
+        html.classList.remove("theme-switching");
       });
     });
   };

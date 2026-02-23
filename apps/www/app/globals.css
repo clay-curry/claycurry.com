@@ -319,6 +319,12 @@ rect[data-level="4"] {
   );
 }
 
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

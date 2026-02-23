@@ -27,25 +27,40 @@ export async function GET(request: NextRequest) {
   const folderId = searchParams.get("folder") || undefined;
 
   try {
-    // Try cache first for bookmarks
-    let bookmarks = await getCachedBookmarks(folderId);
-    if (!bookmarks) {
-      bookmarks = folderId
-        ? await fetchBookmarksByFolder(folderId)
-        : await fetchAllBookmarks();
-      await setCachedBookmarks(bookmarks, folderId);
-    }
+    let [bookmarks, folders] = await Promise.all([
+      getCachedBookmarks(folderId),
+      getCachedFolders(),
+    ]);
 
-    // Try cache first for folders
-    let folders = await getCachedFolders();
-    if (!folders) {
-      folders = await fetchBookmarkFolders();
-      await setCachedFolders(folders);
+    const isBookmarksCacheMiss = !bookmarks;
+    const isFoldersCacheMiss = !folders;
+
+    if (isBookmarksCacheMiss || isFoldersCacheMiss) {
+      const [resolvedBookmarks, resolvedFolders] = await Promise.all([
+        bookmarks ??
+          (folderId ? fetchBookmarksByFolder(folderId) : fetchAllBookmarks()),
+        folders ?? fetchBookmarkFolders(),
+      ]);
+
+      bookmarks = resolvedBookmarks;
+      folders = resolvedFolders;
+
+      const cacheWrites: Promise<void>[] = [];
+      if (isBookmarksCacheMiss) {
+        cacheWrites.push(setCachedBookmarks(bookmarks, folderId));
+      }
+      if (isFoldersCacheMiss) {
+        cacheWrites.push(setCachedFolders(folders));
+      }
+
+      if (cacheWrites.length > 0) {
+        await Promise.all(cacheWrites);
+      }
     }
 
     return NextResponse.json({
-      bookmarks,
-      folders,
+      bookmarks: bookmarks ?? [],
+      folders: folders ?? [],
       cachedAt: new Date().toISOString(),
     });
   } catch (err) {

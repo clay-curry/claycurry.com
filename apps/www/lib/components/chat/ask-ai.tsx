@@ -11,6 +11,13 @@ interface AskAIProps {
 export function AskAI({ mode = "drawer" }: AskAIProps) {
   const { setIsDrawerOpen, setIsDialogOpen } = useChatUI();
 
+  const prefetchChat = () => {
+    void Promise.all([
+      import("@/lib/components/chat/chat-dialog"),
+      import("@/lib/components/chat/chat-drawer"),
+    ]);
+  };
+
   const handleClick = () => {
     if (mode === "dialog") {
       setIsDialogOpen(true);
@@ -26,6 +33,8 @@ export function AskAI({ mode = "drawer" }: AskAIProps) {
       data-click-id="nav:ask-ai-drawer"
       className="flex items-center gap-1.5 h-8 shrink-0 shadow-none"
       onClick={handleClick}
+      onMouseEnter={prefetchChat}
+      onFocus={prefetchChat}
     >
       <MessagesSquare className="size-4" />
       <span>Ask AI</span>

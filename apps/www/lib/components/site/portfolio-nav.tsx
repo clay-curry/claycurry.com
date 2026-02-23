@@ -21,6 +21,12 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
   useEffect(() => setMounted(true), []);
 
   const close = useCallback(() => setOpen(false), []);
+  const prefetchChat = useCallback(() => {
+    void Promise.all([
+      import("@/lib/components/chat/chat-dialog"),
+      import("@/lib/components/chat/chat-drawer"),
+    ]);
+  }, []);
 
   return (
     <header className="sticky top-0 z-20 w-full border-b border-border/40 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -66,6 +72,8 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
             data-click-id="nav:ask-ai"
             className="inline-flex items-center gap-1.5 h-8 px-2.5 text-sm font-medium rounded-xl border border-border/40 text-foreground/80 bg-muted/50 hover:bg-muted transition-colors cursor-pointer"
             onClick={() => setIsDialogOpen(true)}
+            onMouseEnter={prefetchChat}
+            onFocus={prefetchChat}
           >
             <MessagesSquare className="size-3.5" />
             Ask AI

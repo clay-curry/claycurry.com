@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Hero } from "@/lib/components/site/hero";
 import { SectionHeader } from "@/lib/components/site/section-header";
-import { ContributionSection } from "@/lib/resume";
+import { ContributionSection } from "@/lib/resume/contribution-section";
 
 export default function AboutPage() {
   return (

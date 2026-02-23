@@ -15,6 +15,7 @@ export interface OEmbedResponse {
 }
 
 const OEMBED_CACHE_TTL = 24 * 60 * 60; // 24 hours in seconds
+const OEMBED_FETCH_CONCURRENCY = 8;
 const inMemoryCache = new Map<string, { data: string; expiresAt: number }>();
 
 function cacheKey(tweetId: string): string {
@@ -78,31 +79,38 @@ export async function fetchOEmbedBatch(
   const result = new Map<string, OEmbedResponse>();
   const uncached: { id: string; authorUsername: string }[] = [];
 
-  // Check cache first
-  for (const b of bookmarks) {
-    const cached = await getCachedOEmbed(b.id);
+  const cacheResults = await Promise.all(
+    bookmarks.map(async (bookmark) => ({
+      bookmark,
+      cached: await getCachedOEmbed(bookmark.id),
+    })),
+  );
+
+  for (const { bookmark, cached } of cacheResults) {
     if (cached) {
-      result.set(b.id, cached);
+      result.set(bookmark.id, cached);
     } else {
-      uncached.push(b);
+      uncached.push(bookmark);
     }
   }
 
-  // Fetch misses in parallel
-  const settled = await Promise.allSettled(
-    uncached.map(async (b) => {
-      const url = `https://x.com/${b.authorUsername}/status/${b.id}`;
-      const data = await fetchOEmbed(url);
-      if (data) {
-        await setCachedOEmbed(b.id, data);
-        result.set(b.id, data);
-      }
-    }),
-  );
+  for (let i = 0; i < uncached.length; i += OEMBED_FETCH_CONCURRENCY) {
+    const batch = uncached.slice(i, i + OEMBED_FETCH_CONCURRENCY);
+    const settled = await Promise.allSettled(
+      batch.map(async (bookmark) => {
+        const url = `https://x.com/${bookmark.authorUsername}/status/${bookmark.id}`;
+        const data = await fetchOEmbed(url);
+        if (data) {
+          await setCachedOEmbed(bookmark.id, data);
+          result.set(bookmark.id, data);
+        }
+      }),
+    );
 
-  for (const s of settled) {
-    if (s.status === "rejected") {
-      console.error("oEmbed fetch failed:", s.reason);
+    for (const outcome of settled) {
+      if (outcome.status === "rejected") {
+        console.error("oEmbed fetch failed:", outcome.reason);
+      }
     }
   }
 

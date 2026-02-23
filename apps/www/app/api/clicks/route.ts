@@ -63,8 +63,26 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ counts });
       }
 
-      for (const [id, n] of tally) {
-        const newCount = await client.hIncrBy(hashKey, id, n);
+      const entries = Array.from(tally.entries());
+      const multi = client.multi();
+      for (const [id, n] of entries) {
+        multi.hIncrBy(hashKey, id, n);
+      }
+
+      const results = await multi.exec();
+      if (!results) {
+        throw new Error("Redis transaction returned no results");
+      }
+
+      for (const [index, [id]] of entries.entries()) {
+        const result = results[index];
+        const newCount =
+          typeof result === "number"
+            ? result
+            : Number.parseInt(String(result), 10);
+        if (Number.isNaN(newCount)) {
+          throw new Error(`Invalid Redis count for click id: ${id}`);
+        }
         counts[id] = newCount;
       }
       return NextResponse.json({ counts });

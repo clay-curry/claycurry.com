@@ -32,7 +32,7 @@ import {
   HeaderSocialLinks,
   HeaderTitle,
   PrimaryLink,
-} from "@/lib/resume";
+} from "./components";
 import {
   type ResumeOrganizationData,
   type ResumeSocialIcon,

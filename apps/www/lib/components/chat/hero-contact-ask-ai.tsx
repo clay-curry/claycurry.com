@@ -17,6 +17,12 @@ import { useChatUI } from "@/lib/hooks/use-chat-ui";
 
 export function HeroContactAskAI() {
   const { setIsDialogOpen, model, setModel } = useChatUI();
+  const prefetchChat = () => {
+    void Promise.all([
+      import("@/lib/components/chat/chat-dialog"),
+      import("@/lib/components/chat/chat-drawer"),
+    ]);
+  };
 
   return (
     <div className="inline-flex items-center gap-4">
@@ -46,6 +52,8 @@ export function HeroContactAskAI() {
           data-click-id="hero:ask-ai"
           className="h-9 md:text-[0.8rem] shadow-none rounded-l-4xl rounded-r-none border-r border-r-primary-foreground/20 cursor-pointer bg-primary! hover:bg-primary/85! text-primary-foreground! px-2"
           onClick={() => setIsDialogOpen(true)}
+          onMouseEnter={prefetchChat}
+          onFocus={prefetchChat}
         >
           <IconMessageCircle className="size-3" />
           Ask AI
@@ -59,6 +67,8 @@ export function HeroContactAskAI() {
               size="lg"
               data-click-id="hero:model-select"
               className="h-9 px-2.5! shadow-none rounded-r-4xl rounded-l-none cursor-pointer bg-primary! hover:bg-primary/85! text-primary-foreground!"
+              onMouseEnter={prefetchChat}
+              onFocus={prefetchChat}
             >
               <ChevronDown className="size-4" />
             </Button>

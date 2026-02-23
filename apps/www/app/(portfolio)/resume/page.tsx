@@ -1,4 +1,4 @@
-import { SkillsSection } from "@/lib/resume";
+import { SkillsSection } from "@/lib/resume/components";
 import {
   ResumeAchievementsSection,
   ResumeEducationSection,

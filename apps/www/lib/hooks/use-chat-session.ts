@@ -7,16 +7,11 @@ import { DefaultChatTransport, type FileUIPart } from "ai";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { CHAT_MODELS } from "@/lib/chat/models";
 import { type ChatContext, db } from "@/lib/db";
 
-// Models available for chat
-export const CHAT_MODELS = [
-  { name: "Grok 3 Mini", value: "grok/grok-3-mini" },
-  { name: "Claude Haiku", value: "anthropic/claude-3-haiku-20240307" },
-  { name: "GPT 4o", value: "openai/gpt-4o" },
-] as const;
-
-export type ChatModel = (typeof CHAT_MODELS)[number];
+export type { ChatModel } from "@/lib/chat/models";
+export { CHAT_MODELS } from "@/lib/chat/models";
 
 export type ChatSessionConfig = {
   context?: ChatContext;
