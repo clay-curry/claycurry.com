@@ -4,7 +4,7 @@ export const profileData = {
   avatar: "/clay_profile_cropped.png",
   email: "me@claycurry.com",
   phone: "+1 (405) 301-1055",
-  location: "San Francisco, CA",
+  location: "Palo Alto, CA",
   githubUsername: "clay-curry",
   social: {
     github: "https://github.com/clay-curry",
@@ -140,7 +140,7 @@ export const blogData = {
 export const contactData = {
   email: "me@claycurry.com",
   phone: "+1 (405) 301-1055",
-  location: "San Francisco, CA",
+  location: "Palo Alto, CA",
   mapEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d100939.98555098464!2d-122.50764017948915!3d37.75780951542879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076adff!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus",
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50858.78845554609!2d-122.16630030000001!3d37.4418834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fbae2f3a26c5b%3A0x71e7a3b99a39de4c!2sPalo%20Alto%2C%20CA!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus",
 } as const;
