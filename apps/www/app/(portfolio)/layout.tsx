@@ -36,7 +36,7 @@ function MainBody({ children }: { children: React.ReactNode }) {
         <FloatingToolbar />
         <PageViews />
       </div>
-      <div className="p-2 lg:p-3 backdrop-blur supports-backdrop-filter:bg-background/60 lg:overflow-y-auto lg:flex-1">
+      <div className="p-2 lg:p-3 backdrop-blur supports-backdrop-filter:bg-background/60 lg:overflow-y-auto lg:flex-1 scrollbar-hide">
         {children}
       </div>
     </div>
