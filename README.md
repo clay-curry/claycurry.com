@@ -13,7 +13,9 @@
 
 </p>
 
-# claycurry.com
+<h1 align="center">
+claycurry.com
+</h1>
 
 Clay Curry's personal portfolio and blog, built as a pnpm + Turborepo monorepo with a Next.js app, MDX content, AI chat, usage analytics, and optional social/email integrations.
 
