@@ -3,14 +3,12 @@
 </p>
 
 <p align="center">
-
-[![Merge criteria](https://github.com/clay-curry/claycurry.com/actions/workflows/merge-criteria.yml/badge.svg)](https://github.com/clay-curry/claycurry.com/actions/workflows/merge-criteria.yml)
-[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://www.claycurry.com)
-[![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
-[![Node](https://img.shields.io/badge/Node-20.x-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![pnpm](https://img.shields.io/badge/pnpm-9.15.0-F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
-[![License: WTFPL](https://img.shields.io/badge/License-WTFPL-brightgreen.svg)](LICENSE.md)
-
+  <a href="https://github.com/clay-curry/claycurry.com/actions/workflows/merge-criteria.yml"><img src="https://github.com/clay-curry/claycurry.com/actions/workflows/merge-criteria.yml/badge.svg" alt="Merge criteria"/></a>
+  <a href="https://www.claycurry.com"><img src="https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white" alt="Vercel"/></a>
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white" alt="Next.js"/></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node-20.x-339933?logo=node.js&logoColor=white" alt="Node"/></a>
+  <a href="https://pnpm.io/"><img src="https://img.shields.io/badge/pnpm-9.15.0-F69220?logo=pnpm&logoColor=white" alt="pnpm"/></a>
+  <a href="LICENSE.md"><img src="https://img.shields.io/badge/License-WTFPL-brightgreen.svg" alt="License: WTFPL"/></a>
 </p>
 
 <h1 align="center">
