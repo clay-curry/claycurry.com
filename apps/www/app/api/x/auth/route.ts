@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import { type NextRequest, NextResponse } from "next/server";
 import { getRedisClient, keyPrefix } from "@/lib/redis";
+import { getXRuntimeConfig } from "@/lib/x/config";
 import { oauthStateStore } from "@/lib/x/tokens";
 
 function base64url(buffer: Buffer): string {
@@ -10,15 +11,22 @@ function base64url(buffer: Buffer): string {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const secret = searchParams.get("secret");
+  const config = getXRuntimeConfig();
 
-  if (!secret || secret !== process.env.X_OWNER_SECRET) {
+  if (!config.ownerSecret) {
+    return NextResponse.json(
+      { error: "X_OWNER_SECRET not configured" },
+      { status: 500 },
+    );
+  }
+
+  if (!secret || secret !== config.ownerSecret) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const clientId = process.env.X_CLIENT_ID;
-  if (!clientId) {
+  if (!config.clientId || !config.clientSecret) {
     return NextResponse.json(
-      { error: "X_CLIENT_ID not configured" },
+      { error: "X_CLIENT_ID or X_CLIENT_SECRET not configured" },
       { status: 500 },
     );
   }
@@ -44,7 +52,7 @@ export async function GET(request: NextRequest) {
   const callbackUrl = new URL("/api/x/callback", request.url).toString();
   const authUrl = new URL("https://x.com/i/oauth2/authorize");
   authUrl.searchParams.set("response_type", "code");
-  authUrl.searchParams.set("client_id", clientId);
+  authUrl.searchParams.set("client_id", config.clientId);
   authUrl.searchParams.set("redirect_uri", callbackUrl);
   authUrl.searchParams.set(
     "scope",

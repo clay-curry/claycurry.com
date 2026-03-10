@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-03-10
+
+### Added
+- Owner-validated X bookmarks status endpoint at `/api/x/bookmarks/status`
+- High-level and low-level design docs for the X bookmarks sync architecture under `docs/x-bookmarks/`
+- Contract and service tests covering bookmark payload validation, owner verification, and stale snapshot fallback
+
+### Changed
+- Refactored X bookmarks into a class-based sync system with Zod contract validation
+- Made `X_OWNER_USERNAME` the canonical bookmark owner configuration, targeting `clay__curry`
+- Reworked bookmark caching to keep owner-scoped snapshots and serve stale data when live sync fails
+- Hardened OAuth callback/token handling to verify the authenticated X account before persisting tokens
+
 ## 2026-02-12
 
 ### Added

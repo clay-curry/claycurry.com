@@ -1,6 +1,15 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getRedisClient, keyPrefix } from "@/lib/redis";
-import { oauthStateStore, storeTokens } from "@/lib/x/tokens";
+import { BookmarksSnapshotRepository } from "@/lib/x/cache";
+import {
+  XBookmarksClient,
+  XBookmarksOwnerResolver,
+  XIdentityVerifier,
+} from "@/lib/x/client";
+import { assertLiveRuntimeConfig, getXRuntimeConfig } from "@/lib/x/config";
+import { BookmarksSyncStatusRecordSchema } from "@/lib/x/contracts";
+import { toIntegrationError } from "@/lib/x/errors";
+import { oauthStateStore, XTokenStore } from "@/lib/x/tokens";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -24,11 +33,11 @@ export async function GET(request: NextRequest) {
 
   // Retrieve code_verifier from Redis or in-memory fallback
   let codeVerifier: string | null = null;
-  const client = await getRedisClient();
-  if (client) {
+  const redisClient = await getRedisClient();
+  if (redisClient) {
     const stateKey = `${keyPrefix()}x:oauth:${state}`;
-    codeVerifier = await client.get(stateKey);
-    await client.del(stateKey);
+    codeVerifier = await redisClient.get(stateKey);
+    await redisClient.del(stateKey);
   } else {
     codeVerifier = oauthStateStore.get(state) ?? null;
     oauthStateStore.delete(state);
@@ -41,46 +50,80 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const clientId = process.env.X_CLIENT_ID;
-  const clientSecret = process.env.X_CLIENT_SECRET;
-  if (!clientId || !clientSecret) {
+  const config = getXRuntimeConfig();
+  if (config.mode !== "live") {
     return NextResponse.json(
       { error: "X credentials not configured" },
       { status: 500 },
     );
   }
+  assertLiveRuntimeConfig(config);
 
   const callbackUrl = new URL("/api/x/callback", request.url).toString();
-
-  // Exchange authorization code for tokens
-  const tokenRes = await fetch("https://api.x.com/2/oauth2/token", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`,
-    },
-    body: new URLSearchParams({
-      grant_type: "authorization_code",
-      code,
-      redirect_uri: callbackUrl,
-      code_verifier: codeVerifier,
-    }),
-  });
-
-  if (!tokenRes.ok) {
-    const text = await tokenRes.text();
-    return NextResponse.json(
-      { error: `Token exchange failed: ${text}` },
-      { status: 500 },
-    );
-  }
-
-  const tokenData = await tokenRes.json();
-  await storeTokens(
-    tokenData.access_token,
-    tokenData.refresh_token,
-    tokenData.expires_in,
+  const repository = new BookmarksSnapshotRepository();
+  const xClient = new XBookmarksClient();
+  const tokenStore = XTokenStore.fromRuntimeConfig(repository, config);
+  const identityVerifier = new XIdentityVerifier(xClient, config.ownerUsername);
+  const ownerResolver = new XBookmarksOwnerResolver(
+    xClient,
+    config.ownerUsername,
+    config.ownerUserId,
   );
+
+  try {
+    const tokenData = await tokenStore.exchangeAuthorizationCode({
+      code,
+      codeVerifier,
+      redirectUri: callbackUrl,
+    });
+    const authenticatedOwner = await identityVerifier.verify(
+      tokenData.access_token,
+    );
+    const resolvedOwner = await ownerResolver.resolve(tokenData.access_token);
+
+    if (
+      authenticatedOwner.id &&
+      resolvedOwner.id &&
+      authenticatedOwner.id !== resolvedOwner.id
+    ) {
+      return NextResponse.json(
+        {
+          error: `Authenticated owner @${authenticatedOwner.username} does not match resolved owner @${resolvedOwner.username}`,
+        },
+        { status: 403 },
+      );
+    }
+
+    const tokenRecord = await tokenStore.storeVerifiedToken(
+      tokenData,
+      authenticatedOwner,
+    );
+    await repository.setStatus(
+      config.ownerUsername,
+      BookmarksSyncStatusRecordSchema.parse({
+        configuredOwnerUsername: config.ownerUsername,
+        configuredOwnerUserId: config.ownerUserId,
+        resolvedOwner,
+        authenticatedOwner,
+        tokenStatus: "valid",
+        tokenExpiresAt: new Date(tokenRecord.expiresAt).toISOString(),
+        lastRefreshedAt: tokenRecord.lastRefreshedAt,
+        lastSuccessfulSyncAt: null,
+        lastAttemptedSyncAt: new Date().toISOString(),
+        lastError: null,
+      }),
+    );
+  } catch (error) {
+    const normalized = toIntegrationError(error);
+    const status =
+      normalized.code === "owner_mismatch"
+        ? 403
+        : normalized.code === "reauth_required"
+          ? 400
+          : 500;
+
+    return NextResponse.json({ error: normalized.message }, { status });
+  }
 
   const homeUrl = new URL("/", request.url).toString();
   return NextResponse.redirect(homeUrl);
