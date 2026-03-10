@@ -105,7 +105,8 @@ Local app URL: `http://localhost:3000`
 | `OPENAI_API_KEY` | AI model fallback | Optional direct provider fallback support. |
 | `XAI_API_KEY` | AI model selection | Optional model/provider support. |
 | `PERPLEXITY_API_KEY` | Web search tool in chat | Enables search tool usage when web search is turned on in chat. |
-| `X_OWNER_USER_ID` | X bookmarks sync | Owner account ID used for bookmark fetches. |
+| `X_OWNER_USERNAME` | X bookmarks sync | Canonical bookmark owner username. Set this to `clay__curry`. |
+| `X_OWNER_USER_ID` | X bookmarks sync | Deprecated compatibility field. If set, it must resolve to the same account as `X_OWNER_USERNAME`. |
 | `X_CLIENT_ID` | X OAuth | OAuth client identifier. |
 | `X_CLIENT_SECRET` | X OAuth | OAuth client secret for token exchange/refresh. |
 | `X_OWNER_SECRET` | X OAuth bootstrap route | Shared secret gate for `/api/x/auth`. |
@@ -131,8 +132,10 @@ Deployment note:
 ### X bookmarks
 
 - Endpoints: `apps/www/app/api/x/*`
-- Supports OAuth token exchange and bookmark retrieval
-- Returns fixture data when X credentials are not configured (useful for local UI work)
+- Supports OAuth token exchange, owner validation for `@clay__curry`, and bookmark retrieval
+- Returns stale snapshots instead of blank data when live sync fails and a prior snapshot exists
+- Exposes a minimal operator status route at `/api/x/bookmarks/status?secret=...`
+- Requires `X_CLIENT_ID` and `X_CLIENT_SECRET` — shows a clear error when credentials are missing
 
 ### Email delivery
 
