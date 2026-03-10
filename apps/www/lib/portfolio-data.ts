@@ -1,10 +1,17 @@
+export const locationData = {
+  label: "Seattle, WA",
+  mapHref: "https://www.google.com/maps/place/Seattle,+WA",
+  mapEmbedUrl: "https://www.google.com/maps?q=Seattle,+WA&z=11&output=embed",
+} as const;
+
 export const profileData = {
   name: "Clay Curry",
   title: "Software Engineer",
   avatar: "/clay_profile_cropped.png",
   email: "me@claycurry.com",
   phone: "+1 (405) 301-1055",
-  location: "Palo Alto, CA",
+  location: locationData.label,
+  locationHref: locationData.mapHref,
   githubUsername: "clay-curry",
   social: {
     github: "https://github.com/clay-curry",
@@ -140,7 +147,6 @@ export const blogData = {
 export const contactData = {
   email: "me@claycurry.com",
   phone: "+1 (405) 301-1055",
-  location: "Palo Alto, CA",
-  mapEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50858.78845554609!2d-122.16630030000001!3d37.4418834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fbae2f3a26c5b%3A0x71e7a3b99a39de4c!2sPalo%20Alto%2C%20CA!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus",
+  location: locationData.label,
+  mapEmbedUrl: locationData.mapEmbedUrl,
 } as const;
