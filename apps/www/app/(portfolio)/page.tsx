@@ -28,7 +28,7 @@ const Bookmarks = () => (
       aria-hidden="true"
       className="size-6 fill-foreground shrink-0"
     >
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      <path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5z" />
     </svg>
     <div className="flex-1 min-w-0">
       <h2 className="font-sans font-semibold tracking-wider text-lg md:text-xl">
