@@ -5,7 +5,15 @@ const workItems = [
     href: "/work/x-bookmarks",
     title: "X Bookmarks",
     description: "A better way to browse, search, and sort my X bookmarks.",
-    emoji: "𝕏",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        className="size-4 fill-foreground"
+      >
+        <path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5z" />
+      </svg>
+    ),
   },
 ];
 
@@ -24,7 +32,7 @@ export default function WorkPage() {
             key={item.href}
             className="flex items-baseline gap-2 text-sm md:text-base"
           >
-            <span className="shrink-0">{item.emoji}</span>
+            <span className="shrink-0">{item.icon}</span>
             <span>
               <Link
                 href={item.href}
