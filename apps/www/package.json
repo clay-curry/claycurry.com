@@ -64,6 +64,7 @@
     "date-fns": "4.1.0",
     "dexie": "^4.2.1",
     "dexie-react-hooks": "^4.2.0",
+    "effect": "^3.19.19",
     "embla-carousel-react": "8.5.1",
     "geist": "^1.7.0",
     "gray-matter": "^4.0.3",
