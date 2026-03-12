@@ -8,7 +8,7 @@ import {
 } from "@/lib/x/client";
 import { assertLiveRuntimeConfig, getXRuntimeConfig } from "@/lib/x/config";
 import { BookmarksSyncStatusRecordSchema } from "@/lib/x/contracts";
-import { toIntegrationError } from "@/lib/x/errors";
+import { errorCode, toXError } from "@/lib/x/errors";
 import { oauthStateStore, XTokenStore } from "@/lib/x/tokens";
 
 export async function GET(request: NextRequest) {
@@ -114,13 +114,10 @@ export async function GET(request: NextRequest) {
       }),
     );
   } catch (error) {
-    const normalized = toIntegrationError(error);
+    const normalized = toXError(error);
+    const code = errorCode(normalized);
     const status =
-      normalized.code === "owner_mismatch"
-        ? 403
-        : normalized.code === "reauth_required"
-          ? 400
-          : 500;
+      code === "owner_mismatch" ? 403 : code === "reauth_required" ? 400 : 500;
 
     return NextResponse.json({ error: normalized.message }, { status });
   }

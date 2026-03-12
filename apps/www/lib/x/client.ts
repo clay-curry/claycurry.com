@@ -9,7 +9,7 @@ import {
   type XUser,
   XUserEnvelopeSchema,
 } from "./contracts";
-import { XIntegrationError } from "./errors";
+import { xError } from "./errors";
 
 const BOOKMARKS_FIELDS = [
   "tweet.fields=created_at,public_metrics,author_id,attachments",
@@ -35,7 +35,7 @@ function parseContract<T>(
   try {
     return schema.parse(payload);
   } catch (error) {
-    throw new XIntegrationError(
+    throw xError(
       "schema_invalid",
       `${context} did not match the expected contract`,
       {
@@ -237,25 +237,21 @@ export class XBookmarksClient {
       const body = await response.text();
       const message = `${context} failed (${response.status}): ${body}`;
       if (response.status === 401 || response.status === 403) {
-        throw new XIntegrationError("reauth_required", message, {
+        throw xError("reauth_required", message, {
           tokenStatus: "invalid",
         });
       }
 
-      throw new XIntegrationError("upstream_error", message);
+      throw xError("upstream_error", message);
     }
 
     try {
       return await response.json();
     } catch (error) {
-      throw new XIntegrationError(
-        "schema_invalid",
-        `${context} returned non-JSON`,
-        {
-          cause: error,
-          tokenStatus: "invalid",
-        },
-      );
+      throw xError("schema_invalid", `${context} returned non-JSON`, {
+        cause: error,
+        tokenStatus: "invalid",
+      });
     }
   }
 }
@@ -278,7 +274,7 @@ export class XBookmarksOwnerResolver {
       owner.id &&
       owner.id.toString() !== this.ownerUserId.toString()
     ) {
-      throw new XIntegrationError(
+      throw xError(
         "owner_mismatch",
         `Configured X_OWNER_USER_ID (${this.ownerUserId}) does not match @${this.ownerUsername} (${owner.id})`,
         { tokenStatus: "owner_mismatch" },
@@ -303,7 +299,7 @@ export class XIdentityVerifier {
       authenticatedOwner.username.toLowerCase() !==
       this.ownerUsername.toLowerCase()
     ) {
-      throw new XIntegrationError(
+      throw xError(
         "owner_mismatch",
         `Authenticated X account @${authenticatedOwner.username} does not match required owner @${this.ownerUsername}`,
         { tokenStatus: "owner_mismatch" },

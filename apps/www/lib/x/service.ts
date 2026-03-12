@@ -22,9 +22,11 @@ import {
   type TokenHealthStatus,
 } from "./contracts";
 import {
-  toIntegrationError,
+  errorCode,
   toIntegrationIssue,
-  XIntegrationError,
+  toXError,
+  type XError,
+  xError,
 } from "./errors";
 import { XTokenStore } from "./tokens";
 
@@ -69,13 +71,14 @@ function mapFailureToHttpStatus(status: BookmarksApiStatus): number {
   }
 }
 
-function mapErrorCodeToStatus(error: XIntegrationError): BookmarksApiStatus {
-  switch (error.code) {
+function mapErrorCodeToStatus(error: XError): BookmarksApiStatus {
+  const code = errorCode(error);
+  switch (code) {
     case "reauth_required":
     case "owner_mismatch":
     case "schema_invalid":
     case "upstream_error":
-      return error.code;
+      return code;
     case "cache_stale":
       return "stale";
     default:
@@ -180,7 +183,7 @@ export class BookmarksSyncService {
         authenticatedOwner.id &&
         resolvedOwner.id !== authenticatedOwner.id
       ) {
-        throw new XIntegrationError(
+        throw xError(
           "owner_mismatch",
           `Resolved owner @${resolvedOwner.username} does not match authenticated owner @${authenticatedOwner.username}`,
           { tokenStatus: "owner_mismatch" },
@@ -189,7 +192,7 @@ export class BookmarksSyncService {
 
       const liveOwnerId = resolvedOwner.id ?? authenticatedOwner.id ?? null;
       if (!liveOwnerId) {
-        throw new XIntegrationError(
+        throw xError(
           "schema_invalid",
           "Unable to determine the verified owner id for bookmark sync",
           { tokenStatus: "invalid" },
@@ -244,7 +247,7 @@ export class BookmarksSyncService {
         httpStatus: 200,
       };
     } catch (error) {
-      const normalizedError = toIntegrationError(error);
+      const normalizedError = toXError(error);
       const issue = toIntegrationIssue(normalizedError);
 
       if (snapshot) {
@@ -433,10 +436,7 @@ export class BookmarksSyncService {
   private assertLiveConfig(): XLiveRuntimeConfig {
     const { config } = this.options;
     if (!config.clientId || !config.clientSecret) {
-      throw new XIntegrationError(
-        "upstream_error",
-        "X live credentials are not configured",
-      );
+      throw xError("upstream_error", "X live credentials are not configured");
     }
 
     return config as XLiveRuntimeConfig;

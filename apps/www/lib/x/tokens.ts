@@ -14,7 +14,13 @@ import {
   XOAuthTokenResponseSchema,
   XTokenRecordSchema,
 } from "./contracts";
-import { XIntegrationError } from "./errors";
+import {
+  OwnerMismatch,
+  ReauthRequired,
+  SchemaInvalid,
+  type XError,
+  xError,
+} from "./errors";
 
 export const oauthStateStore = new Map<string, string>();
 
@@ -43,10 +49,9 @@ function buildTokenRecord(
 
 function shouldDiscardStoredToken(error: unknown): boolean {
   return (
-    error instanceof XIntegrationError &&
-    (error.code === "reauth_required" ||
-      error.code === "owner_mismatch" ||
-      error.code === "schema_invalid")
+    error instanceof ReauthRequired ||
+    error instanceof OwnerMismatch ||
+    error instanceof SchemaInvalid
   );
 }
 
@@ -75,7 +80,7 @@ export class XTokenStore {
     }
 
     if (!record) {
-      throw new XIntegrationError(
+      throw xError(
         "reauth_required",
         "No X tokens stored. Run the OAuth setup flow first.",
         { tokenStatus: "missing" },
@@ -87,7 +92,7 @@ export class XTokenStore {
       this.config.ownerUsername.toLowerCase()
     ) {
       await this.repository.deleteTokenRecord(this.config.ownerUsername);
-      throw new XIntegrationError(
+      throw xError(
         "owner_mismatch",
         `Stored token owner @${record.owner.username} does not match required owner @${this.config.ownerUsername}`,
         { tokenStatus: "owner_mismatch" },
@@ -209,7 +214,7 @@ export class XTokenStore {
 
     if (!response.ok) {
       const payload = await response.text();
-      throw new XIntegrationError(
+      throw xError(
         "reauth_required",
         `${context} failed (${response.status}): ${payload}`,
         { tokenStatus: "refresh_failed" },
@@ -220,20 +225,16 @@ export class XTokenStore {
     try {
       parsedJson = await response.json();
     } catch (error) {
-      throw new XIntegrationError(
-        "schema_invalid",
-        `${context} returned non-JSON`,
-        {
-          cause: error,
-          tokenStatus: "invalid",
-        },
-      );
+      throw xError("schema_invalid", `${context} returned non-JSON`, {
+        cause: error,
+        tokenStatus: "invalid",
+      });
     }
 
     try {
       return XOAuthTokenResponseSchema.parse(parsedJson);
     } catch (error) {
-      throw new XIntegrationError(
+      throw xError(
         "schema_invalid",
         `${context} returned an invalid token payload`,
         {

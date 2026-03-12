@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { XBookmarksOwnerResolver, XIdentityVerifier } from "./client";
-import { XIntegrationError } from "./errors";
+import { OwnerMismatch } from "./errors";
 import { StubIdentityClient } from "./test-utils";
 
 test("XIdentityVerifier rejects tokens for any account other than claycurry__", async () => {
@@ -9,9 +9,7 @@ test("XIdentityVerifier rejects tokens for any account other than claycurry__", 
     "claycurry__",
   );
 
-  await expect(verifier.verify("access-token")).rejects.toThrow(
-    XIntegrationError,
-  );
+  await expect(verifier.verify("access-token")).rejects.toThrow(OwnerMismatch);
 });
 
 test("XBookmarksOwnerResolver rejects configured user id mismatches", async () => {
@@ -21,7 +19,5 @@ test("XBookmarksOwnerResolver rejects configured user id mismatches", async () =
     "expected-owner-id",
   );
 
-  await expect(resolver.resolve("access-token")).rejects.toThrow(
-    XIntegrationError,
-  );
+  await expect(resolver.resolve("access-token")).rejects.toThrow(OwnerMismatch);
 });
