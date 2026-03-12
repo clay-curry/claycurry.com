@@ -1,8 +1,8 @@
-import http from 'http';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { spawn, type ChildProcess } from 'child_process';
-import { readFileSync, existsSync, unlinkSync } from 'fs';
+import { type ChildProcess, spawn } from "node:child_process";
+import { existsSync, readFileSync } from "node:fs";
+import http from "node:http";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 /*
   This script validates every links reachable  in a next.js application.
@@ -24,13 +24,27 @@ import { readFileSync, existsSync, unlinkSync } from 'fs';
 
 /** We expect non-2xx HTTP status codes for these routes*/
 const expectedStatusCodes: Record<string, number> = {
-  '/_not-found': 404,
-  '/_global-error': 500,
+  "/_not-found": 404,
+  "/_global-error": 500,
 };
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const siteDir = path.resolve(__dirname, '../../site');
-const socketPath = '/tmp/nextjs-link-checker.sock';
+const appDirCandidates = [
+  path.resolve(__dirname, "../../../apps/www"),
+  path.resolve(__dirname, "../../site"),
+];
+const siteDir = appDirCandidates.find((candidate) =>
+  existsSync(path.join(candidate, "package.json")),
+);
+
+if (!siteDir) {
+  throw new Error(
+    `Unable to locate Next.js app directory. Tried: ${appDirCandidates.join(", ")}`,
+  );
+}
+
+const serverHost = "127.0.0.1";
+const serverPort = 3101;
 type RouteResult = {
   route: string;
   status: number;
@@ -38,65 +52,87 @@ type RouteResult = {
 };
 
 /** reads statically-rendered routes declared in 'prerender-manifest.json' metadata file.*/
-function getStaticRoutesFromManifest(): string[] {
-  const manifestPath = path.join(siteDir, '.next', 'prerender-manifest.json');
-  const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
-  return Object.keys(manifest.routes)
+function getStaticRoutesFromManifest(manifestPath: string): string[] {
+  const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
+  return Object.keys(manifest.routes);
+}
+
+async function waitForFile(filePath: string, timeoutMs: number): Promise<void> {
+  const start = Date.now();
+  const pollIntervalMs = 500;
+
+  while (!existsSync(filePath)) {
+    if (Date.now() - start > timeoutMs) {
+      throw new Error(`Timed out waiting for build artifact: ${filePath}`);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
+  }
 }
 
 /**Start the Next.js production server as a subprocess using Unix socket*/
 async function startServer(): Promise<ChildProcess> {
-  // Clean up any existing socket file
-  if (existsSync(socketPath)) {
-    unlinkSync(socketPath);
-  }
-
   return new Promise((resolve, reject) => {
-    const serverProcess = spawn('node', ['server.mjs', socketPath], {
-      cwd: siteDir,
-      stdio: ['ignore', 'pipe', 'pipe'],
-      env: { ...process.env, NODE_ENV: 'production' },
-    });
+    const serverProcess = spawn(
+      "pnpm",
+      ["start", "--hostname", serverHost, "--port", String(serverPort)],
+      {
+        cwd: siteDir,
+        stdio: ["ignore", "pipe", "pipe"],
+        env: { ...process.env, NODE_ENV: "production" },
+      },
+    );
 
     let started = false;
 
-    serverProcess.stdout?.on('data', (data: Buffer) => {
-      const output = data.toString();
-      if (!started && output.includes('Ready')) {
+    const maybeResolveServer = (output: string) => {
+      if (!started && /ready/i.test(output)) {
         started = true;
         resolve(serverProcess);
       }
+    };
+
+    serverProcess.stdout?.on("data", (data: Buffer) => {
+      maybeResolveServer(data.toString());
     });
 
-    serverProcess.stderr?.on('data', (data: Buffer) => {
-      const output = data.toString();
+    serverProcess.stderr?.on("data", (data: Buffer) => {
       // Next.js sometimes logs to stderr even for non-errors
-      if (!started && output.includes('Ready')) {
-        started = true;
-        resolve(serverProcess);
-      }
+      maybeResolveServer(data.toString());
     });
 
-    serverProcess.on('error', reject);
+    serverProcess.on("error", reject);
+    serverProcess.on("exit", (code) => {
+      if (!started) {
+        reject(
+          new Error(
+            `Server exited before becoming ready (code ${code ?? "unknown"})`,
+          ),
+        );
+      }
+    });
 
     // Timeout after 30 seconds
     setTimeout(() => {
       if (!started) {
         serverProcess.kill();
-        reject(new Error('Server failed to start within 30 seconds'));
+        reject(new Error("Server failed to start within 30 seconds"));
       }
     }, 30000);
   });
 }
 
 /** Make an HTTP request over a Unix socket */
-function requestOverSocket(route: string): Promise<{ status: number; ok: boolean }> {
+function requestOverSocket(
+  route: string,
+): Promise<{ status: number; ok: boolean }> {
   return new Promise((resolve, reject) => {
     const req = http.request(
       {
-        socketPath,
+        host: serverHost,
+        port: serverPort,
         path: route,
-        method: 'GET',
+        method: "GET",
       },
       (res) => {
         // Consume response data to free up memory
@@ -105,10 +141,10 @@ function requestOverSocket(route: string): Promise<{ status: number; ok: boolean
           status: res.statusCode ?? 0,
           ok: (res.statusCode ?? 0) >= 200 && (res.statusCode ?? 0) < 400,
         });
-      }
+      },
     );
 
-    req.on('error', reject);
+    req.on("error", reject);
     req.end();
   });
 }
@@ -119,10 +155,14 @@ async function checkRoutes(routes: string[]): Promise<RouteResult[]> {
   for (const route of routes) {
     try {
       const { status } = await requestOverSocket(route);
-      const ok = (status >= 200 && status < 400 || status === expectedStatusCodes[route]);
-      const statusInfo = expectedStatusCodes[route] ? `${status} (expected ${expectedStatusCodes[route]})` : String(status);
+      const ok =
+        (status >= 200 && status < 400) ||
+        status === expectedStatusCodes[route];
+      const statusInfo = expectedStatusCodes[route]
+        ? `${status} (expected ${expectedStatusCodes[route]})`
+        : String(status);
       results.push({ route, status, ok });
-      console.log(`  ${ok ? '✓' : '✗'} ${route} - ${statusInfo}`);
+      console.log(`  ${ok ? "✓" : "✗"} ${route} - ${statusInfo}`);
     } catch (error) {
       results.push({
         route,
@@ -135,25 +175,31 @@ async function checkRoutes(routes: string[]): Promise<RouteResult[]> {
   return results;
 }
 
-/** main entry point - IIIFE to allow top-level await */ 
+/** main entry point - IIIFE to allow top-level await */
 (async function main() {
-  const routes = getStaticRoutesFromManifest();
+  const manifestPath = path.join(siteDir, ".next", "prerender-manifest.json");
+  await waitForFile(manifestPath, 120000);
+  const routes = getStaticRoutesFromManifest(manifestPath);
   console.log(`Found ${routes.length} routes in manifest\n`);
 
-  console.log('Starting Next.js server...');
+  console.log("Starting Next.js server...");
   const serverProcess = await startServer();
 
-  console.log(`> Server running at ${socketPath}\n`);
-  console.log('Checking routes...');
-  const results = await checkRoutes(routes);
+  try {
+    console.log(`> Server running at http://${serverHost}:${serverPort}\n`);
+    console.log("Checking routes...");
+    const results = await checkRoutes(routes);
 
-  const passed = results.every((r) => r.ok);
-  console.log(`\n${passed ? 'PASSED' : 'FAILED'}: ${results.filter((r) => r.ok).length}/${results.length} routes OK`);
+    const passed = results.every((r) => r.ok);
+    console.log(
+      `\n${passed ? "PASSED" : "FAILED"}: ${results.filter((r) => r.ok).length}/${results.length} routes OK`,
+    );
 
-  serverProcess.kill();
-  process.exit(passed ? 0 : 1);
+    process.exit(passed ? 0 : 1);
+  } finally {
+    serverProcess.kill();
+  }
 })();
-
 
 /*
 import { LinkChecker, type CheckOptions } from '@claycurry/linkinator';

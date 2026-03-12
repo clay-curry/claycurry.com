@@ -322,7 +322,7 @@ rect[data-level="4"] {
 html.theme-switching *,
 html.theme-switching *::before,
 html.theme-switching *::after {
-  transition: none !important;
+  transition: none;
 }
 
 @layer base {
@@ -367,6 +367,43 @@ html.theme-switching *::after {
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Basketball cursor on desktop pointers, while preserving affordance cursors. */
+@media (hover: hover) and (pointer: fine) {
+  html,
+  body {
+    cursor:
+      url("/cursors/basketball-cursor-32.png") 16 16,
+      auto;
+  }
+
+  a[href],
+  area[href],
+  button,
+  summary,
+  label[for],
+  [role="button"],
+  [role="link"] {
+    cursor: pointer;
+  }
+
+  input,
+  textarea,
+  [contenteditable="true"] {
+    cursor: text;
+  }
+
+  [draggable="true"] {
+    cursor: grab;
+  }
+
+  button:disabled,
+  input:disabled,
+  textarea:disabled,
+  select:disabled {
+    cursor: not-allowed;
   }
 }
 

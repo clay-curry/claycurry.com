@@ -32,7 +32,7 @@
       "dependsOn": ["^build"]
     },
     "check-links": {
-      "dependsOn": ["build"]
+      "dependsOn": ["www#build"]
     }
   }
 }
