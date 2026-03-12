@@ -66,68 +66,87 @@ export async function GET(request: NextRequest) {
   assertLiveRuntimeConfig(config);
 
   const callbackUrl = new URL("/api/x/callback", request.url).toString();
-  const repository = new BookmarksSnapshotRepository();
-  const xClient = new XBookmarksClient();
-  const tokenStore = XTokenStore.fromRuntimeConfig(repository, config);
-  const identityVerifier = new XIdentityVerifier(xClient, config.ownerUsername);
-  const ownerResolver = new XBookmarksOwnerResolver(
-    xClient,
-    config.ownerUsername,
-    config.ownerUserId,
-  );
-
-  try {
-    const tokenData = await tokenStore.exchangeAuthorizationCode({
-      code,
-      codeVerifier,
-      redirectUri: callbackUrl,
-    });
-    const authenticatedOwner = await identityVerifier.verify(
-      tokenData.access_token,
-    );
-    const resolvedOwner = await ownerResolver.resolve(tokenData.access_token);
-
-    if (
-      authenticatedOwner.id &&
-      resolvedOwner.id &&
-      authenticatedOwner.id !== resolvedOwner.id
-    ) {
-      return NextResponse.json(
-        {
-          error: `Authenticated owner @${authenticatedOwner.username} does not match resolved owner @${resolvedOwner.username}`,
-        },
-        { status: 403 },
-      );
-    }
-
-    const tokenRecord = await tokenStore.storeVerifiedToken(
-      tokenData,
-      authenticatedOwner,
-    );
-    await repository.setStatus(
-      config.ownerUsername,
-      BookmarksSyncStatusRecordSchema.parse({
-        configuredOwnerUsername: config.ownerUsername,
-        configuredOwnerUserId: config.ownerUserId,
-        resolvedOwner,
-        authenticatedOwner,
-        tokenStatus: "valid",
-        tokenExpiresAt: new Date(tokenRecord.expiresAt).toISOString(),
-        lastRefreshedAt: tokenRecord.lastRefreshedAt,
-        lastSuccessfulSyncAt: null,
-        lastAttemptedSyncAt: new Date().toISOString(),
-        lastError: null,
-      }),
-    );
-  } catch (error) {
-    const normalized = toXError(error);
-    const code = errorCode(normalized);
-    const status =
-      code === "owner_mismatch" ? 403 : code === "reauth_required" ? 400 : 500;
-
-    return NextResponse.json({ error: normalized.message }, { status });
-  }
-
   const homeUrl = new URL("/", request.url).toString();
-  return NextResponse.redirect(homeUrl);
+
+  return Effect.runPromise(
+    Effect.tryPromise({
+      try: async () => {
+        const repository = new BookmarksSnapshotRepository();
+        const xClient = new XBookmarksClient();
+        const tokenStore = XTokenStore.fromRuntimeConfig(repository, config);
+        const identityVerifier = new XIdentityVerifier(
+          xClient,
+          config.ownerUsername,
+        );
+        const ownerResolver = new XBookmarksOwnerResolver(
+          xClient,
+          config.ownerUsername,
+          config.ownerUserId,
+        );
+
+        const tokenData = await tokenStore.exchangeAuthorizationCode({
+          code,
+          codeVerifier,
+          redirectUri: callbackUrl,
+        });
+        const authenticatedOwner = await identityVerifier.verify(
+          tokenData.access_token,
+        );
+        const resolvedOwner = await ownerResolver.resolve(
+          tokenData.access_token,
+        );
+
+        if (
+          authenticatedOwner.id &&
+          resolvedOwner.id &&
+          authenticatedOwner.id !== resolvedOwner.id
+        ) {
+          return NextResponse.json(
+            {
+              error: `Authenticated owner @${authenticatedOwner.username} does not match resolved owner @${resolvedOwner.username}`,
+            },
+            { status: 403 },
+          );
+        }
+
+        const tokenRecord = await tokenStore.storeVerifiedToken(
+          tokenData,
+          authenticatedOwner,
+        );
+        await repository.setStatus(
+          config.ownerUsername,
+          BookmarksSyncStatusRecordSchema.parse({
+            configuredOwnerUsername: config.ownerUsername,
+            configuredOwnerUserId: config.ownerUserId,
+            resolvedOwner,
+            authenticatedOwner,
+            tokenStatus: "valid",
+            tokenExpiresAt: new Date(tokenRecord.expiresAt).toISOString(),
+            lastRefreshedAt: tokenRecord.lastRefreshedAt,
+            lastSuccessfulSyncAt: null,
+            lastAttemptedSyncAt: new Date().toISOString(),
+            lastError: null,
+          }),
+        );
+
+        return NextResponse.redirect(homeUrl);
+      },
+      catch: (error) => error,
+    }).pipe(
+      Effect.catchAll((error) => {
+        const normalized = toXError(error);
+        const errCode = errorCode(normalized);
+        const status =
+          errCode === "owner_mismatch"
+            ? 403
+            : errCode === "reauth_required"
+              ? 400
+              : 500;
+
+        return Effect.succeed(
+          NextResponse.json({ error: normalized.message }, { status }),
+        );
+      }),
+    ),
+  );
 }

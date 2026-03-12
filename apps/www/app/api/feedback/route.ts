@@ -1,3 +1,4 @@
+import { Effect } from "effect";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { contactData } from "@/lib/portfolio-data";
@@ -12,54 +13,68 @@ function escapeHtml(str: string): string {
 }
 
 export async function POST(request: Request) {
-  try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const { page, sentiment, message } = await request.json();
+  return Effect.runPromise(
+    Effect.gen(function* () {
+      const body = yield* Effect.tryPromise({
+        try: () => request.json(),
+        catch: () => ({ _tag: "ParseError" as const }),
+      });
+      const { page, sentiment, message } = body;
 
-    if (!page || !sentiment) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 },
-      );
-    }
+      if (!page || !sentiment) {
+        return NextResponse.json(
+          { error: "Missing required fields" },
+          { status: 400 },
+        );
+      }
 
-    if (!["positive", "negative"].includes(sentiment)) {
-      return NextResponse.json(
-        { error: "Invalid sentiment value" },
-        { status: 400 },
-      );
-    }
+      if (!["positive", "negative"].includes(sentiment)) {
+        return NextResponse.json(
+          { error: "Invalid sentiment value" },
+          { status: 400 },
+        );
+      }
 
-    const sentimentEmoji = sentiment === "positive" ? "👍" : "👎";
-    const sentimentText = sentiment === "positive" ? "Positive" : "Negative";
+      const sentimentEmoji = sentiment === "positive" ? "👍" : "👎";
+      const sentimentText = sentiment === "positive" ? "Positive" : "Negative";
 
-    const { error } = await resend.emails.send({
-      from: "Feedback <feedback@claycurry.com>",
-      to: contactData.email,
-      subject: `${sentimentEmoji} Page Feedback: ${page}`,
-      text: `Page: ${page}\nSentiment: ${sentimentText}\n${message ? `\nMessage:\n${message}` : ""}`,
-      html: `
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      const { error } = yield* Effect.tryPromise({
+        try: () =>
+          resend.emails.send({
+            from: "Feedback <feedback@claycurry.com>",
+            to: contactData.email,
+            subject: `${sentimentEmoji} Page Feedback: ${page}`,
+            text: `Page: ${page}\nSentiment: ${sentimentText}\n${message ? `\nMessage:\n${message}` : ""}`,
+            html: `
         <h2>Page Feedback</h2>
         <p><strong>Page:</strong> ${escapeHtml(page)}</p>
         <p><strong>Sentiment:</strong> ${sentimentEmoji} ${sentimentText}</p>
         ${message ? `<p><strong>Message:</strong></p><p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>` : ""}
       `,
-    });
+          }),
+        catch: (cause) => ({ _tag: "ResendError" as const, cause }),
+      });
 
-    if (error) {
-      console.error("Resend error:", error);
-      return NextResponse.json(
-        { error: "Failed to send feedback" },
-        { status: 500 },
-      );
-    }
+      if (error) {
+        console.error("Resend error:", error);
+        return NextResponse.json(
+          { error: "Failed to send feedback" },
+          { status: 500 },
+        );
+      }
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Feedback error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
-    );
-  }
+      return NextResponse.json({ success: true });
+    }).pipe(
+      Effect.catchAll((err) => {
+        console.error("Feedback error:", err);
+        return Effect.succeed(
+          NextResponse.json(
+            { error: "Internal server error" },
+            { status: 500 },
+          ),
+        );
+      }),
+    ),
+  );
 }
