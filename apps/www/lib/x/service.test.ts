@@ -16,13 +16,13 @@ import { BookmarksSyncService } from "./service";
 
 const owner: BookmarkSourceOwner = {
   id: "owner-1",
-  username: "clay__curry",
+  username: "claycurry__",
   name: "Clay Curry",
 };
 
 const liveConfig: XLiveRuntimeConfig = {
   mode: "live" as const,
-  ownerUsername: "clay__curry",
+  ownerUsername: "claycurry__",
   ownerUserId: "owner-1",
   clientId: "client-id",
   clientSecret: "client-secret",
@@ -335,6 +335,6 @@ test("BookmarksSyncService promotes a verified legacy token into the owner-scope
   const result = await service.getBookmarks();
   assert.equal(result.httpStatus, 200);
   assert.equal(result.response.status, "fresh");
-  assert.equal(repository.tokenRecord?.owner.username, "clay__curry");
+  assert.equal(repository.tokenRecord?.owner.username, "claycurry__");
   assert.equal(repository.legacyTokenRecord, null);
 });

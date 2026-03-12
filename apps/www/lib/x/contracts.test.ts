@@ -25,7 +25,7 @@ test("NormalizedBookmarkSchema enforces ISO timestamps", () => {
       author: {
         id: "2",
         name: "Clay Curry",
-        username: "clay__curry",
+        username: "claycurry__",
       },
       metrics: {
         likes: 1,
@@ -44,7 +44,7 @@ test("BookmarksApiResponseSchema accepts degraded stale responses", () => {
     folders: [],
     owner: {
       id: "123",
-      username: "clay__curry",
+      username: "claycurry__",
       name: "Clay Curry",
     },
     status: "stale",

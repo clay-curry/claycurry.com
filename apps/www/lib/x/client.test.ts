@@ -38,10 +38,10 @@ class StubClient extends XBookmarksClient {
   }
 }
 
-test("XIdentityVerifier rejects tokens for any account other than clay__curry", async () => {
+test("XIdentityVerifier rejects tokens for any account other than claycurry__", async () => {
   const verifier = new XIdentityVerifier(
     new StubClient("somebody_else"),
-    "clay__curry",
+    "claycurry__",
   );
 
   await assert.rejects(
@@ -53,8 +53,8 @@ test("XIdentityVerifier rejects tokens for any account other than clay__curry", 
 
 test("XBookmarksOwnerResolver rejects configured user id mismatches", async () => {
   const resolver = new XBookmarksOwnerResolver(
-    new StubClient("clay__curry", "actual-owner-id"),
-    "clay__curry",
+    new StubClient("claycurry__", "actual-owner-id"),
+    "claycurry__",
     "expected-owner-id",
   );
 
