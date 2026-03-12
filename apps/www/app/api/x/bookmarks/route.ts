@@ -38,6 +38,10 @@ const handleGet = (req: NextRequest) =>
     const { searchParams } = new URL(req.url);
     const folderId = searchParams.get("folder") || undefined;
 
+    yield* Effect.logDebug("Starting live bookmarks sync").pipe(
+      Effect.annotateLogs("folderId", folderId ?? "all"),
+    );
+
     const service = yield* createBookmarksSyncServiceEffect();
     const result = yield* tracing.span(
       "x.getBookmarks",

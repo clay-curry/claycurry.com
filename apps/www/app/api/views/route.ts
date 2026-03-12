@@ -92,6 +92,9 @@ const handlePost = (req: NextRequest) =>
 
     // Check if this slug was already viewed
     if (viewedPages.includes(slug)) {
+      yield* Effect.logDebug("Duplicate view, skipping increment").pipe(
+        Effect.annotateLogs("slug", slug),
+      );
       const count = yield* tracing.span("getViewCount", getViewCount(slug));
       return NextResponse.json({ slug, count, duplicate: true });
     }
@@ -100,6 +103,10 @@ const handlePost = (req: NextRequest) =>
     const count = yield* tracing.span(
       "incrementViewCount",
       incrementViewCount(slug),
+    );
+    yield* Effect.logDebug("View count incremented").pipe(
+      Effect.annotateLogs("slug", slug),
+      Effect.annotateLogs("count", count),
     );
 
     // Update the cookie array (cap at MAX_VIEWED_PAGES, drop oldest)

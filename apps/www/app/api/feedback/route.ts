@@ -46,6 +46,11 @@ const handlePost = (req: NextRequest) =>
     const sentimentEmoji = sentiment === "positive" ? "\u{1F44D}" : "\u{1F44E}";
     const sentimentText = sentiment === "positive" ? "Positive" : "Negative";
 
+    yield* Effect.logDebug("Validation passed, sending feedback email").pipe(
+      Effect.annotateLogs("page", page),
+      Effect.annotateLogs("sentiment", sentiment),
+    );
+
     yield* tracing.span(
       "email.send",
       email
@@ -67,6 +72,8 @@ const handlePost = (req: NextRequest) =>
           ),
         ),
     );
+
+    yield* Effect.logDebug("Feedback email sent successfully");
 
     return NextResponse.json({ success: true });
   });

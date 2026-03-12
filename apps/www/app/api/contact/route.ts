@@ -38,6 +38,10 @@ const handlePost = (req: NextRequest) =>
       );
     }
 
+    yield* Effect.logDebug("Validation passed, sending email").pipe(
+      Effect.annotateLogs("from", senderEmail),
+    );
+
     yield* tracing.span(
       "email.send",
       email
@@ -61,6 +65,8 @@ const handlePost = (req: NextRequest) =>
           ),
         ),
     );
+
+    yield* Effect.logDebug("Email sent successfully");
 
     return NextResponse.json({ success: true });
   });

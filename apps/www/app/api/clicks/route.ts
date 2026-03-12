@@ -61,6 +61,10 @@ const handlePost = (req: NextRequest) =>
     const hashKey = `${redis.keyPrefix}clicks`;
     const counts: Record<string, number> = {};
 
+    yield* Effect.logDebug("Click tally computed").pipe(
+      Effect.annotateLogs("uniqueIds", tally.size),
+    );
+
     for (const [id, n] of tally) {
       const newCount = yield* tracing.span(
         `redis.hIncrBy:${id}`,
