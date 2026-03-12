@@ -7,7 +7,6 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 import { Effect, Layer } from "effect";
-import { NextRequest, NextResponse } from "next/server";
 import { RedisService, RedisTest } from "@/lib/services/Redis";
 import { makeRequestTracing, TracingService } from "@/lib/services/Tracing";
 

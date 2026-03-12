@@ -16,7 +16,7 @@
  * )
  * ```
  */
-import { Effect, Layer, Logger, LogLevel } from "effect";
+import { Layer, Logger, LogLevel } from "effect";
 
 /**
  * Production logging Layer. Replaces Effect's default logger with a JSON

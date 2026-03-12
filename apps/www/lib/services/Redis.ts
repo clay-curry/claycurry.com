@@ -24,7 +24,7 @@
  * })
  * ```
  */
-import { Context, Effect, Layer, Ref } from "effect";
+import { Context, Effect, Layer } from "effect";
 import { createClient } from "redis";
 
 /** Compute the environment-aware key prefix */
