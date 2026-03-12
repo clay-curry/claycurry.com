@@ -57,28 +57,32 @@ const handleGet = (req: NextRequest) =>
 
     return NextResponse.json(result.response, { status: result.httpStatus });
   }).pipe(
-    Effect.catchTag("UpstreamError", (error) => {
-      const config = getXRuntimeConfig();
-      return Effect.succeed(
-        NextResponse.json(
-          BookmarksApiResponseSchema.parse({
-            bookmarks: [],
-            folders: [],
-            owner: {
-              id: config.ownerUserId,
-              username: config.ownerUsername,
-              name: null,
-            },
-            status: "upstream_error",
-            isStale: false,
-            lastSyncedAt: null,
-            cachedAt: new Date().toISOString(),
-            error: error.message,
-          }),
-          { status: 500 },
-        ),
-      );
-    }),
+    Effect.catchTag("UpstreamError", (error) =>
+      Effect.try({
+        try: () => {
+          const config = getXRuntimeConfig();
+          return NextResponse.json(
+            BookmarksApiResponseSchema.parse({
+              bookmarks: [],
+              folders: [],
+              owner: {
+                id: config.ownerUserId,
+                username: config.ownerUsername,
+                name: null,
+              },
+              status: "upstream_error",
+              isStale: false,
+              lastSyncedAt: null,
+              cachedAt: new Date().toISOString(),
+              error: error.message,
+            }),
+            { status: 500 },
+          );
+        },
+        catch: () =>
+          NextResponse.json({ error: error.message }, { status: 500 }),
+      }).pipe(Effect.catchAll(Effect.succeed)),
+    ),
   );
 
 export async function GET(req: NextRequest) {

@@ -25,7 +25,6 @@
  * ```
  */
 import { Context, Effect, Layer } from "effect";
-import { createClient } from "redis";
 
 /** Compute the environment-aware key prefix */
 function keyPrefix(): string {
@@ -117,8 +116,12 @@ function makeInMemoryRedis(
 
 // ─── Live Layer: real Redis with automatic in-memory fallback ────────────────
 
+/**
+ * Wraps a connected redis client with per-operation fallback to in-memory.
+ * Uses unknown for the client type to avoid importing `redis` at the top level.
+ */
 function makeRedisLive(
-  client: ReturnType<typeof createClient>,
+  client: Record<string, (...args: unknown[]) => Promise<unknown>>,
   prefix: string,
   fallback: RedisServiceInterface,
 ): RedisServiceInterface {
@@ -127,7 +130,7 @@ function makeRedisLive(
 
     get: (key) =>
       Effect.tryPromise({
-        try: () => client.get(key),
+        try: () => client.get(key) as Promise<string | null>,
         catch: () => null,
       }).pipe(Effect.orElse(() => fallback.get(key))),
 
@@ -135,32 +138,36 @@ function makeRedisLive(
       Effect.tryPromise({
         try: () =>
           options?.ex
-            ? client.set(key, value, { EX: options.ex }).then(() => undefined)
-            : client.set(key, value).then(() => undefined),
+            ? (
+                client.set(key, value, { EX: options.ex }) as Promise<unknown>
+              ).then(() => undefined)
+            : (client.set(key, value) as Promise<unknown>).then(
+                () => undefined,
+              ),
         catch: () => undefined,
       }).pipe(Effect.orElse(() => fallback.set(key, value, options))),
 
     del: (key) =>
       Effect.tryPromise({
-        try: () => client.del(key).then(() => undefined),
+        try: () => (client.del(key) as Promise<unknown>).then(() => undefined),
         catch: () => undefined,
       }).pipe(Effect.orElse(() => fallback.del(key))),
 
     incr: (key) =>
       Effect.tryPromise({
-        try: () => client.incr(key),
+        try: () => client.incr(key) as Promise<number>,
         catch: () => "redis-error" as const,
       }).pipe(Effect.orElse(() => fallback.incr(key))),
 
     hGetAll: (key) =>
       Effect.tryPromise({
-        try: () => client.hGetAll(key),
+        try: () => client.hGetAll(key) as Promise<Record<string, string>>,
         catch: () => ({}) as Record<string, string>,
       }).pipe(Effect.orElse(() => fallback.hGetAll(key))),
 
     hIncrBy: (key, field, increment) =>
       Effect.tryPromise({
-        try: () => client.hIncrBy(key, field, increment),
+        try: () => client.hIncrBy(key, field, increment) as Promise<number>,
         catch: () => "redis-error" as const,
       }).pipe(Effect.orElse(() => fallback.hIncrBy(key, field, increment))),
   };
@@ -169,6 +176,9 @@ function makeRedisLive(
 /**
  * Production Layer. Attempts to connect to Redis. If `KV_REST_API_REDIS_URL`
  * is unset or connection fails, transparently falls back to an in-memory Map.
+ *
+ * The `redis` package is dynamically imported to avoid bundling Node.js TCP
+ * modules in serverless functions where Redis may not be configured.
  */
 export const RedisLive = Layer.effect(
   RedisService,
@@ -187,6 +197,7 @@ export const RedisLive = Layer.effect(
 
     return yield* Effect.tryPromise({
       try: async () => {
+        const { createClient } = await import("redis");
         const client = createClient({ url });
         client.on("error", () => {
           /* swallow reconnect noise */
