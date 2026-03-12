@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { BookmarksSnapshotRepository } from "./cache";
+import type { BookmarksRepository } from "./cache";
 import { XBookmarksClient } from "./client";
 import type { XLiveRuntimeConfig } from "./config";
 import type {
@@ -87,7 +87,7 @@ function jsonResponse(body: unknown, status = 200): Response {
   });
 }
 
-class MemoryRepository extends BookmarksSnapshotRepository {
+class MemoryRepository implements BookmarksRepository {
   tokenRecord: XTokenRecord | null = null;
   legacyTokenRecord: LegacyStoredTokens | null = null;
   snapshot: BookmarksSnapshotRecord | null = null;
@@ -97,7 +97,10 @@ class MemoryRepository extends BookmarksSnapshotRepository {
     return this.tokenRecord;
   }
 
-  async setTokenRecord(_ownerUsername: string, record: XTokenRecord) {
+  async setTokenRecord(
+    _ownerUsername: string,
+    record: XTokenRecord,
+  ): Promise<void> {
     this.tokenRecord = record;
   }
 
@@ -120,7 +123,10 @@ class MemoryRepository extends BookmarksSnapshotRepository {
     return this.snapshot;
   }
 
-  async setSnapshot(_ownerUsername: string, snapshot: BookmarksSnapshotRecord) {
+  async setSnapshot(
+    _ownerUsername: string,
+    snapshot: BookmarksSnapshotRecord,
+  ): Promise<void> {
     this.snapshot = snapshot;
   }
 
@@ -130,7 +136,10 @@ class MemoryRepository extends BookmarksSnapshotRepository {
     return this.statusRecord;
   }
 
-  async setStatus(_ownerUsername: string, status: BookmarksSyncStatusRecord) {
+  async setStatus(
+    _ownerUsername: string,
+    status: BookmarksSyncStatusRecord,
+  ): Promise<void> {
     this.statusRecord = status;
   }
 }
