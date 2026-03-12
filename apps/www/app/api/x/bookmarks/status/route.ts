@@ -1,31 +1,56 @@
+/**
+ * @module api/x/bookmarks/status
+ *
+ * API Route: Bookmark Sync Status
+ *
+ * Returns comprehensive sync status (token health, cache age, errors).
+ * Gated behind the X_OWNER_SECRET for admin-only access.
+ *
+ * Endpoint:
+ * - GET /api/x/bookmarks/status?secret=<ownerSecret>
+ *
+ * Effect services used: RedisService, TracingService
+ */
+import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
+import { AuthError, UpstreamError } from "@/lib/effect/errors";
+import { TracingService } from "@/lib/services/Tracing";
 import { getXOwnerSecret } from "@/lib/x/config";
-import { createBookmarksSyncService } from "@/lib/x/runtime";
+import { createBookmarksSyncServiceEffect } from "@/lib/x/runtime";
+import { runRouteHandler } from "../../../_shared/handler";
 
-export async function GET(request: NextRequest) {
-  const secret = new URL(request.url).searchParams.get("secret");
-  const ownerSecret = getXOwnerSecret();
+const handleGet = (req: NextRequest) =>
+  Effect.gen(function* () {
+    const tracing = yield* TracingService;
+    const secret = new URL(req.url).searchParams.get("secret");
+    const ownerSecret = getXOwnerSecret();
 
-  if (!ownerSecret) {
-    return NextResponse.json(
-      { error: "X_OWNER_SECRET not configured" },
-      { status: 500 },
+    if (!ownerSecret) {
+      return yield* Effect.fail(
+        new AuthError({ message: "X_OWNER_SECRET not configured" }),
+      );
+    }
+
+    if (!secret || secret !== ownerSecret) {
+      return yield* Effect.fail(new AuthError({ message: "Unauthorized" }));
+    }
+
+    const service = yield* createBookmarksSyncServiceEffect();
+    const response = yield* tracing.span(
+      "x.getStatus",
+      Effect.tryPromise({
+        try: () => service.getStatus(),
+        catch: (e) =>
+          new UpstreamError({
+            message: e instanceof Error ? e.message : "Status fetch failed",
+            cause: e,
+          }),
+      }),
     );
-  }
 
-  if (!secret || secret !== ownerSecret) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  try {
-    const service = createBookmarksSyncService();
-    const response = await service.getStatus();
     return NextResponse.json(response);
-  } catch (error) {
-    console.error("Bookmarks status API error:", error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Unknown error" },
-      { status: 500 },
-    );
-  }
+  });
+
+export async function GET(req: NextRequest) {
+  return runRouteHandler(req, handleGet(req));
 }

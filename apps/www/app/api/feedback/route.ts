@@ -1,56 +1,76 @@
-import { NextResponse } from "next/server";
-import { Resend } from "resend";
+/**
+ * @module api/feedback
+ *
+ * API Route: Page Feedback
+ *
+ * Sends page feedback (positive/negative sentiment with optional message)
+ * via the EmailService Effect layer.
+ *
+ * Endpoint:
+ * - POST /api/feedback { page, sentiment, message? }
+ *
+ * Effect services used: EmailService, TracingService
+ */
+import { Effect } from "effect";
+import { type NextRequest, NextResponse } from "next/server";
+import { EmailError, ValidationError } from "@/lib/effect/errors";
 import { contactData } from "@/lib/portfolio-data";
+import { EmailService } from "@/lib/services/Email";
+import { TracingService } from "@/lib/services/Tracing";
+import { runRouteHandler } from "../_shared/handler";
 
-export async function POST(request: Request) {
-  try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const { page, sentiment, message } = await request.json();
+const handlePost = (req: NextRequest) =>
+  Effect.gen(function* () {
+    const tracing = yield* TracingService;
+    const email = yield* EmailService;
+
+    const body = yield* Effect.tryPromise({
+      try: () => req.json(),
+      catch: () => new ValidationError({ message: "Invalid request body" }),
+    });
+
+    const { page, sentiment, message } = body;
 
     if (!page || !sentiment) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 },
+      return yield* Effect.fail(
+        new ValidationError({ message: "Missing required fields" }),
       );
     }
 
     if (!["positive", "negative"].includes(sentiment)) {
-      return NextResponse.json(
-        { error: "Invalid sentiment value" },
-        { status: 400 },
+      return yield* Effect.fail(
+        new ValidationError({ message: "Invalid sentiment value" }),
       );
     }
 
-    const sentimentEmoji = sentiment === "positive" ? "👍" : "👎";
+    const sentimentEmoji = sentiment === "positive" ? "\u{1F44D}" : "\u{1F44E}";
     const sentimentText = sentiment === "positive" ? "Positive" : "Negative";
 
-    const { error } = await resend.emails.send({
-      from: "Feedback <feedback@claycurry.com>",
-      to: contactData.email,
-      subject: `${sentimentEmoji} Page Feedback: ${page}`,
-      text: `Page: ${page}\nSentiment: ${sentimentText}\n${message ? `\nMessage:\n${message}` : ""}`,
-      html: `
-        <h2>Page Feedback</h2>
-        <p><strong>Page:</strong> ${page}</p>
-        <p><strong>Sentiment:</strong> ${sentimentEmoji} ${sentimentText}</p>
-        ${message ? `<p><strong>Message:</strong></p><p>${message.replace(/\n/g, "<br>")}</p>` : ""}
-      `,
-    });
-
-    if (error) {
-      console.error("Resend error:", error);
-      return NextResponse.json(
-        { error: "Failed to send feedback" },
-        { status: 500 },
-      );
-    }
+    yield* tracing.span(
+      "email.send",
+      email
+        .send({
+          from: "Feedback <feedback@claycurry.com>",
+          to: contactData.email,
+          subject: `${sentimentEmoji} Page Feedback: ${page}`,
+          text: `Page: ${page}\nSentiment: ${sentimentText}\n${message ? `\nMessage:\n${message}` : ""}`,
+          html: `
+          <h2>Page Feedback</h2>
+          <p><strong>Page:</strong> ${page}</p>
+          <p><strong>Sentiment:</strong> ${sentimentEmoji} ${sentimentText}</p>
+          ${message ? `<p><strong>Message:</strong></p><p>${String(message).replace(/\n/g, "<br>")}</p>` : ""}
+        `,
+        })
+        .pipe(
+          Effect.mapError(
+            (e) => new EmailError({ message: e.message, cause: e }),
+          ),
+        ),
+    );
 
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Feedback error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
-    );
-  }
+  });
+
+export async function POST(req: NextRequest) {
+  return runRouteHandler(req, handlePost(req));
 }

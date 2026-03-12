@@ -29,15 +29,15 @@ import { Effect, Layer } from "effect";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import type { AppError } from "@/lib/effect/errors";
+import type { AppRequirements } from "@/lib/effect/runtime";
 import { appRuntime } from "@/lib/effect/runtime";
-import type { RedisService } from "@/lib/services/Redis";
 import { makeRequestTracing, TracingService } from "@/lib/services/Tracing";
 import { errorToStatus, jsonError } from "./response";
 
 type RouteEffect = Effect.Effect<
   NextResponse,
   AppError,
-  RedisService | TracingService
+  AppRequirements | TracingService
 >;
 
 /**

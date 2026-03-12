@@ -1,48 +1,70 @@
-import { NextResponse } from "next/server";
-import { Resend } from "resend";
+/**
+ * @module api/contact
+ *
+ * API Route: Contact Form
+ *
+ * Sends contact form submissions via the EmailService Effect layer.
+ * Validates required fields (name, email, message) before sending.
+ *
+ * Endpoint:
+ * - POST /api/contact { name, email, message }
+ *
+ * Effect services used: EmailService, TracingService
+ */
+import { Effect } from "effect";
+import { type NextRequest, NextResponse } from "next/server";
+import { EmailError, ValidationError } from "@/lib/effect/errors";
 import { contactData } from "@/lib/portfolio-data";
+import { EmailService } from "@/lib/services/Email";
+import { TracingService } from "@/lib/services/Tracing";
+import { runRouteHandler } from "../_shared/handler";
 
-export async function POST(request: Request) {
-  try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const { name, email, message } = await request.json();
+const handlePost = (req: NextRequest) =>
+  Effect.gen(function* () {
+    const tracing = yield* TracingService;
+    const email = yield* EmailService;
 
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 },
-      );
-    }
-
-    const { error } = await resend.emails.send({
-      from: "Contact <contact@claycurry.com>",
-      to: contactData.email,
-      replyTo: email,
-      subject: `New message from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, "<br>")}</p>
-      `,
+    const body = yield* Effect.tryPromise({
+      try: () => req.json(),
+      catch: () => new ValidationError({ message: "Invalid request body" }),
     });
 
-    if (error) {
-      console.error("Resend error:", error);
-      return NextResponse.json(
-        { error: "Failed to send email" },
-        { status: 500 },
+    const { name, message } = body;
+    const senderEmail = body.email;
+
+    if (!name || !senderEmail || !message) {
+      return yield* Effect.fail(
+        new ValidationError({ message: "Missing required fields" }),
       );
     }
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Contact form error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
+    yield* tracing.span(
+      "email.send",
+      email
+        .send({
+          from: "Contact <contact@claycurry.com>",
+          to: contactData.email,
+          replyTo: senderEmail,
+          subject: `New message from ${name}`,
+          text: `Name: ${name}\nEmail: ${senderEmail}\n\nMessage:\n${message}`,
+          html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${senderEmail}</p>
+          <p><strong>Message:</strong></p>
+          <p>${String(message).replace(/\n/g, "<br>")}</p>
+        `,
+        })
+        .pipe(
+          Effect.mapError(
+            (e) => new EmailError({ message: e.message, cause: e }),
+          ),
+        ),
     );
-  }
+
+    return NextResponse.json({ success: true });
+  });
+
+export async function POST(req: NextRequest) {
+  return runRouteHandler(req, handlePost(req));
 }

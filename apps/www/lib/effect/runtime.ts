@@ -10,24 +10,27 @@
  * services (like TracingService) to be provided per-request in the handler.
  *
  * Layer composition:
- *   AppLive = RedisLive + LoggerLive
+ *   AppLive = RedisLive + EmailLive + LoggerLive
  *
  * TracingService is intentionally NOT in the global runtime — it is
  * request-scoped and provided per-request in `runRouteHandler`.
  *
  * @see handler.ts for how this runtime is used in route handlers
  */
+import type { Layer as L } from "effect";
 import { Layer, ManagedRuntime } from "effect";
+import { EmailLive } from "@/lib/services/Email";
 import { LoggerLive } from "@/lib/services/Logger";
 import { RedisLive } from "@/lib/services/Redis";
 
 /**
  * The production Layer stack. All long-lived services (Redis connections,
- * logger configuration) are composed here.
+ * email client, logger configuration) are composed here.
  */
-export const AppLive = Layer.mergeAll(RedisLive, LoggerLive);
+export const AppLive = Layer.mergeAll(RedisLive, EmailLive, LoggerLive);
 
-export type AppLayer = typeof AppLive;
+/** The set of services provided by the production runtime */
+export type AppRequirements = L.Layer.Success<typeof AppLive>;
 
 /**
  * The production ManagedRuntime. Created lazily on first import.
