@@ -30,7 +30,7 @@ function withEnv<T>(
   }
 }
 
-test("getXRuntimeConfig defaults the canonical owner username to clay__curry", () => {
+test("getXRuntimeConfig defaults the canonical owner username to claycurry__", () => {
   const config = withEnv(
     {
       X_OWNER_USERNAME: undefined,
@@ -42,14 +42,14 @@ test("getXRuntimeConfig defaults the canonical owner username to clay__curry", (
     () => getXRuntimeConfig(),
   );
 
-  assert.equal(config.ownerUsername, "clay__curry");
+  assert.equal(config.ownerUsername, "claycurry__");
   assert.equal(config.mode, "live");
 });
 
 test("getXRuntimeConfig enters live mode only when both OAuth credentials are set", () => {
   const config = withEnv(
     {
-      X_OWNER_USERNAME: "clay__curry",
+      X_OWNER_USERNAME: "claycurry__",
       X_CLIENT_ID: "client-id",
       X_CLIENT_SECRET: "client-secret",
       X_OWNER_USER_ID: "owner-1",
@@ -59,6 +59,6 @@ test("getXRuntimeConfig enters live mode only when both OAuth credentials are se
   );
 
   assert.equal(config.mode, "live");
-  assert.equal(config.ownerUsername, "clay__curry");
+  assert.equal(config.ownerUsername, "claycurry__");
   assert.equal(config.ownerUserId, "owner-1");
 });

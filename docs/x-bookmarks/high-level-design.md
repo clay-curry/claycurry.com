@@ -3,7 +3,7 @@
 ## Overview
 
 The X bookmarks feature is refactored into a layered sync system that always
-targets the `clay__curry` account and validates every external contract before
+targets the `claycurry__` account and validates every external contract before
 state is persisted or returned to the UI.
 
 The system has three layers:
@@ -25,7 +25,7 @@ The system has three layers:
 
 ## Goals
 
-- Only pull bookmarks from `@clay__curry`.
+- Only pull bookmarks from `@claycurry__`.
 - Prevent invalid or mismatched token state from blanking the page.
 - Validate X payloads, persisted records, and route responses with contracts.
 - Preserve a stale snapshot when live sync fails.
@@ -38,8 +38,8 @@ The system has three layers:
 2. If an owner-scoped snapshot is still fresh, it is returned immediately.
 3. If the snapshot is stale or missing:
    - `XTokenStore` loads and refreshes tokens as needed.
-   - `XIdentityVerifier` confirms the token belongs to `@clay__curry`.
-   - `XBookmarksOwnerResolver` resolves `@clay__curry` and validates the
+   - `XIdentityVerifier` confirms the token belongs to `@claycurry__`.
+   - `XBookmarksOwnerResolver` resolves `@claycurry__` and validates the
      optional `X_OWNER_USER_ID`.
    - `XBookmarksClient` fetches bookmarks and folders.
    - `BookmarksSnapshotRepository` stores the new snapshot and sync status.

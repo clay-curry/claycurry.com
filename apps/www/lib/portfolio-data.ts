@@ -15,7 +15,7 @@ export const profileData = {
   githubUsername: "clay-curry",
   social: {
     github: "https://github.com/clay-curry",
-    x: "https://x.com/clay__curry",
+    x: "https://x.com/claycurry__",
     linkedin: "https://www.linkedin.com/in/clay-curry/",
   },
 } as const;

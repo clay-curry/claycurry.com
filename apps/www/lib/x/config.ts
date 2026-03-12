@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const XEnvironmentSchema = z.object({
-  X_OWNER_USERNAME: z.string().trim().min(1).default("clay__curry"),
+  X_OWNER_USERNAME: z.string().trim().min(1).default("claycurry__"),
   X_OWNER_USER_ID: z.string().trim().min(1).optional(),
   X_CLIENT_ID: z.string().trim().min(1).optional(),
   X_CLIENT_SECRET: z.string().trim().min(1).optional(),

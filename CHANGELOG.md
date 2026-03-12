@@ -12,7 +12,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 - Refactored X bookmarks into a class-based sync system with Zod contract validation
-- Made `X_OWNER_USERNAME` the canonical bookmark owner configuration, targeting `clay__curry`
+- Made `X_OWNER_USERNAME` the canonical bookmark owner configuration, targeting `claycurry__`
 - Reworked bookmark caching to keep owner-scoped snapshots and serve stale data when live sync fails
 - Hardened OAuth callback/token handling to verify the authenticated X account before persisting tokens
 
