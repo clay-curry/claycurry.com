@@ -14,15 +14,7 @@ import {
   XOAuthTokenResponseSchema,
   XTokenRecordSchema,
 } from "./contracts";
-import {
-  OwnerMismatch,
-  ReauthRequired,
-  SchemaInvalid,
-  type XError,
-  xError,
-} from "./errors";
-
-export const oauthStateStore = new Map<string, string>();
+import { OwnerMismatch, ReauthRequired, SchemaInvalid, xError } from "./errors";
 
 type VerifyOwner = (accessToken: string) => Promise<BookmarkSourceOwner>;
 

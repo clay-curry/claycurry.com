@@ -1,8 +1,9 @@
 import crypto from "node:crypto";
+import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
-import { getRedisClient, keyPrefix } from "@/lib/redis";
+import { appRuntime } from "@/lib/effect/runtime";
+import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
 import { getXRuntimeConfig } from "@/lib/x/config";
-import { oauthStateStore } from "@/lib/x/tokens";
 
 function base64url(buffer: Buffer): string {
   return buffer.toString("base64url");
@@ -38,16 +39,20 @@ export async function GET(request: NextRequest) {
   );
   const state = base64url(crypto.randomBytes(16));
 
-  // Store code_verifier keyed by state (Redis or in-memory fallback)
-  const client = await getRedisClient();
-  if (client) {
-    await client.set(`${keyPrefix()}x:oauth:${state}`, codeVerifier, {
-      EX: 300,
-    });
-  } else {
-    oauthStateStore.set(state, codeVerifier);
-    setTimeout(() => oauthStateStore.delete(state), 300_000);
-  }
+  // Store code_verifier keyed by state via Effect Redis service
+  // (InMemoryRedisLive handles the no-Redis fallback with TTL support)
+  const stateKey = `${keyPrefix()}x:oauth:${state}`;
+  await appRuntime.runPromise(
+    Effect.gen(function* () {
+      const redis = yield* RedisClient;
+      yield* redis.set(stateKey, codeVerifier, { EX: 300 });
+    }).pipe(
+      Effect.catchTag("RedisError", (err) => {
+        console.error("Redis OAuth state store error:", err.message);
+        return Effect.void;
+      }),
+    ),
+  );
 
   const callbackUrl = new URL("/api/x/callback", request.url).toString();
   const authUrl = new URL("https://x.com/i/oauth2/authorize");

@@ -1,5 +1,7 @@
+import { Effect } from "effect";
 import type { ZodType } from "zod";
-import { getRedisClient, keyPrefix } from "@/lib/redis";
+import { appRuntime } from "@/lib/effect/runtime";
+import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
 import {
   type BookmarkSourceOwner,
   type BookmarksSnapshotRecord,
@@ -12,7 +14,6 @@ import {
   XTokenRecordSchema,
 } from "./contracts";
 
-const inMemoryStore = new Map<string, { value: string; expiresAt?: number }>();
 const KEYSPACE = "x:v2";
 const LEGACY_KEYSPACE = "x";
 
@@ -33,22 +34,17 @@ function snapshotSuffix(folderId?: string): string {
 }
 
 async function getRaw(key: string): Promise<string | null> {
-  const client = await getRedisClient();
-  if (client) {
-    return await client.get(key);
-  }
-
-  const entry = inMemoryStore.get(key);
-  if (!entry) {
-    return null;
-  }
-
-  if (entry.expiresAt && entry.expiresAt <= Date.now()) {
-    inMemoryStore.delete(key);
-    return null;
-  }
-
-  return entry.value;
+  return appRuntime.runPromise(
+    Effect.gen(function* () {
+      const redis = yield* RedisClient;
+      return yield* redis.get(key);
+    }).pipe(
+      Effect.catchTag("RedisError", (err) => {
+        console.error(`Redis get error for ${key}:`, err.message);
+        return Effect.succeed(null);
+      }),
+    ),
+  );
 }
 
 async function setRaw(
@@ -56,31 +52,31 @@ async function setRaw(
   value: string,
   ttlSeconds?: number,
 ): Promise<void> {
-  const client = await getRedisClient();
-  if (client) {
-    if (ttlSeconds) {
-      await client.set(key, value, { EX: ttlSeconds });
-      return;
-    }
-
-    await client.set(key, value);
-    return;
-  }
-
-  inMemoryStore.set(key, {
-    value,
-    expiresAt: ttlSeconds ? Date.now() + ttlSeconds * 1000 : undefined,
-  });
+  await appRuntime.runPromise(
+    Effect.gen(function* () {
+      const redis = yield* RedisClient;
+      yield* redis.set(key, value, ttlSeconds ? { EX: ttlSeconds } : undefined);
+    }).pipe(
+      Effect.catchTag("RedisError", (err) => {
+        console.error(`Redis set error for ${key}:`, err.message);
+        return Effect.void;
+      }),
+    ),
+  );
 }
 
 async function deleteRaw(key: string): Promise<void> {
-  const client = await getRedisClient();
-  if (client) {
-    await client.del(key);
-    return;
-  }
-
-  inMemoryStore.delete(key);
+  await appRuntime.runPromise(
+    Effect.gen(function* () {
+      const redis = yield* RedisClient;
+      yield* redis.del(key);
+    }).pipe(
+      Effect.catchTag("RedisError", (err) => {
+        console.error(`Redis del error for ${key}:`, err.message);
+        return Effect.void;
+      }),
+    ),
+  );
 }
 
 async function getValidated<T>(

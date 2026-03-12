@@ -1,4 +1,6 @@
-import { getRedisClient, keyPrefix } from "@/lib/redis";
+import { Effect } from "effect";
+import { appRuntime } from "@/lib/effect/runtime";
+import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
 
 export interface OEmbedResponse {
   url: string;
@@ -16,7 +18,6 @@ export interface OEmbedResponse {
 
 const OEMBED_CACHE_TTL = 24 * 60 * 60; // 24 hours in seconds
 const OEMBED_FETCH_CONCURRENCY = 8;
-const inMemoryCache = new Map<string, { data: string; expiresAt: number }>();
 
 function cacheKey(tweetId: string): string {
   return `${keyPrefix()}x:oembed:${tweetId}`;
@@ -26,18 +27,18 @@ async function getCachedOEmbed(
   tweetId: string,
 ): Promise<OEmbedResponse | null> {
   const key = cacheKey(tweetId);
-  const client = await getRedisClient();
-  if (client) {
-    const raw = await client.get(key);
-    return raw ? (JSON.parse(raw) as OEmbedResponse) : null;
-  }
-
-  const entry = inMemoryCache.get(key);
-  if (entry && entry.expiresAt > Date.now()) {
-    return JSON.parse(entry.data) as OEmbedResponse;
-  }
-  inMemoryCache.delete(key);
-  return null;
+  return appRuntime.runPromise(
+    Effect.gen(function* () {
+      const redis = yield* RedisClient;
+      const raw = yield* redis.get(key);
+      return raw ? (JSON.parse(raw) as OEmbedResponse) : null;
+    }).pipe(
+      Effect.catchTag("RedisError", (err) => {
+        console.error("Redis oEmbed get error:", err.message);
+        return Effect.succeed(null);
+      }),
+    ),
+  );
 }
 
 async function setCachedOEmbed(
@@ -46,16 +47,17 @@ async function setCachedOEmbed(
 ): Promise<void> {
   const key = cacheKey(tweetId);
   const json = JSON.stringify(data);
-  const client = await getRedisClient();
-  if (client) {
-    await client.set(key, json, { EX: OEMBED_CACHE_TTL });
-    return;
-  }
-
-  inMemoryCache.set(key, {
-    data: json,
-    expiresAt: Date.now() + OEMBED_CACHE_TTL * 1000,
-  });
+  await appRuntime.runPromise(
+    Effect.gen(function* () {
+      const redis = yield* RedisClient;
+      yield* redis.set(key, json, { EX: OEMBED_CACHE_TTL });
+    }).pipe(
+      Effect.catchTag("RedisError", (err) => {
+        console.error("Redis oEmbed set error:", err.message);
+        return Effect.void;
+      }),
+    ),
+  );
 }
 
 export async function fetchOEmbed(

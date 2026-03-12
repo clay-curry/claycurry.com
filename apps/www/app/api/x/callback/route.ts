@@ -1,5 +1,7 @@
+import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
-import { getRedisClient, keyPrefix } from "@/lib/redis";
+import { appRuntime } from "@/lib/effect/runtime";
+import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
 import { BookmarksSnapshotRepository } from "@/lib/x/cache";
 import {
   XBookmarksClient,
@@ -9,7 +11,7 @@ import {
 import { assertLiveRuntimeConfig, getXRuntimeConfig } from "@/lib/x/config";
 import { BookmarksSyncStatusRecordSchema } from "@/lib/x/contracts";
 import { errorCode, toXError } from "@/lib/x/errors";
-import { oauthStateStore, XTokenStore } from "@/lib/x/tokens";
+import { XTokenStore } from "@/lib/x/tokens";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -31,17 +33,21 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Retrieve code_verifier from Redis or in-memory fallback
-  let codeVerifier: string | null = null;
-  const redisClient = await getRedisClient();
-  if (redisClient) {
-    const stateKey = `${keyPrefix()}x:oauth:${state}`;
-    codeVerifier = await redisClient.get(stateKey);
-    await redisClient.del(stateKey);
-  } else {
-    codeVerifier = oauthStateStore.get(state) ?? null;
-    oauthStateStore.delete(state);
-  }
+  // Retrieve code_verifier from Effect Redis service (get + delete)
+  const stateKey = `${keyPrefix()}x:oauth:${state}`;
+  const codeVerifier = await appRuntime.runPromise(
+    Effect.gen(function* () {
+      const redis = yield* RedisClient;
+      const value = yield* redis.get(stateKey);
+      yield* redis.del(stateKey);
+      return value;
+    }).pipe(
+      Effect.catchTag("RedisError", (err) => {
+        console.error("Redis OAuth state retrieval error:", err.message);
+        return Effect.succeed(null);
+      }),
+    ),
+  );
 
   if (!codeVerifier) {
     return NextResponse.json(
