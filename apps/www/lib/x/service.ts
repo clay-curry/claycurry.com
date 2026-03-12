@@ -13,7 +13,6 @@ import {
   type BookmarksApiStatus,
   type BookmarksSnapshotRecord,
   BookmarksSnapshotRecordSchema,
-  type BookmarksStatusApiResponse,
   BookmarksStatusApiResponseSchema,
   type BookmarksSyncStatusRecord,
   BookmarksSyncStatusRecordSchema,

@@ -246,7 +246,7 @@ export class XBookmarksClient {
   }
 
   private fetchBookmarksPages(
-    userId: string,
+    _userId: string,
     accessToken: string,
     buildUrl: (paginationToken?: string) => string,
     context: string,
