@@ -15,7 +15,7 @@
 claycurry.com
 </h1>
 
-Clay Curry's personal portfolio and blog, built as a pnpm + Turborepo monorepo with a Next.js app, MDX content, AI chat, usage analytics, and optional social/email integrations.
+My dent on the world wide web. A portfolio and blog, built as a pnpm + Turborepo monorepo combining a Next.js app, MDX compilation pipeline, visitor analytics, ad hoc tools, visitor analytics, and integrations for LLM agents and communication channels.
 
 ## Overview
 
