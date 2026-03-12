@@ -1,3 +1,8 @@
+/**
+ * @deprecated Use `RedisService` from `@/lib/services/Redis` instead.
+ * This module is retained only for unmigrated code (X integration, etc.)
+ * and will be removed once all consumers are migrated to the Effect layer.
+ */
 import { createClient } from "redis";
 
 const inMemoryStore = new Map<string, number>();
