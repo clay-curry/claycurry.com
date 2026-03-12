@@ -1,3 +1,4 @@
+import { Effect } from "effect";
 import { BookmarksSnapshotRepository } from "./cache";
 import { XBookmarksClient } from "./client";
 import { getXRuntimeConfig } from "./config";
@@ -13,14 +14,14 @@ import { BookmarksSyncService } from "./service";
 
 /**
  * Minimal interface matching the subset of BookmarksSyncService used by route handlers.
- * Allows the mock implementation to satisfy the same contract without subclassing.
+ * Methods return Effect programs for composable error handling.
  */
 export interface BookmarksSyncServiceLike {
-  getBookmarks(folderId?: string): Promise<{
+  getBookmarks(folderId?: string): Effect.Effect<{
     response: BookmarksApiResponse;
     httpStatus: number;
   }>;
-  getStatus(): Promise<BookmarksStatusApiResponse>;
+  getStatus(): Effect.Effect<BookmarksStatusApiResponse>;
 }
 
 function isPreproduction(): boolean {
@@ -34,14 +35,14 @@ function hasLiveCredentials(): boolean {
 
 function createMockSyncService(): BookmarksSyncServiceLike {
   return {
-    async getBookmarks(folderId?: string) {
-      return {
+    getBookmarks(folderId?: string) {
+      return Effect.succeed({
         response: getMockBookmarksResponse(folderId),
         httpStatus: 200,
-      };
+      });
     },
-    async getStatus() {
-      return getMockBookmarksStatusResponse();
+    getStatus() {
+      return Effect.succeed(getMockBookmarksStatusResponse());
     },
   };
 }

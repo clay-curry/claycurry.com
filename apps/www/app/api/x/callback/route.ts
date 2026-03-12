@@ -69,51 +69,51 @@ export async function GET(request: NextRequest) {
   const homeUrl = new URL("/", request.url).toString();
 
   return Effect.runPromise(
-    Effect.tryPromise({
-      try: async () => {
-        const repository = new BookmarksSnapshotRepository();
-        const xClient = new XBookmarksClient();
-        const tokenStore = XTokenStore.fromRuntimeConfig(repository, config);
-        const identityVerifier = new XIdentityVerifier(
-          xClient,
-          config.ownerUsername,
-        );
-        const ownerResolver = new XBookmarksOwnerResolver(
-          xClient,
-          config.ownerUsername,
-          config.ownerUserId,
-        );
+    Effect.gen(function* () {
+      const repository = new BookmarksSnapshotRepository();
+      const xClient = new XBookmarksClient();
+      const tokenStore = XTokenStore.fromRuntimeConfig(repository, config);
+      const identityVerifier = new XIdentityVerifier(
+        xClient,
+        config.ownerUsername,
+      );
+      const ownerResolver = new XBookmarksOwnerResolver(
+        xClient,
+        config.ownerUsername,
+        config.ownerUserId,
+      );
 
-        const tokenData = await tokenStore.exchangeAuthorizationCode({
-          code,
-          codeVerifier,
-          redirectUri: callbackUrl,
-        });
-        const authenticatedOwner = await identityVerifier.verify(
-          tokenData.access_token,
-        );
-        const resolvedOwner = await ownerResolver.resolve(
-          tokenData.access_token,
-        );
+      const tokenData = yield* tokenStore.exchangeAuthorizationCode({
+        code,
+        codeVerifier,
+        redirectUri: callbackUrl,
+      });
+      const authenticatedOwner = yield* identityVerifier.verify(
+        tokenData.access_token,
+      );
+      const resolvedOwner = yield* ownerResolver.resolve(
+        tokenData.access_token,
+      );
 
-        if (
-          authenticatedOwner.id &&
-          resolvedOwner.id &&
-          authenticatedOwner.id !== resolvedOwner.id
-        ) {
-          return NextResponse.json(
-            {
-              error: `Authenticated owner @${authenticatedOwner.username} does not match resolved owner @${resolvedOwner.username}`,
-            },
-            { status: 403 },
-          );
-        }
-
-        const tokenRecord = await tokenStore.storeVerifiedToken(
-          tokenData,
-          authenticatedOwner,
+      if (
+        authenticatedOwner.id &&
+        resolvedOwner.id &&
+        authenticatedOwner.id !== resolvedOwner.id
+      ) {
+        return NextResponse.json(
+          {
+            error: `Authenticated owner @${authenticatedOwner.username} does not match resolved owner @${resolvedOwner.username}`,
+          },
+          { status: 403 },
         );
-        await repository.setStatus(
+      }
+
+      const tokenRecord = yield* tokenStore.storeVerifiedToken(
+        tokenData,
+        authenticatedOwner,
+      );
+      yield* Effect.promise(() =>
+        repository.setStatus(
           config.ownerUsername,
           BookmarksSyncStatusRecordSchema.parse({
             configuredOwnerUsername: config.ownerUsername,
@@ -127,11 +127,10 @@ export async function GET(request: NextRequest) {
             lastAttemptedSyncAt: new Date().toISOString(),
             lastError: null,
           }),
-        );
+        ),
+      );
 
-        return NextResponse.redirect(homeUrl);
-      },
-      catch: (error) => error,
+      return NextResponse.redirect(homeUrl);
     }).pipe(
       Effect.catchAll((error) => {
         const normalized = toXError(error);

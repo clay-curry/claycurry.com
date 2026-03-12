@@ -1,3 +1,4 @@
+import { Effect } from "effect";
 import { expect, test } from "vitest";
 import { BookmarksSyncService } from "./service";
 import {
@@ -26,7 +27,7 @@ test("BookmarksSyncService returns a fresh cached snapshot without live sync", a
     },
   });
 
-  const result = await service.getBookmarks();
+  const result = await Effect.runPromise(service.getBookmarks());
   expect(result.httpStatus).toBe(200);
   expect(result.response.status).toBe("fresh");
   expect(result.response.bookmarks[0]?.id).toBe("cached");
@@ -55,7 +56,7 @@ test("BookmarksSyncService serves a stale snapshot when token refresh fails", as
       ),
   });
 
-  const result = await service.getBookmarks();
+  const result = await Effect.runPromise(service.getBookmarks());
   expect(result.httpStatus).toBe(200);
   expect(result.response.status).toBe("stale");
   expect(result.response.isStale).toBe(true);
@@ -82,7 +83,7 @@ test("BookmarksSyncService returns a typed reauth_required error when no snapsho
       ),
   });
 
-  const result = await service.getBookmarks();
+  const result = await Effect.runPromise(service.getBookmarks());
   expect(result.httpStatus).toBe(503);
   expect(result.response.status).toBe("reauth_required");
   expect(result.response.bookmarks).toHaveLength(0);
@@ -107,7 +108,7 @@ test("BookmarksSyncService refreshes an expired token and returns a fresh live s
       }),
   });
 
-  const result = await service.getBookmarks();
+  const result = await Effect.runPromise(service.getBookmarks());
   expect(result.httpStatus).toBe(200);
   expect(result.response.status).toBe("fresh");
   expect(result.response.bookmarks[0]?.id).toBe("fresh-live");
@@ -134,7 +135,7 @@ test("BookmarksSyncService returns owner_mismatch when the token belongs to anot
     },
   });
 
-  const result = await service.getBookmarks();
+  const result = await Effect.runPromise(service.getBookmarks());
   expect(result.httpStatus).toBe(409);
   expect(result.response.status).toBe("owner_mismatch");
   expect(result.response.bookmarks).toHaveLength(0);
@@ -160,7 +161,7 @@ test("BookmarksSyncService promotes a verified legacy token into the owner-scope
     },
   });
 
-  const result = await service.getBookmarks();
+  const result = await Effect.runPromise(service.getBookmarks());
   expect(result.httpStatus).toBe(200);
   expect(result.response.status).toBe("fresh");
   expect(repository.tokenRecord?.owner.username).toBe("claycurry__");

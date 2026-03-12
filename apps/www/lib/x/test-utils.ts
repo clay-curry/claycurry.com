@@ -1,3 +1,4 @@
+import { Effect } from "effect";
 import { BookmarksSnapshotRepository } from "./cache";
 import { XBookmarksClient } from "./client";
 import type {
@@ -139,39 +140,28 @@ export class StubBookmarksClient extends XBookmarksClient {
     super(async () => new Response(null, { status: 200 }));
   }
 
-  async getAuthenticatedUser(
-    _accessToken: string,
-  ): Promise<BookmarkSourceOwner> {
-    return this.authenticatedOwner;
+  getAuthenticatedUser(_accessToken: string) {
+    return Effect.succeed(this.authenticatedOwner);
   }
 
-  async getUserByUsername(
-    _username: string,
-    _accessToken: string,
-  ): Promise<BookmarkSourceOwner> {
-    return this.resolvedOwner;
+  getUserByUsername(_username: string, _accessToken: string) {
+    return Effect.succeed(this.resolvedOwner);
   }
 
-  async fetchAllBookmarks(
-    _userId: string,
-    _accessToken: string,
-  ): Promise<NormalizedBookmark[]> {
-    return this.bookmarks;
+  fetchAllBookmarks(_userId: string, _accessToken: string) {
+    return Effect.succeed(this.bookmarks);
   }
 
-  async fetchBookmarksByFolder(
+  fetchBookmarksByFolder(
     _userId: string,
     _folderId: string,
     _accessToken: string,
-  ): Promise<NormalizedBookmark[]> {
-    return this.bookmarks;
+  ) {
+    return Effect.succeed(this.bookmarks);
   }
 
-  async fetchBookmarkFolders(
-    _userId: string,
-    _accessToken: string,
-  ): Promise<XBookmarkFolder[]> {
-    return this.folders;
+  fetchBookmarkFolders(_userId: string, _accessToken: string) {
+    return Effect.succeed(this.folders);
   }
 }
 
@@ -183,25 +173,20 @@ export class StubIdentityClient extends XBookmarksClient {
     super(async () => new Response(null, { status: 200 }));
   }
 
-  async getAuthenticatedUser(
-    _accessToken: string,
-  ): Promise<BookmarkSourceOwner> {
-    return {
+  getAuthenticatedUser(_accessToken: string) {
+    return Effect.succeed({
       id: "auth-1",
       username: this.authenticatedUsername,
       name: "Authenticated User",
-    };
+    });
   }
 
-  async getUserByUsername(
-    username: string,
-    _accessToken: string,
-  ): Promise<BookmarkSourceOwner> {
-    return {
+  getUserByUsername(username: string, _accessToken: string) {
+    return Effect.succeed({
       id: this.resolvedOwnerId,
       username,
       name: "Resolved User",
-    };
+    });
   }
 }
 

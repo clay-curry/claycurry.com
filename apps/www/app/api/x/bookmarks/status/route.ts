@@ -19,20 +19,17 @@ export async function GET(request: NextRequest) {
   }
 
   return Effect.runPromise(
-    Effect.tryPromise({
-      try: async () => {
-        const service = createBookmarksSyncService();
-        const response = await service.getStatus();
-        return NextResponse.json(response);
-      },
-      catch: (error) => error,
+    Effect.gen(function* () {
+      const service = createBookmarksSyncService();
+      const response = yield* service.getStatus();
+      return NextResponse.json(response);
     }).pipe(
-      Effect.catchAll((error) => {
-        console.error("Bookmarks status API error:", error);
+      Effect.catchAllDefect((defect) => {
+        console.error("Bookmarks status API error:", defect);
         return Effect.succeed(
           NextResponse.json(
             {
-              error: error instanceof Error ? error.message : "Unknown error",
+              error: defect instanceof Error ? defect.message : "Unknown error",
             },
             { status: 500 },
           ),
