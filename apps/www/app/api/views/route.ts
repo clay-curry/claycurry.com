@@ -46,88 +46,71 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const slug = body.slug;
+  return appRuntime.runPromise(
+    Effect.gen(function* () {
+      const body = yield* Effect.tryPromise({
+        try: () => request.json(),
+        catch: () => ({ _tag: "ParseError" as const }),
+      });
 
-    if (!slug) {
-      return NextResponse.json(
-        { error: "Missing slug in request body" },
-        { status: 400 },
-      );
-    }
-
-    // Parse the viewed_pages cookie
-    let viewedPages: string[] = [];
-    const cookie = request.cookies.get(VIEWED_PAGES_COOKIE);
-    if (cookie?.value) {
-      try {
-        const parsed = JSON.parse(cookie.value);
-        if (Array.isArray(parsed)) {
-          viewedPages = parsed;
-        }
-      } catch {
-        // Malformed cookie — treat as empty
+      const slug = body.slug;
+      if (!slug) {
+        return NextResponse.json(
+          { error: "Missing slug in request body" },
+          { status: 400 },
+        );
       }
-    }
 
-    // Check if this slug was already viewed
-    if (viewedPages.includes(slug)) {
-      return appRuntime.runPromise(
-        getViewCount(slug).pipe(
-          Effect.map((count) =>
-            NextResponse.json({ slug, count, duplicate: true }),
-          ),
-          Effect.catchTag("RedisError", () =>
-            Effect.succeed(
-              NextResponse.json({ slug, count: 0, duplicate: true }),
-            ),
-          ),
-        ),
-      );
-    }
+      // Parse the viewed_pages cookie
+      let viewedPages: string[] = [];
+      const cookie = request.cookies.get(VIEWED_PAGES_COOKIE);
+      if (cookie?.value) {
+        const parsed = Effect.try(() => JSON.parse(cookie.value));
+        const result = Effect.runSync(Effect.either(parsed));
+        if (result._tag === "Right" && Array.isArray(result.right)) {
+          viewedPages = result.right;
+        }
+      }
 
-    // New view — increment
-    return await appRuntime.runPromise(
-      incrementViewCount(slug).pipe(
-        Effect.map((count) => {
-          viewedPages.push(slug);
-          if (viewedPages.length > MAX_VIEWED_PAGES) {
-            viewedPages = viewedPages.slice(
-              viewedPages.length - MAX_VIEWED_PAGES,
-            );
-          }
+      // Check if this slug was already viewed
+      if (viewedPages.includes(slug)) {
+        const count = yield* getViewCount(slug).pipe(
+          Effect.catchTag("RedisError", () => Effect.succeed(0)),
+        );
+        return NextResponse.json({ slug, count, duplicate: true });
+      }
 
-          const response = NextResponse.json({
-            slug,
-            count,
-            duplicate: false,
-          });
-          response.cookies.set(
-            VIEWED_PAGES_COOKIE,
-            JSON.stringify(viewedPages),
-            {
-              httpOnly: true,
-              sameSite: "lax",
-              path: "/",
-              maxAge: 86400,
-            },
-          );
-          return response;
-        }),
+      // New view — increment
+      const count = yield* incrementViewCount(slug).pipe(
         Effect.catchTag("RedisError", (err) => {
           console.error("Redis incr error:", err.message);
-          return Effect.succeed(
-            NextResponse.json({ slug, count: 0, duplicate: false }),
-          );
+          return Effect.succeed(0);
         }),
+      );
+
+      viewedPages.push(slug);
+      if (viewedPages.length > MAX_VIEWED_PAGES) {
+        viewedPages = viewedPages.slice(viewedPages.length - MAX_VIEWED_PAGES);
+      }
+
+      const response = NextResponse.json({
+        slug,
+        count,
+        duplicate: false,
+      });
+      response.cookies.set(VIEWED_PAGES_COOKIE, JSON.stringify(viewedPages), {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        maxAge: 86400,
+      });
+      return response;
+    }).pipe(
+      Effect.catchTag("ParseError", () =>
+        Effect.succeed(
+          NextResponse.json({ error: "Invalid request body" }, { status: 400 }),
+        ),
       ),
-    );
-  } catch (err) {
-    console.error("Views POST parse error:", err);
-    return NextResponse.json(
-      { error: "Invalid request body" },
-      { status: 400 },
-    );
-  }
+    ),
+  );
 }

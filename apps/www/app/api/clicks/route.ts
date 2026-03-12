@@ -28,64 +28,64 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const ids: string[] = body.ids;
+  return appRuntime.runPromise(
+    Effect.gen(function* () {
+      const body = yield* Effect.tryPromise({
+        try: () => request.json(),
+        catch: () => ({ _tag: "ParseError" as const }),
+      });
 
-    if (!Array.isArray(ids) || ids.length === 0) {
-      return NextResponse.json(
-        { error: "Missing or empty ids array" },
-        { status: 400 },
-      );
-    }
+      const ids: string[] = body.ids;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return NextResponse.json(
+          { error: "Missing or empty ids array" },
+          { status: 400 },
+        );
+      }
 
-    // Tally repeats
-    const tally = new Map<string, number>();
-    for (const id of ids) {
-      tally.set(id, (tally.get(id) ?? 0) + 1);
-    }
+      // Tally repeats
+      const tally = new Map<string, number>();
+      for (const id of ids) {
+        tally.set(id, (tally.get(id) ?? 0) + 1);
+      }
 
-    return await appRuntime.runPromise(
-      Effect.gen(function* () {
-        const redis = yield* RedisClient;
-        const entries = Array.from(tally.entries());
-        const m = yield* redis.multi();
+      const redis = yield* RedisClient;
+      const entries = Array.from(tally.entries());
+      const m = yield* redis.multi();
 
-        for (const [id, n] of entries) {
-          m.hIncrBy(clicksKey, id, n);
+      for (const [id, n] of entries) {
+        m.hIncrBy(clicksKey, id, n);
+      }
+
+      const results = yield* m.exec();
+      const counts: Record<string, number> = {};
+
+      for (const [index, [id]] of entries.entries()) {
+        const result = results[index];
+        const newCount =
+          typeof result === "number"
+            ? result
+            : Number.parseInt(String(result), 10);
+        if (Number.isNaN(newCount)) {
+          return NextResponse.json(
+            { error: `Invalid Redis count for click id: ${id}` },
+            { status: 500 },
+          );
         }
+        counts[id] = newCount;
+      }
 
-        const results = yield* m.exec();
-        const counts: Record<string, number> = {};
-
-        for (const [index, [id]] of entries.entries()) {
-          const result = results[index];
-          const newCount =
-            typeof result === "number"
-              ? result
-              : Number.parseInt(String(result), 10);
-          if (Number.isNaN(newCount)) {
-            return NextResponse.json(
-              { error: `Invalid Redis count for click id: ${id}` },
-              { status: 500 },
-            );
-          }
-          counts[id] = newCount;
-        }
-
-        return NextResponse.json({ counts });
-      }).pipe(
-        Effect.catchTag("RedisError", (err) => {
-          console.error("Redis hIncrBy error:", err.message);
-          return Effect.succeed(NextResponse.json({ counts: {} }));
-        }),
+      return NextResponse.json({ counts });
+    }).pipe(
+      Effect.catchTag("ParseError", () =>
+        Effect.succeed(
+          NextResponse.json({ error: "Invalid request body" }, { status: 400 }),
+        ),
       ),
-    );
-  } catch (err) {
-    console.error("Clicks POST parse error:", err);
-    return NextResponse.json(
-      { error: "Invalid request body" },
-      { status: 400 },
-    );
-  }
+      Effect.catchTag("RedisError", (err) => {
+        console.error("Redis hIncrBy error:", err.message);
+        return Effect.succeed(NextResponse.json({ counts: {} }));
+      }),
+    ),
+  );
 }

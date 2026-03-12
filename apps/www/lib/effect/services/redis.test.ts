@@ -124,6 +124,11 @@ describe("RedisClient service interface", () => {
           },
           exec: () => Effect.succeed([]),
         }),
+      rPush: () => Effect.succeed(1),
+      lLen: () => Effect.succeed(0),
+      lRange: () => Effect.succeed([]),
+      expire: () => Effect.succeed(1),
+      hSet: () => Effect.succeed(1),
     } satisfies RedisService);
 
     const result = await Effect.runPromise(

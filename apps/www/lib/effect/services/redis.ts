@@ -32,6 +32,25 @@ export interface RedisService {
     increment: number,
   ) => Effect.Effect<number, RedisError>;
   readonly multi: () => Effect.Effect<RedisMulti, RedisError>;
+  readonly rPush: (
+    key: string,
+    value: string,
+  ) => Effect.Effect<number, RedisError>;
+  readonly lLen: (key: string) => Effect.Effect<number, RedisError>;
+  readonly lRange: (
+    key: string,
+    start: number,
+    stop: number,
+  ) => Effect.Effect<string[], RedisError>;
+  readonly expire: (
+    key: string,
+    seconds: number,
+  ) => Effect.Effect<number, RedisError>;
+  readonly hSet: (
+    key: string,
+    field: string,
+    value: string,
+  ) => Effect.Effect<number, RedisError>;
 }
 
 export class RedisClient extends Context.Tag("RedisClient")<
@@ -139,6 +158,21 @@ export const RedisLive = Layer.scoped(
           };
           return wrapper;
         }),
+
+      rPush: (key, value) => wrapOp("rPush", () => client.rPush(key, value)),
+
+      lLen: (key) => wrapOp("lLen", () => client.lLen(key)),
+
+      lRange: (key, start, stop) =>
+        wrapOp("lRange", () => client.lRange(key, start, stop)),
+
+      expire: (key, seconds) =>
+        wrapOp("expire", () => client.expire(key, seconds)),
+
+      hSet: (key, field, value) =>
+        wrapOp("hSet", () =>
+          client.hSet(key, field, value).then((n) => Number(n)),
+        ),
     } satisfies RedisService;
   }),
 );
@@ -152,6 +186,7 @@ export const InMemoryRedisLive: Layer.Layer<RedisClient> = Layer.sync(
   () => {
     const store = new Map<string, { value: string; expiresAt?: number }>();
     const hashStore = new Map<string, Map<string, string>>();
+    const listStore = new Map<string, string[]>();
 
     function getEntry(key: string): string | null {
       const entry = store.get(key);
@@ -228,6 +263,41 @@ export const InMemoryRedisLive: Layer.Layer<RedisClient> = Layer.sync(
             exec: () => Effect.sync(() => ops.map((op) => op())),
           };
           return wrapper;
+        }),
+
+      rPush: (key, value) =>
+        Effect.sync(() => {
+          let list = listStore.get(key);
+          if (!list) {
+            list = [];
+            listStore.set(key, list);
+          }
+          list.push(value);
+          return list.length;
+        }),
+
+      lLen: (key) => Effect.sync(() => listStore.get(key)?.length ?? 0),
+
+      lRange: (key, start, stop) =>
+        Effect.sync(() => {
+          const list = listStore.get(key);
+          if (!list) return [];
+          const end = stop === -1 ? list.length : stop + 1;
+          return list.slice(start, end);
+        }),
+
+      expire: (_key, _seconds) => Effect.sync(() => 1),
+
+      hSet: (key, field, value) =>
+        Effect.sync(() => {
+          let hash = hashStore.get(key);
+          if (!hash) {
+            hash = new Map();
+            hashStore.set(key, hash);
+          }
+          const isNew = !hash.has(field);
+          hash.set(field, value);
+          return isNew ? 1 : 0;
         }),
     } satisfies RedisService;
   },

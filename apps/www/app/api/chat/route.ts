@@ -1,6 +1,7 @@
 import type { GatewayProviderOptions } from "@ai-sdk/gateway";
 import type { UIMessage } from "ai";
 import { convertToModelMessages, gateway, streamText } from "ai";
+import { Effect } from "effect";
 import { getPostContent } from "@/app/(portfolio)/blog/loader";
 import { profileData } from "@/lib/portfolio-data";
 
@@ -28,7 +29,7 @@ interface GitHubProfile {
 let githubCache: { data: string; timestamp: number } | null = null;
 const CACHE_TTL = 5 * 60 * 1000;
 
-async function fetchGitHubData(): Promise<string> {
+const fetchGitHubData = Effect.gen(function* () {
   // Return cached data if fresh
   if (githubCache && Date.now() - githubCache.timestamp < CACHE_TTL) {
     return githubCache.data;
@@ -39,46 +40,52 @@ async function fetchGitHubData(): Promise<string> {
     "User-Agent": "portfolio-chat-bot",
   };
 
-  // Add auth token if available for higher rate limits
   if (process.env.GITHUB_TOKEN) {
     headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
 
-  try {
-    // Fetch profile and repos in parallel
-    const [profileRes, reposRes] = await Promise.all([
-      fetch(`https://api.github.com/users/${profileData.githubUsername}`, {
-        headers,
-      }),
-      fetch(
-        `https://api.github.com/users/${profileData.githubUsername}/repos?sort=updated&per_page=30`,
-        { headers },
-      ),
-    ]);
+  const [profileRes, reposRes] = yield* Effect.tryPromise({
+    try: () =>
+      Promise.all([
+        fetch(`https://api.github.com/users/${profileData.githubUsername}`, {
+          headers,
+        }),
+        fetch(
+          `https://api.github.com/users/${profileData.githubUsername}/repos?sort=updated&per_page=30`,
+          { headers },
+        ),
+      ]),
+    catch: (error) => error,
+  });
 
-    if (!profileRes.ok || !reposRes.ok) {
-      console.error("GitHub API error:", profileRes.status, reposRes.status);
-      return "";
-    }
+  if (!profileRes.ok || !reposRes.ok) {
+    console.error("GitHub API error:", profileRes.status, reposRes.status);
+    return "";
+  }
 
-    const profile: GitHubProfile = await profileRes.json();
-    const repos: GitHubRepo[] = await reposRes.json();
+  const profile: GitHubProfile = yield* Effect.tryPromise({
+    try: () => profileRes.json(),
+    catch: (error) => error,
+  });
+  const repos: GitHubRepo[] = yield* Effect.tryPromise({
+    try: () => reposRes.json(),
+    catch: (error) => error,
+  });
 
-    // Filter out forks and format repos
-    const ownRepos = repos
-      .filter((repo) => !repo.fork)
-      .slice(0, 15)
-      .map((repo) => ({
-        name: repo.name,
-        description: repo.description,
-        url: repo.html_url,
-        language: repo.language,
-        stars: repo.stargazers_count,
-        topics: repo.topics,
-        updated: repo.updated_at,
-      }));
+  const ownRepos = repos
+    .filter((repo) => !repo.fork)
+    .slice(0, 15)
+    .map((repo) => ({
+      name: repo.name,
+      description: repo.description,
+      url: repo.html_url,
+      language: repo.language,
+      stars: repo.stargazers_count,
+      topics: repo.topics,
+      updated: repo.updated_at,
+    }));
 
-    const githubContext = `
+  const githubContext = `
 ### GitHub Profile
 
 - **Username**: ${profileData.githubUsername}
@@ -105,14 +112,14 @@ ${ownRepos
   .join("\n")}
 `;
 
-    // Cache the result
-    githubCache = { data: githubContext, timestamp: Date.now() };
-    return githubContext;
-  } catch (error) {
+  githubCache = { data: githubContext, timestamp: Date.now() };
+  return githubContext;
+}).pipe(
+  Effect.catchAll((error) => {
     console.error("Failed to fetch GitHub data:", error);
-    return "";
-  }
-}
+    return Effect.succeed("");
+  }),
+);
 
 const SYSTEM_PROMPT = `
 ### Instructions
@@ -260,7 +267,7 @@ ${postData.content}
     }
   } else {
     // General context - use GitHub data
-    const githubData = await fetchGitHubData();
+    const githubData = await Effect.runPromise(fetchGitHubData);
     fullSystemPrompt =
       SYSTEM_PROMPT + (githubData ? `\n\n### GitHub Data\n${githubData}` : "");
   }
