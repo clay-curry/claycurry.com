@@ -1,5 +1,4 @@
-import assert from "node:assert/strict";
-import test from "node:test";
+import { expect, test } from "vitest";
 import {
   BookmarksApiResponseSchema,
   NormalizedBookmarkSchema,
@@ -7,17 +6,17 @@ import {
 } from "./contracts";
 
 test("XOAuthTokenResponseSchema rejects responses without refresh_token", () => {
-  assert.throws(() =>
+  expect(() =>
     XOAuthTokenResponseSchema.parse({
       token_type: "bearer",
       expires_in: 7200,
       access_token: "access-token",
     }),
-  );
+  ).toThrow();
 });
 
 test("NormalizedBookmarkSchema enforces ISO timestamps", () => {
-  assert.throws(() =>
+  expect(() =>
     NormalizedBookmarkSchema.parse({
       id: "1",
       text: "hello",
@@ -35,7 +34,7 @@ test("NormalizedBookmarkSchema enforces ISO timestamps", () => {
       },
       media: [],
     }),
-  );
+  ).toThrow();
 });
 
 test("BookmarksApiResponseSchema accepts degraded stale responses", () => {
@@ -54,6 +53,6 @@ test("BookmarksApiResponseSchema accepts degraded stale responses", () => {
     error: "token refresh failed",
   });
 
-  assert.equal(response.status, "stale");
-  assert.equal(response.isStale, true);
+  expect(response.status).toBe("stale");
+  expect(response.isStale).toBe(true);
 });

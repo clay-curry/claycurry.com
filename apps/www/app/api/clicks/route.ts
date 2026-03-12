@@ -96,7 +96,8 @@ export async function POST(request: NextRequest) {
       }
       return NextResponse.json({ counts });
     }
-  } catch {
+  } catch (err) {
+    console.error("Clicks POST parse error:", err);
     return NextResponse.json(
       { error: "Invalid request body" },
       { status: 400 },

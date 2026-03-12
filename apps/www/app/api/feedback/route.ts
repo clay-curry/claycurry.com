@@ -2,6 +2,15 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { contactData } from "@/lib/portfolio-data";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export async function POST(request: Request) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
@@ -31,9 +40,9 @@ export async function POST(request: Request) {
       text: `Page: ${page}\nSentiment: ${sentimentText}\n${message ? `\nMessage:\n${message}` : ""}`,
       html: `
         <h2>Page Feedback</h2>
-        <p><strong>Page:</strong> ${page}</p>
+        <p><strong>Page:</strong> ${escapeHtml(page)}</p>
         <p><strong>Sentiment:</strong> ${sentimentEmoji} ${sentimentText}</p>
-        ${message ? `<p><strong>Message:</strong></p><p>${message.replace(/\n/g, "<br>")}</p>` : ""}
+        ${message ? `<p><strong>Message:</strong></p><p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>` : ""}
       `,
     });
 

@@ -91,7 +91,8 @@ export function getPostContent(
     const fileContents = fs.readFileSync(filePath, "utf8");
     const { content } = matter(fileContents);
     return { metadata, content };
-  } catch {
+  } catch (err) {
+    console.error(`Failed to load post content for slug "${slug}":`, err);
     return null;
   }
 }

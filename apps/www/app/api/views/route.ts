@@ -160,7 +160,8 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
-  } catch {
+  } catch (err) {
+    console.error("Views POST parse error:", err);
     return NextResponse.json(
       { error: "Invalid request body" },
       { status: 400 },
