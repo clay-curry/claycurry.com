@@ -194,14 +194,13 @@ export const RedisLive = Layer.effect(
         await client.connect();
         return makeRedisLive(client, prefix, fallback);
       },
-      catch: () => {
-        return fallback;
-      },
+      catch: (e) => new Error(e instanceof Error ? e.message : String(e)),
     }).pipe(
-      Effect.tap((svc) =>
-        svc === fallback
-          ? Effect.logWarning("Redis connection failed, using in-memory store")
-          : Effect.logInfo("Redis connected"),
+      Effect.tap(() => Effect.logInfo("Redis connected")),
+      Effect.catchAll((e) =>
+        Effect.logWarning(
+          `Redis connection failed (${e.message}), using in-memory store`,
+        ).pipe(Effect.map(() => fallback)),
       ),
     );
   }),
