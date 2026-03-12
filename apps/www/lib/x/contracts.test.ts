@@ -1,3 +1,4 @@
+import { Schema } from "effect";
 import { expect, test } from "vitest";
 import {
   BookmarksApiResponseSchema,
@@ -7,7 +8,7 @@ import {
 
 test("XOAuthTokenResponseSchema rejects responses without refresh_token", () => {
   expect(() =>
-    XOAuthTokenResponseSchema.parse({
+    Schema.decodeUnknownSync(XOAuthTokenResponseSchema)({
       token_type: "bearer",
       expires_in: 7200,
       access_token: "access-token",
@@ -17,7 +18,7 @@ test("XOAuthTokenResponseSchema rejects responses without refresh_token", () => 
 
 test("NormalizedBookmarkSchema enforces ISO timestamps", () => {
   expect(() =>
-    NormalizedBookmarkSchema.parse({
+    Schema.decodeUnknownSync(NormalizedBookmarkSchema)({
       id: "1",
       text: "hello",
       createdAt: "not-a-date",
@@ -38,7 +39,7 @@ test("NormalizedBookmarkSchema enforces ISO timestamps", () => {
 });
 
 test("BookmarksApiResponseSchema accepts degraded stale responses", () => {
-  const response = BookmarksApiResponseSchema.parse({
+  const response = Schema.decodeUnknownSync(BookmarksApiResponseSchema)({
     bookmarks: [],
     folders: [],
     owner: {

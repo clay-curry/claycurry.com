@@ -7,10 +7,10 @@ import {
   bookmarksDataAtom,
   bookmarksFoldersAtom,
 } from "@/lib/x/atoms";
-import {
-  type BookmarkSourceOwner,
-  BookmarksApiResponseSchema,
-  type BookmarksApiStatus,
+import type {
+  BookmarkSourceOwner,
+  BookmarksApiResponse,
+  BookmarksApiStatus,
 } from "@/lib/x/contracts";
 
 export function useBookmarks() {
@@ -32,9 +32,11 @@ export function useBookmarks() {
         const params = folderId ? `?folder=${folderId}` : "";
         const res = await fetch(`/api/x/bookmarks${params}`);
         const json = await res.json();
-        const parsed = BookmarksApiResponseSchema.safeParse(json);
-
-        if (!parsed.success) {
+        if (
+          !json ||
+          typeof json !== "object" ||
+          !Array.isArray(json.bookmarks)
+        ) {
           setError("Bookmarks response did not match the expected contract");
           setBookmarks([]);
           setFolders([]);
@@ -45,7 +47,7 @@ export function useBookmarks() {
           return;
         }
 
-        const data = parsed.data;
+        const data = json as BookmarksApiResponse;
         setBookmarks(data.bookmarks);
         setFolders(data.folders);
         setStatus(data.status);

@@ -1,4 +1,4 @@
-import { Effect } from "effect";
+import { Effect, Schema } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
 import { appRuntime } from "@/lib/effect/runtime";
 import {
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
       return Effect.succeed(
         NextResponse.json(
-          BookmarksApiResponseSchema.parse({
+          Schema.decodeUnknownSync(BookmarksApiResponseSchema)({
             bookmarks: [],
             folders: [],
             owner: {

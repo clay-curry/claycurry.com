@@ -1,4 +1,4 @@
-import { Effect } from "effect";
+import { Effect, Schema } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
 import { appRuntime } from "@/lib/effect/runtime";
 import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
@@ -115,7 +115,7 @@ export async function GET(request: NextRequest) {
       yield* Effect.promise(() =>
         repository.setStatus(
           config.ownerUsername,
-          BookmarksSyncStatusRecordSchema.parse({
+          Schema.decodeUnknownSync(BookmarksSyncStatusRecordSchema)({
             configuredOwnerUsername: config.ownerUsername,
             configuredOwnerUserId: config.ownerUserId,
             resolvedOwner,

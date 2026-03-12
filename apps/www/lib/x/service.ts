@@ -1,4 +1,4 @@
-import { Effect } from "effect";
+import { Effect, Schema } from "effect";
 import type { BookmarksRepository } from "./cache";
 import {
   type XBookmarksClient,
@@ -176,7 +176,7 @@ export class BookmarksSyncService {
         { concurrency: 3 },
       );
 
-      return BookmarksStatusApiResponseSchema.parse({
+      return Schema.decodeUnknownSync(BookmarksStatusApiResponseSchema)({
         owner: {
           configuredUsername: opts.config.ownerUsername,
           configuredUserId: opts.config.ownerUserId,
@@ -395,7 +395,7 @@ export class BookmarksSyncService {
       );
 
       return {
-        response: BookmarksApiResponseSchema.parse({
+        response: Schema.decodeUnknownSync(BookmarksApiResponseSchema)({
           bookmarks: [],
           folders: [],
           owner: ctx.resolvedOwner ?? self.ownerHint,
@@ -415,7 +415,7 @@ export class BookmarksSyncService {
     status: "fresh" | "stale",
     error?: string,
   ): BookmarksApiResponse {
-    return BookmarksApiResponseSchema.parse({
+    return Schema.decodeUnknownSync(BookmarksApiResponseSchema)({
       bookmarks: snapshot.bookmarks,
       folders: snapshot.folders,
       owner: snapshot.owner,
@@ -434,7 +434,7 @@ export class BookmarksSyncService {
     folderId?: string,
   ): BookmarksSnapshotRecord {
     const timestamp = nowIsoString();
-    return BookmarksSnapshotRecordSchema.parse({
+    return Schema.decodeUnknownSync(BookmarksSnapshotRecordSchema)({
       owner,
       folderId: folderId ?? null,
       bookmarks,
@@ -455,7 +455,7 @@ export class BookmarksSyncService {
     lastError: IntegrationIssue | null;
     lastSuccessfulSyncAt: string | null;
   }): BookmarksSyncStatusRecord {
-    return BookmarksSyncStatusRecordSchema.parse({
+    return Schema.decodeUnknownSync(BookmarksSyncStatusRecordSchema)({
       configuredOwnerUsername: this.options.config.ownerUsername,
       configuredOwnerUserId: this.options.config.ownerUserId,
       resolvedOwner:

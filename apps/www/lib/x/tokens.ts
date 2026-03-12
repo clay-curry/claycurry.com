@@ -1,4 +1,4 @@
-import { Effect } from "effect";
+import { Effect, Schema } from "effect";
 import type { BookmarksRepository } from "./cache";
 import {
   assertLiveRuntimeConfig,
@@ -36,7 +36,7 @@ function buildTokenRecord(
   previousRecord?: XTokenRecord,
 ): XTokenRecord {
   const now = new Date().toISOString();
-  return XTokenRecordSchema.parse({
+  return Schema.decodeUnknownSync(XTokenRecordSchema)({
     accessToken: tokenResponse.access_token,
     refreshToken: tokenResponse.refresh_token,
     expiresAt: Date.now() + tokenResponse.expires_in * 1000,
@@ -215,7 +215,7 @@ export class XTokenStore {
   private legacyRecordToTokenResponse(
     record: LegacyStoredTokens,
   ): XOAuthTokenResponse {
-    return XOAuthTokenResponseSchema.parse({
+    return Schema.decodeUnknownSync(XOAuthTokenResponseSchema)({
       token_type: "bearer",
       expires_in: Math.max(
         1,
@@ -273,7 +273,8 @@ export class XTokenStore {
       });
 
       return yield* Effect.try({
-        try: () => XOAuthTokenResponseSchema.parse(parsedJson),
+        try: () =>
+          Schema.decodeUnknownSync(XOAuthTokenResponseSchema)(parsedJson),
         catch: (error) =>
           new SchemaInvalid({
             message: `${context} returned an invalid token payload`,

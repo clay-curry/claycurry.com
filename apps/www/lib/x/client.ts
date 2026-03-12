@@ -1,4 +1,4 @@
-import { Effect } from "effect";
+import { Effect, Schema } from "effect";
 import {
   type BookmarkSourceOwner,
   type NormalizedBookmark,
@@ -33,13 +33,13 @@ function normalizeOwner(user: XUser): BookmarkSourceOwner {
   };
 }
 
-function parseContract<T>(
-  schema: { parse: (value: unknown) => T },
+function parseContract<A, I>(
+  schema: Schema.Schema<A, I>,
   payload: unknown,
   context: string,
 ) {
   return Effect.try({
-    try: () => schema.parse(payload),
+    try: () => Schema.decodeUnknownSync(schema)(payload),
     catch: (error) =>
       new SchemaInvalid({
         message: `${context} did not match the expected contract`,

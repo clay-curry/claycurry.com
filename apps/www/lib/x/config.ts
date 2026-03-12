@@ -1,11 +1,15 @@
-import { z } from "zod";
+import { Schema } from "effect";
 
-const XEnvironmentSchema = z.object({
-  X_OWNER_USERNAME: z.string().trim().min(1).default("claycurry__"),
-  X_OWNER_USER_ID: z.string().trim().min(1).optional(),
-  X_CLIENT_ID: z.string().trim().min(1).optional(),
-  X_CLIENT_SECRET: z.string().trim().min(1).optional(),
-  X_OWNER_SECRET: z.string().trim().min(1).optional(),
+const TrimmedNonEmpty = Schema.Trim.pipe(Schema.minLength(1));
+
+const XEnvironmentSchema = Schema.Struct({
+  X_OWNER_USERNAME: Schema.optionalWith(TrimmedNonEmpty, {
+    default: () => "claycurry__",
+  }),
+  X_OWNER_USER_ID: Schema.optional(TrimmedNonEmpty),
+  X_CLIENT_ID: Schema.optional(TrimmedNonEmpty),
+  X_CLIENT_SECRET: Schema.optional(TrimmedNonEmpty),
+  X_OWNER_SECRET: Schema.optional(TrimmedNonEmpty),
 });
 
 export const BOOKMARKS_SNAPSHOT_FRESHNESS_MS = 30 * 60 * 1000;
@@ -27,7 +31,7 @@ export interface XLiveRuntimeConfig extends XRuntimeConfig {
 }
 
 export function getXRuntimeConfig(): XRuntimeConfig {
-  const env = XEnvironmentSchema.parse(process.env);
+  const env = Schema.decodeUnknownSync(XEnvironmentSchema)(process.env);
 
   return {
     mode: "live",
