@@ -1,11 +1,17 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Geist_Mono, Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import { ChatProvider } from "@/lib/providers/chat-provider";
 import { ClickCountProvider } from "@/lib/providers/click-count-provider";
 import { SITE_ORIGIN } from "@/lib/site-url";
+
+const TracePanel = dynamic(
+  () => import("@/lib/components/debug/TracePanel").then((m) => m.TracePanel),
+  { ssr: false },
+);
 
 import "tw-animate-css";
 import "katex/dist/katex.min.css";
@@ -136,6 +142,7 @@ function CompositeProviders({
         <ChatProvider>{children}</ChatProvider>
       </ClickCountProvider>
       <Toaster theme="dark" position="bottom-right" />
+      <TracePanel />
       <Analytics />
     </>
   );

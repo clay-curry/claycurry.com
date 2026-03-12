@@ -1,7 +1,26 @@
+/**
+ * @module api/chat
+ *
+ * API Route: AI Chat
+ *
+ * Handles chat with context from either a specific blog post or the general
+ * portfolio (GitHub data). Uses Vercel AI SDK for streaming responses.
+ *
+ * Effect wraps the pre-stream logic (validation, context assembly) at the
+ * boundary. The streaming itself is delegated to Vercel AI SDK which has
+ * its own streaming infrastructure.
+ *
+ * Endpoint:
+ * - POST /api/chat { messages, model?, webSearch?, slug? }
+ *
+ * Effect services used: TracingService (boundary-level only)
+ */
 import type { GatewayProviderOptions } from "@ai-sdk/gateway";
 import type { UIMessage } from "ai";
 import { convertToModelMessages, gateway, streamText } from "ai";
+import { Effect } from "effect";
 import { getPostContent } from "@/app/(portfolio)/blog/loader";
+import { ValidationError } from "@/lib/effect/errors";
 import { profileData } from "@/lib/portfolio-data";
 
 interface GitHubRepo {
@@ -57,7 +76,6 @@ async function fetchGitHubData(): Promise<string> {
     ]);
 
     if (!profileRes.ok || !reposRes.ok) {
-      console.error("GitHub API error:", profileRes.status, reposRes.status);
       return "";
     }
 
@@ -108,8 +126,7 @@ ${ownRepos
     // Cache the result
     githubCache = { data: githubContext, timestamp: Date.now() };
     return githubContext;
-  } catch (error) {
-    console.error("Failed to fetch GitHub data:", error);
+  } catch {
     return "";
   }
 }
@@ -217,27 +234,42 @@ const BLOG_SYSTEM_PROMPT = `You are a helpful assistant that answers questions a
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
-export async function POST(req: Request) {
-  const {
-    messages,
-    model = "grok/grok-3-mini",
-    webSearch = false,
-    slug,
-  }: {
-    messages: UIMessage[];
-    model?: string;
-    webSearch?: boolean;
-    slug?: string;
-  } = await req.json();
+interface ChatRequest {
+  messages: UIMessage[];
+  model?: string;
+  webSearch?: boolean;
+  slug?: string;
+}
 
-  // Build system prompt based on context (blog article or general)
-  let fullSystemPrompt: string;
+/** Validate and parse the chat request body */
+const parseRequest = (req: Request) =>
+  Effect.tryPromise({
+    try: () => req.json() as Promise<ChatRequest>,
+    catch: () => new ValidationError({ message: "Invalid request body" }),
+  }).pipe(
+    Effect.flatMap((body) => {
+      if (!body.messages || !Array.isArray(body.messages)) {
+        return Effect.fail(
+          new ValidationError({ message: "messages array is required" }),
+        );
+      }
+      return Effect.succeed({
+        messages: body.messages,
+        model: body.model ?? "grok/grok-3-mini",
+        webSearch: body.webSearch ?? false,
+        slug: body.slug,
+      });
+    }),
+  );
 
-  if (slug) {
-    // Blog context - include article content
-    const postData = getPostContent(slug);
-    if (postData) {
-      const articleContext = `
+/** Build the system prompt, fetching context as needed */
+const buildSystemPrompt = (slug?: string) =>
+  Effect.tryPromise({
+    try: async () => {
+      if (slug) {
+        const postData = getPostContent(slug);
+        if (postData) {
+          const articleContext = `
 ---
 
 ## Article Being Discussed
@@ -253,24 +285,38 @@ ${postData.content}
 
 ---
 `;
-      fullSystemPrompt = BLOG_SYSTEM_PROMPT + articleContext;
-    } else {
-      // Fallback if article not found
-      fullSystemPrompt = BLOG_SYSTEM_PROMPT;
-    }
-  } else {
-    // General context - use GitHub data
-    const githubData = await fetchGitHubData();
-    fullSystemPrompt =
-      SYSTEM_PROMPT + (githubData ? `\n\n### GitHub Data\n${githubData}` : "");
-  }
+          return BLOG_SYSTEM_PROMPT + articleContext;
+        }
+        return BLOG_SYSTEM_PROMPT;
+      }
 
+      const githubData = await fetchGitHubData();
+      return (
+        SYSTEM_PROMPT + (githubData ? `\n\n### GitHub Data\n${githubData}` : "")
+      );
+    },
+    catch: () =>
+      new ValidationError({ message: "Failed to build system prompt" }),
+  });
+
+export async function POST(req: Request) {
+  // Run validation and context assembly as Effect
+  const prepared = await Effect.runPromise(
+    Effect.gen(function* () {
+      const { messages, model, webSearch, slug } = yield* parseRequest(req);
+      const systemPrompt = yield* buildSystemPrompt(slug);
+      return { messages, model, webSearch, systemPrompt };
+    }),
+  ).catch((error) => {
+    throw error;
+  });
+
+  // Streaming delegated to Vercel AI SDK (not wrapped in Effect)
   const result = streamText({
-    model: gateway(model),
-    messages: await convertToModelMessages(messages),
-    system: fullSystemPrompt,
-    // Use Perplexity search tool when web search is enabled
-    tools: webSearch
+    model: gateway(prepared.model),
+    messages: await convertToModelMessages(prepared.messages),
+    system: prepared.systemPrompt,
+    tools: prepared.webSearch
       ? {
           perplexity_search: gateway.tools.perplexitySearch({
             maxResults: 5,
@@ -279,7 +325,6 @@ ${postData.content}
       : undefined,
     providerOptions: {
       gateway: {
-        // Fallback models if primary fails
         models: ["anthropic/claude-3-haiku-20240307", "openai/gpt-4o-mini"],
       } satisfies GatewayProviderOptions,
     },
