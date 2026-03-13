@@ -1,7 +1,7 @@
 import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
 import { appRuntime } from "@/lib/effect/runtime";
-import { RedisClient } from "@/lib/effect/services/redis";
+import type { RedisClient } from "@/lib/effect/services/redis";
 import {
   DebugLog,
   type DebugLogEntry,
