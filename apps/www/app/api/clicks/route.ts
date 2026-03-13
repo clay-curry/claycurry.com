@@ -84,7 +84,12 @@ export async function POST(request: NextRequest) {
       ),
       Effect.catchTag("RedisError", (err) => {
         console.error("Redis hIncrBy error:", err.message);
-        return Effect.succeed(NextResponse.json({ counts: {} }));
+        return Effect.succeed(
+          NextResponse.json(
+            { error: "Click recording failed. Redis unavailable." },
+            { status: 503 },
+          ),
+        );
       }),
     ),
   );

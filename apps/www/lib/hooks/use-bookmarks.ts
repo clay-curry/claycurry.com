@@ -45,7 +45,12 @@ export function useBookmarks() {
         if (
           !json ||
           typeof json !== "object" ||
-          !Array.isArray(json.bookmarks)
+          !Array.isArray(json.bookmarks) ||
+          !Array.isArray(json.folders) ||
+          typeof json.status !== "string" ||
+          typeof json.isStale !== "boolean" ||
+          !json.owner ||
+          typeof json.owner.username !== "string"
         ) {
           setError("Bookmarks response did not match the expected contract");
           setBookmarks([]);

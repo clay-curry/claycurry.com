@@ -39,20 +39,23 @@ export async function GET(request: NextRequest) {
   );
   const state = base64url(crypto.randomBytes(16));
 
-  // Store code_verifier keyed by state via Effect Redis service
-  // (InMemoryRedisLive handles the no-Redis fallback with TTL support)
+  // Store code_verifier keyed by state via Effect Redis service.
+  // Must succeed — if this fails, the callback will never find the verifier.
   const stateKey = `${keyPrefix()}x:oauth:${state}`;
-  await appRuntime.runPromise(
-    Effect.gen(function* () {
-      const redis = yield* RedisClient;
-      yield* redis.set(stateKey, codeVerifier, { EX: 300 });
-    }).pipe(
-      Effect.catchTag("RedisError", (err) => {
-        console.error("Redis OAuth state store error:", err.message);
-        return Effect.void;
+  try {
+    await appRuntime.runPromise(
+      Effect.gen(function* () {
+        const redis = yield* RedisClient;
+        yield* redis.set(stateKey, codeVerifier, { EX: 300 });
       }),
-    ),
-  );
+    );
+  } catch (err) {
+    console.error("Failed to store OAuth state:", err);
+    return NextResponse.json(
+      { error: "Failed to store OAuth state. Redis may be unavailable." },
+      { status: 503 },
+    );
+  }
 
   const callbackUrl = new URL("/api/x/callback", request.url).toString();
   const authUrl = new URL("https://x.com/i/oauth2/authorize");

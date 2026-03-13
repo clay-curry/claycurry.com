@@ -80,13 +80,24 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ slug, count, duplicate: true });
       }
 
-      // New view — increment
-      const count = yield* incrementViewCount(slug).pipe(
+      // New view — increment (only set dedup cookie if Redis succeeds)
+      const incrResult = yield* incrementViewCount(slug).pipe(
+        Effect.map((count) => ({ ok: true as const, count })),
         Effect.catchTag("RedisError", (err) => {
           console.error("Redis incr error:", err.message);
-          return Effect.succeed(0);
+          return Effect.succeed({ ok: false as const, count: 0 });
         }),
       );
+
+      if (!incrResult.ok) {
+        // Redis is down — return 0 but do NOT set the dedup cookie,
+        // so the view can be counted on the next attempt.
+        return NextResponse.json({
+          slug,
+          count: 0,
+          duplicate: false,
+        });
+      }
 
       viewedPages.push(slug);
       if (viewedPages.length > MAX_VIEWED_PAGES) {
@@ -95,7 +106,7 @@ export async function POST(request: NextRequest) {
 
       const response = NextResponse.json({
         slug,
-        count,
+        count: incrResult.count,
         duplicate: false,
       });
       response.cookies.set(VIEWED_PAGES_COOKIE, JSON.stringify(viewedPages), {

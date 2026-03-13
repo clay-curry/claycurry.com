@@ -33,21 +33,29 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Retrieve code_verifier from Effect Redis service (get + delete)
+  // Retrieve code_verifier from Effect Redis service (get + delete).
+  // Distinguish Redis failure (503) from genuinely missing/expired state (400).
   const stateKey = `${keyPrefix()}x:oauth:${state}`;
-  const codeVerifier = await appRuntime.runPromise(
-    Effect.gen(function* () {
-      const redis = yield* RedisClient;
-      const value = yield* redis.get(stateKey);
-      yield* redis.del(stateKey);
-      return value;
-    }).pipe(
-      Effect.catchTag("RedisError", (err) => {
-        console.error("Redis OAuth state retrieval error:", err.message);
-        return Effect.succeed(null);
+  let codeVerifier: string | null;
+  try {
+    codeVerifier = await appRuntime.runPromise(
+      Effect.gen(function* () {
+        const redis = yield* RedisClient;
+        const value = yield* redis.get(stateKey);
+        yield* redis.del(stateKey);
+        return value;
       }),
-    ),
-  );
+    );
+  } catch (err) {
+    console.error("Redis OAuth state retrieval error:", err);
+    return NextResponse.json(
+      {
+        error:
+          "Failed to retrieve OAuth state. Redis may be unavailable. Please retry the auth flow.",
+      },
+      { status: 503 },
+    );
+  }
 
   if (!codeVerifier) {
     return NextResponse.json(
