@@ -4,7 +4,7 @@ export function Hero() {
   return (
     <div className="text-center py-20">
       <HeroPrimaryText>Clay Curry</HeroPrimaryText>
-      <HeroSubtext>PortfolioWebsite</HeroSubtext>
+      <HeroSubtext>DesignEngineer</HeroSubtext>
       <HeroContactAskAI />
     </div>
   );
