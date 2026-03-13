@@ -1,7 +1,6 @@
-import { ArrowRight } from "lucide-react";
+import { Activity as ActivityIcon, ArrowRight } from "lucide-react";
 import { Hero } from "@/lib/components/site/hero";
 import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
-import { SectionHeader } from "@/lib/components/site/section-header";
 import { ContributionSection } from "@/lib/resume/contribution-section";
 
 export default function AboutPage() {
@@ -9,12 +8,26 @@ export default function AboutPage() {
     <div className="py-8 md:py-12 px-2 md:px-4 space-y-12 md:space-y-14 flex flex-col gap-10">
       <Hero />
 
-      <SectionHeader title="Recent Activity" />
-
-      <Bookmarks />
+      <RecentActivitySection />
 
       <ContributionSection />
     </div>
+  );
+}
+
+function RecentActivitySection() {
+  return (
+    <section className="w-full mt-10 md:mt-14">
+      <div className="flex items-center gap-2 md:gap-3 my-3 border-b border-primary/30 pb-2">
+        <ActivityIcon className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+        <h2 className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl text-foreground text-shadow-none">
+          Recent Activity
+        </h2>
+      </div>
+      <div className="mt-5 md:mt-6">
+        <Bookmarks />
+      </div>
+    </section>
   );
 }
 
