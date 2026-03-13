@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
+import { DebugPanel } from "@/lib/components/site/debug-panel";
 import { ChatProvider } from "@/lib/providers/chat-provider";
 import { ClickCountProvider } from "@/lib/providers/click-count-provider";
 import { SITE_ORIGIN } from "@/lib/site-url";
@@ -135,6 +136,7 @@ function CompositeProviders({
       <ClickCountProvider>
         <ChatProvider>{children}</ChatProvider>
       </ClickCountProvider>
+      <DebugPanel />
       <Toaster theme="dark" position="bottom-right" />
       <Analytics />
     </>

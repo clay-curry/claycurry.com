@@ -160,6 +160,173 @@ export function getMockBookmarksResponse(
   };
 }
 
+/**
+ * Debug mock scenarios for testing error states in preproduction.
+ * Activated via `?mock=<scenario>` query param on the bookmarks API.
+ */
+export type MockScenario =
+  | "static"
+  | "empty"
+  | "reauth_required"
+  | "owner_mismatch"
+  | "schema_invalid"
+  | "upstream_error"
+  | "stale";
+
+export const MOCK_SCENARIOS: {
+  value: MockScenario;
+  label: string;
+  description: string;
+}[] = [
+  {
+    value: "static",
+    label: "Static data",
+    description: "Hardcoded bookmarks, no API calls",
+  },
+  {
+    value: "empty",
+    label: "Empty bookmarks",
+    description: "Owner exists but has no bookmarks",
+  },
+  {
+    value: "reauth_required",
+    label: "Reauth required",
+    description: "No X tokens stored",
+  },
+  {
+    value: "owner_mismatch",
+    label: "Owner mismatch",
+    description: "Authenticated user differs from configured owner",
+  },
+  {
+    value: "schema_invalid",
+    label: "Schema invalid",
+    description: "Upstream API returned unexpected shape",
+  },
+  {
+    value: "upstream_error",
+    label: "Upstream error",
+    description: "X API returned a server error",
+  },
+  {
+    value: "stale",
+    label: "Stale cache",
+    description: "Showing cached data after sync failure",
+  },
+];
+
+export function getMockScenarioResponse(
+  scenario: MockScenario,
+  folderId?: string,
+): { response: BookmarksApiResponse; httpStatus: number } {
+  const now = nowIsoString();
+  const base = {
+    folders: MOCK_FOLDERS,
+    owner: MOCK_OWNER,
+    cachedAt: now,
+  };
+
+  switch (scenario) {
+    case "static":
+      return {
+        response: {
+          ...base,
+          bookmarks: folderId ? MOCK_BOOKMARKS.slice(0, 3) : MOCK_BOOKMARKS,
+          status: "fresh",
+          isStale: false,
+          lastSyncedAt: now,
+        },
+        httpStatus: 200,
+      };
+
+    case "empty":
+      return {
+        response: {
+          ...base,
+          bookmarks: [],
+          status: "fresh",
+          isStale: false,
+          lastSyncedAt: now,
+        },
+        httpStatus: 200,
+      };
+
+    case "reauth_required":
+      return {
+        response: {
+          ...base,
+          bookmarks: [],
+          status: "reauth_required",
+          isStale: false,
+          lastSyncedAt: null,
+          error: "No X tokens stored. Run the OAuth setup flow first.",
+        },
+        httpStatus: 503,
+      };
+
+    case "owner_mismatch":
+      return {
+        response: {
+          ...base,
+          bookmarks: [],
+          owner: {
+            id: "9999999999",
+            username: "wrong_user",
+            name: "Wrong User",
+          },
+          status: "owner_mismatch",
+          isStale: false,
+          lastSyncedAt: null,
+          error:
+            "Authenticated user @wrong_user does not match configured owner @claycurry__.",
+        },
+        httpStatus: 409,
+      };
+
+    case "schema_invalid":
+      return {
+        response: {
+          ...base,
+          bookmarks: [],
+          status: "schema_invalid",
+          isStale: false,
+          lastSyncedAt: null,
+          error:
+            "X API response did not match the expected schema. The upstream format may have changed.",
+        },
+        httpStatus: 502,
+      };
+
+    case "upstream_error":
+      return {
+        response: {
+          ...base,
+          bookmarks: [],
+          status: "upstream_error",
+          isStale: false,
+          lastSyncedAt: null,
+          error: "X API returned HTTP 500: Internal Server Error",
+        },
+        httpStatus: 502,
+      };
+
+    case "stale": {
+      const staleTime = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
+      return {
+        response: {
+          ...base,
+          bookmarks: MOCK_BOOKMARKS.slice(0, 4),
+          status: "stale",
+          isStale: true,
+          lastSyncedAt: staleTime,
+          error: "Live sync failed. Showing cached bookmarks.",
+        },
+        httpStatus: 200,
+      };
+    }
+  }
+}
+
 export function getMockBookmarksStatusResponse(): BookmarksStatusApiResponse {
   return {
     owner: {

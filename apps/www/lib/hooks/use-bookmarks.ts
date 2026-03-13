@@ -13,6 +13,12 @@ import type {
   BookmarksApiStatus,
 } from "@/lib/x/contracts";
 
+/** Read the `mock` query param from the page URL (client-side only). */
+function getDebugMockParam(): string | null {
+  if (typeof window === "undefined") return null;
+  return new URLSearchParams(window.location.search).get("mock");
+}
+
 export function useBookmarks() {
   const [bookmarks, setBookmarks] = useAtom(bookmarksDataAtom);
   const [folders, setFolders] = useAtom(bookmarksFoldersAtom);
@@ -29,8 +35,12 @@ export function useBookmarks() {
       setIsLoading(true);
       setError(null);
       try {
-        const params = folderId ? `?folder=${folderId}` : "";
-        const res = await fetch(`/api/x/bookmarks${params}`);
+        const params = new URLSearchParams();
+        if (folderId) params.set("folder", folderId);
+        const mock = getDebugMockParam();
+        if (mock) params.set("mock", mock);
+        const qs = params.toString();
+        const res = await fetch(`/api/x/bookmarks${qs ? `?${qs}` : ""}`);
         const json = await res.json();
         if (
           !json ||
@@ -75,6 +85,13 @@ export function useBookmarks() {
 
   useEffect(() => {
     fetchBookmarks(folder || undefined);
+  }, [folder, fetchBookmarks]);
+
+  // Re-fetch when the debug panel changes the mock param
+  useEffect(() => {
+    const handler = () => fetchBookmarks(folder || undefined);
+    window.addEventListener("debug-mock-change", handler);
+    return () => window.removeEventListener("debug-mock-change", handler);
   }, [folder, fetchBookmarks]);
 
   const refetch = useCallback(() => {

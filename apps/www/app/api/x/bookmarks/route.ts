@@ -8,12 +8,40 @@ import {
 } from "@/lib/tracing";
 import { getXRuntimeConfig } from "@/lib/x/config";
 import { BookmarksApiResponseSchema } from "@/lib/x/contracts";
+import {
+  getMockScenarioResponse,
+  type MockScenario,
+} from "@/lib/x/mock-bookmarks";
 import { createBookmarksSyncService } from "@/lib/x/runtime";
+
+const VALID_SCENARIOS = new Set<MockScenario>([
+  "static",
+  "empty",
+  "reauth_required",
+  "owner_mismatch",
+  "schema_invalid",
+  "upstream_error",
+  "stale",
+]);
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const folderId = searchParams.get("folder") || undefined;
   const traceId = traceIdFromRequest(request);
+
+  // Debug mock override — non-production only
+  const mockParam = searchParams.get("mock");
+  if (
+    mockParam &&
+    VALID_SCENARIOS.has(mockParam as MockScenario) &&
+    process.env.VERCEL_ENV !== "production"
+  ) {
+    const { response, httpStatus } = getMockScenarioResponse(
+      mockParam as MockScenario,
+      folderId,
+    );
+    return NextResponse.json(response, { status: httpStatus });
+  }
 
   const program = Effect.gen(function* () {
     const service = createBookmarksSyncService();
