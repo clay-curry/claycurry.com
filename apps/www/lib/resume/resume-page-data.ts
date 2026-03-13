@@ -74,7 +74,7 @@ export interface ResumeAchievementItem {
 
 export const resumeHeaderData: ResumeHeaderData = {
   name: "Clay Curry",
-  title: "Product Engineer",
+  title: "Design Engineer",
   socialLinks: [
     {
       icon: "location",
@@ -110,7 +110,7 @@ export const resumeHeaderData: ResumeHeaderData = {
 };
 
 export const resumeSummaryPoints = [
-  "I am a product engineer comfortable working anywhere in the stack.",
+  "I am a design engineer comfortable working anywhere in the stack.",
   "Looking to join early-to-mid stage startup or any team with rapidly-growing users.",
 ];
 

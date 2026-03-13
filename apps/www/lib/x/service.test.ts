@@ -2,12 +2,14 @@ import { Effect } from "effect";
 import { expect, test } from "vitest";
 import { BookmarksSyncService } from "./service";
 import {
+  createBookmark,
   createSnapshot,
   createTokenRecord,
   jsonResponse,
   liveConfig,
   MemoryRepository,
   StubBookmarksClient,
+  withEnv,
 } from "./test-utils";
 
 test("BookmarksSyncService returns a fresh cached snapshot without live sync", async () => {
@@ -31,6 +33,35 @@ test("BookmarksSyncService returns a fresh cached snapshot without live sync", a
   expect(result.httpStatus).toBe(200);
   expect(result.response.status).toBe("fresh");
   expect(result.response.bookmarks[0]?.id).toBe("cached");
+});
+
+test("BookmarksSyncService bypasses a fresh cached snapshot when forceLive is true", async () => {
+  const repository = new MemoryRepository();
+  repository.snapshot = createSnapshot({
+    lastSyncedAt: new Date(Date.now() - 60_000).toISOString(),
+    cachedAt: new Date().toISOString(),
+    bookmarkId: "cached",
+  });
+  repository.tokenRecord = createTokenRecord(Date.now() + 60 * 60 * 1000);
+  const client = new StubBookmarksClient();
+  client.bookmarks = [createBookmark("forced-live")];
+
+  const service = new BookmarksSyncService({
+    config: liveConfig,
+    repository,
+    client,
+    fetchImpl: async () => {
+      throw new Error("live token refresh should not run");
+    },
+  });
+
+  const result = await Effect.runPromise(
+    service.getBookmarks(undefined, { forceLive: true }),
+  );
+  expect(result.httpStatus).toBe(200);
+  expect(result.response.status).toBe("fresh");
+  expect(result.response.bookmarks[0]?.id).toBe("forced-live");
+  expect(repository.snapshot?.bookmarks[0]?.id).toBe("forced-live");
 });
 
 test("BookmarksSyncService serves a stale snapshot when token refresh fails", async () => {
@@ -166,4 +197,40 @@ test("BookmarksSyncService promotes a verified legacy token into the owner-scope
   expect(result.response.status).toBe("fresh");
   expect(repository.tokenRecord?.owner.username).toBe("claycurry__");
   expect(repository.legacyTokenRecord).toBeNull();
+});
+
+test("BookmarksSyncService returns misconfigured when forceLive is requested without canonical OAuth env vars", async () => {
+  const repository = new MemoryRepository();
+
+  const result = await withEnv(
+    {
+      X_CLIENT_ID: "legacy-client-id",
+      X_CLIENT_SECRET: "legacy-client-secret",
+      X_OAUTH2_CLIENT_ID: undefined,
+      X_OAUTH2_CLIENT_SECRET: undefined,
+    },
+    () =>
+      Effect.runPromise(
+        new BookmarksSyncService({
+          config: {
+            ...liveConfig,
+            clientId: null,
+            clientSecret: null,
+          },
+          repository,
+          client: new StubBookmarksClient(),
+          fetchImpl: async () => {
+            throw new Error("live token flow should not run");
+          },
+        }).getBookmarks(undefined, { forceLive: true }),
+      ),
+  );
+
+  expect(result.httpStatus).toBe(500);
+  expect(result.response.status).toBe("misconfigured");
+  expect(result.response.error ?? "").toContain("X_OAUTH2_CLIENT_ID");
+  expect(result.response.error ?? "").toContain("X_OAUTH2_CLIENT_SECRET");
+  expect(result.response.error ?? "").toContain(
+    "Rename them to X_OAUTH2_CLIENT_ID/X_OAUTH2_CLIENT_SECRET",
+  );
 });

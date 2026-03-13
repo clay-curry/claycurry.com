@@ -195,6 +195,15 @@ export function withEnv<T>(
   run: () => T,
 ): T {
   const previous = new Map<string, string | undefined>();
+  const restore = () => {
+    for (const [key, value] of previous) {
+      if (value === undefined) {
+        delete process.env[key];
+      } else {
+        process.env[key] = value;
+      }
+    }
+  };
 
   for (const [key, value] of Object.entries(overrides)) {
     previous.set(key, process.env[key]);
@@ -206,14 +215,21 @@ export function withEnv<T>(
   }
 
   try {
-    return run();
-  } finally {
-    for (const [key, value] of previous) {
-      if (value === undefined) {
-        delete process.env[key];
-      } else {
-        process.env[key] = value;
-      }
+    const result = run();
+
+    if (
+      result &&
+      typeof result === "object" &&
+      "finally" in result &&
+      typeof result.finally === "function"
+    ) {
+      return result.finally(() => restore()) as T;
     }
+
+    restore();
+    return result;
+  } catch (error) {
+    restore();
+    throw error;
   }
 }

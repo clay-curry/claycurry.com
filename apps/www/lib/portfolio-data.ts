@@ -6,7 +6,7 @@ export const locationData = {
 
 export const profileData = {
   name: "Clay Curry",
-  title: "Software Engineer",
+  title: "Design Engineer",
   avatar: "/clay_profile_cropped.png",
   email: "me@claycurry.com",
   phone: "+1 (405) 301-1055",
@@ -59,88 +59,6 @@ export const aboutData = {
     "Google Cloud",
     "CI/CD",
     "Remote Team Leadership",
-  ],
-  testimonials: [
-    {
-      avatar: "/professional-man.jpg",
-      name: "Matt Thaibault",
-      text: "Clay was hired to create a corporate identity. We were very pleased with the work done. He has a lot of experience and is very concerned about the needs of client.",
-    },
-    {
-      avatar: "/professional-woman-diverse.png",
-      name: "Yunjao Mao",
-      text: "Clay was hired to create a corporate identity. We were very pleased with the work done. He has a lot of experience and is very concerned about the needs of client.",
-    },
-    {
-      avatar: "/professional-man.jpg",
-      name: "Soumya Bhattacharya",
-      text: "Outstanding work! Clay delivered a high-quality product that exceeded our expectations. His attention to detail is remarkable.",
-    },
-    {
-      avatar: "/professional-woman-diverse.png",
-      name: "Reajul Chowdhury",
-      text: "Professional, creative, and highly skilled. Clay is the developer you want on your team for any complex project.",
-    },
-  ],
-  clients: [
-    { name: "TechCorp", logo: "/tech-company-logo.jpg" },
-    { name: "StartupHub", logo: "/startup-logo.png" },
-    { name: "CodeLabs", logo: "/software-company-logo.png" },
-    { name: "WebSolutions", logo: "/web-agency-logo.jpg" },
-    { name: "AppMakers", logo: "/app-development-logo.jpg" },
-  ],
-};
-
-export const resumeData = {
-  education: [
-    {
-      title: "University of California, Berkeley",
-      period: "2013 — 2017",
-      description:
-        "Studied Computer Science with a focus on web technologies and software engineering principles.",
-    },
-    {
-      title: "Frontend Development Bootcamp",
-      period: "2017 — 2018",
-      description:
-        "Intensive program covering modern JavaScript frameworks, responsive design, and UX principles.",
-    },
-  ],
-  experience: [
-    {
-      title: "Senior Software Engineer",
-      period: "2020 — Present",
-      description:
-        "Leading development of scalable web applications using React, Node.js, and cloud technologies. Mentoring junior developers and implementing best practices.",
-    },
-    {
-      title: "Software Engineer",
-      period: "2018 — 2020",
-      description:
-        "Developed and maintained multiple client projects using modern web technologies. Collaborated with design teams to create seamless user experiences.",
-    },
-  ],
-  skills: [
-    { name: "Product Design", level: 90 },
-    { name: "Frontend Development", level: 95 },
-    { name: "Backend Development", level: 85 },
-    { name: "Database Design", level: 80 },
-  ],
-};
-
-export const blogData = {
-  posts: [
-    {
-      title: "So Good They Can't Ignore You",
-      category: "Book Review",
-      date: "Jan 25, 2025",
-      readTime: "7 min",
-      image: "/software-architecture.jpg",
-      excerpt:
-        "Cal Newport's case for why skills trump passion in the quest for work you love.",
-      tags: ["Books", "Career", "Productivity"],
-      slug: "so-good-they-cant-ignore-you",
-    },
   ],
 };
 

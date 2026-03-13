@@ -15,8 +15,8 @@
         "PERPLEXITY_API_KEY",
         "APPLE_DEV_TEAM_ID",
         "X_OWNER_USERNAME",
-        "X_CLIENT_ID",
-        "X_CLIENT_SECRET",
+        "X_OAUTH2_CLIENT_ID",
+        "X_OAUTH2_CLIENT_SECRET",
         "X_OWNER_USER_ID",
         "X_OWNER_SECRET"
       ]

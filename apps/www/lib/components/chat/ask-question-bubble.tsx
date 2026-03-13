@@ -1,12 +1,19 @@
 "use client";
 
 import { ArrowUp } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDebugQueryState } from "@/lib/components/site/debug-panel/url-state";
 import { useChatUI } from "@/lib/hooks/use-chat-ui";
 
 export function AskQuestionBubble() {
+  const [mounted, setMounted] = useState(false);
   const [question, setQuestion] = useState("");
   const { setPrompt, setIsDialogOpen } = useChatUI();
+  const { visible: isDebugVisible } = useDebugQueryState();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +31,8 @@ export function AskQuestionBubble() {
       handleSubmit(e);
     }
   };
+
+  if (!mounted || isDebugVisible) return null;
 
   return (
     <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-3 sm:px-4">

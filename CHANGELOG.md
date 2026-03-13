@@ -41,7 +41,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Hero contact button uses semantic `bg-background`/`text-foreground` tokens instead of `text-white`
 - Ask AI buttons use `text-primary-foreground` instead of `text-white`
 - Destructive button variant uses `text-destructive-foreground` instead of `text-white`
-- Resume subheading to "Designer | Product Engineer"
+- Resume subheading to "Designer | Design Engineer"
 - Moved San Francisco location to top of profile sidebar with Google Maps link
 - Rewrote About section bio to describe engineering values and AI/ML interest
 - Applied biome formatting and lint fixes across codebase
