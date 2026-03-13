@@ -370,15 +370,12 @@ html.theme-switching *::after {
   }
 }
 
-/* Figma cursor set on desktop pointers, while preserving native affordance cursors. */
+/* Use custom cursor assets on fine-pointer devices while keeping native fallbacks. */
 @media (hover: hover) and (pointer: fine) {
   :root {
-    --cursor-default:
-      url("/cursors/figma-default.cur"),
-      url("/cursors/figma-default-32.png") 4 2, auto;
-    --cursor-hover:
-      url("/cursors/figma-hover.cur"), url("/cursors/figma-hover-32.png") 4 2,
-      pointer;
+    --cursor-default: url("/cursors/arrow.svg") 2 3, auto;
+    --cursor-pointer: url("/cursors/pointer.svg") 8 1, pointer;
+    --cursor-text: url("/cursors/cursor.svg") 6 12, text;
   }
 
   html,
@@ -395,13 +392,14 @@ html.theme-switching *::after {
   [role="button"],
   [role="link"],
   .cursor-pointer {
-    cursor: var(--cursor-hover);
+    cursor: var(--cursor-pointer);
   }
 
   input,
   textarea,
-  [contenteditable="true"] {
-    cursor: text;
+  [contenteditable="true"],
+  .cursor-text {
+    cursor: var(--cursor-text);
   }
 
   [draggable="true"] {

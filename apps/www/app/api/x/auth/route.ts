@@ -3,7 +3,13 @@ import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
 import { appRuntime } from "@/lib/effect/runtime";
 import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
-import { getXRuntimeConfig } from "@/lib/x/config";
+import {
+  assertLiveRuntimeConfig,
+  buildXLiveCredentialsErrorMessage,
+  getMissingCanonicalXOAuthConfigKeys,
+  getPresentLegacyXOAuthEnvKeys,
+  getXRuntimeConfig,
+} from "@/lib/x/config";
 
 function base64url(buffer: Buffer): string {
   return buffer.toString("base64url");
@@ -25,12 +31,20 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  if (!config.clientId || !config.clientSecret) {
+  const missingKeys = getMissingCanonicalXOAuthConfigKeys(config);
+
+  if (missingKeys.length > 0) {
     return NextResponse.json(
-      { error: "X_CLIENT_ID or X_CLIENT_SECRET not configured" },
+      {
+        error: buildXLiveCredentialsErrorMessage(missingKeys, {
+          hasLegacyOauthVars:
+            getPresentLegacyXOAuthEnvKeys(process.env).length > 0,
+        }),
+      },
       { status: 500 },
     );
   }
+  assertLiveRuntimeConfig(config);
 
   // Generate PKCE code verifier and challenge
   const codeVerifier = base64url(crypto.randomBytes(32));

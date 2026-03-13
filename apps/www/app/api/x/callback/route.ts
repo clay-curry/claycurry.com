@@ -8,7 +8,13 @@ import {
   XBookmarksOwnerResolver,
   XIdentityVerifier,
 } from "@/lib/x/client";
-import { assertLiveRuntimeConfig, getXRuntimeConfig } from "@/lib/x/config";
+import {
+  assertLiveRuntimeConfig,
+  buildXLiveCredentialsErrorMessage,
+  getMissingCanonicalXOAuthConfigKeys,
+  getPresentLegacyXOAuthEnvKeys,
+  getXRuntimeConfig,
+} from "@/lib/x/config";
 import { BookmarksSyncStatusRecordSchema } from "@/lib/x/contracts";
 import { errorCode, toXError } from "@/lib/x/errors";
 import { XTokenStore } from "@/lib/x/tokens";
@@ -65,9 +71,16 @@ export async function GET(request: NextRequest) {
   }
 
   const config = getXRuntimeConfig();
-  if (config.mode !== "live") {
+  const missingKeys = getMissingCanonicalXOAuthConfigKeys(config);
+
+  if (missingKeys.length > 0) {
     return NextResponse.json(
-      { error: "X credentials not configured" },
+      {
+        error: buildXLiveCredentialsErrorMessage(missingKeys, {
+          hasLegacyOauthVars:
+            getPresentLegacyXOAuthEnvKeys(process.env).length > 0,
+        }),
+      },
       { status: 500 },
     );
   }

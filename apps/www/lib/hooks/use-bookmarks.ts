@@ -2,6 +2,7 @@
 
 import { useAtom, useAtomValue } from "jotai";
 import { useCallback, useEffect, useState } from "react";
+import { DEBUG_BOOKMARKS_CONFIG_CHANGE_EVENT } from "@/lib/components/site/debug-panel/url-state";
 import {
   bookmarkFolderAtom,
   bookmarksDataAtom,
@@ -12,11 +13,25 @@ import type {
   BookmarksApiResponse,
   BookmarksApiStatus,
 } from "@/lib/x/contracts";
+import {
+  BOOKMARKS_API_SOURCE_QUERY_PARAM,
+  BOOKMARKS_DEBUG_SOURCE_QUERY_PARAM,
+  isLiveBookmarksSource,
+} from "@/lib/x/debug";
 
-/** Read the `mock` query param from the page URL (client-side only). */
-function getDebugMockParam(): string | null {
-  if (typeof window === "undefined") return null;
-  return new URLSearchParams(window.location.search).get("mock");
+function getBookmarksDebugConfig() {
+  if (typeof window === "undefined") {
+    return {
+      mockMode: null,
+      source: null,
+    };
+  }
+
+  const searchParams = new URLSearchParams(window.location.search);
+  return {
+    mockMode: searchParams.get("mock"),
+    source: searchParams.get(BOOKMARKS_DEBUG_SOURCE_QUERY_PARAM),
+  };
 }
 
 export function useBookmarks() {
@@ -37,8 +52,12 @@ export function useBookmarks() {
       try {
         const params = new URLSearchParams();
         if (folderId) params.set("folder", folderId);
-        const mock = getDebugMockParam();
-        if (mock) params.set("mock", mock);
+        const { mockMode, source } = getBookmarksDebugConfig();
+        if (isLiveBookmarksSource(source)) {
+          params.set(BOOKMARKS_API_SOURCE_QUERY_PARAM, source);
+        } else if (mockMode) {
+          params.set("mock", mockMode);
+        }
         const qs = params.toString();
         const res = await fetch(`/api/x/bookmarks${qs ? `?${qs}` : ""}`);
         const json = await res.json();
@@ -92,11 +111,12 @@ export function useBookmarks() {
     fetchBookmarks(folder || undefined);
   }, [folder, fetchBookmarks]);
 
-  // Re-fetch when the debug panel changes the mock param
+  // Re-fetch when the debug panel changes the bookmarks source config.
   useEffect(() => {
     const handler = () => fetchBookmarks(folder || undefined);
-    window.addEventListener("debug-mock-change", handler);
-    return () => window.removeEventListener("debug-mock-change", handler);
+    window.addEventListener(DEBUG_BOOKMARKS_CONFIG_CHANGE_EVENT, handler);
+    return () =>
+      window.removeEventListener(DEBUG_BOOKMARKS_CONFIG_CHANGE_EVENT, handler);
   }, [folder, fetchBookmarks]);
 
   const refetch = useCallback(() => {

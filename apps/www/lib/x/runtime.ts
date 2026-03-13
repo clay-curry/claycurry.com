@@ -17,7 +17,10 @@ import { BookmarksSyncService } from "./service";
  * Methods return Effect programs for composable error handling.
  */
 export interface BookmarksSyncServiceLike {
-  getBookmarks(folderId?: string): Effect.Effect<{
+  getBookmarks(
+    folderId?: string,
+    options?: { forceLive?: boolean },
+  ): Effect.Effect<{
     response: BookmarksApiResponse;
     httpStatus: number;
   }>;
@@ -30,12 +33,14 @@ function isPreproduction(): boolean {
 }
 
 function hasLiveCredentials(): boolean {
-  return !!(process.env.X_CLIENT_ID && process.env.X_CLIENT_SECRET);
+  return !!(
+    process.env.X_OAUTH2_CLIENT_ID && process.env.X_OAUTH2_CLIENT_SECRET
+  );
 }
 
 function createMockSyncService(): BookmarksSyncServiceLike {
   return {
-    getBookmarks(folderId?: string) {
+    getBookmarks(folderId?: string, _options?: { forceLive?: boolean }) {
       return Effect.succeed({
         response: getMockBookmarksResponse(folderId),
         httpStatus: 200,
@@ -49,8 +54,15 @@ function createMockSyncService(): BookmarksSyncServiceLike {
 
 export function createBookmarksSyncService(
   fetchImpl: typeof fetch = fetch,
+  options: {
+    preferMockFallback?: boolean;
+  } = {},
 ): BookmarksSyncServiceLike {
-  if (isPreproduction() && !hasLiveCredentials()) {
+  if (
+    isPreproduction() &&
+    options.preferMockFallback !== false &&
+    !hasLiveCredentials()
+  ) {
     return createMockSyncService();
   }
 

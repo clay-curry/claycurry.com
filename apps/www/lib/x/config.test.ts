@@ -6,8 +6,8 @@ test("getXRuntimeConfig defaults the canonical owner username to claycurry__", (
   const config = withEnv(
     {
       X_OWNER_USERNAME: undefined,
-      X_CLIENT_ID: undefined,
-      X_CLIENT_SECRET: undefined,
+      X_OAUTH2_CLIENT_ID: undefined,
+      X_OAUTH2_CLIENT_SECRET: undefined,
       X_OWNER_USER_ID: undefined,
       X_OWNER_SECRET: undefined,
     },
@@ -22,8 +22,8 @@ test("getXRuntimeConfig enters live mode only when both OAuth credentials are se
   const config = withEnv(
     {
       X_OWNER_USERNAME: "claycurry__",
-      X_CLIENT_ID: "client-id",
-      X_CLIENT_SECRET: "client-secret",
+      X_OAUTH2_CLIENT_ID: "client-id",
+      X_OAUTH2_CLIENT_SECRET: "client-secret",
       X_OWNER_USER_ID: "owner-1",
       X_OWNER_SECRET: "owner-secret",
     },

@@ -107,8 +107,8 @@ Local app URL: `http://localhost:3000`
 | `PERPLEXITY_API_KEY` | Web search tool in chat | Enables search tool usage when web search is turned on in chat. |
 | `X_OWNER_USERNAME` | X bookmarks sync | Canonical bookmark owner username. Set this to `claycurry__`. |
 | `X_OWNER_USER_ID` | X bookmarks sync | Deprecated compatibility field. If set, it must resolve to the same account as `X_OWNER_USERNAME`. |
-| `X_CLIENT_ID` | X OAuth | OAuth client identifier. |
-| `X_CLIENT_SECRET` | X OAuth | OAuth client secret for token exchange/refresh. |
+| `X_OAUTH2_CLIENT_ID` | X OAuth | Canonical OAuth client identifier for token exchange/refresh. |
+| `X_OAUTH2_CLIENT_SECRET` | X OAuth | Canonical OAuth client secret for token exchange/refresh. |
 | `X_OWNER_SECRET` | X OAuth bootstrap route | Shared secret gate for `/api/x/auth`. |
 
 Deployment note:
@@ -135,7 +135,7 @@ Deployment note:
 - Supports OAuth token exchange, owner validation for `@claycurry__`, and bookmark retrieval
 - Returns stale snapshots instead of blank data when live sync fails and a prior snapshot exists
 - Exposes a minimal operator status route at `/api/x/bookmarks/status?secret=...`
-- Requires `X_CLIENT_ID` and `X_CLIENT_SECRET` — shows a clear error when credentials are missing
+- Requires `X_OAUTH2_CLIENT_ID` and `X_OAUTH2_CLIENT_SECRET` — shows a clear error when credentials are missing or legacy names are still in use
 
 ### Email delivery
 
@@ -196,6 +196,56 @@ Note: `packages/www` currently has no `package.json`, so it is not an active pnp
 4. Follow conventional commit messages (validated in CI).
 
 CI enforces merge criteria via `.github/workflows/merge-criteria.yml`, including changelog and commit checks.
+
+## Env
+
+```
+# Created by Vercel CLI
+AI_GATEWAY_API_KEY=
+ANTHROPIC_API_KEY=
+APPLE_DEV_TEAM_ID=
+KV_REST_API_REDIS_URL=
+RESEND_API_KEY=
+VERCEL_OIDC_TOKEN=
+
+# App-Only Authentication
+#
+# Bearer Token authenticates requests on behalf of your developer App.
+X_BEARER_TOKEN=
+
+# OAuth 1.0 Keys
+#
+# Consumer Key
+# Think of these as the user name and password that represents your App when 
+# making API requests.
+# 
+# While your Secret will remain permanently hidden, you can always view the 
+# last 6 characters of your Consumer Key.
+
+
+# An Access Token and Secret are user-specific credentials used to authenticate 
+# OAuth 1.0 API requests. They specify the X account the request is made on 
+# behalf of.
+X_OWNER_OAUTH1_ACCESS_TOKEN=
+X_OWNER_OAUTH1_ACCESS_TOKEN_SECRET=
+
+
+# OAuth 2.0 Keys
+
+# Client ID
+# Think of your Client ID as the user name that allows you to use OAuth 2.0 as 
+# an authentication method.
+X_OAUTH2_CLIENT_ID=
+# Client Secret
+# Think of your Client Secret as the password that allows you to use OAuth 2.0 
+# as an authentication method.
+X_OAUTH2_CLIENT_SECRET=
+
+X_OWNER_USERNAME=claycurry__
+X_OWNER_SECRET=
+X_OWNER_USER_ID=
+```
+
 
 ## License
 

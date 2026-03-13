@@ -5,7 +5,13 @@ import {
   XBookmarksOwnerResolver,
   XIdentityVerifier,
 } from "./client";
-import type { XLiveRuntimeConfig, XRuntimeConfig } from "./config";
+import {
+  buildXLiveCredentialsErrorMessage,
+  getMissingCanonicalXOAuthConfigKeys,
+  getPresentLegacyXOAuthEnvKeys,
+  type XLiveRuntimeConfig,
+  type XRuntimeConfig,
+} from "./config";
 import {
   type BookmarkSourceOwner,
   type BookmarksApiResponse,
@@ -59,6 +65,8 @@ function deriveTokenHealthFromRecord(
 
 function mapFailureToHttpStatus(status: BookmarksApiStatus): number {
   switch (status) {
+    case "misconfigured":
+      return 500;
     case "reauth_required":
       return 503;
     case "owner_mismatch":
@@ -74,6 +82,7 @@ function mapFailureToHttpStatus(status: BookmarksApiStatus): number {
 function mapErrorCodeToStatus(error: XError): BookmarksApiStatus {
   const code = errorCode(error);
   switch (code) {
+    case "misconfigured":
     case "reauth_required":
     case "owner_mismatch":
     case "schema_invalid":
@@ -108,6 +117,10 @@ interface BookmarksSyncServiceOptions {
   fetchImpl?: typeof fetch;
 }
 
+interface GetBookmarksOptions {
+  forceLive?: boolean;
+}
+
 export class BookmarksSyncService {
   private readonly ownerHint: BookmarkSourceOwner;
 
@@ -115,7 +128,7 @@ export class BookmarksSyncService {
     this.ownerHint = buildOwnerHint(options.config);
   }
 
-  getBookmarks(folderId?: string) {
+  getBookmarks(folderId?: string, options: GetBookmarksOptions = {}) {
     const opts = this.options;
     const self = this;
 
@@ -123,7 +136,7 @@ export class BookmarksSyncService {
       const snapshot = yield* Effect.promise(() =>
         opts.repository.getSnapshot(self.ownerHint, folderId),
       );
-      if (snapshot && self.isSnapshotFresh(snapshot)) {
+      if (snapshot && self.isSnapshotFresh(snapshot) && !options.forceLive) {
         return {
           response: self.snapshotToApiResponse(snapshot, "fresh"),
           httpStatus: 200,
@@ -491,9 +504,17 @@ export class BookmarksSyncService {
 
   private assertLiveConfig() {
     const { config } = this.options;
-    if (!config.clientId || !config.clientSecret) {
+    const missingKeys = getMissingCanonicalXOAuthConfigKeys(config);
+
+    if (missingKeys.length > 0) {
       return Effect.fail(
-        xError("upstream_error", "X live credentials are not configured"),
+        xError(
+          "misconfigured",
+          buildXLiveCredentialsErrorMessage(missingKeys, {
+            hasLegacyOauthVars:
+              getPresentLegacyXOAuthEnvKeys(process.env).length > 0,
+          }),
+        ),
       );
     }
     return Effect.succeed(config as XLiveRuntimeConfig);

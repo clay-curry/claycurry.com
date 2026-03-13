@@ -48,21 +48,21 @@ const chirp = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
-  title: "Clay Curry - Software Engineer",
+  title: "Clay Curry - Design Engineer",
   description:
-    "Portfolio of Clay Curry, a Software Engineer experienced in web technologies",
+    "Portfolio of Clay Curry, a Design Engineer experienced in web technologies",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Clay Curry - Software Engineer",
+    title: "Clay Curry - Design Engineer",
     description:
-      "Portfolio of Clay Curry, a Software Engineer experienced in web technologies",
+      "Portfolio of Clay Curry, a Design Engineer experienced in web technologies",
     type: "website",
     url: "/",
     images: [
       {
-        alt: "Clay Curry - Software Engineer",
+        alt: "Clay Curry - Design Engineer",
         height: 2744,
         url: "/og-image.png",
         width: 4032,
@@ -71,12 +71,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Clay Curry - Software Engineer",
+    title: "Clay Curry - Design Engineer",
     description:
-      "Portfolio of Clay Curry, a Software Engineer experienced in web technologies",
+      "Portfolio of Clay Curry, a Design Engineer experienced in web technologies",
     images: [
       {
-        alt: "Clay Curry - Software Engineer",
+        alt: "Clay Curry - Design Engineer",
         url: "/og-image.png",
       },
     ],

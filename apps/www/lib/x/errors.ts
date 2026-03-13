@@ -15,6 +15,12 @@ export class ReauthRequired extends Data.TaggedError("ReauthRequired")<{
   readonly cause?: unknown;
 }> {}
 
+export class Misconfigured extends Data.TaggedError("Misconfigured")<{
+  readonly message: string;
+  readonly tokenStatus?: TokenHealthStatus;
+  readonly cause?: unknown;
+}> {}
+
 export class OwnerMismatch extends Data.TaggedError("OwnerMismatch")<{
   readonly message: string;
   readonly tokenStatus?: TokenHealthStatus;
@@ -40,6 +46,7 @@ export class CacheStale extends Data.TaggedError("CacheStale")<{
 }> {}
 
 export type XError =
+  | Misconfigured
   | ReauthRequired
   | OwnerMismatch
   | SchemaInvalid
@@ -61,6 +68,8 @@ export function xError(
     cause: options?.cause,
   };
   switch (code) {
+    case "misconfigured":
+      return new Misconfigured(props);
     case "reauth_required":
       return new ReauthRequired(props);
     case "owner_mismatch":
@@ -81,6 +90,8 @@ export function xError(
 /** Extract the IntegrationIssueCode from an XError */
 export function errorCode(error: XError): IntegrationIssueCode {
   switch (error._tag) {
+    case "Misconfigured":
+      return "misconfigured";
     case "ReauthRequired":
       return "reauth_required";
     case "OwnerMismatch":
@@ -99,6 +110,7 @@ export function toXError(
   fallbackCode: IntegrationIssueCode = "upstream_error",
 ): XError {
   if (
+    error instanceof Misconfigured ||
     error instanceof ReauthRequired ||
     error instanceof OwnerMismatch ||
     error instanceof SchemaInvalid ||

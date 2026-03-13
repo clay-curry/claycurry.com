@@ -151,6 +151,7 @@ export const XTokenRecordSchema = Schema.Struct({
 export type XTokenRecord = typeof XTokenRecordSchema.Type;
 
 export const IntegrationIssueCodeSchema = Schema.Literal(
+  "misconfigured",
   "reauth_required",
   "owner_mismatch",
   "schema_invalid",
@@ -170,6 +171,7 @@ export type IntegrationIssue = typeof IntegrationIssueSchema.Type;
 export const BookmarksApiStatusSchema = Schema.Literal(
   "fresh",
   "stale",
+  "misconfigured",
   "reauth_required",
   "owner_mismatch",
   "schema_invalid",
