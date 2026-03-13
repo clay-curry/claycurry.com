@@ -3,6 +3,7 @@ import type { UIMessage } from "ai";
 import { convertToModelMessages, gateway, streamText } from "ai";
 import { Effect } from "effect";
 import { getPostContent } from "@/app/(portfolio)/blog/loader";
+import type { DebugLogEntry, DebugPayload } from "@/lib/debug";
 import { profileData } from "@/lib/portfolio-data";
 
 interface GitHubRepo {
@@ -225,6 +226,15 @@ const BLOG_SYSTEM_PROMPT = `You are a helpful assistant that answers questions a
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
+  const startTime = performance.now();
+  const isDebug = req.headers.get("X-Debug") === "1";
+  const debugLogs: DebugLogEntry[] = [];
+  const dlog = (msg: string, attrs?: Record<string, unknown>) => {
+    if (isDebug) {
+      debugLogs.push({ level: "info", msg, ts: Date.now(), attrs });
+    }
+  };
+
   const {
     messages,
     model = "grok/grok-3-mini",
@@ -236,6 +246,13 @@ export async function POST(req: Request) {
     webSearch?: boolean;
     slug?: string;
   } = await req.json();
+
+  dlog("chat request", {
+    model,
+    messageCount: messages.length,
+    webSearch,
+    slug: slug ?? null,
+  });
 
   // Build system prompt based on context (blog article or general)
   let fullSystemPrompt: string;
@@ -261,16 +278,21 @@ ${postData.content}
 ---
 `;
       fullSystemPrompt = BLOG_SYSTEM_PROMPT + articleContext;
+      dlog("system prompt built", { type: "blog", slug });
     } else {
       // Fallback if article not found
       fullSystemPrompt = BLOG_SYSTEM_PROMPT;
+      dlog("system prompt built", { type: "blog-fallback", slug });
     }
   } else {
     // General context - use GitHub data
     const githubData = await Effect.runPromise(fetchGitHubData);
     fullSystemPrompt =
       SYSTEM_PROMPT + (githubData ? `\n\n### GitHub Data\n${githubData}` : "");
+    dlog("system prompt built", { type: "general" });
   }
+
+  dlog("stream started");
 
   const result = streamText({
     model: gateway(model),
@@ -292,8 +314,49 @@ ${postData.content}
     },
   });
 
-  return result.toUIMessageStreamResponse({
+  const response = result.toUIMessageStreamResponse({
     sendSources: true,
     sendReasoning: true,
+  });
+
+  if (!isDebug) {
+    return response;
+  }
+
+  // Wrap the stream to append a debug SSE event at the end
+  const originalBody = response.body;
+  if (!originalBody) {
+    return response;
+  }
+
+  const { readable, writable } = new TransformStream();
+  const writer = writable.getWriter();
+  const reader = originalBody.getReader();
+
+  (async () => {
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        await writer.write(value);
+      }
+      // Append debug event after stream ends
+      const durationMs = Math.round(performance.now() - startTime);
+      const payload: DebugPayload = {
+        route: "POST /api/chat",
+        durationMs,
+        logs: debugLogs,
+        spans: [],
+      };
+      const debugEvent = `event: debug\ndata: ${JSON.stringify(payload)}\n\n`;
+      await writer.write(new TextEncoder().encode(debugEvent));
+    } finally {
+      await writer.close();
+    }
+  })();
+
+  return new Response(readable, {
+    status: response.status,
+    headers: response.headers,
   });
 }

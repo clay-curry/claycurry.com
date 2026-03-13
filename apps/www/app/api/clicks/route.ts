@@ -1,6 +1,6 @@
 import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
-import { appRuntime } from "@/lib/effect/runtime";
+import { debugError, debugLog, runWithDebug } from "@/lib/debug";
 import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
 
 const clicksKey = `${keyPrefix()}clicks`;
@@ -15,20 +15,30 @@ const getAllCounts = Effect.gen(function* () {
   return counts;
 });
 
-export async function GET() {
-  return appRuntime.runPromise(
+export async function GET(request: NextRequest) {
+  return runWithDebug(
+    request,
     getAllCounts.pipe(
+      Effect.tap((counts) =>
+        debugLog("fetched click counts", {
+          count: Object.keys(counts).length,
+        }),
+      ),
       Effect.map((counts) => NextResponse.json({ counts })),
       Effect.catchTag("RedisError", (err) => {
         console.error("Redis hGetAll error:", err.message);
-        return Effect.succeed(NextResponse.json({ counts: {} }));
+        return debugError("redis unavailable", { error: err.message }).pipe(
+          Effect.map(() => NextResponse.json({ counts: {} })),
+        );
       }),
     ),
+    "GET /api/clicks",
   );
 }
 
 export async function POST(request: NextRequest) {
-  return appRuntime.runPromise(
+  return runWithDebug(
+    request,
     Effect.gen(function* () {
       const body = yield* Effect.tryPromise({
         try: () => request.json(),
@@ -42,6 +52,8 @@ export async function POST(request: NextRequest) {
           { status: 400 },
         );
       }
+
+      yield* debugLog("batch click increment", { count: ids.length });
 
       // Tally repeats
       const tally = new Map<string, number>();
@@ -84,13 +96,16 @@ export async function POST(request: NextRequest) {
       ),
       Effect.catchTag("RedisError", (err) => {
         console.error("Redis hIncrBy error:", err.message);
-        return Effect.succeed(
-          NextResponse.json(
-            { error: "Click recording failed. Redis unavailable." },
-            { status: 503 },
+        return debugError("redis unavailable", { error: err.message }).pipe(
+          Effect.map(() =>
+            NextResponse.json(
+              { error: "Click recording failed. Redis unavailable." },
+              { status: 503 },
+            ),
           ),
         );
       }),
     ),
+    "POST /api/clicks",
   );
 }

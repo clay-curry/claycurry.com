@@ -1,6 +1,6 @@
 import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
-import { appRuntime } from "@/lib/effect/runtime";
+import { debugError, debugLog, runWithDebug } from "@/lib/debug";
 import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
 
 /** Max number of slugs stored in the dedup cookie */
@@ -34,19 +34,25 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  return appRuntime.runPromise(
+  return runWithDebug(
+    request,
     getViewCount(slug).pipe(
+      Effect.tap((count) => debugLog("fetched view count", { slug, count })),
       Effect.map((count) => NextResponse.json({ slug, count })),
       Effect.catchTag("RedisError", (err) => {
         console.error("Redis get error:", err.message);
-        return Effect.succeed(NextResponse.json({ slug, count: 0 }));
+        return debugError("redis unavailable", { error: err.message }).pipe(
+          Effect.map(() => NextResponse.json({ slug, count: 0 })),
+        );
       }),
     ),
+    "GET /api/views",
   );
 }
 
 export async function POST(request: NextRequest) {
-  return appRuntime.runPromise(
+  return runWithDebug(
+    request,
     Effect.gen(function* () {
       const body = yield* Effect.tryPromise({
         try: () => request.json(),
@@ -74,6 +80,7 @@ export async function POST(request: NextRequest) {
 
       // Check if this slug was already viewed
       if (viewedPages.includes(slug)) {
+        yield* debugLog("duplicate view skipped", { slug });
         const count = yield* getViewCount(slug).pipe(
           Effect.catchTag("RedisError", () => Effect.succeed(0)),
         );
@@ -85,7 +92,9 @@ export async function POST(request: NextRequest) {
         Effect.map((count) => ({ ok: true as const, count })),
         Effect.catchTag("RedisError", (err) => {
           console.error("Redis incr error:", err.message);
-          return Effect.succeed({ ok: false as const, count: 0 });
+          return debugError("redis unavailable for view increment", {
+            error: err.message,
+          }).pipe(Effect.map(() => ({ ok: false as const, count: 0 })));
         }),
       );
 
@@ -98,6 +107,11 @@ export async function POST(request: NextRequest) {
           duplicate: false,
         });
       }
+
+      yield* debugLog("view count incremented", {
+        slug,
+        count: incrResult.count,
+      });
 
       viewedPages.push(slug);
       if (viewedPages.length > MAX_VIEWED_PAGES) {
@@ -123,5 +137,6 @@ export async function POST(request: NextRequest) {
         ),
       ),
     ),
+    "POST /api/views",
   );
 }

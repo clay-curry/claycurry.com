@@ -1,5 +1,6 @@
 import { Effect, Schema } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
+import { debugLog, runWithDebug } from "@/lib/debug";
 import { appRuntime } from "@/lib/effect/runtime";
 import {
   makeTracerLayer,
@@ -44,10 +45,15 @@ export async function GET(request: NextRequest) {
   }
 
   const program = Effect.gen(function* () {
+    yield* debugLog("bookmarks sync requested", {
+      folderId: folderId ?? null,
+      mock: mockParam,
+    });
     const service = createBookmarksSyncService();
     const { response, httpStatus } = yield* service
       .getBookmarks(folderId)
       .pipe(Effect.withSpan("BookmarksSyncService.getBookmarks"));
+    yield* debugLog("sync result", { status: response.status, httpStatus });
     return NextResponse.json(response, { status: httpStatus });
   }).pipe(
     Effect.withSpan("GET /api/x/bookmarks", {
@@ -88,10 +94,12 @@ export async function GET(request: NextRequest) {
     const onSpanEnd = (span: import("@/lib/tracing").Span) => {
       appRuntime.runFork(persistSpan(span));
     };
-    return appRuntime.runPromise(
+    return runWithDebug(
+      request,
       program.pipe(Effect.provide(makeTracerLayer(traceId, onSpanEnd))),
+      "GET /api/x/bookmarks",
     );
   }
 
-  return Effect.runPromise(program);
+  return runWithDebug(request, program, "GET /api/x/bookmarks");
 }

@@ -3,6 +3,7 @@
 import { Loader2, Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { debugFetch } from "@/lib/debug/client";
 import { contactData } from "@/lib/portfolio-data";
 
 export default function ContactPage() {
@@ -19,7 +20,7 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await debugFetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

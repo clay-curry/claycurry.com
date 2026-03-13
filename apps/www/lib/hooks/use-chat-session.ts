@@ -9,6 +9,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { CHAT_MODELS } from "@/lib/chat/models";
 import { type ChatContext, db } from "@/lib/db";
+import { isDebugMode } from "@/lib/debug/client";
 
 export type { ChatModel } from "@/lib/chat/models";
 export { CHAT_MODELS } from "@/lib/chat/models";
@@ -126,6 +127,8 @@ export function useChatSession({
       id: context,
       transport: new DefaultChatTransport({
         api: basePath ? `${basePath}/api/chat` : "/api/chat",
+        headers: (): Record<string, string> =>
+          isDebugMode() ? { "X-Debug": "1" } : {},
       }),
       onError: (error) => {
         toast.error(error.message, { description: error.message });

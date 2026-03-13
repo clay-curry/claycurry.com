@@ -1,6 +1,6 @@
 import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
-import { appRuntime } from "@/lib/effect/runtime";
+import { debugLog, runWithDebug } from "@/lib/debug";
 import { buildSpanTree } from "@/lib/tracing/span-tree";
 import { getTrace } from "@/lib/tracing/storage";
 
@@ -47,8 +47,14 @@ export async function GET(
 
   const tree = new URL(request.url).searchParams.get("tree") === "true";
 
-  return appRuntime.runPromise(
+  return runWithDebug(
+    request,
     getTrace(traceId).pipe(
+      Effect.tap((result) =>
+        result
+          ? debugLog("trace found", { traceId, spanCount: result.spans.length })
+          : debugLog("trace not found", { traceId }),
+      ),
       Effect.map((result) => {
         if (!result) {
           return NextResponse.json(
@@ -77,5 +83,6 @@ export async function GET(
         );
       }),
     ),
+    "GET /api/trace/:id",
   );
 }

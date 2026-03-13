@@ -1,6 +1,7 @@
 import { Effect } from "effect";
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { withDebug } from "@/lib/debug";
 import { contactData } from "@/lib/portfolio-data";
 
 function escapeHtml(str: string): string {
@@ -12,61 +13,68 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#39;");
 }
 
-export async function POST(request: Request) {
-  return Effect.runPromise(
-    Effect.gen(function* () {
-      const body = yield* Effect.tryPromise({
-        try: () => request.json(),
-        catch: () => ({ _tag: "ParseError" as const }),
-      });
-      const { name, email, message } = body;
+export const POST = withDebug(
+  "POST /api/contact",
+  async (request: NextRequest, debug) => {
+    return Effect.runPromise(
+      Effect.gen(function* () {
+        const body = yield* Effect.tryPromise({
+          try: () => request.json(),
+          catch: () => ({ _tag: "ParseError" as const }),
+        });
+        const { name, email, message } = body;
 
-      if (!name || !email || !message) {
-        return NextResponse.json(
-          { error: "Missing required fields" },
-          { status: 400 },
-        );
-      }
+        if (!name || !email || !message) {
+          return NextResponse.json(
+            { error: "Missing required fields" },
+            { status: 400 },
+          );
+        }
 
-      const resend = new Resend(process.env.RESEND_API_KEY);
-      const { error } = yield* Effect.tryPromise({
-        try: () =>
-          resend.emails.send({
-            from: "Contact <contact@claycurry.com>",
-            to: contactData.email,
-            replyTo: email,
-            subject: `New message from ${name}`,
-            text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
-            html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-        <p><strong>Message:</strong></p>
-        <p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>
-      `,
-          }),
-        catch: (cause) => ({ _tag: "ResendError" as const, cause }),
-      });
+        debug.log("request parsed", { name, email });
 
-      if (error) {
-        console.error("Resend error:", error);
-        return NextResponse.json(
-          { error: "Failed to send email" },
-          { status: 500 },
-        );
-      }
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        const { error } = yield* Effect.tryPromise({
+          try: () =>
+            resend.emails.send({
+              from: "Contact <contact@claycurry.com>",
+              to: contactData.email,
+              replyTo: email,
+              subject: `New message from ${name}`,
+              text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+              html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+          <p><strong>Message:</strong></p>
+          <p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>
+        `,
+            }),
+          catch: (cause) => ({ _tag: "ResendError" as const, cause }),
+        });
 
-      return NextResponse.json({ success: true });
-    }).pipe(
-      Effect.catchAll((err) => {
-        console.error("Contact form error:", err);
-        return Effect.succeed(
-          NextResponse.json(
-            { error: "Internal server error" },
+        if (error) {
+          console.error("Resend error:", error);
+          debug.error("Resend API failed", { error: String(error) });
+          return NextResponse.json(
+            { error: "Failed to send email" },
             { status: 500 },
-          ),
-        );
-      }),
-    ),
-  );
-}
+          );
+        }
+
+        debug.log("email sent via Resend");
+        return NextResponse.json({ success: true });
+      }).pipe(
+        Effect.catchAll((err) => {
+          console.error("Contact form error:", err);
+          return Effect.succeed(
+            NextResponse.json(
+              { error: "Internal server error" },
+              { status: 500 },
+            ),
+          );
+        }),
+      ),
+    );
+  },
+);

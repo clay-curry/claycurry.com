@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/lib/components/ui/button";
+import { debugFetch } from "@/lib/debug/client";
 
 type Sentiment = "positive" | "negative" | null;
 
@@ -31,7 +32,7 @@ export function PageFeedback({
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/feedback", {
+      const response = await debugFetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
