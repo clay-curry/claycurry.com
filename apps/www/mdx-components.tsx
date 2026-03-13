@@ -17,7 +17,10 @@ import {
 import { Mermaid } from "@/lib/components/content/mermaid";
 import { PhotoCarousel } from "@/lib/components/content/photo-carousel";
 import { PhotoRow } from "@/lib/components/content/photo-row";
+import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import Summary from "@/lib/components/ui/summary";
+import { SITE_ORIGIN } from "@/lib/site-url";
+import { isTrackingHrefEligible } from "@/lib/tracking-query";
 import { slugify } from "@/lib/utils";
 
 // TRON-themed MDX components
@@ -196,14 +199,28 @@ const components = {
     <tr className="even:bg-muted/50">{children}</tr>
   ),
   hr: () => <hr className="my-8 border-border" />,
-  a: ({ href, children }: { href?: string; children: React.ReactNode }) => (
-    <a
-      href={href}
-      className="text-primary underline underline-offset-4 decoration-primary/50 hover:text-primary/80 hover:decoration-2 transition-colors"
-    >
-      {children}
-    </a>
-  ),
+  a: ({
+    href,
+    children,
+    ...props
+  }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
+    const className =
+      "text-primary underline underline-offset-4 decoration-primary/50 hover:text-primary/80 hover:decoration-2 transition-colors";
+
+    if (typeof href === "string" && isTrackingHrefEligible(href, SITE_ORIGIN)) {
+      return (
+        <PreservedQueryLink href={href} className={className} {...props}>
+          {children}
+        </PreservedQueryLink>
+      );
+    }
+
+    return (
+      <a href={href} className={className} {...props}>
+        {children}
+      </a>
+    );
+  },
   strong: ({ children }: { children: React.ReactNode }) => (
     <strong className="font-semibold text-foreground">{children}</strong>
   ),

@@ -52,7 +52,7 @@ function AsideProfile({ data = profileData }: AsideProfileProps) {
           <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-accent/20 via-accent/5 to-transparent animate-pulse-slow" />
           <div className="absolute inset-0.5 rounded-3xl bg-secondary overflow-hidden">
             <Image
-              src={data.avatar || "/placeholder.svg"}
+              src={data.avatar}
               alt={data.name}
               fill
               className="object-cover"

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 
 const workItems = [
   {
@@ -34,12 +34,12 @@ export default function WorkPage() {
           >
             <span className="shrink-0">{item.icon}</span>
             <span>
-              <Link
+              <PreservedQueryLink
                 href={item.href}
                 className="text-primary font-semibold underline underline-offset-4 decoration-primary/50 hover:decoration-2 transition-colors"
               >
                 {item.title}
-              </Link>
+              </PreservedQueryLink>
               <span className="text-muted-foreground">
                 {" "}
                 &ndash; {item.description}

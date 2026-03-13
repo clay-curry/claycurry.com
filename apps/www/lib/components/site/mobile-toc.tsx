@@ -1,8 +1,8 @@
 "use client";
 
 import { List } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import {
   Accordion,
   AccordionContent,
@@ -82,13 +82,13 @@ export function MobileToc({
               <AccordionContent className="pb-6">
                 <div className="flex justify-center gap-4 py-4 border-b border-border mb-2">
                   {navLinks.map((link) => (
-                    <Link
+                    <PreservedQueryLink
                       key={link.href}
                       href={link.href}
                       className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                     >
                       {link.label}
-                    </Link>
+                    </PreservedQueryLink>
                   ))}
                 </div>
                 <ul className="py-4 text-sm">

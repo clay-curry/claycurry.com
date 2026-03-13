@@ -1,10 +1,10 @@
 import { ArrowRight, Calendar } from "lucide-react";
-import Link from "next/link";
 import type { PostMetadata } from "@/app/(portfolio)/blog/loader";
+import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 
 export function PostCard({ post }: { post: PostMetadata }) {
   return (
-    <Link
+    <PreservedQueryLink
       href={`/blog/${post.slug}`}
       data-click-id={`blog:post:${post.slug}`}
       className="block"
@@ -44,6 +44,6 @@ export function PostCard({ post }: { post: PostMetadata }) {
           </span>
         </div>
       </article>
-    </Link>
+    </PreservedQueryLink>
   );
 }

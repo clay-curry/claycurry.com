@@ -2,8 +2,8 @@
 
 import { IconArrowRight, IconMessageCircle } from "@tabler/icons-react";
 import { ChevronDown } from "lucide-react";
-import Link from "next/link";
 
+import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import { Button } from "@/lib/components/ui/button";
 import {
   DropdownMenu,
@@ -33,14 +33,14 @@ export function HeroContactAskAI() {
         className="px-4 py-2 h-9 md:text-[0.8rem] shadow-none rounded-4xl bg-background hover:bg-secondary border border-border cursor-pointer"
         asChild
       >
-        <Link
+        <PreservedQueryLink
           className="text-foreground hover:text-foreground"
           href="/contact"
           data-click-id="hero:contact"
         >
           Contact
           <IconArrowRight className="size-4 -rotate-45" />
-        </Link>
+        </PreservedQueryLink>
       </Button>
 
       {/* Ask AI split button */}

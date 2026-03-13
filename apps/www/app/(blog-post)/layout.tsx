@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { AskAI } from "@/lib/components/chat/ask-ai";
 import { BlogSidebar } from "@/lib/components/site/blog-sidebar";
+import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import { SidebarInset, SidebarProvider } from "@/lib/components/ui/sidebar";
 import { getSiteNavLinks } from "@/lib/navigation";
 import { getAllPostsMetadata } from "../(portfolio)/blog/loader";
@@ -21,13 +21,13 @@ export default function BlogPostLayout({
           {/* Desktop-only top navigation */}
           <nav className="hidden xl:flex items-center gap-4 py-6 px-6 bg-sidebar sticky top-0 z-20">
             {navLinks.map((link) => (
-              <Link
+              <PreservedQueryLink
                 key={link.href}
                 href={link.href}
                 className="px-4 py-2 rounded-lg text-sm font-medium capitalize transition-colors text-muted-foreground hover:bg-primary/10"
               >
                 {link.label}
-              </Link>
+              </PreservedQueryLink>
             ))}
             <div className="ml-auto flex items-center gap-6">
               <AskAI mode="dialog" />

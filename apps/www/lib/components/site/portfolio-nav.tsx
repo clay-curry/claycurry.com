@@ -2,10 +2,10 @@
 
 import { Github, Menu, MessagesSquare, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import { Button } from "@/lib/components/ui/button";
 import { InitialsAvatar } from "@/lib/components/ui/initials-avatar";
 import { useChatUI } from "@/lib/hooks/use-chat-ui";
@@ -32,17 +32,17 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
     <header className="sticky top-0 z-20 w-full border-b border-border/40 backdrop-blur supports-backdrop-filter:bg-background/60">
       <nav className="flex h-16 items-center px-4 md:px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
+        <PreservedQueryLink href="/" className="flex items-center gap-3">
           <InitialsAvatar name="Clay Curry" size={32} />
           <span className="hidden sm:inline-block font-semibold text-foreground">
             CLAY CURRY
           </span>
-        </Link>
+        </PreservedQueryLink>
 
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex items-center gap-1 ml-6">
           {navLinks.map((section) => (
-            <Link
+            <PreservedQueryLink
               key={section.label}
               href={section.href}
               data-click-id={`nav:${section.label}`}
@@ -60,7 +60,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
                 />
               )}
               <span className="relative z-10">{section.label}</span>
-            </Link>
+            </PreservedQueryLink>
           ))}
         </div>
 
@@ -136,7 +136,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
                       <div className="flex flex-col gap-6 mt-12">
                         <nav className="flex flex-col gap-1">
                           {navLinks.map((section) => (
-                            <Link
+                            <PreservedQueryLink
                               key={section.label}
                               href={section.href}
                               data-click-id={`nav:mobile-${section.label}`}
@@ -148,7 +148,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
                               }`}
                             >
                               {section.label}
-                            </Link>
+                            </PreservedQueryLink>
                           ))}
                         </nav>
                       </div>
