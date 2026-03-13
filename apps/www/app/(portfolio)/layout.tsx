@@ -14,10 +14,10 @@ export default function PortfolioLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-dvh lg:overflow-hidden p-0 mx-auto max-w-7xl">
-      <div className="flex flex-col-reverse lg:flex-row gap-1 sm:gap-4 md:gap-6 h-full">
-        <AsideProfile data={profileData} />
+    <div className="min-h-dvh lg:h-dvh lg:overflow-hidden p-0 mx-auto max-w-7xl">
+      <div className="flex min-h-dvh flex-col gap-1 sm:gap-4 md:gap-6 lg:h-full lg:flex-row">
         <MainBody>{children}</MainBody>
+        <AsideProfile data={profileData} />
       </div>
     </div>
   );
@@ -31,7 +31,7 @@ function MainBody({ children }: { children: React.ReactNode }) {
   const navLinks = getSiteNavLinks();
 
   return (
-    <div className="w-full border border-border/80 lg:my-8 lg:mr-8 bg-background/95 lg:flex lg:flex-col lg:overflow-hidden">
+    <div className="order-1 w-full border border-border/80 bg-background/95 lg:order-2 lg:my-8 lg:mr-8 lg:flex lg:min-w-0 lg:flex-1 lg:flex-col lg:overflow-hidden">
       <PortfolioNav navLinks={navLinks} />
       <div className="flex justify-between px-2 lg:px-3 py-2 lg:shrink-0">
         <FloatingToolbar />
@@ -46,7 +46,7 @@ function MainBody({ children }: { children: React.ReactNode }) {
 
 function AsideProfile({ data = profileData }: AsideProfileProps) {
   return (
-    <aside className="w-full h-fit lg:w-72 bg-background/95 border border-border/80 p-4 md:p-6 lg:my-8 lg:ml-8 lg:overflow-y-auto lg:shrink-0">
+    <aside className="order-2 h-fit w-full border border-border/80 bg-background/95 p-4 md:p-6 lg:order-1 lg:my-8 lg:ml-8 lg:w-72 lg:overflow-y-auto lg:shrink-0">
       {/* Profile Image */}
       <div className="flex flex-col items-center">
         <div className="relative w-24 h-24 md:w-32 md:h-32 mb-4 md:mb-6">

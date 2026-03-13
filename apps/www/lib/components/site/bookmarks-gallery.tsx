@@ -28,16 +28,27 @@ export function BookmarksGallery() {
     useBookmarks();
   const bookmarks = useAtomValue(sortedBookmarksAtom);
   const [dimViewed, setDimViewed] = useState(false);
+  const staleTitle = lastSyncedAt
+    ? "Showing cached bookmarks"
+    : "Showing available bookmarks";
+  const staleMessage = lastSyncedAt ? (
+    <p>
+      Live sync failed, so this view is using the most recent cached snapshot
+      from {formatSyncTimestamp(lastSyncedAt)}.
+    </p>
+  ) : (
+    <p>
+      Live sync is unavailable, so this view is showing the latest available
+      bookmark set.
+    </p>
+  );
 
   const statusNotice = isStale ? (
     <Alert className="mb-4 border-amber-500/40 bg-amber-500/5 text-amber-200">
       <AlertTriangle className="size-4" />
-      <AlertTitle>Showing cached bookmarks</AlertTitle>
+      <AlertTitle>{staleTitle}</AlertTitle>
       <AlertDescription>
-        <p>
-          Live sync failed, so this view is using the most recent cached
-          snapshot from {formatSyncTimestamp(lastSyncedAt)}.
-        </p>
+        {staleMessage}
         {owner && (
           <p>
             Required owner:{" "}

@@ -160,6 +160,24 @@ export function getMockBookmarksResponse(
   };
 }
 
+export function getBundledBookmarksFallbackResponse(
+  folderId?: string,
+): BookmarksApiResponse {
+  const now = nowIsoString();
+
+  return {
+    bookmarks: folderId ? MOCK_BOOKMARKS.slice(0, 3) : MOCK_BOOKMARKS,
+    folders: MOCK_FOLDERS,
+    owner: MOCK_OWNER,
+    status: "stale",
+    isStale: true,
+    lastSyncedAt: null,
+    cachedAt: now,
+    error:
+      "Live bookmarks sync is unavailable. Showing bundled fallback bookmarks.",
+  };
+}
+
 /**
  * Debug mock scenarios for testing error states in preproduction.
  * Activated via `?mock=<scenario>` query param on the bookmarks API.

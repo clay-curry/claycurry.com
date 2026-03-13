@@ -7,6 +7,7 @@ import type {
   BookmarksStatusApiResponse,
 } from "./contracts";
 import {
+  getBundledBookmarksFallbackResponse,
   getMockBookmarksResponse,
   getMockBookmarksStatusResponse,
 } from "./mock-bookmarks";
@@ -75,5 +76,8 @@ export function createBookmarksSyncService(
     repository,
     client,
     fetchImpl,
+    fallbackResponse: options.preferMockFallback
+      ? getBundledBookmarksFallbackResponse
+      : undefined,
   });
 }

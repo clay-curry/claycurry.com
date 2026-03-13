@@ -8,6 +8,7 @@ import {
   jsonResponse,
   liveConfig,
   MemoryRepository,
+  owner,
   StubBookmarksClient,
   withEnv,
 } from "./test-utils";
@@ -119,6 +120,36 @@ test("BookmarksSyncService returns a typed reauth_required error when no snapsho
   expect(result.response.status).toBe("reauth_required");
   expect(result.response.bookmarks).toHaveLength(0);
   expect(repository.tokenRecord).toBeNull();
+});
+
+test("BookmarksSyncService returns bundled fallback bookmarks when configured and no snapshot exists", async () => {
+  const repository = new MemoryRepository();
+
+  const service = new BookmarksSyncService({
+    config: liveConfig,
+    repository,
+    client: new StubBookmarksClient(),
+    fetchImpl: async () => {
+      throw new Error("live token flow should not run");
+    },
+    fallbackResponse: () => ({
+      bookmarks: [createBookmark("fallback")],
+      folders: [],
+      owner,
+      status: "stale",
+      isStale: true,
+      lastSyncedAt: null,
+      cachedAt: "2026-03-13T12:00:00.000Z",
+      error: "Showing bundled fallback bookmarks.",
+    }),
+  });
+
+  const result = await Effect.runPromise(service.getBookmarks());
+  expect(result.httpStatus).toBe(200);
+  expect(result.response.status).toBe("stale");
+  expect(result.response.isStale).toBe(true);
+  expect(result.response.bookmarks[0]?.id).toBe("fallback");
+  expect(repository.statusRecord?.lastError?.code).toBe("reauth_required");
 });
 
 test("BookmarksSyncService refreshes an expired token and returns a fresh live snapshot", async () => {

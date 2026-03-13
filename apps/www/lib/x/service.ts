@@ -115,6 +115,7 @@ interface BookmarksSyncServiceOptions {
   repository: BookmarksRepository;
   client: XBookmarksClient;
   fetchImpl?: typeof fetch;
+  fallbackResponse?: (folderId?: string) => BookmarksApiResponse;
 }
 
 interface GetBookmarksOptions {
@@ -162,6 +163,7 @@ export class BookmarksSyncService {
           Effect.catchAll((error) =>
             self.recoverFromSyncFailure(
               toXError(error),
+              folderId,
               snapshot,
               previousStatus,
               ctx,
@@ -354,6 +356,7 @@ export class BookmarksSyncService {
 
   private recoverFromSyncFailure(
     error: XError,
+    folderId: string | undefined,
     snapshot: BookmarksSnapshotRecord | null,
     previousStatus: BookmarksSyncStatusRecord | null,
     ctx: SyncContext,
@@ -406,6 +409,13 @@ export class BookmarksSyncService {
       yield* Effect.promise(() =>
         opts.repository.setStatus(opts.config.ownerUsername, statusRecord),
       );
+
+      if (opts.fallbackResponse) {
+        return {
+          response: opts.fallbackResponse(folderId),
+          httpStatus: 200,
+        };
+      }
 
       return {
         response: Schema.decodeUnknownSync(BookmarksApiResponseSchema)({
