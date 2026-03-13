@@ -1,7 +1,6 @@
+import { Effect, Schema } from "effect";
 import type { BookmarksRepository } from "./cache";
 import {
-  type NormalizedBookmark,
-  type XBookmarkFolder,
   type XBookmarksClient,
   XBookmarksOwnerResolver,
   XIdentityVerifier,
@@ -14,17 +13,20 @@ import {
   type BookmarksApiStatus,
   type BookmarksSnapshotRecord,
   BookmarksSnapshotRecordSchema,
-  type BookmarksStatusApiResponse,
   BookmarksStatusApiResponseSchema,
   type BookmarksSyncStatusRecord,
   BookmarksSyncStatusRecordSchema,
   type IntegrationIssue,
+  type NormalizedBookmark,
   type TokenHealthStatus,
+  type XBookmarkFolder,
 } from "./contracts";
 import {
-  toIntegrationError,
+  errorCode,
   toIntegrationIssue,
-  XIntegrationError,
+  toXError,
+  type XError,
+  xError,
 } from "./errors";
 import { XTokenStore } from "./tokens";
 
@@ -69,13 +71,14 @@ function mapFailureToHttpStatus(status: BookmarksApiStatus): number {
   }
 }
 
-function mapErrorCodeToStatus(error: XIntegrationError): BookmarksApiStatus {
-  switch (error.code) {
+function mapErrorCodeToStatus(error: XError): BookmarksApiStatus {
+  const code = errorCode(error);
+  switch (code) {
     case "reauth_required":
     case "owner_mismatch":
     case "schema_invalid":
     case "upstream_error":
-      return error.code;
+      return code;
     case "cache_stale":
       return "stale";
     default:
@@ -88,6 +91,14 @@ function buildCacheStaleIssue(issue: IntegrationIssue): IntegrationIssue {
     code: "cache_stale",
     message: `Serving stale snapshot because live sync failed: ${issue.message}`,
   };
+}
+
+interface SyncContext {
+  authenticatedOwner: BookmarkSourceOwner | null;
+  resolvedOwner: BookmarkSourceOwner | null;
+  tokenExpiresAt: string | null;
+  lastRefreshedAt: string | null;
+  tokenStatus: TokenHealthStatus;
 }
 
 interface BookmarksSyncServiceOptions {
@@ -104,171 +115,262 @@ export class BookmarksSyncService {
     this.ownerHint = buildOwnerHint(options.config);
   }
 
-  async getBookmarks(folderId?: string): Promise<{
-    response: BookmarksApiResponse;
-    httpStatus: number;
-  }> {
-    const snapshot = await this.options.repository.getSnapshot(
-      this.ownerHint,
-      folderId,
-    );
-    if (snapshot && this.isSnapshotFresh(snapshot)) {
-      return {
-        response: this.snapshotToApiResponse(snapshot, "fresh"),
-        httpStatus: 200,
+  getBookmarks(folderId?: string) {
+    const opts = this.options;
+    const self = this;
+
+    return Effect.gen(function* () {
+      const snapshot = yield* Effect.promise(() =>
+        opts.repository.getSnapshot(self.ownerHint, folderId),
+      );
+      if (snapshot && self.isSnapshotFresh(snapshot)) {
+        return {
+          response: self.snapshotToApiResponse(snapshot, "fresh"),
+          httpStatus: 200,
+        };
+      }
+
+      const previousStatus =
+        (yield* Effect.promise(() =>
+          opts.repository.getStatus(opts.config.ownerUsername),
+        )) ?? null;
+
+      const ctx: SyncContext = {
+        authenticatedOwner: previousStatus?.authenticatedOwner ?? null,
+        resolvedOwner: previousStatus?.resolvedOwner ?? null,
+        tokenExpiresAt: previousStatus?.tokenExpiresAt ?? null,
+        lastRefreshedAt: previousStatus?.lastRefreshedAt ?? null,
+        tokenStatus: previousStatus?.tokenStatus ?? "missing",
       };
-    }
 
-    const previousStatus =
-      (await this.options.repository.getStatus(
-        this.options.config.ownerUsername,
-      )) ?? null;
-    const context: {
-      authenticatedOwner: BookmarkSourceOwner | null;
-      resolvedOwner: BookmarkSourceOwner | null;
-      tokenExpiresAt: string | null;
-      lastRefreshedAt: string | null;
-      tokenStatus: TokenHealthStatus;
-    } = {
-      authenticatedOwner: previousStatus?.authenticatedOwner ?? null,
-      resolvedOwner: previousStatus?.resolvedOwner ?? null,
-      tokenExpiresAt: previousStatus?.tokenExpiresAt ?? null,
-      lastRefreshedAt: previousStatus?.lastRefreshedAt ?? null,
-      tokenStatus: previousStatus?.tokenStatus ?? "missing",
-    };
+      return yield* self
+        .liveSync(folderId, previousStatus, ctx)
+        .pipe(
+          Effect.catchAll((error) =>
+            self.recoverFromSyncFailure(
+              toXError(error),
+              snapshot,
+              previousStatus,
+              ctx,
+            ),
+          ),
+        );
+    });
+  }
 
-    try {
-      const liveConfig = this.assertLiveConfig();
+  getStatus() {
+    const opts = this.options;
+    const self = this;
+
+    return Effect.gen(function* () {
+      const [snapshot, statusRecord, tokenRecord] = yield* Effect.all(
+        [
+          Effect.promise(() => opts.repository.getSnapshot(self.ownerHint)),
+          Effect.promise(() =>
+            opts.repository.getStatus(opts.config.ownerUsername),
+          ),
+          Effect.promise(() =>
+            opts.repository.getTokenRecord(opts.config.ownerUsername),
+          ),
+        ],
+        { concurrency: 3 },
+      );
+
+      return Schema.decodeUnknownSync(BookmarksStatusApiResponseSchema)({
+        owner: {
+          configuredUsername: opts.config.ownerUsername,
+          configuredUserId: opts.config.ownerUserId,
+          resolvedOwner: statusRecord?.resolvedOwner ?? snapshot?.owner ?? null,
+          authenticatedOwner:
+            statusRecord?.authenticatedOwner ?? tokenRecord?.owner ?? null,
+        },
+        token: {
+          status:
+            statusRecord?.tokenStatus ??
+            deriveTokenHealthFromRecord(tokenRecord?.expiresAt ?? null),
+          expiresAt: tokenRecord
+            ? new Date(tokenRecord.expiresAt).toISOString()
+            : (statusRecord?.tokenExpiresAt ?? null),
+          lastRefreshedAt:
+            tokenRecord?.lastRefreshedAt ??
+            statusRecord?.lastRefreshedAt ??
+            null,
+        },
+        sync: {
+          lastAttemptedSyncAt: statusRecord?.lastAttemptedSyncAt ?? null,
+          lastSuccessfulSyncAt:
+            statusRecord?.lastSuccessfulSyncAt ??
+            snapshot?.lastSyncedAt ??
+            null,
+          cacheAgeSeconds: snapshot
+            ? Math.max(
+                0,
+                Math.floor((Date.now() - Date.parse(snapshot.cachedAt)) / 1000),
+              )
+            : null,
+          isSnapshotStale: snapshot ? !self.isSnapshotFresh(snapshot) : true,
+          lastError: statusRecord?.lastError ?? null,
+        },
+      });
+    });
+  }
+
+  private liveSync(
+    folderId: string | undefined,
+    previousStatus: BookmarksSyncStatusRecord | null,
+    ctx: SyncContext,
+  ) {
+    const opts = this.options;
+    const self = this;
+
+    return Effect.gen(function* () {
+      const liveConfig = yield* self.assertLiveConfig();
       const tokenStore = XTokenStore.fromRuntimeConfig(
-        this.options.repository,
+        opts.repository,
         liveConfig,
-        this.options.fetchImpl ?? fetch,
+        opts.fetchImpl ?? fetch,
       );
       const identityVerifier = new XIdentityVerifier(
-        this.options.client,
+        opts.client,
         liveConfig.ownerUsername,
       );
       const ownerResolver = new XBookmarksOwnerResolver(
-        this.options.client,
+        opts.client,
         liveConfig.ownerUsername,
         liveConfig.ownerUserId,
       );
 
-      const tokenRecord = await tokenStore.getTokenForSync(
-        async (accessToken) => {
-          const owner = await identityVerifier.verify(accessToken);
-          context.authenticatedOwner = owner;
-          return owner;
-        },
+      const tokenRecord = yield* tokenStore.getTokenForSync((accessToken) =>
+        identityVerifier.verify(accessToken).pipe(
+          Effect.tap((owner) =>
+            Effect.sync(() => {
+              ctx.authenticatedOwner = owner;
+            }),
+          ),
+        ),
       );
 
-      context.tokenExpiresAt = new Date(tokenRecord.expiresAt).toISOString();
-      context.lastRefreshedAt = tokenRecord.lastRefreshedAt;
-      context.tokenStatus = deriveTokenHealthFromRecord(tokenRecord.expiresAt);
+      ctx.tokenExpiresAt = new Date(tokenRecord.expiresAt).toISOString();
+      ctx.lastRefreshedAt = tokenRecord.lastRefreshedAt;
+      ctx.tokenStatus = deriveTokenHealthFromRecord(tokenRecord.expiresAt);
 
-      const authenticatedOwner = await identityVerifier.verify(
+      const authenticatedOwner = yield* identityVerifier.verify(
         tokenRecord.accessToken,
       );
-      const resolvedOwner = await ownerResolver.resolve(
+      const resolvedOwner = yield* ownerResolver.resolve(
         tokenRecord.accessToken,
       );
-      context.authenticatedOwner = authenticatedOwner;
-      context.resolvedOwner = resolvedOwner;
+      ctx.authenticatedOwner = authenticatedOwner;
+      ctx.resolvedOwner = resolvedOwner;
 
       if (
         resolvedOwner.id &&
         authenticatedOwner.id &&
         resolvedOwner.id !== authenticatedOwner.id
       ) {
-        throw new XIntegrationError(
-          "owner_mismatch",
-          `Resolved owner @${resolvedOwner.username} does not match authenticated owner @${authenticatedOwner.username}`,
-          { tokenStatus: "owner_mismatch" },
+        return yield* Effect.fail(
+          xError(
+            "owner_mismatch",
+            `Resolved owner @${resolvedOwner.username} does not match authenticated owner @${authenticatedOwner.username}`,
+            { tokenStatus: "owner_mismatch" },
+          ),
         );
       }
 
       const liveOwnerId = resolvedOwner.id ?? authenticatedOwner.id ?? null;
       if (!liveOwnerId) {
-        throw new XIntegrationError(
-          "schema_invalid",
-          "Unable to determine the verified owner id for bookmark sync",
-          { tokenStatus: "invalid" },
+        return yield* Effect.fail(
+          xError(
+            "schema_invalid",
+            "Unable to determine the verified owner id for bookmark sync",
+            { tokenStatus: "invalid" },
+          ),
         );
       }
 
-      const [bookmarks, folders] = await Promise.all([
-        folderId
-          ? this.options.client.fetchBookmarksByFolder(
-              liveOwnerId,
-              folderId,
-              tokenRecord.accessToken,
-            )
-          : this.options.client.fetchAllBookmarks(
-              liveOwnerId,
-              tokenRecord.accessToken,
-            ),
-        this.options.client.fetchBookmarkFolders(
-          liveOwnerId,
-          tokenRecord.accessToken,
-        ),
-      ]);
+      const [bookmarks, folders] = yield* Effect.all(
+        [
+          folderId
+            ? opts.client.fetchBookmarksByFolder(
+                liveOwnerId,
+                folderId,
+                tokenRecord.accessToken,
+              )
+            : opts.client.fetchAllBookmarks(
+                liveOwnerId,
+                tokenRecord.accessToken,
+              ),
+          opts.client.fetchBookmarkFolders(
+            liveOwnerId,
+            tokenRecord.accessToken,
+          ),
+        ],
+        { concurrency: 2 },
+      );
 
-      const freshSnapshot = this.buildLiveSnapshot(
+      const freshSnapshot = self.buildLiveSnapshot(
         resolvedOwner,
         bookmarks,
         folders,
         folderId,
       );
-      await this.options.repository.setSnapshot(
-        this.options.config.ownerUsername,
-        freshSnapshot,
+      yield* Effect.promise(() =>
+        opts.repository.setSnapshot(opts.config.ownerUsername, freshSnapshot),
       );
 
-      const statusRecord = this.buildStatusRecord({
+      const statusRecord = self.buildStatusRecord({
         previousStatus,
         authenticatedOwner,
         resolvedOwner,
-        tokenStatus: context.tokenStatus,
-        tokenExpiresAt: context.tokenExpiresAt,
-        lastRefreshedAt: context.lastRefreshedAt,
+        tokenStatus: ctx.tokenStatus,
+        tokenExpiresAt: ctx.tokenExpiresAt,
+        lastRefreshedAt: ctx.lastRefreshedAt,
         lastError: null,
         lastSuccessfulSyncAt: freshSnapshot.lastSyncedAt,
       });
-      await this.options.repository.setStatus(
-        this.options.config.ownerUsername,
-        statusRecord,
+      yield* Effect.promise(() =>
+        opts.repository.setStatus(opts.config.ownerUsername, statusRecord),
       );
 
       return {
-        response: this.snapshotToApiResponse(freshSnapshot, "fresh"),
+        response: self.snapshotToApiResponse(freshSnapshot, "fresh"),
         httpStatus: 200,
       };
-    } catch (error) {
-      const normalizedError = toIntegrationError(error);
-      const issue = toIntegrationIssue(normalizedError);
+    });
+  }
+
+  private recoverFromSyncFailure(
+    error: XError,
+    snapshot: BookmarksSnapshotRecord | null,
+    previousStatus: BookmarksSyncStatusRecord | null,
+    ctx: SyncContext,
+  ) {
+    const opts = this.options;
+    const self = this;
+
+    return Effect.gen(function* () {
+      const issue = toIntegrationIssue(error);
 
       if (snapshot) {
-        const staleStatus = this.buildStatusRecord({
+        const staleStatus = self.buildStatusRecord({
           previousStatus,
-          authenticatedOwner: context.authenticatedOwner,
-          resolvedOwner: context.resolvedOwner ?? snapshot.owner,
-          tokenStatus:
-            normalizedError.tokenStatus ?? context.tokenStatus ?? "missing",
-          tokenExpiresAt: context.tokenExpiresAt,
-          lastRefreshedAt: context.lastRefreshedAt,
+          authenticatedOwner: ctx.authenticatedOwner,
+          resolvedOwner: ctx.resolvedOwner ?? snapshot.owner,
+          tokenStatus: error.tokenStatus ?? ctx.tokenStatus ?? "missing",
+          tokenExpiresAt: ctx.tokenExpiresAt,
+          lastRefreshedAt: ctx.lastRefreshedAt,
           lastError: buildCacheStaleIssue(issue),
           lastSuccessfulSyncAt:
             snapshot.lastSyncedAt ??
             previousStatus?.lastSuccessfulSyncAt ??
             null,
         });
-        await this.options.repository.setStatus(
-          this.options.config.ownerUsername,
-          staleStatus,
+        yield* Effect.promise(() =>
+          opts.repository.setStatus(opts.config.ownerUsername, staleStatus),
         );
 
         return {
-          response: this.snapshotToApiResponse(
+          response: self.snapshotToApiResponse(
             snapshot,
             "stale",
             issue.message,
@@ -277,77 +379,34 @@ export class BookmarksSyncService {
         };
       }
 
-      const failureStatus = mapErrorCodeToStatus(normalizedError);
-      const statusRecord = this.buildStatusRecord({
+      const failureStatus = mapErrorCodeToStatus(error);
+      const statusRecord = self.buildStatusRecord({
         previousStatus,
-        authenticatedOwner: context.authenticatedOwner,
-        resolvedOwner: context.resolvedOwner,
-        tokenStatus:
-          normalizedError.tokenStatus ?? context.tokenStatus ?? "missing",
-        tokenExpiresAt: context.tokenExpiresAt,
-        lastRefreshedAt: context.lastRefreshedAt,
+        authenticatedOwner: ctx.authenticatedOwner,
+        resolvedOwner: ctx.resolvedOwner,
+        tokenStatus: error.tokenStatus ?? ctx.tokenStatus ?? "missing",
+        tokenExpiresAt: ctx.tokenExpiresAt,
+        lastRefreshedAt: ctx.lastRefreshedAt,
         lastError: issue,
         lastSuccessfulSyncAt: previousStatus?.lastSuccessfulSyncAt ?? null,
       });
-      await this.options.repository.setStatus(
-        this.options.config.ownerUsername,
-        statusRecord,
+      yield* Effect.promise(() =>
+        opts.repository.setStatus(opts.config.ownerUsername, statusRecord),
       );
 
       return {
-        response: BookmarksApiResponseSchema.parse({
+        response: Schema.decodeUnknownSync(BookmarksApiResponseSchema)({
           bookmarks: [],
           folders: [],
-          owner: context.resolvedOwner ?? this.ownerHint,
+          owner: ctx.resolvedOwner ?? self.ownerHint,
           status: failureStatus,
           isStale: false,
           lastSyncedAt: previousStatus?.lastSuccessfulSyncAt ?? null,
           cachedAt: nowIsoString(),
-          error: normalizedError.message,
+          error: error.message,
         }),
         httpStatus: mapFailureToHttpStatus(failureStatus),
       };
-    }
-  }
-
-  async getStatus(): Promise<BookmarksStatusApiResponse> {
-    const [snapshot, statusRecord, tokenRecord] = await Promise.all([
-      this.options.repository.getSnapshot(this.ownerHint),
-      this.options.repository.getStatus(this.options.config.ownerUsername),
-      this.options.repository.getTokenRecord(this.options.config.ownerUsername),
-    ]);
-
-    return BookmarksStatusApiResponseSchema.parse({
-      owner: {
-        configuredUsername: this.options.config.ownerUsername,
-        configuredUserId: this.options.config.ownerUserId,
-        resolvedOwner: statusRecord?.resolvedOwner ?? snapshot?.owner ?? null,
-        authenticatedOwner:
-          statusRecord?.authenticatedOwner ?? tokenRecord?.owner ?? null,
-      },
-      token: {
-        status:
-          statusRecord?.tokenStatus ??
-          deriveTokenHealthFromRecord(tokenRecord?.expiresAt ?? null),
-        expiresAt: tokenRecord
-          ? new Date(tokenRecord.expiresAt).toISOString()
-          : (statusRecord?.tokenExpiresAt ?? null),
-        lastRefreshedAt:
-          tokenRecord?.lastRefreshedAt ?? statusRecord?.lastRefreshedAt ?? null,
-      },
-      sync: {
-        lastAttemptedSyncAt: statusRecord?.lastAttemptedSyncAt ?? null,
-        lastSuccessfulSyncAt:
-          statusRecord?.lastSuccessfulSyncAt ?? snapshot?.lastSyncedAt ?? null,
-        cacheAgeSeconds: snapshot
-          ? Math.max(
-              0,
-              Math.floor((Date.now() - Date.parse(snapshot.cachedAt)) / 1000),
-            )
-          : null,
-        isSnapshotStale: snapshot ? !this.isSnapshotFresh(snapshot) : true,
-        lastError: statusRecord?.lastError ?? null,
-      },
     });
   }
 
@@ -356,7 +415,7 @@ export class BookmarksSyncService {
     status: "fresh" | "stale",
     error?: string,
   ): BookmarksApiResponse {
-    return BookmarksApiResponseSchema.parse({
+    return Schema.decodeUnknownSync(BookmarksApiResponseSchema)({
       bookmarks: snapshot.bookmarks,
       folders: snapshot.folders,
       owner: snapshot.owner,
@@ -375,7 +434,7 @@ export class BookmarksSyncService {
     folderId?: string,
   ): BookmarksSnapshotRecord {
     const timestamp = nowIsoString();
-    return BookmarksSnapshotRecordSchema.parse({
+    return Schema.decodeUnknownSync(BookmarksSnapshotRecordSchema)({
       owner,
       folderId: folderId ?? null,
       bookmarks,
@@ -396,7 +455,7 @@ export class BookmarksSyncService {
     lastError: IntegrationIssue | null;
     lastSuccessfulSyncAt: string | null;
   }): BookmarksSyncStatusRecord {
-    return BookmarksSyncStatusRecordSchema.parse({
+    return Schema.decodeUnknownSync(BookmarksSyncStatusRecordSchema)({
       configuredOwnerUsername: this.options.config.ownerUsername,
       configuredOwnerUserId: this.options.config.ownerUserId,
       resolvedOwner:
@@ -430,15 +489,13 @@ export class BookmarksSyncService {
     );
   }
 
-  private assertLiveConfig(): XLiveRuntimeConfig {
+  private assertLiveConfig() {
     const { config } = this.options;
     if (!config.clientId || !config.clientSecret) {
-      throw new XIntegrationError(
-        "upstream_error",
-        "X live credentials are not configured",
+      return Effect.fail(
+        xError("upstream_error", "X live credentials are not configured"),
       );
     }
-
-    return config as XLiveRuntimeConfig;
+    return Effect.succeed(config as XLiveRuntimeConfig);
   }
 }

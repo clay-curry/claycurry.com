@@ -1,5 +1,7 @@
+import { Effect, Schema } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
-import { getRedisClient, keyPrefix } from "@/lib/redis";
+import { appRuntime } from "@/lib/effect/runtime";
+import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
 import { BookmarksSnapshotRepository } from "@/lib/x/cache";
 import {
   XBookmarksClient,
@@ -8,8 +10,8 @@ import {
 } from "@/lib/x/client";
 import { assertLiveRuntimeConfig, getXRuntimeConfig } from "@/lib/x/config";
 import { BookmarksSyncStatusRecordSchema } from "@/lib/x/contracts";
-import { toIntegrationError } from "@/lib/x/errors";
-import { oauthStateStore, XTokenStore } from "@/lib/x/tokens";
+import { errorCode, toXError } from "@/lib/x/errors";
+import { XTokenStore } from "@/lib/x/tokens";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -31,16 +33,28 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Retrieve code_verifier from Redis or in-memory fallback
-  let codeVerifier: string | null = null;
-  const redisClient = await getRedisClient();
-  if (redisClient) {
-    const stateKey = `${keyPrefix()}x:oauth:${state}`;
-    codeVerifier = await redisClient.get(stateKey);
-    await redisClient.del(stateKey);
-  } else {
-    codeVerifier = oauthStateStore.get(state) ?? null;
-    oauthStateStore.delete(state);
+  // Retrieve code_verifier from Effect Redis service (get + delete).
+  // Distinguish Redis failure (503) from genuinely missing/expired state (400).
+  const stateKey = `${keyPrefix()}x:oauth:${state}`;
+  let codeVerifier: string | null;
+  try {
+    codeVerifier = await appRuntime.runPromise(
+      Effect.gen(function* () {
+        const redis = yield* RedisClient;
+        const value = yield* redis.get(stateKey);
+        yield* redis.del(stateKey);
+        return value;
+      }),
+    );
+  } catch (err) {
+    console.error("Redis OAuth state retrieval error:", err);
+    return NextResponse.json(
+      {
+        error:
+          "Failed to retrieve OAuth state. Redis may be unavailable. Please retry the auth flow.",
+      },
+      { status: 503 },
+    );
   }
 
   if (!codeVerifier) {
@@ -60,71 +74,86 @@ export async function GET(request: NextRequest) {
   assertLiveRuntimeConfig(config);
 
   const callbackUrl = new URL("/api/x/callback", request.url).toString();
-  const repository = new BookmarksSnapshotRepository();
-  const xClient = new XBookmarksClient();
-  const tokenStore = XTokenStore.fromRuntimeConfig(repository, config);
-  const identityVerifier = new XIdentityVerifier(xClient, config.ownerUsername);
-  const ownerResolver = new XBookmarksOwnerResolver(
-    xClient,
-    config.ownerUsername,
-    config.ownerUserId,
-  );
-
-  try {
-    const tokenData = await tokenStore.exchangeAuthorizationCode({
-      code,
-      codeVerifier,
-      redirectUri: callbackUrl,
-    });
-    const authenticatedOwner = await identityVerifier.verify(
-      tokenData.access_token,
-    );
-    const resolvedOwner = await ownerResolver.resolve(tokenData.access_token);
-
-    if (
-      authenticatedOwner.id &&
-      resolvedOwner.id &&
-      authenticatedOwner.id !== resolvedOwner.id
-    ) {
-      return NextResponse.json(
-        {
-          error: `Authenticated owner @${authenticatedOwner.username} does not match resolved owner @${resolvedOwner.username}`,
-        },
-        { status: 403 },
-      );
-    }
-
-    const tokenRecord = await tokenStore.storeVerifiedToken(
-      tokenData,
-      authenticatedOwner,
-    );
-    await repository.setStatus(
-      config.ownerUsername,
-      BookmarksSyncStatusRecordSchema.parse({
-        configuredOwnerUsername: config.ownerUsername,
-        configuredOwnerUserId: config.ownerUserId,
-        resolvedOwner,
-        authenticatedOwner,
-        tokenStatus: "valid",
-        tokenExpiresAt: new Date(tokenRecord.expiresAt).toISOString(),
-        lastRefreshedAt: tokenRecord.lastRefreshedAt,
-        lastSuccessfulSyncAt: null,
-        lastAttemptedSyncAt: new Date().toISOString(),
-        lastError: null,
-      }),
-    );
-  } catch (error) {
-    const normalized = toIntegrationError(error);
-    const status =
-      normalized.code === "owner_mismatch"
-        ? 403
-        : normalized.code === "reauth_required"
-          ? 400
-          : 500;
-
-    return NextResponse.json({ error: normalized.message }, { status });
-  }
-
   const homeUrl = new URL("/", request.url).toString();
-  return NextResponse.redirect(homeUrl);
+
+  return Effect.runPromise(
+    Effect.gen(function* () {
+      const repository = new BookmarksSnapshotRepository();
+      const xClient = new XBookmarksClient();
+      const tokenStore = XTokenStore.fromRuntimeConfig(repository, config);
+      const identityVerifier = new XIdentityVerifier(
+        xClient,
+        config.ownerUsername,
+      );
+      const ownerResolver = new XBookmarksOwnerResolver(
+        xClient,
+        config.ownerUsername,
+        config.ownerUserId,
+      );
+
+      const tokenData = yield* tokenStore.exchangeAuthorizationCode({
+        code,
+        codeVerifier,
+        redirectUri: callbackUrl,
+      });
+      const authenticatedOwner = yield* identityVerifier.verify(
+        tokenData.access_token,
+      );
+      const resolvedOwner = yield* ownerResolver.resolve(
+        tokenData.access_token,
+      );
+
+      if (
+        authenticatedOwner.id &&
+        resolvedOwner.id &&
+        authenticatedOwner.id !== resolvedOwner.id
+      ) {
+        return NextResponse.json(
+          {
+            error: `Authenticated owner @${authenticatedOwner.username} does not match resolved owner @${resolvedOwner.username}`,
+          },
+          { status: 403 },
+        );
+      }
+
+      const tokenRecord = yield* tokenStore.storeVerifiedToken(
+        tokenData,
+        authenticatedOwner,
+      );
+      yield* Effect.promise(() =>
+        repository.setStatus(
+          config.ownerUsername,
+          Schema.decodeUnknownSync(BookmarksSyncStatusRecordSchema)({
+            configuredOwnerUsername: config.ownerUsername,
+            configuredOwnerUserId: config.ownerUserId,
+            resolvedOwner,
+            authenticatedOwner,
+            tokenStatus: "valid",
+            tokenExpiresAt: new Date(tokenRecord.expiresAt).toISOString(),
+            lastRefreshedAt: tokenRecord.lastRefreshedAt,
+            lastSuccessfulSyncAt: null,
+            lastAttemptedSyncAt: new Date().toISOString(),
+            lastError: null,
+          }),
+        ),
+      );
+
+      return NextResponse.redirect(homeUrl);
+    }).pipe(
+      Effect.catchAll((error) => {
+        const normalized = toXError(error);
+        const errCode = errorCode(normalized);
+        const status =
+          errCode === "owner_mismatch"
+            ? 403
+            : errCode === "reauth_required"
+              ? 400
+              : 500;
+
+        return Effect.succeed(
+          NextResponse.json({ error: normalized.message }, { status }),
+        );
+      }),
+    ),
+  );
 }

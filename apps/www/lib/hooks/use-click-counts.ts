@@ -29,9 +29,12 @@ export function useClickCountEngine() {
       if (res.ok) {
         const { counts: serverCounts } = await res.json();
         setCounts((prev) => ({ ...prev, ...serverCounts }));
+      } else {
+        // Server error (e.g. 503 Redis outage) — requeue for next interval
+        batchRef.current.unshift(...batch);
       }
     } catch {
-      // Fire-and-forget — failed flushes retry on next interval
+      // Network error — requeue for next interval
       batchRef.current.unshift(...batch);
     }
   }, [setCounts]);

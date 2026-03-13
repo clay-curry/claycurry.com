@@ -1,8 +1,9 @@
 import crypto from "node:crypto";
+import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
-import { getRedisClient, keyPrefix } from "@/lib/redis";
+import { appRuntime } from "@/lib/effect/runtime";
+import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
 import { getXRuntimeConfig } from "@/lib/x/config";
-import { oauthStateStore } from "@/lib/x/tokens";
 
 function base64url(buffer: Buffer): string {
   return buffer.toString("base64url");
@@ -38,15 +39,22 @@ export async function GET(request: NextRequest) {
   );
   const state = base64url(crypto.randomBytes(16));
 
-  // Store code_verifier keyed by state (Redis or in-memory fallback)
-  const client = await getRedisClient();
-  if (client) {
-    await client.set(`${keyPrefix()}x:oauth:${state}`, codeVerifier, {
-      EX: 300,
-    });
-  } else {
-    oauthStateStore.set(state, codeVerifier);
-    setTimeout(() => oauthStateStore.delete(state), 300_000);
+  // Store code_verifier keyed by state via Effect Redis service.
+  // Must succeed — if this fails, the callback will never find the verifier.
+  const stateKey = `${keyPrefix()}x:oauth:${state}`;
+  try {
+    await appRuntime.runPromise(
+      Effect.gen(function* () {
+        const redis = yield* RedisClient;
+        yield* redis.set(stateKey, codeVerifier, { EX: 300 });
+      }),
+    );
+  } catch (err) {
+    console.error("Failed to store OAuth state:", err);
+    return NextResponse.json(
+      { error: "Failed to store OAuth state. Redis may be unavailable." },
+      { status: 503 },
+    );
   }
 
   const callbackUrl = new URL("/api/x/callback", request.url).toString();

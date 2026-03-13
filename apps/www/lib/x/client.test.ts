@@ -1,66 +1,38 @@
-import assert from "node:assert/strict";
-import test from "node:test";
-import {
-  XBookmarksClient,
-  XBookmarksOwnerResolver,
-  XIdentityVerifier,
-} from "./client";
-import type { BookmarkSourceOwner } from "./contracts";
-import { XIntegrationError } from "./errors";
-
-class StubClient extends XBookmarksClient {
-  constructor(
-    private readonly authenticatedUsername: string,
-    private readonly resolvedOwnerId = "owner-1",
-  ) {
-    super(async () => new Response(null, { status: 200 }));
-  }
-
-  async getAuthenticatedUser(
-    _accessToken: string,
-  ): Promise<BookmarkSourceOwner> {
-    return {
-      id: "auth-1",
-      username: this.authenticatedUsername,
-      name: "Authenticated User",
-    };
-  }
-
-  async getUserByUsername(
-    username: string,
-    _accessToken: string,
-  ): Promise<BookmarkSourceOwner> {
-    return {
-      id: this.resolvedOwnerId,
-      username,
-      name: "Resolved User",
-    };
-  }
-}
+import { Cause, Effect, Exit } from "effect";
+import { expect, test } from "vitest";
+import { XBookmarksOwnerResolver, XIdentityVerifier } from "./client";
+import { OwnerMismatch } from "./errors";
+import { StubIdentityClient } from "./test-utils";
 
 test("XIdentityVerifier rejects tokens for any account other than claycurry__", async () => {
   const verifier = new XIdentityVerifier(
-    new StubClient("somebody_else"),
+    new StubIdentityClient("somebody_else"),
     "claycurry__",
   );
 
-  await assert.rejects(
-    () => verifier.verify("access-token"),
-    (error: unknown) =>
-      error instanceof XIntegrationError && error.code === "owner_mismatch",
-  );
+  const exit = await Effect.runPromiseExit(verifier.verify("access-token"));
+  expect(Exit.isFailure(exit)).toBe(true);
+  if (Exit.isFailure(exit)) {
+    const error = Cause.failureOption(exit.cause).pipe((opt) =>
+      opt._tag === "Some" ? opt.value : null,
+    );
+    expect(error).toBeInstanceOf(OwnerMismatch);
+  }
 });
 
 test("XBookmarksOwnerResolver rejects configured user id mismatches", async () => {
   const resolver = new XBookmarksOwnerResolver(
-    new StubClient("claycurry__", "actual-owner-id"),
+    new StubIdentityClient("claycurry__", "actual-owner-id"),
     "claycurry__",
     "expected-owner-id",
   );
 
-  await assert.rejects(
-    () => resolver.resolve("access-token"),
-    (error: unknown) =>
-      error instanceof XIntegrationError && error.code === "owner_mismatch",
-  );
+  const exit = await Effect.runPromiseExit(resolver.resolve("access-token"));
+  expect(Exit.isFailure(exit)).toBe(true);
+  if (Exit.isFailure(exit)) {
+    const error = Cause.failureOption(exit.cause).pipe((opt) =>
+      opt._tag === "Some" ? opt.value : null,
+    );
+    expect(error).toBeInstanceOf(OwnerMismatch);
+  }
 });

@@ -1,5 +1,5 @@
-import assert from "node:assert/strict";
-import test from "node:test";
+import { Schema } from "effect";
+import { expect, test } from "vitest";
 import {
   BookmarksApiResponseSchema,
   NormalizedBookmarkSchema,
@@ -7,18 +7,18 @@ import {
 } from "./contracts";
 
 test("XOAuthTokenResponseSchema rejects responses without refresh_token", () => {
-  assert.throws(() =>
-    XOAuthTokenResponseSchema.parse({
+  expect(() =>
+    Schema.decodeUnknownSync(XOAuthTokenResponseSchema)({
       token_type: "bearer",
       expires_in: 7200,
       access_token: "access-token",
     }),
-  );
+  ).toThrow();
 });
 
 test("NormalizedBookmarkSchema enforces ISO timestamps", () => {
-  assert.throws(() =>
-    NormalizedBookmarkSchema.parse({
+  expect(() =>
+    Schema.decodeUnknownSync(NormalizedBookmarkSchema)({
       id: "1",
       text: "hello",
       createdAt: "not-a-date",
@@ -35,11 +35,11 @@ test("NormalizedBookmarkSchema enforces ISO timestamps", () => {
       },
       media: [],
     }),
-  );
+  ).toThrow();
 });
 
 test("BookmarksApiResponseSchema accepts degraded stale responses", () => {
-  const response = BookmarksApiResponseSchema.parse({
+  const response = Schema.decodeUnknownSync(BookmarksApiResponseSchema)({
     bookmarks: [],
     folders: [],
     owner: {
@@ -54,6 +54,6 @@ test("BookmarksApiResponseSchema accepts degraded stale responses", () => {
     error: "token refresh failed",
   });
 
-  assert.equal(response.status, "stale");
-  assert.equal(response.isStale, true);
+  expect(response.status).toBe("stale");
+  expect(response.isStale).toBe(true);
 });

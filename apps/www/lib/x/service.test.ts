@@ -1,185 +1,14 @@
-import assert from "node:assert/strict";
-import test from "node:test";
-import { BookmarksSnapshotRepository } from "./cache";
-import { XBookmarksClient } from "./client";
-import type { XLiveRuntimeConfig } from "./config";
-import type {
-  BookmarkSourceOwner,
-  BookmarksSnapshotRecord,
-  BookmarksSyncStatusRecord,
-  LegacyStoredTokens,
-  NormalizedBookmark,
-  XBookmarkFolder,
-  XTokenRecord,
-} from "./contracts";
+import { Effect } from "effect";
+import { expect, test } from "vitest";
 import { BookmarksSyncService } from "./service";
-
-const owner: BookmarkSourceOwner = {
-  id: "owner-1",
-  username: "claycurry__",
-  name: "Clay Curry",
-};
-
-const liveConfig: XLiveRuntimeConfig = {
-  mode: "live" as const,
-  ownerUsername: "claycurry__",
-  ownerUserId: "owner-1",
-  clientId: "client-id",
-  clientSecret: "client-secret",
-  ownerSecret: "owner-secret",
-  snapshotFreshnessMs: 30 * 60 * 1000,
-};
-
-function createBookmark(id: string): NormalizedBookmark {
-  return {
-    id,
-    text: `bookmark ${id}`,
-    createdAt: "2026-03-10T07:00:00.000Z",
-    author: {
-      id: "author-1",
-      name: "Author",
-      username: "author",
-    },
-    metrics: {
-      likes: 1,
-      retweets: 2,
-      replies: 3,
-      impressions: 4,
-    },
-    media: [],
-  };
-}
-
-function createTokenRecord(expiresAt: number): XTokenRecord {
-  return {
-    accessToken: "stored-access-token",
-    refreshToken: "stored-refresh-token",
-    expiresAt,
-    owner,
-    createdAt: "2026-03-10T06:00:00.000Z",
-    updatedAt: "2026-03-10T06:00:00.000Z",
-    lastRefreshedAt: null,
-  };
-}
-
-function createSnapshot(input: {
-  lastSyncedAt: string | null;
-  cachedAt: string;
-  bookmarkId: string;
-}): BookmarksSnapshotRecord {
-  return {
-    owner,
-    folderId: null,
-    bookmarks: [createBookmark(input.bookmarkId)],
-    folders: [],
-    lastSyncedAt: input.lastSyncedAt,
-    cachedAt: input.cachedAt,
-    source: "live",
-  };
-}
-
-function jsonResponse(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: {
-      "content-type": "application/json",
-    },
-  });
-}
-
-class MemoryRepository extends BookmarksSnapshotRepository {
-  tokenRecord: XTokenRecord | null = null;
-  legacyTokenRecord: LegacyStoredTokens | null = null;
-  snapshot: BookmarksSnapshotRecord | null = null;
-  statusRecord: BookmarksSyncStatusRecord | null = null;
-
-  async getTokenRecord(_ownerUsername: string): Promise<XTokenRecord | null> {
-    return this.tokenRecord;
-  }
-
-  async setTokenRecord(_ownerUsername: string, record: XTokenRecord) {
-    this.tokenRecord = record;
-  }
-
-  async deleteTokenRecord(_ownerUsername: string): Promise<void> {
-    this.tokenRecord = null;
-  }
-
-  async getLegacyTokenRecord(): Promise<LegacyStoredTokens | null> {
-    return this.legacyTokenRecord;
-  }
-
-  async deleteLegacyTokenRecord(): Promise<void> {
-    this.legacyTokenRecord = null;
-  }
-
-  async getSnapshot(
-    _owner: BookmarkSourceOwner,
-    _folderId?: string,
-  ): Promise<BookmarksSnapshotRecord | null> {
-    return this.snapshot;
-  }
-
-  async setSnapshot(_ownerUsername: string, snapshot: BookmarksSnapshotRecord) {
-    this.snapshot = snapshot;
-  }
-
-  async getStatus(
-    _ownerUsername: string,
-  ): Promise<BookmarksSyncStatusRecord | null> {
-    return this.statusRecord;
-  }
-
-  async setStatus(_ownerUsername: string, status: BookmarksSyncStatusRecord) {
-    this.statusRecord = status;
-  }
-}
-
-class StubBookmarksClient extends XBookmarksClient {
-  bookmarks: NormalizedBookmark[] = [createBookmark("fresh-live")];
-  folders: XBookmarkFolder[] = [{ id: "folder-1", name: "Favorites" }];
-  authenticatedOwner = owner;
-  resolvedOwner = owner;
-
-  constructor() {
-    super(async () => new Response(null, { status: 200 }));
-  }
-
-  async getAuthenticatedUser(
-    _accessToken: string,
-  ): Promise<BookmarkSourceOwner> {
-    return this.authenticatedOwner;
-  }
-
-  async getUserByUsername(
-    _username: string,
-    _accessToken: string,
-  ): Promise<BookmarkSourceOwner> {
-    return this.resolvedOwner;
-  }
-
-  async fetchAllBookmarks(
-    _userId: string,
-    _accessToken: string,
-  ): Promise<NormalizedBookmark[]> {
-    return this.bookmarks;
-  }
-
-  async fetchBookmarksByFolder(
-    _userId: string,
-    _folderId: string,
-    _accessToken: string,
-  ): Promise<NormalizedBookmark[]> {
-    return this.bookmarks;
-  }
-
-  async fetchBookmarkFolders(
-    _userId: string,
-    _accessToken: string,
-  ): Promise<XBookmarkFolder[]> {
-    return this.folders;
-  }
-}
+import {
+  createSnapshot,
+  createTokenRecord,
+  jsonResponse,
+  liveConfig,
+  MemoryRepository,
+  StubBookmarksClient,
+} from "./test-utils";
 
 test("BookmarksSyncService returns a fresh cached snapshot without live sync", async () => {
   const repository = new MemoryRepository();
@@ -198,10 +27,10 @@ test("BookmarksSyncService returns a fresh cached snapshot without live sync", a
     },
   });
 
-  const result = await service.getBookmarks();
-  assert.equal(result.httpStatus, 200);
-  assert.equal(result.response.status, "fresh");
-  assert.equal(result.response.bookmarks[0]?.id, "cached");
+  const result = await Effect.runPromise(service.getBookmarks());
+  expect(result.httpStatus).toBe(200);
+  expect(result.response.status).toBe("fresh");
+  expect(result.response.bookmarks[0]?.id).toBe("cached");
 });
 
 test("BookmarksSyncService serves a stale snapshot when token refresh fails", async () => {
@@ -227,13 +56,13 @@ test("BookmarksSyncService serves a stale snapshot when token refresh fails", as
       ),
   });
 
-  const result = await service.getBookmarks();
-  assert.equal(result.httpStatus, 200);
-  assert.equal(result.response.status, "stale");
-  assert.equal(result.response.isStale, true);
-  assert.equal(result.response.bookmarks[0]?.id, "stale-cached");
-  assert.match(result.response.error ?? "", /token/i);
-  assert.equal(repository.tokenRecord, null);
+  const result = await Effect.runPromise(service.getBookmarks());
+  expect(result.httpStatus).toBe(200);
+  expect(result.response.status).toBe("stale");
+  expect(result.response.isStale).toBe(true);
+  expect(result.response.bookmarks[0]?.id).toBe("stale-cached");
+  expect(result.response.error ?? "").toMatch(/token/i);
+  expect(repository.tokenRecord).toBeNull();
 });
 
 test("BookmarksSyncService returns a typed reauth_required error when no snapshot exists", async () => {
@@ -254,11 +83,11 @@ test("BookmarksSyncService returns a typed reauth_required error when no snapsho
       ),
   });
 
-  const result = await service.getBookmarks();
-  assert.equal(result.httpStatus, 503);
-  assert.equal(result.response.status, "reauth_required");
-  assert.equal(result.response.bookmarks.length, 0);
-  assert.equal(repository.tokenRecord, null);
+  const result = await Effect.runPromise(service.getBookmarks());
+  expect(result.httpStatus).toBe(503);
+  expect(result.response.status).toBe("reauth_required");
+  expect(result.response.bookmarks).toHaveLength(0);
+  expect(repository.tokenRecord).toBeNull();
 });
 
 test("BookmarksSyncService refreshes an expired token and returns a fresh live snapshot", async () => {
@@ -279,12 +108,12 @@ test("BookmarksSyncService refreshes an expired token and returns a fresh live s
       }),
   });
 
-  const result = await service.getBookmarks();
-  assert.equal(result.httpStatus, 200);
-  assert.equal(result.response.status, "fresh");
-  assert.equal(result.response.bookmarks[0]?.id, "fresh-live");
-  assert.equal(repository.tokenRecord?.accessToken, "new-access-token");
-  assert.equal(repository.snapshot?.bookmarks[0]?.id, "fresh-live");
+  const result = await Effect.runPromise(service.getBookmarks());
+  expect(result.httpStatus).toBe(200);
+  expect(result.response.status).toBe("fresh");
+  expect(result.response.bookmarks[0]?.id).toBe("fresh-live");
+  expect(repository.tokenRecord?.accessToken).toBe("new-access-token");
+  expect(repository.snapshot?.bookmarks[0]?.id).toBe("fresh-live");
 });
 
 test("BookmarksSyncService returns owner_mismatch when the token belongs to another account", async () => {
@@ -306,10 +135,10 @@ test("BookmarksSyncService returns owner_mismatch when the token belongs to anot
     },
   });
 
-  const result = await service.getBookmarks();
-  assert.equal(result.httpStatus, 409);
-  assert.equal(result.response.status, "owner_mismatch");
-  assert.equal(result.response.bookmarks.length, 0);
+  const result = await Effect.runPromise(service.getBookmarks());
+  expect(result.httpStatus).toBe(409);
+  expect(result.response.status).toBe("owner_mismatch");
+  expect(result.response.bookmarks).toHaveLength(0);
 });
 
 test("BookmarksSyncService promotes a verified legacy token into the owner-scoped store", async () => {
@@ -332,9 +161,9 @@ test("BookmarksSyncService promotes a verified legacy token into the owner-scope
     },
   });
 
-  const result = await service.getBookmarks();
-  assert.equal(result.httpStatus, 200);
-  assert.equal(result.response.status, "fresh");
-  assert.equal(repository.tokenRecord?.owner.username, "claycurry__");
-  assert.equal(repository.legacyTokenRecord, null);
+  const result = await Effect.runPromise(service.getBookmarks());
+  expect(result.httpStatus).toBe(200);
+  expect(result.response.status).toBe("fresh");
+  expect(repository.tokenRecord?.owner.username).toBe("claycurry__");
+  expect(repository.legacyTokenRecord).toBeNull();
 });

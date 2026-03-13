@@ -1,5 +1,6 @@
-import type { ZodType } from "zod";
-import { getRedisClient, keyPrefix } from "@/lib/redis";
+import { Effect, Schema } from "effect";
+import { appRuntime } from "@/lib/effect/runtime";
+import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
 import {
   type BookmarkSourceOwner,
   type BookmarksSnapshotRecord,
@@ -8,11 +9,12 @@ import {
   BookmarksSyncStatusRecordSchema,
   type LegacyStoredTokens,
   LegacyStoredTokensSchema,
+  NormalizedBookmarksArraySchema,
+  XBookmarkFoldersArraySchema,
   type XTokenRecord,
   XTokenRecordSchema,
 } from "./contracts";
 
-const inMemoryStore = new Map<string, { value: string; expiresAt?: number }>();
 const KEYSPACE = "x:v2";
 const LEGACY_KEYSPACE = "x";
 
@@ -33,22 +35,17 @@ function snapshotSuffix(folderId?: string): string {
 }
 
 async function getRaw(key: string): Promise<string | null> {
-  const client = await getRedisClient();
-  if (client) {
-    return await client.get(key);
-  }
-
-  const entry = inMemoryStore.get(key);
-  if (!entry) {
-    return null;
-  }
-
-  if (entry.expiresAt && entry.expiresAt <= Date.now()) {
-    inMemoryStore.delete(key);
-    return null;
-  }
-
-  return entry.value;
+  return appRuntime.runPromise(
+    Effect.gen(function* () {
+      const redis = yield* RedisClient;
+      return yield* redis.get(key);
+    }).pipe(
+      Effect.catchTag("RedisError", (err) => {
+        console.error(`Redis get error for ${key}:`, err.message);
+        return Effect.succeed(null);
+      }),
+    ),
+  );
 }
 
 async function setRaw(
@@ -56,37 +53,37 @@ async function setRaw(
   value: string,
   ttlSeconds?: number,
 ): Promise<void> {
-  const client = await getRedisClient();
-  if (client) {
-    if (ttlSeconds) {
-      await client.set(key, value, { EX: ttlSeconds });
-      return;
-    }
-
-    await client.set(key, value);
-    return;
-  }
-
-  inMemoryStore.set(key, {
-    value,
-    expiresAt: ttlSeconds ? Date.now() + ttlSeconds * 1000 : undefined,
-  });
+  await appRuntime.runPromise(
+    Effect.gen(function* () {
+      const redis = yield* RedisClient;
+      yield* redis.set(key, value, ttlSeconds ? { EX: ttlSeconds } : undefined);
+    }).pipe(
+      Effect.catchTag("RedisError", (err) => {
+        console.error(`Redis set error for ${key}:`, err.message);
+        return Effect.void;
+      }),
+    ),
+  );
 }
 
 async function deleteRaw(key: string): Promise<void> {
-  const client = await getRedisClient();
-  if (client) {
-    await client.del(key);
-    return;
-  }
-
-  inMemoryStore.delete(key);
+  await appRuntime.runPromise(
+    Effect.gen(function* () {
+      const redis = yield* RedisClient;
+      yield* redis.del(key);
+    }).pipe(
+      Effect.catchTag("RedisError", (err) => {
+        console.error(`Redis del error for ${key}:`, err.message);
+        return Effect.void;
+      }),
+    ),
+  );
 }
 
-async function getValidated<T>(
+async function getValidated<A, I>(
   key: string,
-  schema: ZodType<T>,
-): Promise<T | null> {
+  schema: Schema.Schema<A, I>,
+): Promise<A | null> {
   const raw = await getRaw(key);
   if (!raw) {
     return null;
@@ -94,7 +91,7 @@ async function getValidated<T>(
 
   try {
     const parsed = JSON.parse(raw);
-    return schema.parse(parsed);
+    return Schema.decodeUnknownSync(schema)(parsed);
   } catch (error) {
     console.error(`Invalid X cache payload for ${key}:`, error);
     await deleteRaw(key);
@@ -102,13 +99,13 @@ async function getValidated<T>(
   }
 }
 
-async function setValidated<T>(
+async function setValidated<A, I>(
   key: string,
-  schema: ZodType<T>,
-  value: T,
+  schema: Schema.Schema<A, I>,
+  value: A,
   ttlSeconds?: number,
 ): Promise<void> {
-  const json = JSON.stringify(schema.parse(value));
+  const json = JSON.stringify(Schema.decodeUnknownSync(schema)(value));
   await setRaw(key, json, ttlSeconds);
 }
 
@@ -118,7 +115,7 @@ function buildLegacySnapshot(
   folders: BookmarksSnapshotRecord["folders"],
   folderId?: string,
 ): BookmarksSnapshotRecord {
-  return BookmarksSnapshotRecordSchema.parse({
+  return Schema.decodeUnknownSync(BookmarksSnapshotRecordSchema)({
     owner,
     folderId: folderId ?? null,
     bookmarks,
@@ -232,7 +229,7 @@ export class BookmarksSnapshotRepository implements BookmarksRepository {
     const suffix = folderId ? `bookmarks:folder:${folderId}` : "bookmarks";
     const bookmarks = await getValidated(
       legacyKey(suffix),
-      BookmarksSnapshotRecordSchema.shape.bookmarks,
+      NormalizedBookmarksArraySchema,
     );
 
     if (!bookmarks) {
@@ -242,7 +239,7 @@ export class BookmarksSnapshotRepository implements BookmarksRepository {
     const folders =
       (await getValidated(
         legacyKey("bookmarks:folders"),
-        BookmarksSnapshotRecordSchema.shape.folders,
+        XBookmarkFoldersArraySchema,
       )) ?? [];
 
     const snapshot = buildLegacySnapshot(owner, bookmarks, folders, folderId);
