@@ -8,7 +8,7 @@ function generateTraceId(): string {
   return crypto.randomUUID().replaceAll("-", "");
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const existingTraceId = request.cookies.get(TRACE_COOKIE)?.value;
   const isValid = existingTraceId && /^[0-9a-f]{32}$/.test(existingTraceId);
   const traceId = isValid ? existingTraceId : generateTraceId();
