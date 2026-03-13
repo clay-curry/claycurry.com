@@ -1,18 +1,63 @@
 "use client";
 
 import { useAtomValue } from "jotai";
-import { Bookmark } from "lucide-react";
+import { AlertTriangle, Bookmark } from "lucide-react";
 import { useState } from "react";
+import { Alert, AlertDescription, AlertTitle } from "@/lib/components/ui/alert";
 import { useBookmarks } from "@/lib/hooks/use-bookmarks";
 import { sortedBookmarksAtom } from "@/lib/x/atoms";
 import { BookmarkCard } from "./bookmark-card";
 import { BookmarkCardSkeleton } from "./bookmark-card-skeleton";
 import { BookmarksToolbar } from "./bookmarks-toolbar";
 
+function formatSyncTimestamp(value: string | null): string {
+  if (!value) {
+    return "an unknown time";
+  }
+
+  return new Date(value).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
 export function BookmarksGallery() {
-  const { isLoading, error, folders } = useBookmarks();
+  const { isLoading, error, folders, isStale, lastSyncedAt, owner } =
+    useBookmarks();
   const bookmarks = useAtomValue(sortedBookmarksAtom);
   const [dimViewed, setDimViewed] = useState(false);
+
+  const statusNotice = isStale ? (
+    <Alert className="mb-4 border-amber-500/40 bg-amber-500/5 text-amber-200">
+      <AlertTriangle className="size-4" />
+      <AlertTitle>Showing cached bookmarks</AlertTitle>
+      <AlertDescription>
+        <p>
+          Live sync failed, so this view is using the most recent cached
+          snapshot from {formatSyncTimestamp(lastSyncedAt)}.
+        </p>
+        {owner && (
+          <p>
+            Required owner:{" "}
+            <span className="font-medium">@{owner.username}</span>
+          </p>
+        )}
+      </AlertDescription>
+    </Alert>
+  ) : null;
+
+  const refreshErrorNotice =
+    error && bookmarks.length > 0 && !isStale ? (
+      <Alert className="mb-4 border-border/70 bg-secondary/60">
+        <AlertTriangle className="size-4" />
+        <AlertTitle>Showing previous results</AlertTitle>
+        <AlertDescription>
+          <p>{error}</p>
+        </AlertDescription>
+      </Alert>
+    ) : null;
 
   if (isLoading) {
     return (
@@ -31,27 +76,35 @@ export function BookmarksGallery() {
     );
   }
 
-  if (error && bookmarks.length === 0) {
+  if (error && bookmarks.length === 0 && !isStale) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
-        <Bookmark className="size-8 mb-3 opacity-50" />
-        <p className="text-sm">Unable to load bookmarks</p>
-        <p className="text-xs mt-1 opacity-70">{error}</p>
+      <div>
+        {statusNotice}
+        <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+          <Bookmark className="size-8 mb-3 opacity-50" />
+          <p className="text-sm">Unable to load bookmarks</p>
+          <p className="text-xs mt-1 opacity-70">{error}</p>
+        </div>
       </div>
     );
   }
 
   if (bookmarks.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
-        <Bookmark className="size-8 mb-3 opacity-50" />
-        <p className="text-sm">No bookmarks yet</p>
+      <div>
+        {statusNotice}
+        <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+          <Bookmark className="size-8 mb-3 opacity-50" />
+          <p className="text-sm">No bookmarks yet</p>
+        </div>
       </div>
     );
   }
 
   return (
     <div>
+      {statusNotice}
+      {refreshErrorNotice}
       <BookmarksToolbar
         folders={folders}
         dimViewed={dimViewed}

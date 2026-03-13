@@ -7,7 +7,11 @@ import {
   bookmarksDataAtom,
   bookmarksFoldersAtom,
 } from "@/lib/x/atoms";
-import type { NormalizedBookmark, XBookmarkFolder } from "@/lib/x/client";
+import {
+  type BookmarkSourceOwner,
+  BookmarksApiResponseSchema,
+  type BookmarksApiStatus,
+} from "@/lib/x/contracts";
 
 export function useBookmarks() {
   const [bookmarks, setBookmarks] = useAtom(bookmarksDataAtom);
@@ -15,6 +19,10 @@ export function useBookmarks() {
   const folder = useAtomValue(bookmarkFolderAtom);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<BookmarksApiStatus>("fresh");
+  const [isStale, setIsStale] = useState(false);
+  const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(null);
+  const [owner, setOwner] = useState<BookmarkSourceOwner | null>(null);
 
   const fetchBookmarks = useCallback(
     async (folderId?: string) => {
@@ -23,19 +31,39 @@ export function useBookmarks() {
       try {
         const params = folderId ? `?folder=${folderId}` : "";
         const res = await fetch(`/api/x/bookmarks${params}`);
-        const data = await res.json();
+        const json = await res.json();
+        const parsed = BookmarksApiResponseSchema.safeParse(json);
 
-        if (!res.ok) {
-          setError(data.error || "Failed to fetch bookmarks");
-          setBookmarks(data.bookmarks ?? []);
-          setFolders(data.folders ?? []);
+        if (!parsed.success) {
+          setError("Bookmarks response did not match the expected contract");
+          setBookmarks([]);
+          setFolders([]);
+          setStatus("schema_invalid");
+          setIsStale(false);
+          setLastSyncedAt(null);
+          setOwner(null);
           return;
         }
 
-        setBookmarks(data.bookmarks as NormalizedBookmark[]);
-        setFolders(data.folders as XBookmarkFolder[]);
+        const data = parsed.data;
+        setBookmarks(data.bookmarks);
+        setFolders(data.folders);
+        setStatus(data.status);
+        setIsStale(data.isStale);
+        setLastSyncedAt(data.lastSyncedAt);
+        setOwner(data.owner);
+
+        if (!res.ok) {
+          setError(data.error || "Failed to fetch bookmarks");
+          return;
+        }
+        setError(data.error ?? null);
       } catch {
         setError("Failed to fetch bookmarks");
+        setStatus("upstream_error");
+        setIsStale(false);
+        setLastSyncedAt(null);
+        setOwner(null);
       } finally {
         setIsLoading(false);
       }
@@ -51,5 +79,15 @@ export function useBookmarks() {
     fetchBookmarks(folder || undefined);
   }, [folder, fetchBookmarks]);
 
-  return { isLoading, error, bookmarks, folders, refetch };
+  return {
+    isLoading,
+    error,
+    bookmarks,
+    folders,
+    status,
+    isStale,
+    lastSyncedAt,
+    owner,
+    refetch,
+  };
 }

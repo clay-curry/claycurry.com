@@ -78,7 +78,7 @@ export const resumeHeaderData: ResumeHeaderData = {
   socialLinks: [
     {
       icon: "location",
-      href: "https://www.google.com/maps/place/San+Francisco,+CA",
+      href: profileData.locationHref,
       label: "Location",
       clickId: "resume:location",
     },

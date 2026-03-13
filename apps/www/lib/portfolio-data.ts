@@ -1,14 +1,21 @@
+export const locationData = {
+  label: "Seattle, WA",
+  mapHref: "https://www.google.com/maps/place/Seattle,+WA",
+  mapEmbedUrl: "https://www.google.com/maps?q=Seattle,+WA&z=11&output=embed",
+} as const;
+
 export const profileData = {
   name: "Clay Curry",
   title: "Software Engineer",
   avatar: "/clay_profile_cropped.png",
   email: "me@claycurry.com",
   phone: "+1 (405) 301-1055",
-  location: "San Francisco, CA",
+  location: locationData.label,
+  locationHref: locationData.mapHref,
   githubUsername: "clay-curry",
   social: {
     github: "https://github.com/clay-curry",
-    x: "https://x.com/claybuilds",
+    x: "https://x.com/claycurry__",
     linkedin: "https://www.linkedin.com/in/clay-curry/",
   },
 } as const;
@@ -140,7 +147,6 @@ export const blogData = {
 export const contactData = {
   email: "me@claycurry.com",
   phone: "+1 (405) 301-1055",
-  location: "San Francisco, CA",
-  mapEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d100939.98555098464!2d-122.50764017948915!3d37.75780951542879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076adff!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus",
+  location: locationData.label,
+  mapEmbedUrl: locationData.mapEmbedUrl,
 } as const;

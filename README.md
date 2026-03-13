@@ -3,19 +3,19 @@
 </p>
 
 <p align="center">
-
-[![Merge criteria](https://github.com/clay-curry/claycurry.com/actions/workflows/merge-criteria.yml/badge.svg)](https://github.com/clay-curry/claycurry.com/actions/workflows/merge-criteria.yml)
-[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://www.claycurry.com)
-[![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
-[![Node](https://img.shields.io/badge/Node-20.x-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![pnpm](https://img.shields.io/badge/pnpm-9.15.0-F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
-[![License: WTFPL](https://img.shields.io/badge/License-WTFPL-brightgreen.svg)](LICENSE.md)
-
+  <a href="https://github.com/clay-curry/claycurry.com/actions/workflows/merge-criteria.yml"><img src="https://github.com/clay-curry/claycurry.com/actions/workflows/merge-criteria.yml/badge.svg" alt="Merge criteria"/></a>
+  <a href="https://www.claycurry.com"><img src="https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white" alt="Vercel"/></a>
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white" alt="Next.js"/></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node-20.x-339933?logo=node.js&logoColor=white" alt="Node"/></a>
+  <a href="https://pnpm.io/"><img src="https://img.shields.io/badge/pnpm-9.15.0-F69220?logo=pnpm&logoColor=white" alt="pnpm"/></a>
+  <a href="LICENSE.md"><img src="https://img.shields.io/badge/License-WTFPL-brightgreen.svg" alt="License: WTFPL"/></a>
 </p>
 
-# claycurry.com
+<h1 align="center">
+claycurry.com
+</h1>
 
-Clay Curry's personal portfolio and blog, built as a pnpm + Turborepo monorepo with a Next.js app, MDX content, AI chat, usage analytics, and optional social/email integrations.
+My dent on the world wide web. A portfolio and blog, built as a pnpm + Turborepo monorepo combining a Next.js app, MDX compilation pipeline, visitor analytics, ad hoc tools, visitor analytics, and integrations for LLM agents and communication channels.
 
 ## Overview
 
@@ -105,7 +105,8 @@ Local app URL: `http://localhost:3000`
 | `OPENAI_API_KEY` | AI model fallback | Optional direct provider fallback support. |
 | `XAI_API_KEY` | AI model selection | Optional model/provider support. |
 | `PERPLEXITY_API_KEY` | Web search tool in chat | Enables search tool usage when web search is turned on in chat. |
-| `X_OWNER_USER_ID` | X bookmarks sync | Owner account ID used for bookmark fetches. |
+| `X_OWNER_USERNAME` | X bookmarks sync | Canonical bookmark owner username. Set this to `claycurry__`. |
+| `X_OWNER_USER_ID` | X bookmarks sync | Deprecated compatibility field. If set, it must resolve to the same account as `X_OWNER_USERNAME`. |
 | `X_CLIENT_ID` | X OAuth | OAuth client identifier. |
 | `X_CLIENT_SECRET` | X OAuth | OAuth client secret for token exchange/refresh. |
 | `X_OWNER_SECRET` | X OAuth bootstrap route | Shared secret gate for `/api/x/auth`. |
@@ -131,8 +132,10 @@ Deployment note:
 ### X bookmarks
 
 - Endpoints: `apps/www/app/api/x/*`
-- Supports OAuth token exchange and bookmark retrieval
-- Returns fixture data when X credentials are not configured (useful for local UI work)
+- Supports OAuth token exchange, owner validation for `@claycurry__`, and bookmark retrieval
+- Returns stale snapshots instead of blank data when live sync fails and a prior snapshot exists
+- Exposes a minimal operator status route at `/api/x/bookmarks/status?secret=...`
+- Requires `X_CLIENT_ID` and `X_CLIENT_SECRET` — shows a clear error when credentials are missing
 
 ### Email delivery
 

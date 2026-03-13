@@ -78,7 +78,7 @@ function AsideProfile({ data = profileData }: AsideProfileProps) {
             icon: MapPin,
             label: "Location",
             value: data.location,
-            href: "https://www.google.com/maps/place/San+Francisco,+CA",
+            href: data.locationHref,
             clickId: "sidebar:location",
           },
           {
