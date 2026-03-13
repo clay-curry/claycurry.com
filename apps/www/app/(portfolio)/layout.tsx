@@ -1,6 +1,7 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import type React from "react";
+import { GitHubIcon, LinkedInIcon, XIcon } from "@/lib/components/icons";
 import { FloatingToolbar } from "@/lib/components/site/floating-toolbar";
 import { PageViews } from "@/lib/components/site/page-views";
 import { PortfolioNav } from "@/lib/components/site/portfolio-nav";
@@ -13,8 +14,8 @@ export default function PortfolioLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen lg:h-screen lg:overflow-hidden p-0 mx-auto max-w-7xl">
-      <div className="flex flex-col-reverse lg:flex-row gap-1 sm:gap-4 md:gap-6 lg:h-full">
+    <div className="h-dvh lg:overflow-hidden p-0 mx-auto max-w-7xl">
+      <div className="flex flex-col-reverse lg:flex-row gap-1 sm:gap-4 md:gap-6 h-full">
         <AsideProfile data={profileData} />
         <MainBody>{children}</MainBody>
       </div>
@@ -118,6 +119,41 @@ function AsideProfile({ data = profileData }: AsideProfileProps) {
               )}
             </div>
           </div>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-center gap-4 mt-4 md:mt-6 pt-4 md:pt-6 border-t border-border">
+        {[
+          {
+            href: data.social.x,
+            label: "X",
+            clickId: "sidebar:x",
+            icon: XIcon,
+          },
+          {
+            href: data.social.github,
+            label: "GitHub",
+            clickId: "sidebar:github",
+            icon: GitHubIcon,
+          },
+          {
+            href: data.social.linkedin,
+            label: "LinkedIn",
+            clickId: "sidebar:linkedin",
+            icon: LinkedInIcon,
+          },
+        ].map(({ href, label, clickId, icon: Icon }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-click-id={clickId}
+            aria-label={label}
+            className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground hover:scale-110 focus-visible:bg-accent focus-visible:text-accent-foreground focus-visible:scale-110 transition-all flex items-center justify-center"
+          >
+            <Icon className="w-5 h-5" />
+          </a>
         ))}
       </div>
     </aside>
