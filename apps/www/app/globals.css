@@ -370,23 +370,32 @@ html.theme-switching *::after {
   }
 }
 
-/* Basketball cursor on desktop pointers, while preserving affordance cursors. */
+/* Figma cursor set on desktop pointers, while preserving native affordance cursors. */
 @media (hover: hover) and (pointer: fine) {
+  :root {
+    --cursor-default:
+      url("/cursors/figma-default.cur"),
+      url("/cursors/figma-default-32.png") 4 2, auto;
+    --cursor-hover:
+      url("/cursors/figma-hover.cur"), url("/cursors/figma-hover-32.png") 4 2,
+      pointer;
+  }
+
   html,
   body {
-    cursor:
-      url("/cursors/basketball-cursor-32.png") 16 16,
-      auto;
+    cursor: var(--cursor-default);
   }
 
   a[href],
   area[href],
   button,
+  select,
   summary,
   label[for],
   [role="button"],
-  [role="link"] {
-    cursor: pointer;
+  [role="link"],
+  .cursor-pointer {
+    cursor: var(--cursor-hover);
   }
 
   input,
