@@ -8,10 +8,34 @@ export default function AboutPage() {
     <div className="py-8 md:py-12 px-2 md:px-4 space-y-12 md:space-y-14 flex flex-col gap-10">
       <Hero />
 
+      <WelcomeSection />
+
       <RecentActivitySection />
 
       <ContributionSection />
     </div>
+  );
+}
+
+function WelcomeSection() {
+  return (
+    <section className="mx-auto w-full max-w-3xl px-4 text-center">
+      <div className="rounded-2xl border border-primary/20 bg-secondary/40 px-6 py-8 md:px-10 md:py-10">
+        <div className="space-y-5 text-pretty leading-relaxed">
+          <p className="font-tourney text-xl uppercase tracking-wider text-accent md:text-2xl">
+            Welcome.
+          </p>
+          <p className="text-base text-foreground/90 md:text-lg">
+            Thanks for visiting my design studio. I built this space to grow,
+            collaborate, and share the things I create over my career.
+          </p>
+          <p className="text-base text-muted-foreground md:text-lg">
+            Whether you come as a first-time caller or a long-time listener, to
+            collaborate, scrape, or observe, your interest is my pleasure.
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
 
