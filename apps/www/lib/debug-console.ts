@@ -36,14 +36,15 @@ export function renderDebugConsole(
   body: unknown,
   debug: DebugPayload["__debug"],
 ): void {
-  const statusStyle = status < 400 ? SUCCESS_STYLE : ERROR_STATUS_STYLE;
+  const headerStyle = status < 400 ? SUCCESS_STYLE : ERROR_STATUS_STYLE;
   const statusText = status < 400 ? "OK" : "ERR";
 
   // Top-level group header
   console.group(
-    `%c${method} ${url} %c· ${clientMs}ms · ${status} ${statusText}`,
+    `%c${method} ${url} %c· ${clientMs}ms · %c${status} ${statusText}`,
     `${BOLD_STYLE}; color: #22d3ee`,
     DIM_STYLE,
+    headerStyle,
   );
 
   // Request section

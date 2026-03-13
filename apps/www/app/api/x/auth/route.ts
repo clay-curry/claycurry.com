@@ -32,6 +32,8 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  const clientId = config.clientId;
+
   // Generate PKCE code verifier and challenge
   const codeVerifier = base64url(crypto.randomBytes(32));
   const codeChallenge = base64url(
@@ -50,7 +52,7 @@ export async function GET(request: NextRequest) {
       const callbackUrl = new URL("/api/x/callback", request.url).toString();
       const authUrl = new URL("https://x.com/i/oauth2/authorize");
       authUrl.searchParams.set("response_type", "code");
-      authUrl.searchParams.set("client_id", config.clientId!);
+      authUrl.searchParams.set("client_id", clientId);
       authUrl.searchParams.set("redirect_uri", callbackUrl);
       authUrl.searchParams.set(
         "scope",
