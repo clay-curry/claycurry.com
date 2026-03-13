@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { PostMetadata } from "@/app/(portfolio)/blog/loader";
+import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import {
   Sidebar,
   SidebarContent,
@@ -33,13 +33,13 @@ export function BlogSidebar({ posts, navLinks, ...props }: BlogSidebarProps) {
         <SidebarGroup>
           <div className="flex justify-center gap-4 py-4">
             {navLinks.map((link) => (
-              <Link
+              <PreservedQueryLink
                 key={link.href}
                 href={link.href}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 {link.label}
-              </Link>
+              </PreservedQueryLink>
             ))}
           </div>
         </SidebarGroup>
@@ -58,11 +58,11 @@ export function BlogSidebar({ posts, navLinks, ...props }: BlogSidebarProps) {
                       asChild
                       isActive={pathname === `/blog/${post.slug}`}
                     >
-                      <Link href={`/blog/${post.slug}`}>
+                      <PreservedQueryLink href={`/blog/${post.slug}`}>
                         <span className="truncate">
                           {post.shortTitle || post.title}
                         </span>
-                      </Link>
+                      </PreservedQueryLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -82,11 +82,11 @@ export function BlogSidebar({ posts, navLinks, ...props }: BlogSidebarProps) {
                     asChild
                     isActive={pathname === `/blog/${post.slug}`}
                   >
-                    <Link href={`/blog/${post.slug}`}>
+                    <PreservedQueryLink href={`/blog/${post.slug}`}>
                       <span className="truncate">
                         {post.shortTitle || post.title}
                       </span>
-                    </Link>
+                    </PreservedQueryLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

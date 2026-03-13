@@ -4,7 +4,7 @@
     "turborepo": {
       "source": "vercel/turborepo",
       "sourceType": "github",
-      "computedHash": "803a0f27564464e0b08703c0fe2f27217be0bfaadceb794c44a1e71f078dfd2d"
+      "computedHash": "2ee1db174540757b7a650b37cd520d42469eefa14bd8dcb3cd9cc1510e206f7f"
     },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",

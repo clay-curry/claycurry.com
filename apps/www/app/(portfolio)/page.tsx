@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { Hero } from "@/lib/components/site/hero";
+import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import { SectionHeader } from "@/lib/components/site/section-header";
 import { ContributionSection } from "@/lib/resume/contribution-section";
 
@@ -19,7 +19,7 @@ export default function AboutPage() {
 }
 
 const Bookmarks = () => (
-  <Link
+  <PreservedQueryLink
     href="/work/x-bookmarks"
     className="bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent hover:shadow-lg transition-all p-6 flex items-center gap-4 group"
   >
@@ -39,5 +39,5 @@ const Bookmarks = () => (
       </p>
     </div>
     <ArrowRight className="size-5 text-muted-foreground group-hover:text-accent transition-colors shrink-0" />
-  </Link>
+  </PreservedQueryLink>
 );

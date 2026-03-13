@@ -9,7 +9,6 @@
     "check-types": "turbo check-types",
     "test": "turbo test",
     "check-links": "turbo check-links",
-    "postinstall": "./scripts/setup-skills.sh",
     "prepare": "husky"
   },
   "devDependencies": {

@@ -2,9 +2,9 @@
 
 import { cva } from "class-variance-authority";
 import { Wrench } from "lucide-react";
-import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import { Accordion } from "@/lib/components/ui/accordion";
 import { aboutData } from "@/lib/portfolio-data";
 import { cn } from "@/lib/utils";
@@ -17,12 +17,12 @@ export const PrimaryLink = ({
   href: string;
   children: ReactNode;
 }) => (
-  <Link
+  <PreservedQueryLink
     href={href}
     className="text-primary underline underline-offset-4 decoration-primary/50 hover:text-primary/80 transition-colors"
   >
     {children}
-  </Link>
+  </PreservedQueryLink>
 );
 
 // TRON Card with glow effect

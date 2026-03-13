@@ -1,6 +1,6 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import { cn } from "@/lib/utils";
 
 /**
@@ -31,7 +31,7 @@ export function CVLink({
   className?: string;
 }) {
   return (
-    <Link
+    <PreservedQueryLink
       href={href}
       className={cn(
         "text-primary hover:text-primary/80 underline underline-offset-4 decoration-primary/50 transition-colors",
@@ -39,7 +39,7 @@ export function CVLink({
       )}
     >
       {children}
-    </Link>
+    </PreservedQueryLink>
   );
 }
 

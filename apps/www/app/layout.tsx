@@ -4,9 +4,11 @@ import { Geist_Mono, Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import { DebugPanel } from "@/lib/components/site/debug-panel";
+import { TrackingQueryBootstrap } from "@/lib/components/site/tracking-query-bootstrap";
 import { ChatProvider } from "@/lib/providers/chat-provider";
 import { ClickCountProvider } from "@/lib/providers/click-count-provider";
 import { SITE_ORIGIN } from "@/lib/site-url";
+import { getTrackingQueryCaptureScript } from "@/lib/tracking-query";
 
 import "tw-animate-css";
 import "katex/dist/katex.min.css";
@@ -113,6 +115,11 @@ export default function RootLayout({
 })()`,
           }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: getTrackingQueryCaptureScript(),
+          }}
+        />
       </head>
       <body
         className={`${anders.variable} ${chirp.variable} ${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}
@@ -134,6 +141,7 @@ function CompositeProviders({
   return (
     <>
       <ClickCountProvider>
+        <TrackingQueryBootstrap />
         <ChatProvider>{children}</ChatProvider>
       </ClickCountProvider>
       <DebugPanel />
