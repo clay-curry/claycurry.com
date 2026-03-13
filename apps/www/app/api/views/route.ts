@@ -1,7 +1,7 @@
 import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
-import { appRuntime } from "@/lib/effect/runtime";
 import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
+import { withDebug } from "@/lib/effect/with-debug";
 
 /** Max number of slugs stored in the dedup cookie */
 const MAX_VIEWED_PAGES = 100;
@@ -34,7 +34,8 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  return appRuntime.runPromise(
+  return withDebug(
+    request,
     getViewCount(slug).pipe(
       Effect.map((count) => NextResponse.json({ slug, count })),
       Effect.catchTag("RedisError", (err) => {
@@ -46,7 +47,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  return appRuntime.runPromise(
+  return withDebug(
+    request,
     Effect.gen(function* () {
       const body = yield* Effect.tryPromise({
         try: () => request.json(),

@@ -1,6 +1,7 @@
 import { Effect } from "effect";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { withDebug } from "@/lib/effect/with-debug";
 import { contactData } from "@/lib/portfolio-data";
 
 function escapeHtml(str: string): string {
@@ -13,7 +14,8 @@ function escapeHtml(str: string): string {
 }
 
 export async function POST(request: Request) {
-  return Effect.runPromise(
+  return withDebug(
+    request,
     Effect.gen(function* () {
       const body = yield* Effect.tryPromise({
         try: () => request.json(),

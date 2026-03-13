@@ -1,6 +1,7 @@
 import { Effect, Schema } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
 import { appRuntime } from "@/lib/effect/runtime";
+import { withDebug } from "@/lib/effect/with-debug";
 import {
   makeTracerLayer,
   persistSpan,
@@ -83,7 +84,13 @@ export async function GET(request: NextRequest) {
     }),
   );
 
-  // If we have a trace ID from middleware, install the tracer layer
+  // withDebug handles tracing + debug logging when ?debug=1
+  // For non-debug requests with a trace ID, use existing tracer layer
+  const isDebug = searchParams.get("debug") === "1";
+  if (isDebug) {
+    return withDebug(request, program);
+  }
+
   if (traceId) {
     const onSpanEnd = (span: import("@/lib/tracing").Span) => {
       appRuntime.runFork(persistSpan(span));

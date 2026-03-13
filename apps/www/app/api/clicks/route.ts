@@ -1,7 +1,7 @@
 import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
-import { appRuntime } from "@/lib/effect/runtime";
 import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
+import { withDebug } from "@/lib/effect/with-debug";
 
 const clicksKey = `${keyPrefix()}clicks`;
 
@@ -15,8 +15,9 @@ const getAllCounts = Effect.gen(function* () {
   return counts;
 });
 
-export async function GET() {
-  return appRuntime.runPromise(
+export async function GET(request: NextRequest) {
+  return withDebug(
+    request,
     getAllCounts.pipe(
       Effect.map((counts) => NextResponse.json({ counts })),
       Effect.catchTag("RedisError", (err) => {
@@ -28,7 +29,8 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  return appRuntime.runPromise(
+  return withDebug(
+    request,
     Effect.gen(function* () {
       const body = yield* Effect.tryPromise({
         try: () => request.json(),

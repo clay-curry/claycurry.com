@@ -2,6 +2,7 @@
 
 import { useAtom, useAtomValue } from "jotai";
 import { useCallback, useEffect, useState } from "react";
+import { debugFetch } from "@/lib/debug-fetch";
 import {
   bookmarkFolderAtom,
   bookmarksDataAtom,
@@ -40,7 +41,7 @@ export function useBookmarks() {
         const mock = getDebugMockParam();
         if (mock) params.set("mock", mock);
         const qs = params.toString();
-        const res = await fetch(`/api/x/bookmarks${qs ? `?${qs}` : ""}`);
+        const res = await debugFetch(`/api/x/bookmarks${qs ? `?${qs}` : ""}`);
         const json = await res.json();
         if (
           !json ||

@@ -3,6 +3,7 @@
 import { Eye } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { debugFetch } from "@/lib/debug-fetch";
 
 interface PageViewsProps {
   /** Custom slug to track (defaults to current pathname) */
@@ -103,7 +104,7 @@ export function usePageViews(
         if (increment) {
           trackedSlug.current = slug;
 
-          const response = await fetch("/api/views", {
+          const response = await debugFetch("/api/views", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ slug }),
@@ -116,7 +117,7 @@ export function usePageViews(
           const data = await response.json();
           setCount(data.count);
         } else {
-          const response = await fetch(
+          const response = await debugFetch(
             `/api/views?slug=${encodeURIComponent(slug)}`,
           );
 

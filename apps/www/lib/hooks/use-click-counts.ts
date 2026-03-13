@@ -3,6 +3,7 @@
 import { atom, useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useCallback, useEffect, useRef } from "react";
+import { debugFetch } from "@/lib/debug-fetch";
 
 export const clickCountsAtom = atom<Record<string, number>>({});
 export const clickCountsEnabledAtom = atomWithStorage<boolean>(
@@ -21,7 +22,7 @@ export function useClickCountEngine() {
     if (batch.length === 0) return;
 
     try {
-      const res = await fetch("/api/clicks", {
+      const res = await debugFetch("/api/clicks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: batch }),
@@ -42,7 +43,7 @@ export function useClickCountEngine() {
   // Seed counts on mount
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/clicks")
+    debugFetch("/api/clicks")
       .then((res) => res.json())
       .then(({ counts: serverCounts }) => {
         if (!cancelled) {

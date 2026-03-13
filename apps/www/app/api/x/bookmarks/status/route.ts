@@ -1,5 +1,6 @@
 import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
+import { withDebug } from "@/lib/effect/with-debug";
 import { getXOwnerSecret } from "@/lib/x/config";
 import { createBookmarksSyncService } from "@/lib/x/runtime";
 
@@ -18,7 +19,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  return Effect.runPromise(
+  return withDebug(
+    request,
     Effect.gen(function* () {
       const service = createBookmarksSyncService();
       const response = yield* service.getStatus();
