@@ -1,4 +1,4 @@
-import { type Exit, Layer, Tracer } from "effect";
+import { type Exit, Tracer } from "effect";
 import type { Span } from "./types";
 
 /**
@@ -147,26 +147,13 @@ function makeAppTracer(traceId: string, onSpanEnd: OnSpanEnd): Tracer.Tracer {
 }
 
 /**
- * Create a Layer that installs the app tracer for a specific trace ID.
- * Use this in route handlers:
- *
- * ```ts
- * const TracerLive = makeTracerLayer(traceId, (span) => {
- *   appRuntime.runFork(persistSpan(span));
- * });
- * Effect.provide(program, TracerLive);
- * ```
+ * Create an Effect Tracer for a specific trace ID.
+ * Use with Effect.withTracer() in route handlers to override
+ * the default no-op tracer in ManagedRuntime.
  */
 export function makeTracer(
   traceId: string,
   onSpanEnd: OnSpanEnd,
 ): Tracer.Tracer {
   return makeAppTracer(traceId, onSpanEnd);
-}
-
-export function makeTracerLayer(
-  traceId: string,
-  onSpanEnd: OnSpanEnd,
-): Layer.Layer<never> {
-  return Layer.succeed(Tracer.Tracer, makeAppTracer(traceId, onSpanEnd));
 }
