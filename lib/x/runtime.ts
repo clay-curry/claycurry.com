@@ -1,3 +1,13 @@
+/**
+ * Factory for creating the bookmarks sync service.
+ *
+ * Chooses between a mock implementation (preproduction without credentials)
+ * and a live `BookmarksSyncService` backed by Redis + the X API. This is
+ * the main entry point used by API route handlers to obtain a service
+ * instance.
+ *
+ * @module
+ */
 import { Effect } from "effect";
 import { BookmarksSnapshotRepository } from "./cache";
 import { XBookmarksClient } from "./client";
@@ -53,6 +63,19 @@ function createMockSyncService(): BookmarksSyncServiceLike {
   };
 }
 
+/**
+ * Creates a `BookmarksSyncServiceLike` instance appropriate for the current
+ * environment.
+ *
+ * - In **preproduction** without live OAuth credentials: returns a mock
+ *   service that serves bundled sample bookmarks (no API calls).
+ * - In **production** or when credentials are present: returns a real
+ *   `BookmarksSyncService` backed by Redis caching and the X API.
+ *
+ * @param fetchImpl - Custom fetch for testing (defaults to global `fetch`).
+ * @param options.preferMockFallback - When `true` (default), falls back to
+ *   bundled bookmarks if live sync fails. Set to `false` to disable.
+ */
 export function createBookmarksSyncService(
   fetchImpl: typeof fetch = fetch,
   options: {

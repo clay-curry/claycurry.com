@@ -1,3 +1,20 @@
+/**
+ * Bookmarks sync orchestrator — the core service that coordinates cached
+ * snapshot reads, live X API sync, token management, and graceful fallback.
+ *
+ * `BookmarksSyncService` implements a **cache-first** strategy:
+ * 1. If a fresh snapshot exists in Redis, return it immediately.
+ * 2. Otherwise, attempt a live sync (token retrieval, identity verification,
+ *    bookmark + folder fetch, snapshot persistence).
+ * 3. On live sync failure, fall back to a stale snapshot (if available) or
+ *    a bundled mock response, recording the error in the status record.
+ *
+ * All methods return `Effect` programs for composable error handling and
+ * tracing integration.
+ *
+ * @see https://effect.website/docs/getting-started/using-generators
+ * @module
+ */
 import { Effect, Schema } from "effect";
 import type { BookmarksRepository } from "./cache";
 import {
@@ -102,6 +119,7 @@ function buildCacheStaleIssue(issue: IntegrationIssue): IntegrationIssue {
   };
 }
 
+/** Mutable state accumulated during a sync attempt, threaded through liveSync and recovery. */
 interface SyncContext {
   authenticatedOwner: BookmarkSourceOwner | null;
   resolvedOwner: BookmarkSourceOwner | null;
@@ -110,6 +128,7 @@ interface SyncContext {
   tokenStatus: TokenHealthStatus;
 }
 
+/** Configuration bag for constructing a `BookmarksSyncService`. */
 interface BookmarksSyncServiceOptions {
   config: XRuntimeConfig;
   repository: BookmarksRepository;
@@ -122,6 +141,20 @@ interface GetBookmarksOptions {
   forceLive?: boolean;
 }
 
+/**
+ * Orchestrates bookmark synchronization with a cache-first strategy.
+ *
+ * The service checks Redis for a fresh snapshot before hitting the X API.
+ * When a live sync is needed, it:
+ * - Validates OAuth credentials and config
+ * - Retrieves and refreshes tokens via `XTokenStore`
+ * - Verifies owner identity with `XIdentityVerifier` and `XBookmarksOwnerResolver`
+ * - Fetches bookmarks and folders concurrently
+ * - Persists the new snapshot and status record
+ *
+ * On failure, it degrades gracefully: serving stale data when available,
+ * or falling back to bundled mock data in preproduction.
+ */
 export class BookmarksSyncService {
   private readonly ownerHint: BookmarkSourceOwner;
 
@@ -129,6 +162,14 @@ export class BookmarksSyncService {
     this.ownerHint = buildOwnerHint(options.config);
   }
 
+  /**
+   * Main entry point: returns bookmarks for the configured owner.
+   *
+   * @param folderId - Optional folder ID to filter by. Omit for all bookmarks.
+   * @param options.forceLive - Skip the cache freshness check and always
+   *   attempt a live sync (used by the `?source=live` debug override).
+   * @returns Effect yielding `{ response, httpStatus }`.
+   */
   getBookmarks(folderId?: string, options: GetBookmarksOptions = {}) {
     const opts = this.options;
     const self = this;
@@ -173,6 +214,11 @@ export class BookmarksSyncService {
     });
   }
 
+  /**
+   * Returns the current sync status by reading the snapshot, status record,
+   * and token record concurrently from Redis. Used by the
+   * `/api/x/bookmarks/status` endpoint.
+   */
   getStatus() {
     const opts = this.options;
     const self = this;
@@ -230,6 +276,11 @@ export class BookmarksSyncService {
     });
   }
 
+  /**
+   * Performs a full live sync against the X API: validates config, retrieves
+   * tokens, verifies identity, fetches bookmarks + folders concurrently,
+   * and persists the fresh snapshot and status record.
+   */
   private liveSync(
     folderId: string | undefined,
     previousStatus: BookmarksSyncStatusRecord | null,
@@ -354,6 +405,11 @@ export class BookmarksSyncService {
     });
   }
 
+  /**
+   * Graceful degradation handler for live sync failures. If a stale snapshot
+   * exists, serves it with a `"stale"` status. Otherwise falls back to
+   * the bundled mock response (if configured) or returns an error response.
+   */
   private recoverFromSyncFailure(
     error: XError,
     folderId: string | undefined,

@@ -1,3 +1,23 @@
+/**
+ * Redis-backed persistence layer for X bookmarks data.
+ *
+ * Provides typed read/write operations for three record types:
+ * - **Token records** — OAuth access/refresh tokens keyed by owner username.
+ * - **Snapshot records** — Point-in-time bookmark + folder snapshots.
+ * - **Status records** — Sync health metadata (token status, last error, etc.).
+ *
+ * All keys are namespaced under `{env-prefix}x:v2:{owner}:` to support
+ * multi-environment deployments (dev/preview/prod). Legacy `x:` keys are
+ * read during one-time migration but never written to.
+ *
+ * Redis operations are executed through the Effect-based `RedisClient`
+ * service via the app's `ManagedRuntime`. Errors are caught and logged,
+ * returning `null` / `void` to prevent cache failures from breaking the
+ * sync flow.
+ *
+ * @see https://effect.website/docs/getting-started/using-generators
+ * @module
+ */
 import { Effect, Schema } from "effect";
 import { appRuntime } from "@/lib/effect/runtime";
 import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
@@ -34,6 +54,7 @@ function snapshotSuffix(folderId?: string): string {
   return folderId ? `snapshots:folder:${folderId}` : "snapshots:all";
 }
 
+/** Reads a raw string value from Redis, returning `null` on miss or error. */
 async function getRaw(key: string): Promise<string | null> {
   return appRuntime.runPromise(
     Effect.gen(function* () {
@@ -48,6 +69,7 @@ async function getRaw(key: string): Promise<string | null> {
   );
 }
 
+/** Writes a raw string value to Redis with an optional TTL in seconds. */
 async function setRaw(
   key: string,
   value: string,
@@ -66,6 +88,7 @@ async function setRaw(
   );
 }
 
+/** Deletes a key from Redis, logging and swallowing errors. */
 async function deleteRaw(key: string): Promise<void> {
   await appRuntime.runPromise(
     Effect.gen(function* () {
@@ -80,6 +103,11 @@ async function deleteRaw(key: string): Promise<void> {
   );
 }
 
+/**
+ * Reads a Redis key, parses the JSON, and validates it against an Effect
+ * Schema. Returns `null` on miss, parse error, or validation failure
+ * (auto-deletes corrupted keys).
+ */
 async function getValidated<A, I>(
   key: string,
   schema: Schema.Schema<A, I>,
@@ -99,6 +127,10 @@ async function getValidated<A, I>(
   }
 }
 
+/**
+ * Validates a value against an Effect Schema, serializes it to JSON,
+ * and writes it to Redis with an optional TTL.
+ */
 async function setValidated<A, I>(
   key: string,
   schema: Schema.Schema<A, I>,
@@ -126,6 +158,10 @@ function buildLegacySnapshot(
   });
 }
 
+/**
+ * Abstract persistence contract for bookmarks data. Implemented by
+ * `BookmarksSnapshotRepository` (Redis-backed) and test doubles.
+ */
 export interface BookmarksRepository {
   getTokenRecord(ownerUsername: string): Promise<XTokenRecord | null>;
   setTokenRecord(ownerUsername: string, record: XTokenRecord): Promise<void>;
@@ -147,6 +183,14 @@ export interface BookmarksRepository {
   ): Promise<void>;
 }
 
+/**
+ * Redis-backed implementation of `BookmarksRepository`.
+ *
+ * Keys are scoped under `{env-prefix}x:v2:{owner}:` with suffixes like
+ * `tokens`, `snapshots:all`, `snapshots:folder:{id}`, and `status`.
+ * On first read, `getSnapshot` attempts a one-time migration from the
+ * legacy `x:` keyspace.
+ */
 export class BookmarksSnapshotRepository implements BookmarksRepository {
   async getTokenRecord(ownerUsername: string): Promise<XTokenRecord | null> {
     return getValidated(scopedKey(ownerUsername, "tokens"), XTokenRecordSchema);
@@ -222,6 +266,11 @@ export class BookmarksSnapshotRepository implements BookmarksRepository {
     );
   }
 
+  /**
+   * One-time migration: reads bookmarks + folders from the legacy `x:`
+   * keyspace, wraps them in a `BookmarksSnapshotRecord` with
+   * `source: "legacy"`, persists under the v2 keyspace, and returns.
+   */
   private async migrateLegacySnapshot(
     owner: BookmarkSourceOwner,
     folderId?: string,
