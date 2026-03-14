@@ -4,14 +4,17 @@ const workItems = [
   {
     href: "/work/x-bookmarks",
     title: "X Bookmarks",
-    description: "A better way to browse, search, and sort my X bookmarks.",
+    description: "a better way to browse, search, and sort my X bookmarks.",
+    year: 2025,
     icon: (
       <svg
         viewBox="0 0 24 24"
         aria-hidden="true"
-        className="size-4 fill-foreground"
+        className="size-4 fill-foreground shrink-0"
       >
-        <path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5z" />
+        <g>
+          <path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"></path>
+        </g>
       </svg>
     ),
   },
@@ -20,31 +23,25 @@ const workItems = [
 export default function WorkPage() {
   return (
     <div className="py-8 md:py-12 px-2 md:px-4">
-      <div className="flex items-center gap-4 mb-6">
-        <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">
-          Current Projects
-        </span>
-        <div className="w-3 h-px bg-foreground rounded-full" />
-      </div>
-      <ul className="mt-6 space-y-2">
+      <ul className="space-y-10">
         {workItems.map((item) => (
-          <li
-            key={item.href}
-            className="flex items-baseline gap-2 text-sm md:text-base"
-          >
-            <span className="shrink-0">{item.icon}</span>
-            <span>
-              <PreservedQueryLink
-                href={item.href}
-                className="text-primary font-semibold underline underline-offset-4 decoration-primary/50 hover:decoration-2 transition-colors"
-              >
+          <li key={item.href}>
+            <PreservedQueryLink
+              href={item.href}
+              className="group flex items-center gap-3"
+            >
+              <span className="shrink-0 self-center">{item.icon}</span>
+              <span className="font-bold text-foreground shrink-0">
                 {item.title}
-              </PreservedQueryLink>
-              <span className="text-muted-foreground">
-                {" "}
-                &ndash; {item.description}
               </span>
-            </span>
+              <span className="text-muted-foreground hidden sm:inline truncate min-w-0">
+                {item.description}
+              </span>
+              <span className="flex-1 min-w-8 border-b border-muted-foreground/30" />
+              <span className="text-muted-foreground shrink-0 tabular-nums">
+                {item.year}
+              </span>
+            </PreservedQueryLink>
           </li>
         ))}
       </ul>
