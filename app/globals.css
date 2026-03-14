@@ -114,10 +114,6 @@
   --contrib-3: oklch(0.62 var(--src-primary-c) var(--src-primary-h));
   --contrib-4: oklch(0.83 var(--src-primary-c) var(--src-primary-h));
 
-  /* TRON Effect Tokens — always derived, never hardcoded */
-  --tron-glow: var(--primary);
-  --tron-orange: var(--accent-2);
-  --tron-grid: oklch(0.83 var(--src-primary-c) var(--src-primary-h) / 0.08);
   --primary-accent: var(--primary);
   --grid-color: oklch(0.5 var(--src-neutral-c) var(--src-primary-h) / 0.3);
 }
@@ -193,10 +189,6 @@ rect[data-level="4"] {
   --contrib-3: oklch(0.48 var(--src-primary-c) var(--src-primary-h));
   --contrib-4: oklch(0.3 var(--src-primary-c) var(--src-primary-h));
 
-  /* TRON Effect Tokens — toned down for light mode */
-  --tron-glow: var(--primary);
-  --tron-orange: var(--accent-2);
-  --tron-grid: oklch(0.55 var(--src-primary-c) var(--src-primary-h) / 0.08);
   --primary-accent: var(--primary);
   --grid-color: oklch(0.5 var(--src-neutral-c) var(--src-primary-h) / 0.15);
 }
@@ -218,17 +210,7 @@ rect[data-level="4"] {
   --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, monospace;
   --font-tourney: "Tourney", system-ui, sans-serif;
   --font-anders: var(--font-anders), system-ui, sans-serif;
-  --font-chirp: var(--font-chirp), system-ui, sans-serif;
 
-  /* TRON Custom Colors — derived from source params */
-  --color-tron-cyan: var(--primary);
-  --color-tron-cyan-dim: oklch(0.5 var(--src-primary-c) var(--src-primary-h));
-  --color-tron-orange: var(--accent-2);
-  --color-tron-orange-dim: oklch(
-    0.5 var(--src-secondary-c) var(--src-secondary-h)
-  );
-  --color-tron-void: oklch(0.05 var(--src-neutral-c) var(--src-neutral-h));
-  --color-tron-grid: oklch(0.12 var(--src-neutral-c) var(--src-neutral-h));
   --color-primary-accent: var(--primary-accent);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -358,18 +340,6 @@ html.theme-switching *::after {
   }
 }
 
-/* Added scrollbar hiding utility for mobile navigation */
-@layer utilities {
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-}
-
 /* Use custom cursor assets on fine-pointer devices while keeping native fallbacks. */
 @media (hover: hover) and (pointer: fine) {
   :root {
@@ -423,203 +393,14 @@ html.theme-switching *::after {
   0%,
   100% {
     opacity: 0.4;
-    filter: drop-shadow(0 0 8px var(--tron-glow));
+    filter: drop-shadow(0 0 8px var(--primary));
   }
   50% {
     opacity: 1;
-    filter: drop-shadow(0 0 20px var(--tron-glow));
+    filter: drop-shadow(0 0 20px var(--primary));
   }
 }
 
 .animate-pulse-slow {
   animation: pulse-slow 3s ease-in-out infinite;
-}
-
-/* TRON glow effect */
-@keyframes tron-glow {
-  0%,
-  100% {
-    box-shadow:
-      0 0 5px var(--tron-glow),
-      0 0 10px var(--tron-glow),
-      0 0 20px var(--tron-glow),
-      inset 0 0 5px var(--tron-glow);
-  }
-  50% {
-    box-shadow:
-      0 0 10px var(--tron-glow),
-      0 0 20px var(--tron-glow),
-      0 0 40px var(--tron-glow),
-      inset 0 0 10px var(--tron-glow);
-  }
-}
-
-.tron-glow {
-  animation: tron-glow 2s ease-in-out infinite;
-  border: 1px solid var(--tron-glow);
-}
-
-/* TRON orange glow variant */
-@keyframes tron-glow-orange {
-  0%,
-  100% {
-    box-shadow:
-      0 0 5px var(--tron-orange),
-      0 0 10px var(--tron-orange),
-      0 0 20px var(--tron-orange);
-  }
-  50% {
-    box-shadow:
-      0 0 10px var(--tron-orange),
-      0 0 20px var(--tron-orange),
-      0 0 40px var(--tron-orange);
-  }
-}
-
-.tron-glow-orange {
-  animation: tron-glow-orange 2s ease-in-out infinite;
-  border: 1px solid var(--tron-orange);
-}
-
-/* Scanline effect */
-@keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100vh);
-  }
-}
-
-.tron-scanline::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    oklch(0.83 var(--src-primary-c) var(--src-primary-h) / 0.2),
-    transparent
-  );
-  animation: scanline 8s linear infinite;
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* Light trail effect for borders */
-@keyframes light-trail {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
-
-.tron-border {
-  position: relative;
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--background), var(--background)) padding-box,
-    linear-gradient(
-      90deg,
-      var(--tron-glow),
-      transparent 20%,
-      transparent 80%,
-      var(--tron-glow)
-    )
-    border-box;
-}
-
-.tron-border-animated {
-  position: relative;
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--background), var(--background)) padding-box,
-    linear-gradient(
-      90deg,
-      var(--tron-glow),
-      oklch(0.83 var(--src-primary-c) var(--src-primary-h) / 0.3),
-      var(--tron-glow)
-    )
-    border-box;
-  background-size: 200% 100%;
-  animation: light-trail 3s linear infinite;
-}
-
-/* Text glow utilities */
-.tron-text-glow {
-  text-shadow:
-    0 0 10px var(--tron-glow),
-    0 0 20px var(--tron-glow),
-    0 0 40px var(--tron-glow);
-}
-
-.tron-text-glow-orange {
-  text-shadow:
-    0 0 10px var(--tron-orange),
-    0 0 20px var(--tron-orange),
-    0 0 40px var(--tron-orange);
-}
-
-/* Flicker effect for authentic CRT feel */
-@keyframes flicker {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  92% {
-    opacity: 1;
-  }
-  93% {
-    opacity: 0.8;
-  }
-  94% {
-    opacity: 1;
-  }
-  95% {
-    opacity: 0.9;
-  }
-  96% {
-    opacity: 1;
-  }
-}
-
-.tron-flicker {
-  animation: flicker 4s linear infinite;
-}
-
-/* Added marquee animations for testimonials and clients */
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes marquee-slow {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-
-.animate-marquee-slow {
-  animation: marquee-slow 40s linear infinite;
-}
-
-.animate-marquee:hover,
-.animate-marquee-slow:hover {
-  animation-play-state: paused;
 }

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
-import { DebugPanel } from "@/lib/components/site/debug-panel";
+
 import { TrackingQueryBootstrap } from "@/lib/components/site/tracking-query-bootstrap";
 import { ChatProvider } from "@/lib/providers/chat-provider";
 import { ClickCountProvider } from "@/lib/providers/click-count-provider";
@@ -14,6 +14,7 @@ import "tw-animate-css";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import "./styles/code.css";
+import { DebugPanel } from "@/lib/components/site/debug-panel";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,16 +35,6 @@ const tourney = localFont({
 const anders = localFont({
   src: [{ path: "../public/fonts/Anders.ttf", weight: "100" }],
   variable: "--font-anders",
-});
-
-const chirp = localFont({
-  src: [
-    { path: "../public/fonts/chirp-regular-web.woff", weight: "400" },
-    { path: "../public/fonts/chirp-medium-web.woff", weight: "500" },
-    { path: "../public/fonts/chirp-bold-web.woff", weight: "700" },
-    { path: "../public/fonts/chirp-heavy-web.woff", weight: "800" },
-  ],
-  variable: "--font-chirp",
 });
 
 export const metadata: Metadata = {
@@ -122,11 +113,12 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${anders.variable} ${chirp.variable} ${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}
+        className={`${anders.variable} ${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}
       >
         <CompositeProviders>
           <div className="grid-background" aria-hidden="true" />
           {children}
+          <DebugPanel />
         </CompositeProviders>
       </body>
     </html>
@@ -144,7 +136,6 @@ function CompositeProviders({
         <TrackingQueryBootstrap />
         <ChatProvider>{children}</ChatProvider>
       </ClickCountProvider>
-      <DebugPanel />
       <Toaster theme="dark" position="bottom-right" />
       <Analytics />
     </>
