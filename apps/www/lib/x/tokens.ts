@@ -10,11 +10,7 @@ import type {
   XOAuthTokenResponse,
   XTokenRecord,
 } from "./contracts";
-import {
-  type LegacyStoredTokens,
-  XOAuthTokenResponseSchema,
-  XTokenRecordSchema,
-} from "./contracts";
+import { XOAuthTokenResponseSchema, XTokenRecordSchema } from "./contracts";
 import {
   OwnerMismatch,
   ReauthRequired,
@@ -80,9 +76,6 @@ export class XTokenStore {
       let record = yield* Effect.promise(() =>
         repo.getTokenRecord(config.ownerUsername),
       );
-      if (!record) {
-        record = yield* self.promoteLegacyTokenIfPossible(verifyOwner);
-      }
 
       if (!record) {
         return yield* Effect.fail(
@@ -154,44 +147,6 @@ export class XTokenStore {
     });
   }
 
-  private promoteLegacyTokenIfPossible(verifyOwner: VerifyOwner) {
-    const repo = this.repository;
-    const config = this.config;
-    const self = this;
-
-    return Effect.gen(function* () {
-      const legacyRecord = yield* Effect.promise(() =>
-        repo.getLegacyTokenRecord(),
-      );
-      if (!legacyRecord) {
-        return null;
-      }
-
-      const tokenResponse =
-        legacyRecord.expires_at - Date.now() < TOKEN_REFRESH_WINDOW_MS
-          ? yield* self.requestToken("legacy token refresh", {
-              grant_type: "refresh_token",
-              refresh_token: legacyRecord.refresh_token,
-            })
-          : self.legacyRecordToTokenResponse(legacyRecord);
-
-      const owner = yield* verifyOwner(tokenResponse.access_token);
-      const record = buildTokenRecord(tokenResponse, owner);
-      yield* Effect.promise(() =>
-        repo.setTokenRecord(config.ownerUsername, record),
-      );
-      yield* Effect.promise(() => repo.deleteLegacyTokenRecord());
-      return record;
-    }).pipe(
-      Effect.tapError((error) => {
-        if (shouldDiscardStoredToken(error)) {
-          return Effect.promise(() => repo.deleteLegacyTokenRecord());
-        }
-        return Effect.void;
-      }),
-    );
-  }
-
   private refreshTokenRecord(record: XTokenRecord, verifyOwner: VerifyOwner) {
     const repo = this.repository;
     const config = this.config;
@@ -209,20 +164,6 @@ export class XTokenStore {
         repo.setTokenRecord(config.ownerUsername, nextRecord),
       );
       return nextRecord;
-    });
-  }
-
-  private legacyRecordToTokenResponse(
-    record: LegacyStoredTokens,
-  ): XOAuthTokenResponse {
-    return Schema.decodeUnknownSync(XOAuthTokenResponseSchema)({
-      token_type: "bearer",
-      expires_in: Math.max(
-        1,
-        Math.floor((record.expires_at - Date.now()) / 1000),
-      ),
-      access_token: record.access_token,
-      refresh_token: record.refresh_token,
     });
   }
 

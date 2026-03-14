@@ -12,8 +12,6 @@ test("POST /api/x/debug/credentials/validate returns a structured misconfigured 
   const response = await withEnv(
     {
       VERCEL_ENV: "preview",
-      X_CLIENT_ID: "legacy-client-id",
-      X_CLIENT_SECRET: "legacy-client-secret",
       X_OAUTH2_CLIENT_ID: undefined,
       X_OAUTH2_CLIENT_SECRET: undefined,
       X_OWNER_SECRET: "raw-owner-secret-value",

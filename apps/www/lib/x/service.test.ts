@@ -203,40 +203,11 @@ test("BookmarksSyncService returns owner_mismatch when the token belongs to anot
   expect(result.response.bookmarks).toHaveLength(0);
 });
 
-test("BookmarksSyncService promotes a verified legacy token into the owner-scoped store", async () => {
-  const repository = new MemoryRepository();
-  repository.legacyTokenRecord = {
-    access_token: "legacy-access-token",
-    refresh_token: "legacy-refresh-token",
-    expires_at: Date.now() + 60 * 60 * 1000,
-  };
-  const client = new StubBookmarksClient();
-
-  const service = new BookmarksSyncService({
-    config: liveConfig,
-    repository,
-    client,
-    fetchImpl: async () => {
-      throw new Error(
-        "refresh should not be attempted for a valid legacy token",
-      );
-    },
-  });
-
-  const result = await Effect.runPromise(service.getBookmarks());
-  expect(result.httpStatus).toBe(200);
-  expect(result.response.status).toBe("fresh");
-  expect(repository.tokenRecord?.owner.username).toBe("claycurry__");
-  expect(repository.legacyTokenRecord).toBeNull();
-});
-
 test("BookmarksSyncService returns misconfigured when forceLive is requested without canonical OAuth env vars", async () => {
   const repository = new MemoryRepository();
 
   const result = await withEnv(
     {
-      X_CLIENT_ID: "legacy-client-id",
-      X_CLIENT_SECRET: "legacy-client-secret",
       X_OAUTH2_CLIENT_ID: undefined,
       X_OAUTH2_CLIENT_SECRET: undefined,
     },
@@ -261,7 +232,4 @@ test("BookmarksSyncService returns misconfigured when forceLive is requested wit
   expect(result.response.status).toBe("misconfigured");
   expect(result.response.error ?? "").toContain("X_OAUTH2_CLIENT_ID");
   expect(result.response.error ?? "").toContain("X_OAUTH2_CLIENT_SECRET");
-  expect(result.response.error ?? "").toContain(
-    "Rename them to X_OAUTH2_CLIENT_ID/X_OAUTH2_CLIENT_SECRET",
-  );
 });

@@ -130,14 +130,6 @@ export const XOAuthTokenResponseSchema = Schema.Struct({
 
 export type XOAuthTokenResponse = typeof XOAuthTokenResponseSchema.Type;
 
-export const LegacyStoredTokensSchema = Schema.Struct({
-  access_token: Schema.String.pipe(Schema.minLength(1)),
-  refresh_token: Schema.String.pipe(Schema.minLength(1)),
-  expires_at: Schema.Number.pipe(Schema.int(), Schema.positive()),
-});
-
-export type LegacyStoredTokens = typeof LegacyStoredTokensSchema.Type;
-
 export const XTokenRecordSchema = Schema.Struct({
   accessToken: Schema.String.pipe(Schema.minLength(1)),
   refreshToken: Schema.String.pipe(Schema.minLength(1)),
@@ -198,18 +190,10 @@ export const BookmarksSnapshotRecordSchema = Schema.Struct({
   folders: Schema.mutable(Schema.Array(XBookmarkFolderSchema)),
   lastSyncedAt: NullableIsoDateTimeString,
   cachedAt: IsoDateTimeString,
-  source: Schema.Literal("live", "legacy"),
+  source: Schema.Literal("live"),
 });
 
 export type BookmarksSnapshotRecord = typeof BookmarksSnapshotRecordSchema.Type;
-
-/** Standalone sub-schemas for legacy migration in cache.ts */
-export const NormalizedBookmarksArraySchema = Schema.mutable(
-  Schema.Array(NormalizedBookmarkSchema),
-);
-export const XBookmarkFoldersArraySchema = Schema.mutable(
-  Schema.Array(XBookmarkFolderSchema),
-);
 
 export const BookmarksSyncStatusRecordSchema = Schema.Struct({
   configuredOwnerUsername: Schema.String,

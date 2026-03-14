@@ -8,8 +8,6 @@ import { createTokenRecord, MemoryRepository, withEnv } from "./test-utils";
 test("readXCredentialDiagnostics passes the canonical OAuth env check when X_OAUTH2_* vars are present", async () => {
   const diagnostics = await withEnv(
     {
-      X_CLIENT_ID: undefined,
-      X_CLIENT_SECRET: undefined,
       X_OAUTH2_CLIENT_ID: "client-id",
       X_OAUTH2_CLIENT_SECRET: "client-secret",
       X_OWNER_SECRET: "owner-secret",
@@ -20,48 +18,14 @@ test("readXCredentialDiagnostics passes the canonical OAuth env check when X_OAU
   );
 
   expect(diagnostics.env.missingCanonicalOauthKeys).toEqual([]);
-  expect(diagnostics.env.ignoredLegacyOauthKeys).toEqual([]);
   expect(
     diagnostics.checks.find((check) => check.id === "oauth-env")?.status,
   ).toBe("pass");
 });
 
-test("readXCredentialDiagnostics flags legacy X_CLIENT_* vars as ignored and still fails strict canonical validation", async () => {
-  const diagnostics = await withEnv(
-    {
-      X_CLIENT_ID: "legacy-client-id",
-      X_CLIENT_SECRET: "legacy-client-secret",
-      X_OAUTH2_CLIENT_ID: undefined,
-      X_OAUTH2_CLIENT_SECRET: undefined,
-      X_OWNER_SECRET: "owner-secret",
-      X_OWNER_USER_ID: undefined,
-      X_OWNER_USERNAME: "claycurry__",
-    },
-    () => readXCredentialDiagnostics({ repository: new MemoryRepository() }),
-  );
-
-  expect(diagnostics.env.ignoredLegacyOauthKeys).toEqual([
-    "X_CLIENT_ID",
-    "X_CLIENT_SECRET",
-  ]);
-  expect(diagnostics.env.missingCanonicalOauthKeys).toEqual([
-    "X_OAUTH2_CLIENT_ID",
-    "X_OAUTH2_CLIENT_SECRET",
-  ]);
-  expect(diagnostics.env.liveSyncMessage).toContain(
-    "Rename them to X_OAUTH2_CLIENT_ID/X_OAUTH2_CLIENT_SECRET",
-  );
-  expect(
-    diagnostics.env.variables.find((variable) => variable.key === "X_CLIENT_ID")
-      ?.source,
-  ).toBe("ignored_legacy");
-});
-
 test("readXCredentialDiagnostics enumerates the exact missing canonical OAuth key", async () => {
   const diagnostics = await withEnv(
     {
-      X_CLIENT_ID: undefined,
-      X_CLIENT_SECRET: undefined,
       X_OAUTH2_CLIENT_ID: "client-id",
       X_OAUTH2_CLIENT_SECRET: undefined,
       X_OWNER_SECRET: "owner-secret",
@@ -83,8 +47,6 @@ test("readXCredentialDiagnostics enumerates the exact missing canonical OAuth ke
 test("readXCredentialDiagnostics flags a missing owner secret separately from OAuth credentials", async () => {
   const diagnostics = await withEnv(
     {
-      X_CLIENT_ID: undefined,
-      X_CLIENT_SECRET: undefined,
       X_OAUTH2_CLIENT_ID: "client-id",
       X_OAUTH2_CLIENT_SECRET: "client-secret",
       X_OWNER_SECRET: undefined,
@@ -105,8 +67,6 @@ test("readXCredentialDiagnostics flags a missing owner secret separately from OA
 test("validateXCredentials returns reauth_required when no stored token exists", async () => {
   const result = await withEnv(
     {
-      X_CLIENT_ID: undefined,
-      X_CLIENT_SECRET: undefined,
       X_OAUTH2_CLIENT_ID: "client-id",
       X_OAUTH2_CLIENT_SECRET: "client-secret",
       X_OWNER_SECRET: "owner-secret",
@@ -165,8 +125,6 @@ test("validateXCredentials returns owner_mismatch when the stored token resolves
 
   const result = await withEnv(
     {
-      X_CLIENT_ID: undefined,
-      X_CLIENT_SECRET: undefined,
       X_OAUTH2_CLIENT_ID: "client-id",
       X_OAUTH2_CLIENT_SECRET: "client-secret",
       X_OWNER_SECRET: "owner-secret",

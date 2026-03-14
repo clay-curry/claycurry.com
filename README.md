@@ -24,48 +24,54 @@ My dent on the world wide web. A portfolio and blog, built as a pnpm + Turborepo
 - Main app: Next.js 16 + React 19 + TypeScript at `apps/www`
 - Build system: Turborepo with pnpm workspaces
 - Content: MDX blog posts loaded from `apps/www/blog`
-- Data layer: Redis-backed counters with in-memory fallback for local development
+- Data layer: Redis-backed counters (dev container provides Redis automatically)
 
 ## Getting Started
 
-### Prerequisites
+### Dev Container (recommended)
+
+Open the repo in VS Code with the Dev Containers extension or in GitHub Codespaces. The dev container automatically:
+
+- Installs Node.js 22 and enables corepack/pnpm
+- Starts a Redis server on port 6379
+- Sets `KV_REST_API_REDIS_URL=redis://localhost:6379` via `containerEnv`
+
+Once the container is ready:
+
+```bash
+pnpm dev
+```
+
+Local app URL: `http://localhost:3000`
+
+### Manual setup (without dev container)
+
+#### Prerequisites
 
 - Node.js 20+ (CI uses Node 20)
 - Corepack enabled (`corepack enable`)
 - pnpm 9.15.0 (from `packageManager` in root `package.json`)
+- Redis running locally on port 6379
 
-### 1. Install dependencies
+#### 1. Install dependencies
 
 ```bash
 corepack enable
 pnpm install
 ```
 
-### 2. Configure local environment (optional)
+#### 2. Configure local environment
 
-No environment variables are required for basic local development.
-
-To enable optional integrations, create:
+Create `apps/www/.env.local`:
 
 ```bash
-apps/www/.env.local
-```
-
-Example:
-
-```bash
-# Optional Redis persistence for click + view counters
 KV_REST_API_REDIS_URL="redis://localhost:6379"
 ```
 
-### 3. Run the app
+#### 3. Run the app
 
 ```bash
-# Run the monorepo dev pipeline
 pnpm dev
-
-# Run only the portfolio app
-pnpm dev --filter www
 ```
 
 Local app URL: `http://localhost:3000`
@@ -92,7 +98,7 @@ Local app URL: `http://localhost:3000`
 
 | Variable | Required locally | Purpose |
 | --- | --- | --- |
-| `KV_REST_API_REDIS_URL` | No | Enables Redis persistence for click counts and page views. Without it, counters fall back to in-memory storage. |
+| `KV_REST_API_REDIS_URL` | Yes (auto-set by dev container) | Redis connection URL for click counts and page views. |
 
 ### Optional integrations
 
@@ -126,7 +132,7 @@ Deployment note:
 ### Redis-backed analytics
 
 - Endpoints: `apps/www/app/api/clicks/route.ts`, `apps/www/app/api/views/route.ts`
-- Uses Redis when configured; automatically falls back to in-memory storage
+- Uses Redis for persistent counters (requires `KV_REST_API_REDIS_URL`)
 - Redis keys are prefixed by environment to avoid cross-environment collisions
 
 ### X bookmarks

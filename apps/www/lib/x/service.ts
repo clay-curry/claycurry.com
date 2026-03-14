@@ -8,7 +8,6 @@ import {
 import {
   buildXLiveCredentialsErrorMessage,
   getMissingCanonicalXOAuthConfigKeys,
-  getPresentLegacyXOAuthEnvKeys,
   type XLiveRuntimeConfig,
   type XRuntimeConfig,
 } from "./config";
@@ -518,13 +517,7 @@ export class BookmarksSyncService {
 
     if (missingKeys.length > 0) {
       return Effect.fail(
-        xError(
-          "misconfigured",
-          buildXLiveCredentialsErrorMessage(missingKeys, {
-            hasLegacyOauthVars:
-              getPresentLegacyXOAuthEnvKeys(process.env).length > 0,
-          }),
-        ),
+        xError("misconfigured", buildXLiveCredentialsErrorMessage(missingKeys)),
       );
     }
     return Effect.succeed(config as XLiveRuntimeConfig);

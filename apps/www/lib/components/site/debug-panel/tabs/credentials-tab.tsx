@@ -89,8 +89,6 @@ function formatVariableSource(variable: XCredentialVariable): string {
       return "missing";
     case "unset":
       return "unset";
-    case "ignored_legacy":
-      return "ignored";
   }
 }
 
@@ -116,9 +114,7 @@ function VariableRow({ variable }: { variable: XCredentialVariable }) {
             "capitalize",
             variable.source === "missing"
               ? "border-red-500/30 text-red-700 dark:text-red-200"
-              : variable.source === "ignored_legacy"
-                ? "border-amber-500/30 text-amber-700 dark:text-amber-200"
-                : "border-border/80",
+              : "border-border/80",
           )}
         >
           {sourceLabel}

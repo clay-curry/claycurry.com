@@ -5,7 +5,6 @@ import type {
   BookmarkSourceOwner,
   BookmarksSnapshotRecord,
   BookmarksSyncStatusRecord,
-  LegacyStoredTokens,
   NormalizedBookmark,
   XBookmarkFolder,
   XTokenRecord,
@@ -84,7 +83,6 @@ export function jsonResponse(body: unknown, status = 200): Response {
 
 export class MemoryRepository extends BookmarksSnapshotRepository {
   tokenRecord: XTokenRecord | null = null;
-  legacyTokenRecord: LegacyStoredTokens | null = null;
   snapshot: BookmarksSnapshotRecord | null = null;
   statusRecord: BookmarksSyncStatusRecord | null = null;
 
@@ -98,14 +96,6 @@ export class MemoryRepository extends BookmarksSnapshotRepository {
 
   async deleteTokenRecord(_ownerUsername: string): Promise<void> {
     this.tokenRecord = null;
-  }
-
-  async getLegacyTokenRecord(): Promise<LegacyStoredTokens | null> {
-    return this.legacyTokenRecord;
-  }
-
-  async deleteLegacyTokenRecord(): Promise<void> {
-    this.legacyTokenRecord = null;
   }
 
   async getSnapshot(

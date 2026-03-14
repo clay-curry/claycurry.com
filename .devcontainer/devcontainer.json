@@ -1,0 +1,19 @@
+{
+  "name": "claycurry.studio",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "features": {
+    "ghcr.io/devcontainers/features/redis-server:1": {
+      "port": 6379
+    }
+  },
+  "containerEnv": {
+    "KV_REST_API_REDIS_URL": "redis://localhost:6379"
+  },
+  "postCreateCommand": "corepack enable && pnpm install",
+  "forwardPorts": [3000, 6379],
+  "customizations": {
+    "vscode": {
+      "extensions": ["biomejs.biome"]
+    }
+  }
+}

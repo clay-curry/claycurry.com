@@ -5,7 +5,6 @@ const CANONICAL_X_OAUTH_ENV_KEYS = [
   "X_OAUTH2_CLIENT_ID",
   "X_OAUTH2_CLIENT_SECRET",
 ] as const;
-const LEGACY_X_OAUTH_ENV_KEYS = ["X_CLIENT_ID", "X_CLIENT_SECRET"] as const;
 
 const XEnvironmentSchema = Schema.Struct({
   X_OWNER_USERNAME: Schema.optionalWith(TrimmedNonEmpty, {
@@ -63,12 +62,6 @@ export function getMissingCanonicalXOAuthEnvKeys(
   );
 }
 
-export function getPresentLegacyXOAuthEnvKeys(
-  env: Record<string, string | undefined> = process.env,
-): string[] {
-  return LEGACY_X_OAUTH_ENV_KEYS.filter((key) => hasConfiguredValue(env[key]));
-}
-
 export function getMissingCanonicalXOAuthConfigKeys(
   config: Pick<XRuntimeConfig, "clientId" | "clientSecret">,
 ): string[] {
@@ -87,16 +80,9 @@ export function getMissingCanonicalXOAuthConfigKeys(
 
 export function buildXLiveCredentialsErrorMessage(
   missingKeys: string[],
-  options: {
-    hasLegacyOauthVars?: boolean;
-  } = {},
 ): string {
   const missingDescription = formatEnvKeyList(missingKeys);
-  const legacySuffix = options.hasLegacyOauthVars
-    ? " Legacy X_CLIENT_ID/X_CLIENT_SECRET variables are ignored. Rename them to X_OAUTH2_CLIENT_ID/X_OAUTH2_CLIENT_SECRET and restart the dev server."
-    : " Add the missing variable values and restart the dev server.";
-
-  return `Live X sync could not start. source=live disables mock fallback, but the server is missing ${missingDescription}.${legacySuffix}`;
+  return `Live X sync could not start. source=live disables mock fallback, but the server is missing ${missingDescription}. Add the missing variable values and restart the dev server.`;
 }
 
 export function getXLiveCredentialsErrorMessageForEnv(
@@ -108,9 +94,7 @@ export function getXLiveCredentialsErrorMessageForEnv(
     return null;
   }
 
-  return buildXLiveCredentialsErrorMessage(missingKeys, {
-    hasLegacyOauthVars: getPresentLegacyXOAuthEnvKeys(env).length > 0,
-  });
+  return buildXLiveCredentialsErrorMessage(missingKeys);
 }
 
 export function getXRuntimeConfig(): XRuntimeConfig {
@@ -133,12 +117,7 @@ export function assertLiveRuntimeConfig(
   const missingKeys = getMissingCanonicalXOAuthConfigKeys(config);
 
   if (config.mode !== "live" || missingKeys.length > 0) {
-    throw new Error(
-      buildXLiveCredentialsErrorMessage(missingKeys, {
-        hasLegacyOauthVars:
-          getPresentLegacyXOAuthEnvKeys(process.env).length > 0,
-      }),
-    );
+    throw new Error(buildXLiveCredentialsErrorMessage(missingKeys));
   }
 }
 
