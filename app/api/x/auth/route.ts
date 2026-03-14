@@ -16,21 +16,7 @@ function base64url(buffer: Buffer): string {
 }
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const secret = searchParams.get("secret");
   const config = getXRuntimeConfig();
-
-  if (!config.ownerSecret) {
-    return NextResponse.json(
-      { error: "X_OWNER_SECRET not configured" },
-      { status: 500 },
-    );
-  }
-
-  if (!secret || secret !== config.ownerSecret) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const missingKeys = getMissingCanonicalXOAuthConfigKeys(config);
 
   if (missingKeys.length > 0) {
