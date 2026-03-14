@@ -1,15 +1,12 @@
 {
   "name": "claycurry.studio",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
-  "features": {
-    "ghcr.io/devcontainers/features/redis-server:1": {
-      "port": 6379
-    }
-  },
+  "features": {},
   "containerEnv": {
     "KV_REST_API_REDIS_URL": "redis://localhost:6379"
   },
-  "postCreateCommand": "corepack enable && pnpm install",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y redis-server && sudo corepack enable && pnpm install && npx vercel env pull",
+  "postStartCommand": "redis-server --daemonize yes",
   "forwardPorts": [3000, 6379],
   "customizations": {
     "vscode": {

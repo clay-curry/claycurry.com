@@ -46,7 +46,7 @@ Chat API at `app/api/chat/route.ts` uses Vercel AI SDK with gateway routing (gro
 
 ### Data & Analytics
 
-- **Redis** (`lib/redis.ts`): View counts and click tracking with environment-prefixed keys (`prod:`, `preview:`, `dev:`). Falls back to in-memory Map when `KV_REST_API_REDIS_URL` is unset.
+- **Redis** (`lib/redis.ts`): View counts and click tracking with environment-prefixed keys (`prod:`, `preview:`, `dev:`). Falls back to in-memory Map when no Redis URL env (`KV_REST_API_REDIS_URL`, `KV_URL`, or `REDIS_URL`) is set.
 - **Contact/feedback**: Resend email API integration at `app/api/contact/` and `app/api/feedback/`.
 - All hardcoded content (profile, skills, resume, social links) lives in `lib/portfolio-data.ts`.
 

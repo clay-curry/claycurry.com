@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-03-14
+
+### Changed
+- Flattened monorepo to single Next.js app at project root, removing Turborepo and pnpm workspaces
+- Switched Effect tracer from `Effect.provide(tracerLayer)` to `Effect.withTracer()` for correct span persistence in ManagedRuntime
+- Surfaced tracer errors by replacing fire-and-forget `runFork` with `runPromise` + `.catch` for `persistSpan`
+- Added legacy X OAuth env var detection with actionable rename guidance in error messages
+- Added legacy token migration to promote old-format Redis tokens to the new schema
+
+### Removed
+- `X_OWNER_SECRET` auth guard from `/api/x/auth` route
+
 ## 2026-03-10
 
 ### Added

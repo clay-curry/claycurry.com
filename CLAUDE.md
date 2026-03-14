@@ -6,25 +6,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Development
-pnpm dev                    # Start dev server (Next.js with webpack)
+pnpm dev                    # Start dev server (webpack, required for MDX plugins)
 pnpm build                  # Production build
 pnpm check                  # Biome lint + fix
 pnpm check-types            # TypeScript type-checking
-
-# All commands run through Turborepo from the root
-# The main app is at apps/www/
 ```
 
 ## Architecture
 
-**Turborepo monorepo** with pnpm workspaces. One app (`apps/www` — Next.js 16, React 19, App Router) and one utility package (`packages/link-checker`).
+**Next.js 16** app with React 19 and App Router. Standard single-app structure at the project root.
 
 ### Routing
 
-Three **route groups** with separate layouts:
-- `(portfolio)` — home (`/`), blog listing (`/blog`), contact
+Two **route groups** with separate layouts:
+- `(portfolio)` — home (`/`), blog listing (`/blog`), contact, resume, work
 - `(blog-post)` — individual posts at `/blog/[slug]`
-- `(resume)` — resume page
 
 Navigation links are derived from the filesystem at build time (`lib/navigation.ts`). The nav config maps segments to display labels — `/blog` displays as "writing" and uses a URL rewrite.
 
@@ -32,7 +28,7 @@ Short redirects (`/x`, `/l`, `/g`, `/m`, `/r`, `/rd`) in `next.config.mjs` track
 
 ### MDX Blog
 
-Blog posts live in `apps/www/blog/*.mdx` with gray-matter frontmatter (`slug`, `title`, `publishedDate`, `tags`, `pinned`). The loader at `lib/components/content/loader.ts` provides `getAllPostsMetadata()` and `getPost(slug)`.
+Blog posts live in `blog/*.mdx` with gray-matter frontmatter (`slug`, `title`, `publishedDate`, `tags`, `pinned`). The loader at `lib/components/content/loader.ts` provides `getAllPostsMetadata()` and `getPost(slug)`.
 
 MDX processing chain: remark-gfm, remark-math, remark-frontmatter → rehype-pretty-code (shiki, github-dark), rehype-katex, rehype-mdx-toc. Custom components in `mdx-components.tsx` provide auto-slugified headings, code blocks, PhotoCarousel, Mermaid diagrams, and tabbed content.
 
@@ -57,7 +53,7 @@ Chat API at `app/api/chat/route.ts` uses Vercel AI SDK with gateway routing (gro
 - `lib/components/content/` — Code blocks, Mermaid, photo galleries, blog loader
 - `lib/components/site/` — Navigation, theme toggles, page views, hero, sidebars
 
-Path aliases: `@/` → `apps/www/` root. shadcn/ui configured in `components.json` with aliases `@/lib/components/ui`, `@/lib/hooks`.
+Path aliases: `@/` → project root. shadcn/ui configured in `components.json` with aliases `@/lib/components/ui`, `@/lib/hooks`.
 
 ### Formatting & Linting
 
