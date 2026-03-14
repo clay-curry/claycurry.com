@@ -12,7 +12,6 @@ import {
   assertLiveRuntimeConfig,
   buildXLiveCredentialsErrorMessage,
   getMissingCanonicalXOAuthConfigKeys,
-  getPresentLegacyXOAuthEnvKeys,
   getXRuntimeConfig,
 } from "@/lib/x/config";
 import { BookmarksSyncStatusRecordSchema } from "@/lib/x/contracts";
@@ -76,10 +75,7 @@ export async function GET(request: NextRequest) {
   if (missingKeys.length > 0) {
     return NextResponse.json(
       {
-        error: buildXLiveCredentialsErrorMessage(missingKeys, {
-          hasLegacyOauthVars:
-            getPresentLegacyXOAuthEnvKeys(process.env).length > 0,
-        }),
+        error: buildXLiveCredentialsErrorMessage(missingKeys),
       },
       { status: 500 },
     );

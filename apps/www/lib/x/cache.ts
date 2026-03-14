@@ -7,16 +7,11 @@ import {
   BookmarksSnapshotRecordSchema,
   type BookmarksSyncStatusRecord,
   BookmarksSyncStatusRecordSchema,
-  type LegacyStoredTokens,
-  LegacyStoredTokensSchema,
-  NormalizedBookmarksArraySchema,
-  XBookmarkFoldersArraySchema,
   type XTokenRecord,
   XTokenRecordSchema,
 } from "./contracts";
 
 const KEYSPACE = "x:v2";
-const LEGACY_KEYSPACE = "x";
 
 function ownerToken(ownerUsername: string): string {
   return encodeURIComponent(ownerUsername.toLowerCase());
@@ -24,10 +19,6 @@ function ownerToken(ownerUsername: string): string {
 
 function scopedKey(ownerUsername: string, suffix: string): string {
   return `${keyPrefix()}${KEYSPACE}:${ownerToken(ownerUsername)}:${suffix}`;
-}
-
-function legacyKey(suffix: string): string {
-  return `${keyPrefix()}${LEGACY_KEYSPACE}:${suffix}`;
 }
 
 function snapshotSuffix(folderId?: string): string {
@@ -109,29 +100,10 @@ async function setValidated<A, I>(
   await setRaw(key, json, ttlSeconds);
 }
 
-function buildLegacySnapshot(
-  owner: BookmarkSourceOwner,
-  bookmarks: BookmarksSnapshotRecord["bookmarks"],
-  folders: BookmarksSnapshotRecord["folders"],
-  folderId?: string,
-): BookmarksSnapshotRecord {
-  return Schema.decodeUnknownSync(BookmarksSnapshotRecordSchema)({
-    owner,
-    folderId: folderId ?? null,
-    bookmarks,
-    folders,
-    lastSyncedAt: null,
-    cachedAt: new Date().toISOString(),
-    source: "legacy",
-  });
-}
-
 export interface BookmarksRepository {
   getTokenRecord(ownerUsername: string): Promise<XTokenRecord | null>;
   setTokenRecord(ownerUsername: string, record: XTokenRecord): Promise<void>;
   deleteTokenRecord(ownerUsername: string): Promise<void>;
-  getLegacyTokenRecord(): Promise<LegacyStoredTokens | null>;
-  deleteLegacyTokenRecord(): Promise<void>;
   getSnapshot(
     owner: BookmarkSourceOwner,
     folderId?: string,
@@ -167,14 +139,6 @@ export class BookmarksSnapshotRepository implements BookmarksRepository {
     await deleteRaw(scopedKey(ownerUsername, "tokens"));
   }
 
-  async getLegacyTokenRecord(): Promise<LegacyStoredTokens | null> {
-    return getValidated(legacyKey("tokens"), LegacyStoredTokensSchema);
-  }
-
-  async deleteLegacyTokenRecord(): Promise<void> {
-    await deleteRaw(legacyKey("tokens"));
-  }
-
   async getSnapshot(
     owner: BookmarkSourceOwner,
     folderId?: string,
@@ -184,11 +148,7 @@ export class BookmarksSnapshotRepository implements BookmarksRepository {
       BookmarksSnapshotRecordSchema,
     );
 
-    if (stored) {
-      return stored;
-    }
-
-    return await this.migrateLegacySnapshot(owner, folderId);
+    return stored;
   }
 
   async setSnapshot(
@@ -220,30 +180,5 @@ export class BookmarksSnapshotRepository implements BookmarksRepository {
       BookmarksSyncStatusRecordSchema,
       status,
     );
-  }
-
-  private async migrateLegacySnapshot(
-    owner: BookmarkSourceOwner,
-    folderId?: string,
-  ): Promise<BookmarksSnapshotRecord | null> {
-    const suffix = folderId ? `bookmarks:folder:${folderId}` : "bookmarks";
-    const bookmarks = await getValidated(
-      legacyKey(suffix),
-      NormalizedBookmarksArraySchema,
-    );
-
-    if (!bookmarks) {
-      return null;
-    }
-
-    const folders =
-      (await getValidated(
-        legacyKey("bookmarks:folders"),
-        XBookmarkFoldersArraySchema,
-      )) ?? [];
-
-    const snapshot = buildLegacySnapshot(owner, bookmarks, folders, folderId);
-    await this.setSnapshot(owner.username, snapshot);
-    return snapshot;
   }
 }

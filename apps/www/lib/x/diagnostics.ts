@@ -8,7 +8,6 @@ import {
 import {
   buildXLiveCredentialsErrorMessage,
   getMissingCanonicalXOAuthConfigKeys,
-  getPresentLegacyXOAuthEnvKeys,
   getXRuntimeConfig,
   type XLiveRuntimeConfig,
   type XRuntimeConfig,
@@ -30,12 +29,7 @@ type XDebugEnv = Record<string, string | undefined>;
 export type XCredentialCheckStatus = "pass" | "warn" | "fail";
 export type XCredentialSummaryStatus = "ready" | "warning" | "action_required";
 export type XCredentialValidationStatus = "valid" | IntegrationIssueCode;
-export type XCredentialVariableSource =
-  | "env"
-  | "default"
-  | "missing"
-  | "unset"
-  | "ignored_legacy";
+export type XCredentialVariableSource = "env" | "default" | "missing" | "unset";
 
 export type XCredentialCheck = {
   id: string;
@@ -61,7 +55,6 @@ export type XCredentialDiagnostics = {
     vercelEnv: string | null;
   };
   env: {
-    ignoredLegacyOauthKeys: string[];
     liveSyncMessage: string | null;
     missingCanonicalOauthKeys: string[];
     variables: XCredentialVariable[];
@@ -186,8 +179,6 @@ function buildEnvironmentVariables(
   config: XRuntimeConfig,
   env: XDebugEnv,
 ): XCredentialVariable[] {
-  const ignoredLegacyOauthKeys = getPresentLegacyXOAuthEnvKeys(env);
-
   return [
     {
       detail: hasConfiguredValue(env.X_OAUTH2_CLIENT_ID)
@@ -241,44 +232,16 @@ function buildEnvironmentVariables(
       source: hasConfiguredValue(env.X_OWNER_USER_ID) ? "env" : "unset",
       value: config.ownerUserId,
     },
-    {
-      detail: ignoredLegacyOauthKeys.includes("X_CLIENT_ID")
-        ? "Legacy name detected. Ignored by runtime."
-        : "Legacy env name is not set.",
-      isSecret: false,
-      key: "X_CLIENT_ID",
-      present: ignoredLegacyOauthKeys.includes("X_CLIENT_ID"),
-      source: ignoredLegacyOauthKeys.includes("X_CLIENT_ID")
-        ? "ignored_legacy"
-        : "unset",
-      value: null,
-    },
-    {
-      detail: ignoredLegacyOauthKeys.includes("X_CLIENT_SECRET")
-        ? "Legacy name detected. Ignored by runtime."
-        : "Legacy env name is not set.",
-      isSecret: true,
-      key: "X_CLIENT_SECRET",
-      present: ignoredLegacyOauthKeys.includes("X_CLIENT_SECRET"),
-      source: ignoredLegacyOauthKeys.includes("X_CLIENT_SECRET")
-        ? "ignored_legacy"
-        : "unset",
-      value: null,
-    },
   ];
 }
 
 function buildEnvironmentSummary(config: XRuntimeConfig, env: XDebugEnv) {
   const missingCanonicalOauthKeys = getMissingCanonicalXOAuthConfigKeys(config);
-  const ignoredLegacyOauthKeys = getPresentLegacyXOAuthEnvKeys(env);
 
   return {
-    ignoredLegacyOauthKeys,
     liveSyncMessage:
       missingCanonicalOauthKeys.length > 0
-        ? buildXLiveCredentialsErrorMessage(missingCanonicalOauthKeys, {
-            hasLegacyOauthVars: ignoredLegacyOauthKeys.length > 0,
-          })
+        ? buildXLiveCredentialsErrorMessage(missingCanonicalOauthKeys)
         : null,
     missingCanonicalOauthKeys,
     variables: buildEnvironmentVariables(config, env),
@@ -340,14 +303,6 @@ function buildPassiveChecks(input: {
         input.env.liveSyncMessage ??
         "Live X sync is missing canonical OAuth env vars.",
       status: "fail",
-    });
-  } else if (input.env.ignoredLegacyOauthKeys.length > 0) {
-    checks.push({
-      id: "oauth-env",
-      label: "OAuth env",
-      message:
-        "Canonical OAuth env vars are loaded, but legacy X_CLIENT_ID/X_CLIENT_SECRET values are still present and ignored.",
-      status: "warn",
     });
   } else {
     checks.push({
@@ -521,12 +476,6 @@ function buildPassiveNextSteps(input: {
     );
   }
 
-  if (input.env.ignoredLegacyOauthKeys.length > 0) {
-    nextSteps.add(
-      "Rename X_CLIENT_ID/X_CLIENT_SECRET to X_OAUTH2_CLIENT_ID/X_OAUTH2_CLIENT_SECRET and restart the dev server.",
-    );
-  }
-
   const ownerSecret = input.env.variables.find(
     (variable) => variable.key === "X_OWNER_SECRET",
   );
@@ -594,14 +543,6 @@ function buildValidationChecks(input: {
         input.env.liveSyncMessage ??
         "Canonical OAuth env vars are missing for live validation.",
       status: "fail",
-    });
-  } else if (input.env.ignoredLegacyOauthKeys.length > 0) {
-    checks.push({
-      id: "oauth-env",
-      label: "OAuth env",
-      message:
-        "Canonical OAuth env vars are loaded, but legacy X_CLIENT_* values are still present and ignored.",
-      status: "warn",
     });
   } else {
     checks.push({
@@ -717,12 +658,6 @@ function buildValidationNextSteps(input: {
     );
   }
 
-  if (input.env.ignoredLegacyOauthKeys.length > 0) {
-    nextSteps.add(
-      "Rename X_CLIENT_ID/X_CLIENT_SECRET to X_OAUTH2_CLIENT_ID/X_OAUTH2_CLIENT_SECRET and restart the dev server.",
-    );
-  }
-
   if (input.status === "reauth_required" || input.tokenStatus === "missing") {
     nextSteps.add(
       "Run the X OAuth setup flow to store a token before forcing live sync.",
@@ -810,9 +745,6 @@ export async function validateXCredentials(
   if (missingCanonicalOauthKeys.length > 0) {
     const message = buildXLiveCredentialsErrorMessage(
       missingCanonicalOauthKeys,
-      {
-        hasLegacyOauthVars: envSummary.ignoredLegacyOauthKeys.length > 0,
-      },
     );
 
     return {
