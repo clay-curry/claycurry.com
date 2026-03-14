@@ -157,6 +157,13 @@ function makeAppTracer(traceId: string, onSpanEnd: OnSpanEnd): Tracer.Tracer {
  * Effect.provide(program, TracerLive);
  * ```
  */
+export function makeTracer(
+  traceId: string,
+  onSpanEnd: OnSpanEnd,
+): Tracer.Tracer {
+  return makeAppTracer(traceId, onSpanEnd);
+}
+
 export function makeTracerLayer(
   traceId: string,
   onSpanEnd: OnSpanEnd,

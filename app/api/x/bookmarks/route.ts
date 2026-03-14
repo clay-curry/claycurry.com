@@ -1,11 +1,7 @@
 import { Effect, Schema } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
 import { appRuntime } from "@/lib/effect/runtime";
-import {
-  makeTracerLayer,
-  persistSpan,
-  traceIdFromRequest,
-} from "@/lib/tracing";
+import { makeTracer, persistSpan, traceIdFromRequest } from "@/lib/tracing";
 import { getXRuntimeConfig } from "@/lib/x/config";
 import { BookmarksApiResponseSchema } from "@/lib/x/contracts";
 import {
@@ -111,13 +107,16 @@ export async function GET(request: NextRequest) {
     }),
   );
 
-  // If we have a trace ID from middleware, install the tracer layer
+  // If we have a trace ID from proxy, install the custom tracer
+  // using Effect.withTracer so it overrides the default no-op tracer.
   if (traceId) {
     const onSpanEnd = (span: import("@/lib/tracing").Span) => {
-      appRuntime.runFork(persistSpan(span));
+      appRuntime.runPromise(persistSpan(span)).catch((err) => {
+        console.error("[trace] persistSpan failed:", err);
+      });
     };
     return appRuntime.runPromise(
-      program.pipe(Effect.provide(makeTracerLayer(traceId, onSpanEnd))),
+      program.pipe(Effect.withTracer(makeTracer(traceId, onSpanEnd))),
     );
   }
 
