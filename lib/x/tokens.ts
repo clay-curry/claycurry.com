@@ -1,3 +1,23 @@
+/**
+ * OAuth2 token lifecycle management for the X API.
+ *
+ * `XTokenStore` handles the full token lifecycle:
+ * 1. **Exchange** — trades an authorization code + PKCE verifier for tokens
+ *    via `POST /2/oauth2/token` (`grant_type=authorization_code`).
+ * 2. **Refresh** — proactively refreshes tokens before they expire using
+ *    `grant_type=refresh_token`.
+ * 3. **Storage** — persists `XTokenRecord` to Redis via `BookmarksRepository`.
+ * 4. **Legacy promotion** — one-time migration of tokens stored under the
+ *    old `x:tokens` keyspace to the v2 format.
+ *
+ * All public methods return `Effect` programs for composable error handling.
+ * Token requests use HTTP Basic authentication with the OAuth client
+ * credentials.
+ *
+ * @see https://developer.x.com/en/docs/authentication/oauth-2-0/authorization-code
+ * @see https://effect.website/docs/getting-started/using-generators
+ * @module
+ */
 import { Effect, Schema } from "effect";
 import type { BookmarksRepository } from "./cache";
 import {
@@ -55,6 +75,19 @@ function shouldDiscardStoredToken(error: unknown): boolean {
   );
 }
 
+/**
+ * Manages OAuth2 token storage, retrieval, refresh, and legacy migration
+ * for the X API integration.
+ *
+ * Tokens are persisted in Redis via the injected `BookmarksRepository`.
+ * The class uses HTTP Basic auth (client ID + secret) when communicating
+ * with the `POST /2/oauth2/token` endpoint.
+ *
+ * Use `fromRuntimeConfig()` to construct with config validation, or the
+ * constructor directly when validation has already been performed.
+ *
+ * @see https://developer.x.com/en/docs/authentication/oauth-2-0/authorization-code
+ */
 export class XTokenStore {
   constructor(
     private readonly repository: BookmarksRepository,
@@ -62,6 +95,10 @@ export class XTokenStore {
     private readonly fetchImpl: typeof fetch = fetch,
   ) {}
 
+  /**
+   * Factory that asserts the config has live OAuth credentials before
+   * constructing the store. Throws if `clientId` or `clientSecret` is missing.
+   */
   static fromRuntimeConfig(
     repository: BookmarksRepository,
     config: XLiveRuntimeConfig,
@@ -71,6 +108,19 @@ export class XTokenStore {
     return new XTokenStore(repository, config, fetchImpl);
   }
 
+  /**
+   * Retrieves a valid token record for bookmark sync.
+   *
+   * Resolution order:
+   * 1. Look up the v2 token record in Redis.
+   * 2. If missing, attempt legacy token promotion.
+   * 3. If still missing, fail with `ReauthRequired`.
+   * 4. Verify owner identity and refresh if within the expiry window.
+   *
+   * @param verifyOwner - Callback to verify the authenticated user matches
+   *   the configured owner. Called during refresh and legacy promotion.
+   * @returns Effect yielding a valid `XTokenRecord`.
+   */
   getTokenForSync(verifyOwner: VerifyOwner) {
     const repo = this.repository;
     const config = this.config;
@@ -125,6 +175,16 @@ export class XTokenStore {
     });
   }
 
+  /**
+   * Exchanges an OAuth2 authorization code for an access/refresh token pair.
+   * Called from the `/api/x/callback` route after the user completes the
+   * X OAuth consent screen.
+   *
+   * @param params.code - The authorization code from the callback URL.
+   * @param params.codeVerifier - The PKCE code verifier generated during auth initiation.
+   * @param params.redirectUri - Must match the redirect_uri used in the auth request.
+   * @returns Effect yielding an `XOAuthTokenResponse`.
+   */
   exchangeAuthorizationCode(params: {
     code: string;
     codeVerifier: string;
@@ -138,6 +198,10 @@ export class XTokenStore {
     });
   }
 
+  /**
+   * Persists a verified token + owner pair to Redis. Called after a
+   * successful OAuth exchange and identity verification.
+   */
   storeVerifiedToken(
     tokenResponse: XOAuthTokenResponse,
     owner: BookmarkSourceOwner,
@@ -154,6 +218,11 @@ export class XTokenStore {
     });
   }
 
+  /**
+   * One-time migration: reads a legacy `x:tokens` record, refreshes it
+   * if needed, verifies the owner, stores it under the v2 keyspace, and
+   * deletes the legacy key. Returns `null` if no legacy record exists.
+   */
   private promoteLegacyTokenIfPossible(verifyOwner: VerifyOwner) {
     const repo = this.repository;
     const config = this.config;
@@ -192,6 +261,10 @@ export class XTokenStore {
     );
   }
 
+  /**
+   * Refreshes an expiring token via `grant_type=refresh_token`, verifies
+   * the owner on the new token, and persists the updated record.
+   */
   private refreshTokenRecord(record: XTokenRecord, verifyOwner: VerifyOwner) {
     const repo = this.repository;
     const config = this.config;
@@ -226,6 +299,11 @@ export class XTokenStore {
     });
   }
 
+  /**
+   * Low-level token request to `POST /2/oauth2/token`. Used by both
+   * authorization code exchange and refresh token grant flows.
+   * Authenticates with HTTP Basic (client ID:secret).
+   */
   private requestToken(context: string, body: Record<string, string>) {
     const fetchImpl = this.fetchImpl;
     const config = this.config;

@@ -1,3 +1,19 @@
+/**
+ * Development-only credential diagnostics and live validation for the X
+ * integration.
+ *
+ * Provides two main entry points:
+ * - `readXCredentialDiagnostics()` — passive read of env vars, stored tokens,
+ *   snapshots, and status records to produce a checklist of credential health.
+ * - `validateXCredentials()` — active validation that actually retrieves and
+ *   refreshes tokens, hits the X API to verify owner identity, and reports
+ *   detailed results.
+ *
+ * Both functions are non-production only and power the
+ * `/api/x/debug/credentials` endpoints.
+ *
+ * @module
+ */
 import { Effect } from "effect";
 import { type BookmarksRepository, BookmarksSnapshotRepository } from "./cache";
 import {
@@ -27,8 +43,11 @@ import { XTokenStore } from "./tokens";
 
 type XDebugEnv = Record<string, string | undefined>;
 
+/** Result status of a single credential check (e.g. "OAuth env", "Stored token"). */
 export type XCredentialCheckStatus = "pass" | "warn" | "fail";
+/** Overall summary status across all passive diagnostics checks. */
 export type XCredentialSummaryStatus = "ready" | "warning" | "action_required";
+/** Result of an active validation attempt — either `"valid"` or a specific issue code. */
 export type XCredentialValidationStatus = "valid" | IntegrationIssueCode;
 export type XCredentialVariableSource =
   | "env"
@@ -37,6 +56,7 @@ export type XCredentialVariableSource =
   | "unset"
   | "ignored_legacy";
 
+/** A single pass/warn/fail check in the diagnostics checklist. */
 export type XCredentialCheck = {
   id: string;
   label: string;
@@ -44,6 +64,7 @@ export type XCredentialCheck = {
   status: XCredentialCheckStatus;
 };
 
+/** Describes an environment variable's presence, source, and detail. */
 export type XCredentialVariable = {
   detail: string;
   isSecret: boolean;
@@ -53,6 +74,7 @@ export type XCredentialVariable = {
   value: string | null;
 };
 
+/** Full passive diagnostics report — env vars, runtime state, checks, and next steps. */
 export type XCredentialDiagnostics = {
   checks: XCredentialCheck[];
   environment: {
@@ -94,6 +116,7 @@ export type XCredentialDiagnostics = {
   };
 };
 
+/** Result of an active live validation of X credentials against the API. */
 export type XCredentialValidationResult = {
   checkedAt: string;
   checks: XCredentialCheck[];
@@ -747,6 +770,15 @@ function buildValidationNextSteps(input: {
   return Array.from(nextSteps);
 }
 
+/**
+ * Passive diagnostics: reads env vars, Redis state (tokens, snapshots,
+ * status), and produces a structured report with checks, summaries, and
+ * actionable next steps. Does not make any X API calls.
+ *
+ * @param options.env - Environment record override (defaults to `process.env`).
+ * @param options.repository - Repository override for testing.
+ * @returns Full `XCredentialDiagnostics` report.
+ */
 export async function readXCredentialDiagnostics(
   options: { env?: XDebugEnv; repository?: BookmarksRepository } = {},
 ): Promise<XCredentialDiagnostics> {
@@ -793,6 +825,16 @@ export async function readXCredentialDiagnostics(
   };
 }
 
+/**
+ * Active validation: actually retrieves/refreshes the stored token, calls
+ * the X API to verify owner identity, and returns a structured result with
+ * pass/fail checks and next steps. This makes real API calls and may
+ * trigger token refresh side effects.
+ *
+ * @param options.env - Environment record override (defaults to `process.env`).
+ * @param options.fetchImpl - Custom fetch for testing.
+ * @param options.repository - Repository override for testing.
+ */
 export async function validateXCredentials(
   options: {
     env?: XDebugEnv;
@@ -999,6 +1041,7 @@ export async function validateXCredentials(
   };
 }
 
+/** Maps a validation result status to an appropriate HTTP status code. */
 export function getValidationHttpStatus(
   result: XCredentialValidationResult,
 ): number {

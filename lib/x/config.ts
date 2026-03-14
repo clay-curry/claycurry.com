@@ -1,3 +1,22 @@
+/**
+ * X OAuth2 runtime configuration loaded from environment variables.
+ *
+ * Manages the mapping between environment variable names and the typed
+ * `XRuntimeConfig` structure consumed by the rest of the X integration.
+ * Supports canonical (`X_OAUTH2_CLIENT_ID` / `X_OAUTH2_CLIENT_SECRET`) and
+ * legacy (`X_CLIENT_ID` / `X_CLIENT_SECRET`) env names, with helpers that
+ * detect legacy keys and produce actionable error messages guiding the
+ * developer to rename them.
+ *
+ * The two freshness constants control how aggressively the system re-syncs:
+ * - `BOOKMARKS_SNAPSHOT_FRESHNESS_MS` (30 min) — how long a cached snapshot is
+ *   considered "fresh" before a live re-fetch is attempted.
+ * - `TOKEN_REFRESH_WINDOW_MS` (5 min) — how close to expiry a token must be
+ *   before a proactive refresh is triggered.
+ *
+ * @see https://developer.x.com/en/docs/authentication/oauth-2-0/authorization-code
+ * @module
+ */
 import { Schema } from "effect";
 
 const TrimmedNonEmpty = Schema.Trim.pipe(Schema.minLength(1));
@@ -17,9 +36,16 @@ const XEnvironmentSchema = Schema.Struct({
   X_OWNER_SECRET: Schema.optional(TrimmedNonEmpty),
 });
 
+/** How long (ms) a cached bookmarks snapshot is considered fresh before live re-fetch (30 minutes). */
 export const BOOKMARKS_SNAPSHOT_FRESHNESS_MS = 30 * 60 * 1000;
+/** How close to expiry (ms) a token must be before proactive refresh is triggered (5 minutes). */
 export const TOKEN_REFRESH_WINDOW_MS = 5 * 60 * 1000;
 
+/**
+ * Typed configuration for the X integration, derived from environment
+ * variables via `getXRuntimeConfig()`. Nullable fields indicate optional
+ * or missing env vars — the system can still run in mock mode without them.
+ */
 export interface XRuntimeConfig {
   mode: "live";
   ownerUsername: string;
@@ -30,6 +56,11 @@ export interface XRuntimeConfig {
   snapshotFreshnessMs: number;
 }
 
+/**
+ * Narrowed config guaranteed to have non-null OAuth credentials.
+ * Produced by `assertLiveRuntimeConfig()` — required before any live
+ * X API calls can be made.
+ */
 export interface XLiveRuntimeConfig extends XRuntimeConfig {
   clientId: string;
   clientSecret: string;
@@ -55,6 +86,11 @@ function formatEnvKeyList(keys: string[]): string {
   return `${keys.slice(0, -1).join(", ")}, and ${keys.at(-1)}`;
 }
 
+/**
+ * Returns the list of canonical OAuth env var names (`X_OAUTH2_CLIENT_ID`,
+ * `X_OAUTH2_CLIENT_SECRET`) that are missing or empty in the given env.
+ * @param env - Environment record to check (defaults to `process.env`).
+ */
 export function getMissingCanonicalXOAuthEnvKeys(
   env: Record<string, string | undefined> = process.env,
 ): string[] {
@@ -63,12 +99,21 @@ export function getMissingCanonicalXOAuthEnvKeys(
   );
 }
 
+/**
+ * Returns legacy env var names (`X_CLIENT_ID`, `X_CLIENT_SECRET`) that are
+ * present in the environment. Used to generate migration guidance messages.
+ * @param env - Environment record to check (defaults to `process.env`).
+ */
 export function getPresentLegacyXOAuthEnvKeys(
   env: Record<string, string | undefined> = process.env,
 ): string[] {
   return LEGACY_X_OAUTH_ENV_KEYS.filter((key) => hasConfiguredValue(env[key]));
 }
 
+/**
+ * Like `getMissingCanonicalXOAuthEnvKeys` but checks the already-parsed
+ * `XRuntimeConfig` object rather than raw env vars.
+ */
 export function getMissingCanonicalXOAuthConfigKeys(
   config: Pick<XRuntimeConfig, "clientId" | "clientSecret">,
 ): string[] {
@@ -85,6 +130,12 @@ export function getMissingCanonicalXOAuthConfigKeys(
   return missingKeys;
 }
 
+/**
+ * Builds a human-readable error message listing which OAuth env vars are
+ * missing, with guidance on legacy key renaming if applicable.
+ * @param missingKeys - Canonical env var names that are not set.
+ * @param options.hasLegacyOauthVars - Whether deprecated `X_CLIENT_*` vars were detected.
+ */
 export function buildXLiveCredentialsErrorMessage(
   missingKeys: string[],
   options: {
@@ -99,6 +150,10 @@ export function buildXLiveCredentialsErrorMessage(
   return `Live X sync could not start. source=live disables mock fallback, but the server is missing ${missingDescription}.${legacySuffix}`;
 }
 
+/**
+ * Convenience wrapper: checks env vars and returns a credentials error
+ * message if any canonical OAuth vars are missing, or `null` if all present.
+ */
 export function getXLiveCredentialsErrorMessageForEnv(
   env: Record<string, string | undefined> = process.env,
 ): string | null {
@@ -113,6 +168,12 @@ export function getXLiveCredentialsErrorMessageForEnv(
   });
 }
 
+/**
+ * Reads and validates X-related environment variables into a typed
+ * `XRuntimeConfig`. Uses Effect `Schema.decodeUnknownSync` for validation.
+ * Safe to call in any environment — missing OAuth vars result in `null`
+ * fields rather than thrown errors.
+ */
 export function getXRuntimeConfig(): XRuntimeConfig {
   const env = Schema.decodeUnknownSync(XEnvironmentSchema)(process.env);
 
@@ -127,6 +188,12 @@ export function getXRuntimeConfig(): XRuntimeConfig {
   };
 }
 
+/**
+ * Type-narrowing assertion that throws if the config is missing required
+ * OAuth credentials. After this call, `config` is guaranteed to be
+ * `XLiveRuntimeConfig` with non-null `clientId` and `clientSecret`.
+ * @throws {Error} If canonical OAuth env vars are missing.
+ */
 export function assertLiveRuntimeConfig(
   config: XRuntimeConfig,
 ): asserts config is XLiveRuntimeConfig {
@@ -142,6 +209,10 @@ export function assertLiveRuntimeConfig(
   }
 }
 
+/**
+ * Shortcut to retrieve the `X_OWNER_SECRET` value from the runtime config.
+ * Returns `null` if the secret is not configured.
+ */
 export function getXOwnerSecret(): string | null {
   return getXRuntimeConfig().ownerSecret;
 }

@@ -1,3 +1,15 @@
+/**
+ * `GET /api/x/callback` — OAuth2 callback handler.
+ *
+ * Receives the authorization code and state from X after the user consents.
+ * Retrieves the PKCE code verifier from Redis, exchanges the code for
+ * tokens via `XTokenStore.exchangeAuthorizationCode()`, verifies the
+ * authenticated user matches the configured owner, persists the token
+ * record, and redirects to the home page.
+ *
+ * @see https://developer.x.com/en/docs/authentication/oauth-2-0/authorization-code
+ * @module
+ */
 import { Effect, Schema } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
 import { appRuntime } from "@/lib/effect/runtime";

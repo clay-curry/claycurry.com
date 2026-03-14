@@ -1,3 +1,17 @@
+/**
+ * Mock bookmark data and debug scenario responses for preproduction testing.
+ *
+ * Provides:
+ * - `getMockBookmarksResponse()` — static mock data for the default
+ *   preproduction fallback (no X API calls).
+ * - `getBundledBookmarksFallbackResponse()` — same data but marked as
+ *   `"stale"` for use when live sync fails.
+ * - `getMockScenarioResponse()` — debug scenarios activated via
+ *   `?mock=<scenario>` query param, simulating error states like
+ *   `reauth_required`, `owner_mismatch`, `upstream_error`, etc.
+ *
+ * @module
+ */
 import type {
   BookmarksApiResponse,
   BookmarksStatusApiResponse,
@@ -144,6 +158,12 @@ function nowIsoString(): string {
   return new Date().toISOString();
 }
 
+/**
+ * Returns a `BookmarksApiResponse` with hardcoded sample bookmarks.
+ * Used as the default response in preproduction when no live credentials
+ * are configured.
+ * @param folderId - If provided, returns a subset of bookmarks.
+ */
 export function getMockBookmarksResponse(
   folderId?: string,
 ): BookmarksApiResponse {
@@ -160,6 +180,10 @@ export function getMockBookmarksResponse(
   };
 }
 
+/**
+ * Returns bundled mock bookmarks marked as `"stale"` — used as a fallback
+ * when live sync fails and `preferMockFallback` is enabled.
+ */
 export function getBundledBookmarksFallbackResponse(
   folderId?: string,
 ): BookmarksApiResponse {
@@ -233,6 +257,13 @@ export const MOCK_SCENARIOS: {
   },
 ];
 
+/**
+ * Returns a mock response simulating the given debug scenario, including
+ * the appropriate HTTP status code. Used via `?mock=<scenario>` in
+ * preproduction.
+ * @param scenario - One of the `MockScenario` values.
+ * @param folderId - Optional folder filter (only affects `"static"` scenario).
+ */
 export function getMockScenarioResponse(
   scenario: MockScenario,
   folderId?: string,
@@ -345,6 +376,7 @@ export function getMockScenarioResponse(
   }
 }
 
+/** Returns a mock status response with all-healthy values for preproduction. */
 export function getMockBookmarksStatusResponse(): BookmarksStatusApiResponse {
   return {
     owner: {

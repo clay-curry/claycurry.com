@@ -1,3 +1,22 @@
+/**
+ * HTTP client for the X API v2 — bookmarks, bookmark folders, and user lookup.
+ *
+ * All public methods return `Effect` programs that yield typed domain objects
+ * and fail with tagged errors from `./errors.ts`. This allows callers to
+ * compose requests with `Effect.gen` and handle failures exhaustively via
+ * `Effect.catchTag`.
+ *
+ * The module also exports two identity-verification helpers:
+ * - {@link XBookmarksOwnerResolver} — resolves the configured owner username
+ *   to an X user and validates any configured user ID.
+ * - {@link XIdentityVerifier} — verifies the authenticated user matches the
+ *   configured owner.
+ *
+ * @see https://developer.x.com/en/docs/twitter-api/tweets/bookmarks/api-reference
+ * @see https://developer.x.com/en/docs/twitter-api/users/lookup/api-reference
+ * @see https://effect.website/docs/getting-started/using-generators
+ * @module
+ */
 import { Effect, Schema } from "effect";
 import {
   type BookmarkSourceOwner,
@@ -33,6 +52,10 @@ function normalizeOwner(user: XUser): BookmarkSourceOwner {
   };
 }
 
+/**
+ * Decodes an unknown payload against an Effect Schema, wrapping decode
+ * failures as `SchemaInvalid` errors with the given context label.
+ */
 function parseContract<A, I>(
   schema: Schema.Schema<A, I>,
   payload: unknown,
@@ -49,6 +72,11 @@ function parseContract<A, I>(
   });
 }
 
+/**
+ * Reads and validates an HTTP response as JSON. Maps 401/403 to
+ * `ReauthRequired`, other non-OK statuses to `UpstreamError`, and
+ * non-JSON bodies to `SchemaInvalid`.
+ */
 function readJsonResponse(response: Response, context: string) {
   return Effect.gen(function* () {
     if (!response.ok) {
@@ -74,6 +102,12 @@ function readJsonResponse(response: Response, context: string) {
   });
 }
 
+/**
+ * Transforms a raw `XBookmarksResponseSchema` payload into an array of
+ * `NormalizedBookmark` objects by joining tweets with their `includes`
+ * expansions (users and media) and re-shaping to the internal camelCase
+ * format.
+ */
 function normalizeTweets(response: unknown) {
   return Effect.gen(function* () {
     const parsed = yield* parseContract(
@@ -131,6 +165,11 @@ function normalizeTweets(response: unknown) {
   });
 }
 
+/**
+ * Issues an authenticated GET request to the given URL, parses the JSON
+ * response, and returns the raw payload. Wraps fetch errors as
+ * `UpstreamError` and delegates response validation to `readJsonResponse`.
+ */
 function requestJson(
   fetchImpl: typeof fetch,
   url: string,
@@ -153,9 +192,28 @@ function requestJson(
   });
 }
 
+/**
+ * HTTP client for X API v2 bookmark and user endpoints.
+ *
+ * Each method returns an `Effect` that yields typed domain objects and fails
+ * with tagged errors (`ReauthRequired`, `UpstreamError`, `SchemaInvalid`).
+ * Pagination for bookmarks is handled automatically — `fetchAllBookmarks`
+ * and `fetchBookmarksByFolder` follow `next_token` until all pages are
+ * consumed.
+ *
+ * Accepts an optional custom `fetch` implementation for testing.
+ *
+ * @see https://developer.x.com/en/docs/twitter-api/tweets/bookmarks/api-reference
+ */
 export class XBookmarksClient {
   constructor(private readonly fetchImpl: typeof fetch = fetch) {}
 
+  /**
+   * Fetches the currently authenticated user via `GET /2/users/me`.
+   * @param accessToken - Bearer token from the OAuth flow.
+   * @returns Effect yielding a `BookmarkSourceOwner`.
+   * @see https://developer.x.com/en/docs/twitter-api/users/lookup/api-reference/get-users-me
+   */
   getAuthenticatedUser(accessToken: string) {
     const fetchImpl = this.fetchImpl;
     return Effect.gen(function* () {
@@ -174,6 +232,11 @@ export class XBookmarksClient {
     });
   }
 
+  /**
+   * Looks up a user by username via `GET /2/users/by/username/:username`.
+   * Used to resolve the configured `X_OWNER_USERNAME` to an X user ID.
+   * @see https://developer.x.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by-username-username
+   */
   getUserByUsername(username: string, accessToken: string) {
     const fetchImpl = this.fetchImpl;
     return Effect.gen(function* () {
@@ -192,6 +255,10 @@ export class XBookmarksClient {
     });
   }
 
+  /**
+   * Fetches all bookmarks for the user, auto-paginating through every page.
+   * @see https://developer.x.com/en/docs/twitter-api/tweets/bookmarks/api-reference/get-users-id-bookmarks
+   */
   fetchAllBookmarks(userId: string, accessToken: string) {
     return this.fetchBookmarksPages(
       userId,
@@ -202,6 +269,10 @@ export class XBookmarksClient {
     );
   }
 
+  /**
+   * Fetches bookmarks within a specific folder, auto-paginating.
+   * @param folderId - The bookmark folder ID to filter by.
+   */
   fetchBookmarksByFolder(
     userId: string,
     folderId: string,
@@ -216,6 +287,11 @@ export class XBookmarksClient {
     );
   }
 
+  /**
+   * Fetches all bookmark folders for the user. Returns an empty array
+   * if the endpoint returns 403 or 404 (folders feature may not be
+   * available for all accounts).
+   */
   fetchBookmarkFolders(userId: string, accessToken: string) {
     const fetchImpl = this.fetchImpl;
     return Effect.gen(function* () {
@@ -245,6 +321,10 @@ export class XBookmarksClient {
     });
   }
 
+  /**
+   * Internal paginator: follows `meta.next_token` until all pages are
+   * exhausted, normalizing each page's tweets and accumulating results.
+   */
   private fetchBookmarksPages(
     _userId: string,
     accessToken: string,
@@ -278,6 +358,11 @@ export class XBookmarksClient {
   }
 }
 
+/**
+ * Resolves the configured owner username to an X user and validates that
+ * the resolved user ID matches the optional `X_OWNER_USER_ID` env var
+ * (if set). Fails with `OwnerMismatch` on ID disagreement.
+ */
 export class XBookmarksOwnerResolver {
   constructor(
     private readonly client: XBookmarksClient,
@@ -310,6 +395,11 @@ export class XBookmarksOwnerResolver {
   }
 }
 
+/**
+ * Verifies that the X account authenticated by the current access token
+ * matches the configured owner username. Fails with `OwnerMismatch` if
+ * the authenticated username differs (case-insensitive comparison).
+ */
 export class XIdentityVerifier {
   constructor(
     private readonly client: XBookmarksClient,

@@ -1,3 +1,18 @@
+/**
+ * `GET /api/x/bookmarks` — Main bookmarks retrieval endpoint.
+ *
+ * Supports:
+ * - **Cache-first sync**: returns a fresh Redis snapshot if available,
+ *   otherwise triggers a live X API sync.
+ * - **Folder filtering**: `?folder=<id>` to scope to a specific folder.
+ * - **Debug mock override**: `?mock=<scenario>` in preproduction to simulate
+ *   error states (e.g. `reauth_required`, `upstream_error`).
+ * - **Force live sync**: `?source=live` in preproduction to bypass the cache.
+ * - **Distributed tracing**: when a trace ID is present (via proxy header),
+ *   installs a custom Effect tracer that persists spans to Redis.
+ *
+ * @module
+ */
 import { Effect, Schema } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
 import { appRuntime } from "@/lib/effect/runtime";

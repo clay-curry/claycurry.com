@@ -1,3 +1,20 @@
+/**
+ * `GET /api/x/auth` — Initiates the X OAuth2 Authorization Code flow
+ * with PKCE (Proof Key for Code Exchange).
+ *
+ * Generates a cryptographic code verifier/challenge pair, stores the
+ * verifier in Redis (5-minute TTL keyed by a random state token), and
+ * redirects the user to X's authorization URL with scopes:
+ * `bookmark.read`, `users.read`, `tweet.read`, `offline.access`.
+ *
+ * After the user consents, X redirects to `/api/x/callback` with the
+ * authorization code and state.
+ *
+ * Requires `X_OAUTH2_CLIENT_ID` and `X_OAUTH2_CLIENT_SECRET` env vars.
+ *
+ * @see https://developer.x.com/en/docs/authentication/oauth-2-0/authorization-code
+ * @module
+ */
 import crypto from "node:crypto";
 import { Effect } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
@@ -15,6 +32,10 @@ function base64url(buffer: Buffer): string {
   return buffer.toString("base64url");
 }
 
+/**
+ * Handles the OAuth2 initiation: validates config, generates PKCE params,
+ * stores the code verifier in Redis, and redirects to X's authorize URL.
+ */
 export async function GET(request: NextRequest) {
   const config = getXRuntimeConfig();
   const missingKeys = getMissingCanonicalXOAuthConfigKeys(config);
