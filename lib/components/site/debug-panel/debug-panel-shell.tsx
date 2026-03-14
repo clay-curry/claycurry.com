@@ -1,6 +1,14 @@
 "use client";
 
-import { BookOpen, Bug, KeyRound, Minus, Server, X } from "lucide-react";
+import {
+  Activity,
+  BookOpen,
+  Bug,
+  KeyRound,
+  Minus,
+  Server,
+  X,
+} from "lucide-react";
 import {
   type PointerEvent as ReactPointerEvent,
   useCallback,
@@ -20,6 +28,7 @@ import { BOOKMARKS_LIVE_SOURCE } from "@/lib/x/debug";
 import { BookmarksMockTab } from "./tabs/bookmarks-mock-tab";
 import { CredentialsTab } from "./tabs/credentials-tab";
 import { InternalApisTab } from "./tabs/internal-apis/internal-apis-tab";
+import { TraceTab } from "./tabs/trace-tab";
 import type { DebugPanelTabDefinition } from "./types";
 import {
   clearDebugQueryState,
@@ -74,6 +83,12 @@ const DEBUG_PANEL_TABS: DebugPanelTabDefinition[] = [
     label: "Internal APIs",
     icon: Server,
     Component: InternalApisTab,
+  },
+  {
+    id: "trace",
+    label: "Trace",
+    icon: Activity,
+    Component: TraceTab,
   },
 ];
 

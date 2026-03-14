@@ -453,21 +453,32 @@ export function CredentialsTab(_props: DebugPanelTabProps) {
       ) : null}
 
       <section className="space-y-3 rounded-2xl border border-border/80 bg-background/70 p-4 shadow-sm">
-        <div className="space-y-1">
-          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-            Env contract
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Canonical X OAuth env names are required. Legacy X_CLIENT_* names
-            are shown here only so you can spot ignored values quickly.
-          </p>
-        </div>
+        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+          Environment variables
+        </p>
 
         <div className="grid gap-2">
-          {diagnostics.env.variables.map((variable) => (
-            <VariableRow key={variable.key} variable={variable} />
-          ))}
+          {diagnostics.env.variables
+            .filter((v) => v.source !== "ignored_legacy")
+            .map((variable) => (
+              <VariableRow key={variable.key} variable={variable} />
+            ))}
         </div>
+
+        {diagnostics.env.ignoredLegacyOauthKeys.length > 0 && (
+          <div className="space-y-2 border-t border-border/50 pt-3">
+            <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+              Ignored legacy keys
+            </p>
+            <div className="grid gap-2">
+              {diagnostics.env.variables
+                .filter((v) => v.source === "ignored_legacy")
+                .map((variable) => (
+                  <VariableRow key={variable.key} variable={variable} />
+                ))}
+            </div>
+          </div>
+        )}
       </section>
 
       <section className="space-y-3 rounded-2xl border border-border/80 bg-background/70 p-4 shadow-sm">

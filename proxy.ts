@@ -20,6 +20,9 @@ export function proxy(request: NextRequest) {
     request: { headers: requestHeaders },
   });
 
+  // Expose trace ID to client via response header
+  response.headers.set(TRACE_HEADER, traceId);
+
   if (!isValid) {
     const isProduction = process.env.NODE_ENV === "production";
     response.cookies.set(TRACE_COOKIE, traceId, {

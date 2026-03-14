@@ -18,7 +18,7 @@ export default function BlogPage() {
             </span>
             <div className="w-3 h-px bg-foreground rounded-full" />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
             {pinnedPosts.map((post) => (
               <PostCard key={post.slug} post={post} />
             ))}
@@ -35,7 +35,7 @@ export default function BlogPage() {
           <div className="w-3 h-px bg-foreground rounded-full" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
           {recentPosts.map((post) => (
             <PostCard key={post.slug} post={post} />
           ))}
