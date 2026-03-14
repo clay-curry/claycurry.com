@@ -22,9 +22,7 @@
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}/apps/site",
-      "runtimeArgs": [
-        "--experimental-strip-types"
-      ],
+      "runtimeArgs": ["--experimental-strip-types"],
       "program": "${workspaceFolder}/apps/link-checker/src/validate-links.ts",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"]
