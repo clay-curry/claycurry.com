@@ -6,7 +6,7 @@ export const locationData = {
 
 export const profileData = {
   name: "Clay Curry",
-  title: "Design Engineer",
+  title: "Product Engineer",
   avatar: "/clay_profile_cropped.png",
   email: "me@claycurry.com",
   phone: "+1 (405) 301-1055",
