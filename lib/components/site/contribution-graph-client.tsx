@@ -2,6 +2,7 @@
 
 import { eachDayOfInterval, formatISO, parseISO, subYears } from "date-fns";
 import { Activity as ActivityIcon } from "lucide-react";
+import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import {
   type Activity,
@@ -11,7 +12,6 @@ import {
   ContributionGraphFooter,
   ContributionGraphLegend,
 } from "@/lib/components/ui/contribution-graph";
-import { SectionHeading } from "@/lib/resume/components";
 import { cn } from "@/lib/utils";
 
 const BLOCK_SIZE = 10;
@@ -26,6 +26,21 @@ const DAY_LABELS = [
   { label: "Wed", dayIndex: 3 },
   { label: "Fri", dayIndex: 5 },
 ] as const;
+
+const SectionHeading = ({
+  children,
+  icon,
+}: {
+  children: ReactNode;
+  icon?: ReactNode;
+}) => (
+  <div className="flex items-center gap-2 md:gap-3 my-3 border-b border-primary/30 pb-2">
+    {icon}
+    <h2 className="text-xl font-semibold md:text-2xl text-foreground text-shadow-none">
+      {children}
+    </h2>
+  </div>
+);
 
 function padToFullYear(contributions: Activity[], year: number): Activity[] {
   const today = new Date();
@@ -63,6 +78,7 @@ function DayLabelsSvg() {
       width={DAY_LABEL_WIDTH}
       height={height}
       className="shrink-0 hidden sm:block"
+      aria-label="Day labels"
     >
       {DAY_LABELS.map(({ label, dayIndex }) => (
         <text

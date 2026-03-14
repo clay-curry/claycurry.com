@@ -1,7 +1,7 @@
 import { Activity as ActivityIcon, ArrowRight } from "lucide-react";
+import { ContributionSection } from "@/lib/components/site/contribution-section";
 import { Hero } from "@/lib/components/site/hero";
 import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
-import { ContributionSection } from "@/lib/resume/contribution-section";
 
 export default function AboutPage() {
   return (

@@ -301,7 +301,7 @@ export function TraceTab(_props: DebugPanelTabProps) {
   }, [discoverTraceId, fetchTrace]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-24">
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
