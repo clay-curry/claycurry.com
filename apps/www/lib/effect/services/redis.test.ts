@@ -1,14 +1,96 @@
 import { Effect, Layer } from "effect";
 import { describe, expect, test } from "vitest";
-import { InMemoryRedisLive, RedisClient, type RedisService } from "./redis";
+import { RedisClient, type RedisMulti, type RedisService } from "./redis";
+
+function createTestLayer(): Layer.Layer<RedisClient> {
+  const store = new Map<string, { value: string; expiresAt?: number }>();
+  const hashStore = new Map<string, Map<string, string>>();
+
+  function getEntry(key: string): string | null {
+    const entry = store.get(key);
+    if (!entry) return null;
+    if (entry.expiresAt && entry.expiresAt <= Date.now()) {
+      store.delete(key);
+      return null;
+    }
+    return entry.value;
+  }
+
+  return Layer.succeed(RedisClient, {
+    get: (key) => Effect.sync(() => getEntry(key)),
+    set: (key, value, options) =>
+      Effect.sync(() => {
+        store.set(key, {
+          value,
+          expiresAt: options?.EX ? Date.now() + options.EX * 1000 : undefined,
+        });
+      }),
+    del: (key) =>
+      Effect.sync(() => {
+        store.delete(key);
+      }),
+    incr: (key) =>
+      Effect.sync(() => {
+        const current = Number(getEntry(key) || "0");
+        const next = current + 1;
+        store.set(key, { value: String(next) });
+        return next;
+      }),
+    hGetAll: (key) =>
+      Effect.sync(() => {
+        const hash = hashStore.get(key);
+        if (!hash) return {};
+        return Object.fromEntries(hash);
+      }),
+    hIncrBy: (key, field, increment) =>
+      Effect.sync(() => {
+        let hash = hashStore.get(key);
+        if (!hash) {
+          hash = new Map();
+          hashStore.set(key, hash);
+        }
+        const current = Number(hash.get(field) || "0");
+        const next = current + increment;
+        hash.set(field, String(next));
+        return next;
+      }),
+    multi: () =>
+      Effect.sync(() => {
+        const ops: Array<() => unknown> = [];
+        const wrapper: RedisMulti = {
+          hIncrBy: (key, field, increment) => {
+            ops.push(() => {
+              let hash = hashStore.get(key);
+              if (!hash) {
+                hash = new Map();
+                hashStore.set(key, hash);
+              }
+              const current = Number(hash.get(field) || "0");
+              const next = current + increment;
+              hash.set(field, String(next));
+              return next;
+            });
+            return wrapper;
+          },
+          exec: () => Effect.sync(() => ops.map((op) => op())),
+        };
+        return wrapper;
+      }),
+    rPush: () => Effect.succeed(1),
+    lLen: () => Effect.succeed(0),
+    lRange: () => Effect.succeed([]),
+    expire: () => Effect.succeed(1),
+    hSet: () => Effect.succeed(1),
+  } satisfies RedisService);
+}
 
 function run<A, E>(effect: Effect.Effect<A, E, RedisClient>): Promise<A> {
   return Effect.runPromise(
-    Effect.provide(effect, InMemoryRedisLive) as Effect.Effect<A, never>,
+    Effect.provide(effect, createTestLayer()) as Effect.Effect<A, never>,
   );
 }
 
-describe("InMemoryRedisLive", () => {
+describe("RedisClient mock layer", () => {
   test("get returns null for missing keys", async () => {
     const result = await run(
       Effect.gen(function* () {
