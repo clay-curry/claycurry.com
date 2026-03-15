@@ -159,9 +159,9 @@ export function ContributionGraphClient({
       <SectionHeading
         icon={<ActivityIcon className="w-5 h-5 md:w-6 md:h-6 text-accent" />}
       >
-        <h2 className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl text-foreground text-shadow-none">
+        <span className="font-tourney uppercase tracking-wider">
           Contributions
-        </h2>
+        </span>
       </SectionHeading>
       <p className="text-muted-foreground mb-2">
         {totalCount} contributions{" "}
