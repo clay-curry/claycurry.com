@@ -1,74 +1,17 @@
 "use client";
 
 import { useAtomValue } from "jotai";
-import { AlertTriangle } from "lucide-react";
 import { useState } from "react";
-import { Alert, AlertDescription, AlertTitle } from "@/lib/components/ui/alert";
 import { useBookmarks } from "@/lib/hooks/use-bookmarks";
 import { sortedBookmarksAtom } from "@/lib/x/atoms";
 import { BookmarkCard } from "./bookmark-card";
 import { BookmarkCardSkeleton } from "./bookmark-card-skeleton";
 import { BookmarksToolbar } from "./bookmarks-toolbar";
 
-function formatSyncTimestamp(value: string | null): string {
-  if (!value) {
-    return "an unknown time";
-  }
-
-  return new Date(value).toLocaleString("en-US", {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
-}
-
 export function BookmarksGallery() {
-  const { isLoading, error, folders, isStale, lastSyncedAt, owner } =
-    useBookmarks();
+  const { isLoading, error, folders, lastSyncedAt } = useBookmarks();
   const bookmarks = useAtomValue(sortedBookmarksAtom);
   const [dimViewed, setDimViewed] = useState(false);
-  const staleTitle = lastSyncedAt
-    ? "Showing cached bookmarks"
-    : "Showing available bookmarks";
-  const staleMessage = lastSyncedAt ? (
-    <p>
-      Live sync failed, so this view is using the most recent cached snapshot
-      from {formatSyncTimestamp(lastSyncedAt)}.
-    </p>
-  ) : (
-    <p>
-      Live sync is unavailable, so this view is showing the latest available
-      bookmark set.
-    </p>
-  );
-
-  const statusNotice = isStale ? (
-    <Alert className="mb-4 border-amber-500/40 bg-amber-500/5 text-amber-200">
-      <AlertTriangle className="size-4" />
-      <AlertTitle>{staleTitle}</AlertTitle>
-      <AlertDescription>
-        {staleMessage}
-        {owner && (
-          <p>
-            Required owner:{" "}
-            <span className="font-medium">@{owner.username}</span>
-          </p>
-        )}
-      </AlertDescription>
-    </Alert>
-  ) : null;
-
-  const refreshErrorNotice =
-    error && bookmarks.length > 0 && !isStale ? (
-      <Alert className="mb-4 border-border/70 bg-secondary/60">
-        <AlertTriangle className="size-4" />
-        <AlertTitle>Showing previous results</AlertTitle>
-        <AlertDescription>
-          <p>{error}</p>
-        </AlertDescription>
-      </Alert>
-    ) : null;
 
   if (isLoading) {
     return (
@@ -77,6 +20,7 @@ export function BookmarksGallery() {
           folders={[]}
           dimViewed={false}
           onToggleDimViewed={() => {}}
+          lastSyncedAt={null}
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
           {["a", "b", "c", "d", "e", "f"].map((id) => (
@@ -87,10 +31,9 @@ export function BookmarksGallery() {
     );
   }
 
-  if (error && bookmarks.length === 0 && !isStale) {
+  if (error && bookmarks.length === 0) {
     return (
       <div>
-        {statusNotice}
         <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
           <svg
             viewBox="0 0 24 24"
@@ -111,7 +54,6 @@ export function BookmarksGallery() {
   if (bookmarks.length === 0) {
     return (
       <div>
-        {statusNotice}
         <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
           <svg
             viewBox="0 0 24 24"
@@ -130,12 +72,11 @@ export function BookmarksGallery() {
 
   return (
     <div>
-      {statusNotice}
-      {refreshErrorNotice}
       <BookmarksToolbar
         folders={folders}
         dimViewed={dimViewed}
         onToggleDimViewed={() => setDimViewed(!dimViewed)}
+        lastSyncedAt={lastSyncedAt}
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
         {bookmarks.map((bookmark) => (

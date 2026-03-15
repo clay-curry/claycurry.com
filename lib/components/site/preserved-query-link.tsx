@@ -6,7 +6,6 @@ import {
   forwardRef,
   useSyncExternalStore,
 } from "react";
-import { SITE_ORIGIN } from "@/lib/site-url";
 import {
   isTrackingHrefEligible,
   mergeTrackingQueryIntoHref,
@@ -17,6 +16,8 @@ import {
   getTrackingSearchSnapshot,
   subscribeToTrackingSearch,
 } from "@/lib/tracking-query-store";
+
+const SITE_ORIGIN = "https://www.claycurry.com";
 
 type PreservedQueryLinkProps = Omit<
   AnchorHTMLAttributes<HTMLAnchorElement>,

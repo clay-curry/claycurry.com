@@ -19,9 +19,10 @@ import { PhotoCarousel } from "@/lib/components/content/photo-carousel";
 import { PhotoRow } from "@/lib/components/content/photo-row";
 import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import Summary from "@/lib/components/ui/summary";
-import { SITE_ORIGIN } from "@/lib/site-url";
 import { isTrackingHrefEligible } from "@/lib/tracking-query";
 import { slugify } from "@/lib/utils";
+
+const SITE_ORIGIN = "https://www.claycurry.com";
 
 // TRON-themed MDX components
 const components = {

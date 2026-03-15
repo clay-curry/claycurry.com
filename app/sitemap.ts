@@ -9,7 +9,10 @@
  */
 import type { MetadataRoute } from "next";
 import { getAllPostsMetadata } from "@/app/(portfolio)/blog/loader";
-import { toSiteUrl } from "@/lib/site-url";
+
+function toSiteUrl(path: string): string {
+  return new URL(path, "https://www.claycurry.com").toString();
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPostsMetadata();

@@ -8,7 +8,10 @@
  * @see https://developers.google.com/search/docs/crawling-indexing/robots/intro
  */
 import type { MetadataRoute } from "next";
-import { toSiteUrl } from "@/lib/site-url";
+
+function toSiteUrl(path: string): string {
+  return new URL(path, "https://www.claycurry.com").toString();
+}
 
 export default function robots(): MetadataRoute.Robots {
   return {

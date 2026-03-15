@@ -3,18 +3,18 @@ import type { Metadata } from "next";
 import { Geist_Mono, Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
-
+import { DebugPanel } from "@/lib/components/site/debug-panel";
 import { TrackingQueryBootstrap } from "@/lib/components/site/tracking-query-bootstrap";
 import { ChatProvider } from "@/lib/providers/chat-provider";
 import { ClickCountProvider } from "@/lib/providers/click-count-provider";
-import { SITE_ORIGIN } from "@/lib/site-url";
 import { getTrackingQueryCaptureScript } from "@/lib/tracking-query";
 
 import "tw-animate-css";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import "./styles/code.css";
-import { DebugPanel } from "@/lib/components/site/debug-panel";
+
+const SITE_ORIGIN = "https://www.claycurry.com";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -72,9 +72,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  icons: {
-    icon: "/favicon.svg",
-  },
 };
 
 export default function RootLayout({
@@ -101,7 +98,8 @@ export default function RootLayout({
     var colors = {cyan:'%2338BDF8',orange:'%23F97316',red:'%23EF4444',green:'%234FE3C2',gray:'%2394A3B8'};
     var c = colors[t] || colors.green;
     var l = document.querySelector('link[rel="icon"]');
-    if (l) l.href = 'data:image/svg+xml,' + '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" fill="%230F172A" stroke="' + c + '" stroke-width="2"/><text x="32" y="38" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" font-weight="700" fill="%23E2E8F0" letter-spacing="0.5">CC</text></svg>';
+    if (!l) { l = document.createElement('link'); l.rel = 'icon'; document.head.appendChild(l); }
+    l.href = 'data:image/svg+xml,' + '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" fill="%230F172A" stroke="' + c + '" stroke-width="2"/><text x="32" y="38" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" font-weight="700" fill="%23E2E8F0" letter-spacing="0.5">CC</text></svg>';
   } catch(e) {}
 })()`,
           }}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { ArrowDown, ArrowUp, Search } from "lucide-react";
+import { ArrowDown, ArrowUp, RefreshCw, Search } from "lucide-react";
 import { Button } from "@/lib/components/ui/button";
 import { Input } from "@/lib/components/ui/input";
 import {
@@ -23,14 +23,28 @@ import {
 } from "@/lib/x/atoms";
 import type { XBookmarkFolder } from "@/lib/x/client";
 
+function formatRelativeTime(isoString: string): string {
+  const diffMs = Date.now() - new Date(isoString).getTime();
+  const seconds = Math.floor(diffMs / 1000);
+  if (seconds < 60) return "just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hr`;
+  const days = Math.floor(hours / 24);
+  return `${days} d`;
+}
+
 export function BookmarksToolbar({
   folders,
   dimViewed,
   onToggleDimViewed,
+  lastSyncedAt,
 }: {
   folders: XBookmarkFolder[];
   dimViewed: boolean;
   onToggleDimViewed: () => void;
+  lastSyncedAt: string | null;
 }) {
   const [sortField, setSortField] = useAtom(bookmarkSortFieldAtom);
   const [sortOrder, setSortOrder] = useAtom(bookmarkSortOrderAtom);
@@ -94,6 +108,15 @@ export function BookmarksToolbar({
 
       {/* Spacer */}
       <div className="flex-1" />
+
+      {/* Last refresh */}
+      {lastSyncedAt && (
+        <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <span>Last refresh:</span>
+          <span>{formatRelativeTime(lastSyncedAt)}</span>
+          <RefreshCw className="size-3" />
+        </span>
+      )}
 
       {/* History toggle */}
       <div className="flex items-center gap-1.5">
