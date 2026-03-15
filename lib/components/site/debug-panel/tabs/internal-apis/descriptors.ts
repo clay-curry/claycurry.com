@@ -1,4 +1,4 @@
-import { CHAT_MODELS, DEFAULT_CHAT_MODEL } from "@/lib/chat/models";
+import { CHAT_MODELS, DEFAULT_CHAT_MODEL } from "@/lib/hooks/use-chat-session";
 import { BOOKMARKS_LIVE_SOURCE } from "@/lib/x/debug";
 import { MOCK_SCENARIOS } from "@/lib/x/mock-bookmarks";
 import {

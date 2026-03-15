@@ -4,14 +4,57 @@ import type { UIMessage } from "@ai-sdk/react";
 import { useChat } from "@ai-sdk/react";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { DefaultChatTransport, type FileUIPart } from "ai";
+import Dexie, { type EntityTable } from "dexie";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { CHAT_MODELS } from "@/lib/chat/models";
-import { type ChatContext, db } from "@/lib/db";
+// --- Chat models ---
 
-export type { ChatModel } from "@/lib/chat/models";
-export { CHAT_MODELS } from "@/lib/chat/models";
+export const CHAT_MODELS = [
+  { name: "Grok 3 Mini", value: "grok/grok-3-mini" },
+  { name: "Claude Haiku", value: "anthropic/claude-3-haiku-20240307" },
+  { name: "GPT 4o", value: "openai/gpt-4o" },
+] as const;
+
+export type ChatModel = (typeof CHAT_MODELS)[number];
+
+export const DEFAULT_CHAT_MODEL = CHAT_MODELS[0].value;
+
+// --- IndexedDB (Dexie) ---
+
+export type ChatContext = "general" | "blog";
+
+export interface StoredMessage extends UIMessage {
+  timestamp: number;
+  sequence: number;
+  context: ChatContext;
+}
+
+class ChatDatabase extends Dexie {
+  messages!: EntityTable<StoredMessage, "id">;
+
+  constructor() {
+    super("portfolio-chat");
+    this.version(1).stores({
+      messages: "id, timestamp, sequence",
+    });
+    this.version(2)
+      .stores({
+        messages: "id, timestamp, sequence, context",
+      })
+      .upgrade((tx) => {
+        // Migrate existing messages to 'general' context
+        return tx
+          .table("messages")
+          .toCollection()
+          .modify((msg) => {
+            msg.context = "general";
+          });
+      });
+  }
+}
+
+const db = new ChatDatabase();
 
 export type ChatSessionConfig = {
   context?: ChatContext;

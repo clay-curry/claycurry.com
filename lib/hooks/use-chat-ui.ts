@@ -2,7 +2,7 @@
 
 import { atom, useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { DEFAULT_CHAT_MODEL } from "@/lib/chat/models";
+import { DEFAULT_CHAT_MODEL } from "@/lib/hooks/use-chat-session";
 
 // Atoms for cross-component UI coordination (open/close surfaces, external prompt, shared model)
 export const chatPromptAtom = atom<string>("");
