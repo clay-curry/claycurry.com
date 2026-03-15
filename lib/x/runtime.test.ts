@@ -1,9 +1,8 @@
 import { expect, test } from "vitest";
 import { createBookmarksSyncService } from "./runtime";
-import { BookmarksSyncService } from "./service";
 import { withEnv } from "./test-utils";
 
-test("createBookmarksSyncService can bypass the mock fallback for live debug requests", () => {
+test("createBookmarksSyncService returns a live service wrapper when preferMockFallback is false", () => {
   const service = withEnv(
     {
       VERCEL_ENV: "preview",
@@ -13,5 +12,6 @@ test("createBookmarksSyncService can bypass the mock fallback for live debug req
     () => createBookmarksSyncService(fetch, { preferMockFallback: false }),
   );
 
-  expect(service).toBeInstanceOf(BookmarksSyncService);
+  expect(service).toHaveProperty("getBookmarks");
+  expect(service).toHaveProperty("getStatus");
 });

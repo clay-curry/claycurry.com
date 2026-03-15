@@ -8,8 +8,9 @@
  *
  * @module
  */
-import { Effect } from "effect";
-import { BookmarksSnapshotRepository } from "./cache";
+import { Effect, Layer } from "effect";
+import { RedisLayer } from "@/lib/effect/services/redis";
+import { BookmarksRepoLive } from "./cache";
 import { XBookmarksClient } from "./client";
 import { getXRuntimeConfig } from "./config";
 import type {
@@ -22,6 +23,16 @@ import {
   getMockBookmarksStatusResponse,
 } from "./mock-bookmarks";
 import { BookmarksSyncService } from "./service";
+
+/**
+ * Composed layer providing `BookmarksRepo` with its `RedisClient` dependency.
+ * Redis connection errors during layer construction become defects (crashes)
+ * rather than typed errors — the right semantics for infrastructure failure.
+ */
+export const BookmarksRepoLayer = BookmarksRepoLive.pipe(
+  Layer.provide(RedisLayer),
+  Layer.orDie,
+);
 
 /**
  * Minimal interface matching the subset of BookmarksSyncService used by route handlers.
@@ -72,9 +83,8 @@ function createMockSyncService(): BookmarksSyncServiceLike {
  * - In **production** or when credentials are present: returns a real
  *   `BookmarksSyncService` backed by Redis caching and the X API.
  *
- * @param fetchImpl - Custom fetch for testing (defaults to global `fetch`).
- * @param options.preferMockFallback - When `true` (default), falls back to
- *   bundled bookmarks if live sync fails. Set to `false` to disable.
+ * The returned service's Effects require no external context — the
+ * `BookmarksRepoLayer` is provided internally.
  */
 export function createBookmarksSyncService(
   fetchImpl: typeof fetch = fetch,
@@ -91,16 +101,25 @@ export function createBookmarksSyncService(
   }
 
   const config = getXRuntimeConfig();
-  const repository = new BookmarksSnapshotRepository();
   const client = new XBookmarksClient(fetchImpl);
 
-  return new BookmarksSyncService({
+  const service = new BookmarksSyncService({
     config,
-    repository,
     client,
     fetchImpl,
     fallbackResponse: options.preferMockFallback
       ? getBundledBookmarksFallbackResponse
       : undefined,
   });
+
+  return {
+    getBookmarks(folderId, opts) {
+      return service
+        .getBookmarks(folderId, opts)
+        .pipe(Effect.provide(BookmarksRepoLayer));
+    },
+    getStatus() {
+      return service.getStatus().pipe(Effect.provide(BookmarksRepoLayer));
+    },
+  };
 }

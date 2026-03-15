@@ -1,11 +1,10 @@
-import { Effect } from "effect";
-import { BookmarksSnapshotRepository } from "./cache";
+import { Effect, Layer } from "effect";
+import { BookmarksRepo } from "./cache";
 import { XBookmarksClient } from "./client";
 import type {
   BookmarkSourceOwner,
   BookmarksSnapshotRecord,
   BookmarksSyncStatusRecord,
-  LegacyStoredTokens,
   NormalizedBookmark,
   XBookmarkFolder,
   XTokenRecord,
@@ -82,52 +81,47 @@ export function jsonResponse(body: unknown, status = 200): Response {
   });
 }
 
-export class MemoryRepository extends BookmarksSnapshotRepository {
-  tokenRecord: XTokenRecord | null = null;
-  legacyTokenRecord: LegacyStoredTokens | null = null;
-  snapshot: BookmarksSnapshotRecord | null = null;
-  statusRecord: BookmarksSyncStatusRecord | null = null;
+/** Mutable in-memory state backing the test BookmarksRepo layer. */
+export interface MemoryRepoState {
+  tokenRecord: XTokenRecord | null;
+  snapshot: BookmarksSnapshotRecord | null;
+  statusRecord: BookmarksSyncStatusRecord | null;
+}
 
-  async getTokenRecord(_ownerUsername: string): Promise<XTokenRecord | null> {
-    return this.tokenRecord;
-  }
+/** Creates a test `BookmarksRepo` layer backed by mutable in-memory state. */
+export function makeTestBookmarksRepo(): {
+  state: MemoryRepoState;
+  layer: Layer.Layer<BookmarksRepo>;
+} {
+  const state: MemoryRepoState = {
+    tokenRecord: null,
+    snapshot: null,
+    statusRecord: null,
+  };
 
-  async setTokenRecord(_ownerUsername: string, record: XTokenRecord) {
-    this.tokenRecord = record;
-  }
+  const layer = Layer.succeed(BookmarksRepo, {
+    getTokenRecord: (_ownerUsername) => Effect.succeed(state.tokenRecord),
+    setTokenRecord: (_ownerUsername, record) =>
+      Effect.sync(() => {
+        state.tokenRecord = record;
+      }),
+    deleteTokenRecord: (_ownerUsername) =>
+      Effect.sync(() => {
+        state.tokenRecord = null;
+      }),
+    getSnapshot: (_owner, _folderId) => Effect.succeed(state.snapshot),
+    setSnapshot: (_ownerUsername, snapshot) =>
+      Effect.sync(() => {
+        state.snapshot = snapshot;
+      }),
+    getStatus: (_ownerUsername) => Effect.succeed(state.statusRecord),
+    setStatus: (_ownerUsername, status) =>
+      Effect.sync(() => {
+        state.statusRecord = status;
+      }),
+  });
 
-  async deleteTokenRecord(_ownerUsername: string): Promise<void> {
-    this.tokenRecord = null;
-  }
-
-  async getLegacyTokenRecord(): Promise<LegacyStoredTokens | null> {
-    return this.legacyTokenRecord;
-  }
-
-  async deleteLegacyTokenRecord(): Promise<void> {
-    this.legacyTokenRecord = null;
-  }
-
-  async getSnapshot(
-    _owner: BookmarkSourceOwner,
-    _folderId?: string,
-  ): Promise<BookmarksSnapshotRecord | null> {
-    return this.snapshot;
-  }
-
-  async setSnapshot(_ownerUsername: string, snapshot: BookmarksSnapshotRecord) {
-    this.snapshot = snapshot;
-  }
-
-  async getStatus(
-    _ownerUsername: string,
-  ): Promise<BookmarksSyncStatusRecord | null> {
-    return this.statusRecord;
-  }
-
-  async setStatus(_ownerUsername: string, status: BookmarksSyncStatusRecord) {
-    this.statusRecord = status;
-  }
+  return { state, layer };
 }
 
 export class StubBookmarksClient extends XBookmarksClient {

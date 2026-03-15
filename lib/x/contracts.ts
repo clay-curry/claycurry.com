@@ -199,19 +199,6 @@ export const XOAuthTokenResponseSchema = Schema.Struct({
 export type XOAuthTokenResponse = typeof XOAuthTokenResponseSchema.Type;
 
 /**
- * Schema for tokens stored under the legacy `x:tokens` Redis key
- * (pre-v2 keyspace). Used only during one-time migration to the new
- * `XTokenRecordSchema` format.
- */
-export const LegacyStoredTokensSchema = Schema.Struct({
-  access_token: Schema.String.pipe(Schema.minLength(1)),
-  refresh_token: Schema.String.pipe(Schema.minLength(1)),
-  expires_at: Schema.Number.pipe(Schema.int(), Schema.positive()),
-});
-
-export type LegacyStoredTokens = typeof LegacyStoredTokensSchema.Type;
-
-/**
  * The canonical token record persisted in Redis under the v2 keyspace.
  * Includes the access/refresh token pair, expiry, verified owner identity,
  * and audit timestamps.
@@ -294,14 +281,6 @@ export const BookmarksSnapshotRecordSchema = Schema.Struct({
 });
 
 export type BookmarksSnapshotRecord = typeof BookmarksSnapshotRecordSchema.Type;
-
-/** Standalone sub-schemas for legacy migration in cache.ts */
-export const NormalizedBookmarksArraySchema = Schema.mutable(
-  Schema.Array(NormalizedBookmarkSchema),
-);
-export const XBookmarkFoldersArraySchema = Schema.mutable(
-  Schema.Array(XBookmarkFolderSchema),
-);
 
 /**
  * Persistent sync status record stored alongside the snapshot. Tracks the

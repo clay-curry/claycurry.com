@@ -3,9 +3,14 @@ import {
   readXCredentialDiagnostics,
   validateXCredentials,
 } from "./diagnostics";
-import { createTokenRecord, MemoryRepository, withEnv } from "./test-utils";
+import {
+  createTokenRecord,
+  makeTestBookmarksRepo,
+  withEnv,
+} from "./test-utils";
 
 test("readXCredentialDiagnostics passes the canonical OAuth env check when X_OAUTH2_* vars are present", async () => {
+  const { layer } = makeTestBookmarksRepo();
   const diagnostics = await withEnv(
     {
       X_CLIENT_ID: undefined,
@@ -16,48 +21,17 @@ test("readXCredentialDiagnostics passes the canonical OAuth env check when X_OAU
       X_OWNER_USER_ID: undefined,
       X_OWNER_USERNAME: "claycurry__",
     },
-    () => readXCredentialDiagnostics({ repository: new MemoryRepository() }),
+    () => readXCredentialDiagnostics({ repoLayer: layer }),
   );
 
   expect(diagnostics.env.missingCanonicalOauthKeys).toEqual([]);
-  expect(diagnostics.env.ignoredLegacyOauthKeys).toEqual([]);
   expect(
     diagnostics.checks.find((check) => check.id === "oauth-env")?.status,
   ).toBe("pass");
 });
 
-test("readXCredentialDiagnostics flags legacy X_CLIENT_* vars as ignored and still fails strict canonical validation", async () => {
-  const diagnostics = await withEnv(
-    {
-      X_CLIENT_ID: "legacy-client-id",
-      X_CLIENT_SECRET: "legacy-client-secret",
-      X_OAUTH2_CLIENT_ID: undefined,
-      X_OAUTH2_CLIENT_SECRET: undefined,
-      X_OWNER_SECRET: "owner-secret",
-      X_OWNER_USER_ID: undefined,
-      X_OWNER_USERNAME: "claycurry__",
-    },
-    () => readXCredentialDiagnostics({ repository: new MemoryRepository() }),
-  );
-
-  expect(diagnostics.env.ignoredLegacyOauthKeys).toEqual([
-    "X_CLIENT_ID",
-    "X_CLIENT_SECRET",
-  ]);
-  expect(diagnostics.env.missingCanonicalOauthKeys).toEqual([
-    "X_OAUTH2_CLIENT_ID",
-    "X_OAUTH2_CLIENT_SECRET",
-  ]);
-  expect(diagnostics.env.liveSyncMessage).toContain(
-    "Rename them to X_OAUTH2_CLIENT_ID/X_OAUTH2_CLIENT_SECRET",
-  );
-  expect(
-    diagnostics.env.variables.find((variable) => variable.key === "X_CLIENT_ID")
-      ?.source,
-  ).toBe("ignored_legacy");
-});
-
 test("readXCredentialDiagnostics enumerates the exact missing canonical OAuth key", async () => {
+  const { layer } = makeTestBookmarksRepo();
   const diagnostics = await withEnv(
     {
       X_CLIENT_ID: undefined,
@@ -68,7 +42,7 @@ test("readXCredentialDiagnostics enumerates the exact missing canonical OAuth ke
       X_OWNER_USER_ID: undefined,
       X_OWNER_USERNAME: "claycurry__",
     },
-    () => readXCredentialDiagnostics({ repository: new MemoryRepository() }),
+    () => readXCredentialDiagnostics({ repoLayer: layer }),
   );
 
   expect(diagnostics.env.missingCanonicalOauthKeys).toEqual([
@@ -81,6 +55,7 @@ test("readXCredentialDiagnostics enumerates the exact missing canonical OAuth ke
 });
 
 test("readXCredentialDiagnostics flags a missing owner secret separately from OAuth credentials", async () => {
+  const { layer } = makeTestBookmarksRepo();
   const diagnostics = await withEnv(
     {
       X_CLIENT_ID: undefined,
@@ -91,7 +66,7 @@ test("readXCredentialDiagnostics flags a missing owner secret separately from OA
       X_OWNER_USER_ID: undefined,
       X_OWNER_USERNAME: "claycurry__",
     },
-    () => readXCredentialDiagnostics({ repository: new MemoryRepository() }),
+    () => readXCredentialDiagnostics({ repoLayer: layer }),
   );
 
   expect(
@@ -103,6 +78,7 @@ test("readXCredentialDiagnostics flags a missing owner secret separately from OA
 });
 
 test("validateXCredentials returns reauth_required when no stored token exists", async () => {
+  const { layer } = makeTestBookmarksRepo();
   const result = await withEnv(
     {
       X_CLIENT_ID: undefined,
@@ -113,7 +89,7 @@ test("validateXCredentials returns reauth_required when no stored token exists",
       X_OWNER_USER_ID: undefined,
       X_OWNER_USERNAME: "claycurry__",
     },
-    () => validateXCredentials({ repository: new MemoryRepository() }),
+    () => validateXCredentials({ repoLayer: layer }),
   );
 
   expect(result.ok).toBe(false);
@@ -122,8 +98,8 @@ test("validateXCredentials returns reauth_required when no stored token exists",
 });
 
 test("validateXCredentials returns owner_mismatch when the stored token resolves to another account", async () => {
-  const repository = new MemoryRepository();
-  repository.tokenRecord = createTokenRecord(Date.now() + 60 * 60 * 1000);
+  const { state, layer } = makeTestBookmarksRepo();
+  state.tokenRecord = createTokenRecord(Date.now() + 60 * 60 * 1000);
 
   const fetchImpl: typeof fetch = async (input) => {
     const url = String(input);
@@ -173,7 +149,7 @@ test("validateXCredentials returns owner_mismatch when the stored token resolves
       X_OWNER_USER_ID: undefined,
       X_OWNER_USERNAME: "claycurry__",
     },
-    () => validateXCredentials({ fetchImpl, repository }),
+    () => validateXCredentials({ fetchImpl, repoLayer: layer }),
   );
 
   expect(result.ok).toBe(false);

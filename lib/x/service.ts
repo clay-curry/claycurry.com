@@ -9,14 +9,13 @@
  * 3. On live sync failure, fall back to a stale snapshot (if available) or
  *    a bundled mock response, recording the error in the status record.
  *
- * All methods return `Effect` programs for composable error handling and
- * tracing integration.
+ * All methods return `Effect` programs that require `BookmarksRepo` in context.
  *
  * @see https://effect.website/docs/getting-started/using-generators
  * @module
  */
 import { Effect, Schema } from "effect";
-import type { BookmarksRepository } from "./cache";
+import { BookmarksRepo } from "./cache";
 import {
   type XBookmarksClient,
   XBookmarksOwnerResolver,
@@ -25,7 +24,6 @@ import {
 import {
   buildXLiveCredentialsErrorMessage,
   getMissingCanonicalXOAuthConfigKeys,
-  getPresentLegacyXOAuthEnvKeys,
   type XLiveRuntimeConfig,
   type XRuntimeConfig,
 } from "./config";
@@ -131,7 +129,6 @@ interface SyncContext {
 /** Configuration bag for constructing a `BookmarksSyncService`. */
 interface BookmarksSyncServiceOptions {
   config: XRuntimeConfig;
-  repository: BookmarksRepository;
   client: XBookmarksClient;
   fetchImpl?: typeof fetch;
   fallbackResponse?: (folderId?: string) => BookmarksApiResponse;
@@ -154,6 +151,8 @@ interface GetBookmarksOptions {
  *
  * On failure, it degrades gracefully: serving stale data when available,
  * or falling back to bundled mock data in preproduction.
+ *
+ * All returned Effects require `BookmarksRepo` in their context.
  */
 export class BookmarksSyncService {
   private readonly ownerHint: BookmarkSourceOwner;
@@ -162,22 +161,13 @@ export class BookmarksSyncService {
     this.ownerHint = buildOwnerHint(options.config);
   }
 
-  /**
-   * Main entry point: returns bookmarks for the configured owner.
-   *
-   * @param folderId - Optional folder ID to filter by. Omit for all bookmarks.
-   * @param options.forceLive - Skip the cache freshness check and always
-   *   attempt a live sync (used by the `?source=live` debug override).
-   * @returns Effect yielding `{ response, httpStatus }`.
-   */
   getBookmarks(folderId?: string, options: GetBookmarksOptions = {}) {
     const opts = this.options;
     const self = this;
 
     return Effect.gen(function* () {
-      const snapshot = yield* Effect.promise(() =>
-        opts.repository.getSnapshot(self.ownerHint, folderId),
-      );
+      const repo = yield* BookmarksRepo;
+      const snapshot = yield* repo.getSnapshot(self.ownerHint, folderId);
       if (snapshot && self.isSnapshotFresh(snapshot) && !options.forceLive) {
         return {
           response: self.snapshotToApiResponse(snapshot, "fresh"),
@@ -186,9 +176,7 @@ export class BookmarksSyncService {
       }
 
       const previousStatus =
-        (yield* Effect.promise(() =>
-          opts.repository.getStatus(opts.config.ownerUsername),
-        )) ?? null;
+        (yield* repo.getStatus(opts.config.ownerUsername)) ?? null;
 
       const ctx: SyncContext = {
         authenticatedOwner: previousStatus?.authenticatedOwner ?? null,
@@ -214,25 +202,17 @@ export class BookmarksSyncService {
     });
   }
 
-  /**
-   * Returns the current sync status by reading the snapshot, status record,
-   * and token record concurrently from Redis. Used by the
-   * `/api/x/bookmarks/status` endpoint.
-   */
   getStatus() {
     const opts = this.options;
     const self = this;
 
     return Effect.gen(function* () {
+      const repo = yield* BookmarksRepo;
       const [snapshot, statusRecord, tokenRecord] = yield* Effect.all(
         [
-          Effect.promise(() => opts.repository.getSnapshot(self.ownerHint)),
-          Effect.promise(() =>
-            opts.repository.getStatus(opts.config.ownerUsername),
-          ),
-          Effect.promise(() =>
-            opts.repository.getTokenRecord(opts.config.ownerUsername),
-          ),
+          repo.getSnapshot(self.ownerHint),
+          repo.getStatus(opts.config.ownerUsername),
+          repo.getTokenRecord(opts.config.ownerUsername),
         ],
         { concurrency: 3 },
       );
@@ -276,11 +256,6 @@ export class BookmarksSyncService {
     });
   }
 
-  /**
-   * Performs a full live sync against the X API: validates config, retrieves
-   * tokens, verifies identity, fetches bookmarks + folders concurrently,
-   * and persists the fresh snapshot and status record.
-   */
   private liveSync(
     folderId: string | undefined,
     previousStatus: BookmarksSyncStatusRecord | null,
@@ -290,9 +265,9 @@ export class BookmarksSyncService {
     const self = this;
 
     return Effect.gen(function* () {
+      const repo = yield* BookmarksRepo;
       const liveConfig = yield* self.assertLiveConfig();
       const tokenStore = XTokenStore.fromRuntimeConfig(
-        opts.repository,
         liveConfig,
         opts.fetchImpl ?? fetch,
       );
@@ -380,9 +355,7 @@ export class BookmarksSyncService {
         folders,
         folderId,
       );
-      yield* Effect.promise(() =>
-        opts.repository.setSnapshot(opts.config.ownerUsername, freshSnapshot),
-      );
+      yield* repo.setSnapshot(opts.config.ownerUsername, freshSnapshot);
 
       const statusRecord = self.buildStatusRecord({
         previousStatus,
@@ -394,9 +367,7 @@ export class BookmarksSyncService {
         lastError: null,
         lastSuccessfulSyncAt: freshSnapshot.lastSyncedAt,
       });
-      yield* Effect.promise(() =>
-        opts.repository.setStatus(opts.config.ownerUsername, statusRecord),
-      );
+      yield* repo.setStatus(opts.config.ownerUsername, statusRecord);
 
       return {
         response: self.snapshotToApiResponse(freshSnapshot, "fresh"),
@@ -405,11 +376,6 @@ export class BookmarksSyncService {
     });
   }
 
-  /**
-   * Graceful degradation handler for live sync failures. If a stale snapshot
-   * exists, serves it with a `"stale"` status. Otherwise falls back to
-   * the bundled mock response (if configured) or returns an error response.
-   */
   private recoverFromSyncFailure(
     error: XError,
     folderId: string | undefined,
@@ -421,6 +387,7 @@ export class BookmarksSyncService {
     const self = this;
 
     return Effect.gen(function* () {
+      const repo = yield* BookmarksRepo;
       const issue = toIntegrationIssue(error);
 
       if (snapshot) {
@@ -437,9 +404,7 @@ export class BookmarksSyncService {
             previousStatus?.lastSuccessfulSyncAt ??
             null,
         });
-        yield* Effect.promise(() =>
-          opts.repository.setStatus(opts.config.ownerUsername, staleStatus),
-        );
+        yield* repo.setStatus(opts.config.ownerUsername, staleStatus);
 
         return {
           response: self.snapshotToApiResponse(
@@ -462,9 +427,7 @@ export class BookmarksSyncService {
         lastError: issue,
         lastSuccessfulSyncAt: previousStatus?.lastSuccessfulSyncAt ?? null,
       });
-      yield* Effect.promise(() =>
-        opts.repository.setStatus(opts.config.ownerUsername, statusRecord),
-      );
+      yield* repo.setStatus(opts.config.ownerUsername, statusRecord);
 
       if (opts.fallbackResponse) {
         return {
@@ -574,13 +537,7 @@ export class BookmarksSyncService {
 
     if (missingKeys.length > 0) {
       return Effect.fail(
-        xError(
-          "misconfigured",
-          buildXLiveCredentialsErrorMessage(missingKeys, {
-            hasLegacyOauthVars:
-              getPresentLegacyXOAuthEnvKeys(process.env).length > 0,
-          }),
-        ),
+        xError("misconfigured", buildXLiveCredentialsErrorMessage(missingKeys)),
       );
     }
     return Effect.succeed(config as XLiveRuntimeConfig);

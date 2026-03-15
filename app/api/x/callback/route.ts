@@ -14,7 +14,7 @@ import { Effect, Schema } from "effect";
 import { type NextRequest, NextResponse } from "next/server";
 import { appRuntime } from "@/lib/effect/runtime";
 import { keyPrefix, RedisClient } from "@/lib/effect/services/redis";
-import { BookmarksSnapshotRepository } from "@/lib/x/cache";
+import { BookmarksRepo } from "@/lib/x/cache";
 import {
   XBookmarksClient,
   XBookmarksOwnerResolver,
@@ -24,11 +24,11 @@ import {
   assertLiveRuntimeConfig,
   buildXLiveCredentialsErrorMessage,
   getMissingCanonicalXOAuthConfigKeys,
-  getPresentLegacyXOAuthEnvKeys,
   getXRuntimeConfig,
 } from "@/lib/x/config";
 import { BookmarksSyncStatusRecordSchema } from "@/lib/x/contracts";
 import { errorCode, toXError } from "@/lib/x/errors";
+import { BookmarksRepoLayer } from "@/lib/x/runtime";
 import { XTokenStore } from "@/lib/x/tokens";
 
 export async function GET(request: NextRequest) {
@@ -88,10 +88,7 @@ export async function GET(request: NextRequest) {
   if (missingKeys.length > 0) {
     return NextResponse.json(
       {
-        error: buildXLiveCredentialsErrorMessage(missingKeys, {
-          hasLegacyOauthVars:
-            getPresentLegacyXOAuthEnvKeys(process.env).length > 0,
-        }),
+        error: buildXLiveCredentialsErrorMessage(missingKeys),
       },
       { status: 500 },
     );
@@ -103,9 +100,9 @@ export async function GET(request: NextRequest) {
 
   return Effect.runPromise(
     Effect.gen(function* () {
-      const repository = new BookmarksSnapshotRepository();
+      const repo = yield* BookmarksRepo;
       const xClient = new XBookmarksClient();
-      const tokenStore = XTokenStore.fromRuntimeConfig(repository, config);
+      const tokenStore = XTokenStore.fromRuntimeConfig(config);
       const identityVerifier = new XIdentityVerifier(
         xClient,
         config.ownerUsername,
@@ -145,26 +142,25 @@ export async function GET(request: NextRequest) {
         tokenData,
         authenticatedOwner,
       );
-      yield* Effect.promise(() =>
-        repository.setStatus(
-          config.ownerUsername,
-          Schema.decodeUnknownSync(BookmarksSyncStatusRecordSchema)({
-            configuredOwnerUsername: config.ownerUsername,
-            configuredOwnerUserId: config.ownerUserId,
-            resolvedOwner,
-            authenticatedOwner,
-            tokenStatus: "valid",
-            tokenExpiresAt: new Date(tokenRecord.expiresAt).toISOString(),
-            lastRefreshedAt: tokenRecord.lastRefreshedAt,
-            lastSuccessfulSyncAt: null,
-            lastAttemptedSyncAt: new Date().toISOString(),
-            lastError: null,
-          }),
-        ),
+      yield* repo.setStatus(
+        config.ownerUsername,
+        Schema.decodeUnknownSync(BookmarksSyncStatusRecordSchema)({
+          configuredOwnerUsername: config.ownerUsername,
+          configuredOwnerUserId: config.ownerUserId,
+          resolvedOwner,
+          authenticatedOwner,
+          tokenStatus: "valid",
+          tokenExpiresAt: new Date(tokenRecord.expiresAt).toISOString(),
+          lastRefreshedAt: tokenRecord.lastRefreshedAt,
+          lastSuccessfulSyncAt: null,
+          lastAttemptedSyncAt: new Date().toISOString(),
+          lastError: null,
+        }),
       );
 
       return NextResponse.redirect(homeUrl);
     }).pipe(
+      Effect.provide(BookmarksRepoLayer),
       Effect.catchAll((error) => {
         const normalized = toXError(error);
         const errCode = errorCode(normalized);

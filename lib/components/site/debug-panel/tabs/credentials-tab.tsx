@@ -89,8 +89,6 @@ function formatVariableSource(variable: XCredentialVariable): string {
       return "missing";
     case "unset":
       return "unset";
-    case "ignored_legacy":
-      return "ignored";
   }
 }
 
@@ -116,9 +114,7 @@ function VariableRow({ variable }: { variable: XCredentialVariable }) {
             "capitalize",
             variable.source === "missing"
               ? "border-red-500/30 text-red-700 dark:text-red-200"
-              : variable.source === "ignored_legacy"
-                ? "border-amber-500/30 text-amber-700 dark:text-amber-200"
-                : "border-border/80",
+              : "border-border/80",
           )}
         >
           {sourceLabel}
@@ -458,27 +454,10 @@ export function CredentialsTab(_props: DebugPanelTabProps) {
         </p>
 
         <div className="grid gap-2">
-          {diagnostics.env.variables
-            .filter((v) => v.source !== "ignored_legacy")
-            .map((variable) => (
-              <VariableRow key={variable.key} variable={variable} />
-            ))}
+          {diagnostics.env.variables.map((variable) => (
+            <VariableRow key={variable.key} variable={variable} />
+          ))}
         </div>
-
-        {diagnostics.env.ignoredLegacyOauthKeys.length > 0 && (
-          <div className="space-y-2 border-t border-border/50 pt-3">
-            <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-              Ignored legacy keys
-            </p>
-            <div className="grid gap-2">
-              {diagnostics.env.variables
-                .filter((v) => v.source === "ignored_legacy")
-                .map((variable) => (
-                  <VariableRow key={variable.key} variable={variable} />
-                ))}
-            </div>
-          </div>
-        )}
       </section>
 
       <section className="space-y-3 rounded-2xl border border-border/80 bg-background/70 p-4 shadow-sm">

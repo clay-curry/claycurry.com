@@ -3,10 +3,6 @@
  *
  * Manages the mapping between environment variable names and the typed
  * `XRuntimeConfig` structure consumed by the rest of the X integration.
- * Supports canonical (`X_OAUTH2_CLIENT_ID` / `X_OAUTH2_CLIENT_SECRET`) and
- * legacy (`X_CLIENT_ID` / `X_CLIENT_SECRET`) env names, with helpers that
- * detect legacy keys and produce actionable error messages guiding the
- * developer to rename them.
  *
  * The two freshness constants control how aggressively the system re-syncs:
  * - `BOOKMARKS_SNAPSHOT_FRESHNESS_MS` (30 min) — how long a cached snapshot is
@@ -24,7 +20,6 @@ const CANONICAL_X_OAUTH_ENV_KEYS = [
   "X_OAUTH2_CLIENT_ID",
   "X_OAUTH2_CLIENT_SECRET",
 ] as const;
-const LEGACY_X_OAUTH_ENV_KEYS = ["X_CLIENT_ID", "X_CLIENT_SECRET"] as const;
 
 const XEnvironmentSchema = Schema.Struct({
   X_OWNER_USERNAME: Schema.optionalWith(TrimmedNonEmpty, {
@@ -100,17 +95,6 @@ export function getMissingCanonicalXOAuthEnvKeys(
 }
 
 /**
- * Returns legacy env var names (`X_CLIENT_ID`, `X_CLIENT_SECRET`) that are
- * present in the environment. Used to generate migration guidance messages.
- * @param env - Environment record to check (defaults to `process.env`).
- */
-export function getPresentLegacyXOAuthEnvKeys(
-  env: Record<string, string | undefined> = process.env,
-): string[] {
-  return LEGACY_X_OAUTH_ENV_KEYS.filter((key) => hasConfiguredValue(env[key]));
-}
-
-/**
  * Like `getMissingCanonicalXOAuthEnvKeys` but checks the already-parsed
  * `XRuntimeConfig` object rather than raw env vars.
  */
@@ -132,22 +116,14 @@ export function getMissingCanonicalXOAuthConfigKeys(
 
 /**
  * Builds a human-readable error message listing which OAuth env vars are
- * missing, with guidance on legacy key renaming if applicable.
+ * missing.
  * @param missingKeys - Canonical env var names that are not set.
- * @param options.hasLegacyOauthVars - Whether deprecated `X_CLIENT_*` vars were detected.
  */
 export function buildXLiveCredentialsErrorMessage(
   missingKeys: string[],
-  options: {
-    hasLegacyOauthVars?: boolean;
-  } = {},
 ): string {
   const missingDescription = formatEnvKeyList(missingKeys);
-  const legacySuffix = options.hasLegacyOauthVars
-    ? " Legacy X_CLIENT_ID/X_CLIENT_SECRET variables are ignored. Rename them to X_OAUTH2_CLIENT_ID/X_OAUTH2_CLIENT_SECRET and restart the dev server."
-    : " Add the missing variable values and restart the dev server.";
-
-  return `Live X sync could not start. source=live disables mock fallback, but the server is missing ${missingDescription}.${legacySuffix}`;
+  return `Live X sync could not start. source=live disables mock fallback, but the server is missing ${missingDescription}. Add the missing variable values and restart the dev server.`;
 }
 
 /**
@@ -163,9 +139,7 @@ export function getXLiveCredentialsErrorMessageForEnv(
     return null;
   }
 
-  return buildXLiveCredentialsErrorMessage(missingKeys, {
-    hasLegacyOauthVars: getPresentLegacyXOAuthEnvKeys(env).length > 0,
-  });
+  return buildXLiveCredentialsErrorMessage(missingKeys);
 }
 
 /**
@@ -200,12 +174,7 @@ export function assertLiveRuntimeConfig(
   const missingKeys = getMissingCanonicalXOAuthConfigKeys(config);
 
   if (config.mode !== "live" || missingKeys.length > 0) {
-    throw new Error(
-      buildXLiveCredentialsErrorMessage(missingKeys, {
-        hasLegacyOauthVars:
-          getPresentLegacyXOAuthEnvKeys(process.env).length > 0,
-      }),
-    );
+    throw new Error(buildXLiveCredentialsErrorMessage(missingKeys));
   }
 }
 
