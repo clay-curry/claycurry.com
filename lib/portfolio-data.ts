@@ -9,7 +9,6 @@ export const profileData = {
   title: "Product Engineer",
   avatar: "/clay_profile_cropped.png",
   email: "me@claycurry.com",
-  phone: "+1 (405) 301-1055",
   location: locationData.label,
   locationHref: locationData.mapHref,
   githubUsername: "clay-curry",
@@ -26,7 +25,6 @@ export const siteConfig = {
 
 export const contactData = {
   email: "me@claycurry.com",
-  phone: "+1 (405) 301-1055",
   location: locationData.label,
   mapEmbedUrl: locationData.mapEmbedUrl,
 } as const;

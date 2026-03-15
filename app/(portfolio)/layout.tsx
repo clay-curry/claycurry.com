@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 import type React from "react";
 import { GitHubIcon, LinkedInIcon, XIcon } from "@/lib/components/icons";
@@ -89,13 +89,6 @@ function AsideProfile({ data = profileData }: AsideProfileProps) {
             href: `mailto:${data.email}`,
             breakAll: true,
             clickId: "sidebar:email",
-          },
-          {
-            icon: Phone,
-            label: "Phone",
-            value: data.phone,
-            href: `tel:${data.phone.replace(/\s/g, "")}`,
-            clickId: "sidebar:phone",
           },
         ].map(({ icon: Icon, label, value, href, breakAll, clickId }) => (
           <div key={label} className="flex items-start gap-3 pl-2">
