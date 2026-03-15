@@ -4,7 +4,7 @@ const workItems = [
   {
     href: "/work/x-bookmarks",
     title: "X Bookmarks",
-    description: "a better way to browse, search, and sort my X bookmarks.",
+    description: "a tinker with functional requirements for X bookmarks",
     year: 2025,
     icon: (
       <svg
@@ -22,7 +22,7 @@ const workItems = [
 
 export default function WorkPage() {
   return (
-    <div className="py-8 md:py-12 px-2 md:px-4">
+    <div className="py-8 md:py-12 px-2 md:px-4 min-h-24">
       <ul className="space-y-10">
         {workItems.map((item) => (
           <li key={item.href}>
