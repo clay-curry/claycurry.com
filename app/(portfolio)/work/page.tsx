@@ -2,8 +2,8 @@ import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 
 const workItems = [
   {
-    href: "/work/x-bookmarks",
-    title: "X Bookmarks",
+    href: "/work/y-bookmarks",
+    title: "Y Bookmarks",
     description: "a tinker with functional requirements for X bookmarks",
     year: 2025,
     icon: (

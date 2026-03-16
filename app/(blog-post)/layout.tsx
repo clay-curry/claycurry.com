@@ -2,7 +2,7 @@ import { AskAI } from "@/lib/components/chat/ask-ai";
 import { BlogSidebar } from "@/lib/components/site/blog-sidebar";
 import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import { SidebarInset, SidebarProvider } from "@/lib/components/ui/sidebar";
-import { getSiteNavLinks } from "@/lib/navigation";
+import { getSiteNavLinks } from "@/lib/portfolio-data";
 import { getAllPostsMetadata } from "../(portfolio)/blog/loader";
 
 export default function BlogPostLayout({

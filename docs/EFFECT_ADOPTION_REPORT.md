@@ -1,7 +1,7 @@
 # Effect.ts Adoption Report
 
 **Date**: 2026-03-12
-**Repository**: claycurry.com (Turborepo monorepo, Next.js 16, React 19)
+**Repository**: claycurry.studio (Turborepo monorepo, Next.js 16, React 19)
 **Research**: 16 documents across 3 phases, 5 feasibility spikes (all GO)
 
 ---

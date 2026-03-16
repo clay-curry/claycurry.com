@@ -22,7 +22,7 @@ import Summary from "@/lib/components/ui/summary";
 import { isTrackingHrefEligible } from "@/lib/tracking-query";
 import { slugify } from "@/lib/utils";
 
-const SITE_ORIGIN = "https://www.claycurry.com";
+const SITE_ORIGIN = "https://www.claycurry.studio";
 
 // TRON-themed MDX components
 const components = {

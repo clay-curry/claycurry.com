@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       const { error } = yield* Effect.tryPromise({
         try: () =>
           resend.emails.send({
-            from: "Feedback <feedback@claycurry.com>",
+            from: "Feedback <feedback@claycurry.studio>",
             to: contactData.email,
             subject: `${sentimentEmoji} Page Feedback: ${page}`,
             text: `Page: ${page}\nSentiment: ${sentimentText}\n${message ? `\nMessage:\n${message}` : ""}`,

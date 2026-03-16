@@ -19,7 +19,7 @@ test("readXCredentialDiagnostics passes the canonical OAuth env check when X_OAU
       X_OAUTH2_CLIENT_SECRET: "client-secret",
       X_OWNER_SECRET: "owner-secret",
       X_OWNER_USER_ID: undefined,
-      X_OWNER_USERNAME: "claycurry__",
+      X_OWNER_USERNAME: "test_user",
     },
     () => readXCredentialDiagnostics({ repoLayer: layer }),
   );
@@ -40,7 +40,7 @@ test("readXCredentialDiagnostics enumerates the exact missing canonical OAuth ke
       X_OAUTH2_CLIENT_SECRET: undefined,
       X_OWNER_SECRET: "owner-secret",
       X_OWNER_USER_ID: undefined,
-      X_OWNER_USERNAME: "claycurry__",
+      X_OWNER_USERNAME: "test_user",
     },
     () => readXCredentialDiagnostics({ repoLayer: layer }),
   );
@@ -64,7 +64,7 @@ test("readXCredentialDiagnostics flags a missing owner secret separately from OA
       X_OAUTH2_CLIENT_SECRET: "client-secret",
       X_OWNER_SECRET: undefined,
       X_OWNER_USER_ID: undefined,
-      X_OWNER_USERNAME: "claycurry__",
+      X_OWNER_USERNAME: "test_user",
     },
     () => readXCredentialDiagnostics({ repoLayer: layer }),
   );
@@ -87,7 +87,7 @@ test("validateXCredentials returns reauth_required when no stored token exists",
       X_OAUTH2_CLIENT_SECRET: "client-secret",
       X_OWNER_SECRET: "owner-secret",
       X_OWNER_USER_ID: undefined,
-      X_OWNER_USERNAME: "claycurry__",
+      X_OWNER_USERNAME: "test_user",
     },
     () => validateXCredentials({ repoLayer: layer }),
   );
@@ -125,8 +125,8 @@ test("validateXCredentials returns owner_mismatch when the stored token resolves
         JSON.stringify({
           data: {
             id: "owner-1",
-            name: "Clay Curry",
-            username: "claycurry__",
+            name: "Test User",
+            username: "test_user",
           },
         }),
         {
@@ -147,7 +147,7 @@ test("validateXCredentials returns owner_mismatch when the stored token resolves
       X_OAUTH2_CLIENT_SECRET: "client-secret",
       X_OWNER_SECRET: "owner-secret",
       X_OWNER_USER_ID: undefined,
-      X_OWNER_USERNAME: "claycurry__",
+      X_OWNER_USERNAME: "test_user",
     },
     () => validateXCredentials({ fetchImpl, repoLayer: layer }),
   );

@@ -5,8 +5,7 @@ import { GitHubIcon, LinkedInIcon, XIcon } from "@/lib/components/icons";
 import { FloatingToolbar } from "@/lib/components/site/floating-toolbar";
 import { PageViews } from "@/lib/components/site/page-views";
 import { PortfolioNav } from "@/lib/components/site/portfolio-nav";
-import { getSiteNavLinks } from "@/lib/navigation";
-import { profileData } from "@/lib/portfolio-data";
+import { getSiteNavLinks, profileData } from "@/lib/portfolio-data";
 
 export default function PortfolioLayout({
   children,

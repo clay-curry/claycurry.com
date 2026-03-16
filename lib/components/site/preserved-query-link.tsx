@@ -7,17 +7,15 @@ import {
   useSyncExternalStore,
 } from "react";
 import {
+  getTrackingSearchServerSnapshot,
+  getTrackingSearchSnapshot,
   isTrackingHrefEligible,
   mergeTrackingQueryIntoHref,
   PRESERVE_TRACKING_ATTRIBUTE,
-} from "@/lib/tracking-query";
-import {
-  getTrackingSearchServerSnapshot,
-  getTrackingSearchSnapshot,
   subscribeToTrackingSearch,
-} from "@/lib/tracking-query-store";
+} from "@/lib/tracking-query";
 
-const SITE_ORIGIN = "https://www.claycurry.com";
+const SITE_ORIGIN = "https://www.claycurry.studio";
 
 type PreservedQueryLinkProps = Omit<
   AnchorHTMLAttributes<HTMLAnchorElement>,

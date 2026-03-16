@@ -83,8 +83,6 @@ function formatVariableSource(variable: XCredentialVariable): string {
   switch (variable.source) {
     case "env":
       return "loaded";
-    case "default":
-      return "default";
     case "missing":
       return "missing";
     case "unset":

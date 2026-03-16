@@ -1,8 +1,9 @@
 import { expect, test } from "vitest";
+import { profileData } from "@/lib/portfolio-data";
 import { getXRuntimeConfig } from "./config";
 import { withEnv } from "./test-utils";
 
-test("getXRuntimeConfig defaults the canonical owner username to claycurry__", () => {
+test("getXRuntimeConfig defaults to the site data username when X_OWNER_USERNAME is unset", () => {
   const config = withEnv(
     {
       X_OWNER_USERNAME: undefined,
@@ -14,14 +15,14 @@ test("getXRuntimeConfig defaults the canonical owner username to claycurry__", (
     () => getXRuntimeConfig(),
   );
 
-  expect(config.ownerUsername).toBe("claycurry__");
+  expect(config.ownerUsername).toBe(profileData.xUsername);
   expect(config.mode).toBe("live");
 });
 
 test("getXRuntimeConfig enters live mode only when both OAuth credentials are set", () => {
   const config = withEnv(
     {
-      X_OWNER_USERNAME: "claycurry__",
+      X_OWNER_USERNAME: "test_user",
       X_OAUTH2_CLIENT_ID: "client-id",
       X_OAUTH2_CLIENT_SECRET: "client-secret",
       X_OWNER_USER_ID: "owner-1",
@@ -31,6 +32,6 @@ test("getXRuntimeConfig enters live mode only when both OAuth credentials are se
   );
 
   expect(config.mode).toBe("live");
-  expect(config.ownerUsername).toBe("claycurry__");
+  expect(config.ownerUsername).toBe("test_user");
   expect(config.ownerUserId).toBe("owner-1");
 });

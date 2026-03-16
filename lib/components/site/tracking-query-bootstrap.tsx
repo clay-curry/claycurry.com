@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { syncTrackingSearch } from "@/lib/tracking-query-store";
+import { syncTrackingSearch } from "@/lib/tracking-query";
 
 let bootstrapRefCount = 0;
 let stopTrackingSync: (() => void) | null = null;

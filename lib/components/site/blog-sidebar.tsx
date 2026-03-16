@@ -14,7 +14,7 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from "@/lib/components/ui/sidebar";
-import type { NavLink } from "@/lib/navigation";
+import type { NavLink } from "@/lib/portfolio-data";
 
 interface BlogSidebarProps extends React.ComponentProps<typeof Sidebar> {
   posts: PostMetadata[];

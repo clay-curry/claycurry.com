@@ -252,9 +252,10 @@ export function TraceTab(_props: DebugPanelTabProps) {
   // Discover the current trace ID by making a lightweight API call
   const discoverTraceId = useCallback(async () => {
     try {
-      const res = await fetch("/api/x/bookmarks", { method: "GET" });
+      const res = await fetch("/api/x/bookmarks?debug=1", { method: "GET" });
       const id = res.headers.get(TRACE_HEADER);
       if (id) {
+        console.info("[trace]", id);
         setTraceId(id);
         return id;
       }

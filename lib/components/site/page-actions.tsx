@@ -123,7 +123,7 @@ export function GiveFeedback({ slug }: { slug: string }) {
 }
 
 export function AskAI({ slug }: { slug: string }) {
-  const url = `https://claude.ai/new?q=${encodeURIComponent(`Help me understand this article: https://claycurry.com/blog/${slug}`)}`;
+  const url = `https://claude.ai/new?q=${encodeURIComponent(`Help me understand this article: https://claycurry.studio/blog/${slug}`)}`;
 
   return (
     <a
@@ -140,7 +140,7 @@ export function AskAI({ slug }: { slug: string }) {
 }
 
 export function OpenInChat({ slug }: { slug: string }) {
-  const url = `https://chatgpt.com/?q=${encodeURIComponent(`Summarize this article: https://claycurry.com/blog/${slug}`)}`;
+  const url = `https://chatgpt.com/?q=${encodeURIComponent(`Summarize this article: https://claycurry.studio/blog/${slug}`)}`;
 
   return (
     <a
@@ -157,7 +157,7 @@ export function OpenInChat({ slug }: { slug: string }) {
 }
 
 export function ShareOnX({ slug, title }: { slug: string; title: string }) {
-  const postUrl = `https://claycurry.com/blog/${slug}`;
+  const postUrl = `https://claycurry.studio/blog/${slug}`;
   const url = `https://x.com/intent/tweet?text=${encodeURIComponent(`"${title}"`)}&url=${encodeURIComponent(postUrl)}`;
 
   return (
@@ -178,7 +178,7 @@ export function ShareOnX({ slug, title }: { slug: string; title: string }) {
 }
 
 export function ShareOnLinkedIn({ slug }: { slug: string }) {
-  const postUrl = `https://claycurry.com/blog/${slug}`;
+  const postUrl = `https://claycurry.studio/blog/${slug}`;
   const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`;
 
   return (

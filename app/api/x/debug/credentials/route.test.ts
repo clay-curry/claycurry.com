@@ -2,12 +2,6 @@ import { expect, test } from "vitest";
 import { withEnv } from "@/lib/x/test-utils";
 import { GET } from "./route";
 
-test("GET /api/x/debug/credentials returns 404 in production", async () => {
-  const response = await withEnv({ VERCEL_ENV: "production" }, () => GET());
-
-  expect(response.status).toBe(404);
-});
-
 test("GET /api/x/debug/credentials never returns raw secret values", async () => {
   const response = await withEnv(
     {
@@ -17,7 +11,7 @@ test("GET /api/x/debug/credentials never returns raw secret values", async () =>
       X_OAUTH2_CLIENT_ID: "raw-client-id-value",
       X_OAUTH2_CLIENT_SECRET: "raw-client-secret-value",
       X_OWNER_SECRET: "raw-owner-secret-value",
-      X_OWNER_USERNAME: "claycurry__",
+      X_OWNER_USERNAME: "test_user",
     },
     () => GET(),
   );
@@ -28,4 +22,21 @@ test("GET /api/x/debug/credentials never returns raw secret values", async () =>
   expect(json).not.toContain("raw-client-secret-value");
   expect(json).not.toContain("raw-owner-secret-value");
   expect(json).not.toContain("raw-client-id-value");
+});
+
+test("GET /api/x/debug/credentials works in production", async () => {
+  const response = await withEnv(
+    {
+      VERCEL_ENV: "production",
+      X_OAUTH2_CLIENT_ID: "client-id",
+      X_OAUTH2_CLIENT_SECRET: "client-secret",
+      X_OWNER_SECRET: "owner-secret",
+      X_OWNER_USERNAME: "test_user",
+    },
+    () => GET(),
+  );
+
+  expect(response.status).toBe(200);
+  const json = await response.json();
+  expect(json.environment.isProduction).toBe(true);
 });

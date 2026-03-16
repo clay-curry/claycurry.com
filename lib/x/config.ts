@@ -14,6 +14,7 @@
  * @module
  */
 import { Schema } from "effect";
+import { profileData } from "@/lib/portfolio-data";
 
 const TrimmedNonEmpty = Schema.Trim.pipe(Schema.minLength(1));
 const CANONICAL_X_OAUTH_ENV_KEYS = [
@@ -23,7 +24,7 @@ const CANONICAL_X_OAUTH_ENV_KEYS = [
 
 const XEnvironmentSchema = Schema.Struct({
   X_OWNER_USERNAME: Schema.optionalWith(TrimmedNonEmpty, {
-    default: () => "claycurry__",
+    default: () => profileData.xUsername,
   }),
   X_OWNER_USER_ID: Schema.optional(TrimmedNonEmpty),
   X_OAUTH2_CLIENT_ID: Schema.optional(TrimmedNonEmpty),

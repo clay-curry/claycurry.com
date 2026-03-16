@@ -237,80 +237,9 @@ flowchart TD
 
 ---
 
-## 4. Client-Side Control Flow
+## 4. Current Solution
 
-### 4.1 Request Lifecycle
-
-1. **`BookmarksGallery` renders** → calls `useBookmarks()` hook
-2. **`useBookmarks`** (`lib/hooks/use-bookmarks.ts`) — the `useEffect` on mount fires, calling the internal `fetchBookmarks` callback with the current folder atom value
-3. The callback sets `isLoading: true`, then calls `getBookmarksDebugConfig()` (`lib/x/api.ts`) — reads `?mock=` and `?bookmarksSource=` from `window.location.search`
-4. Debug params + `folderId` are passed to `fetchBookmarksApi()` (`lib/x/api.ts`)
-5. Inside `fetchBookmarksApi`:
-   - `buildBookmarksUrl()` assembles the URL — `source=live` takes precedence over `mockMode`, `folderId` maps to `?folder=`
-   - `fetch(url)` hits `GET /api/x/bookmarks` (server-side route handler)
-   - `res.json()` is decoded through `Schema.decodeUnknownSync(BookmarksApiResponseSchema)` — validates the full response shape at runtime
-   - Returns typed `BookmarksApiResponse` or throws
-6. Back in the hook: on success, decoded data is distributed into Jotai atoms (`bookmarksDataAtom`, `bookmarksFoldersAtom`) and local state (`status`, `isStale`, `lastSyncedAt`, `owner`, `error`). On throw, error state is set instead.
-
-### 4.2 Client-Side Data Flow
-
-```
-window.location.search
-        │
-        ▼
-getBookmarksDebugConfig()  ──→  { mockMode, source }
-        │                              │
-        │                              ▼
-        │                    buildBookmarksUrl({ folderId, mockMode, source })
-        │                              │
-        │                              ▼
-        │                    "/api/x/bookmarks?folder=...&source=live"
-        │                              │
-        │                         fetch(url)
-        │                              │
-        │                              ▼
-        │                    Server: route.ts → service.ts → cache/client
-        │                              │
-        │                              ▼
-        │                    res.json() → raw JSON
-        │                              │
-        │                      Schema.decodeUnknownSync()
-        │                              │
-        │                              ▼
-        │                    BookmarksApiResponse (typed + validated)
-        │                              │
-        └──────────────────────────────┘
-                                       │
-                              useBookmarks callback
-                                       │
-                    ┌──────────┬───────┴────────┬──────────┐
-                    ▼          ▼                ▼          ▼
-            bookmarksDataAtom  bookmarksFoldersAtom   local state
-            (Jotai → Gallery)  (Jotai → folder UI)   (isLoading, error,
-                                                      status, owner, etc.)
-```
-
-### 4.3 Re-fetch Triggers
-
-| Trigger | Mechanism |
-|---------|-----------|
-| **Folder change** | `bookmarkFolderAtom` updates → `useEffect` dependency fires the callback |
-| **Debug panel toggle** | Dispatches `DEBUG_BOOKMARKS_CONFIG_CHANGE_EVENT` → second `useEffect` listener calls the same callback |
-| **Manual refresh** | `refetch()` function returned by the hook |
-
-### 4.4 Boundary Responsibilities
-
-| Layer | Owns |
-|-------|------|
-| `api.ts` (DAL) | URL construction, `fetch()`, schema validation |
-| `use-bookmarks.ts` (hook) | React lifecycle, loading/error state, Jotai atom distribution, event listeners |
-| `route.ts` (server) | Auth, cache lookup, live sync, response serialization |
-
----
-
-## 5. Current Solution — Server Side
-
-### 5.1 Module Dependency Graph
+### 4.1 Module Dependency Graph
 
 ```mermaid
 graph LR
@@ -359,7 +288,7 @@ graph LR
     style Client-Side fill:#0ff1,stroke:#0ff
 ```
 
-### 5.2 Key Design Decisions
+### 4.2 Key Design Decisions
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
@@ -370,7 +299,7 @@ graph LR
 | Owner-scoped storage keys | `x:v2:{owner}:tokens`, `x:v2:{owner}:snapshot`, etc. | Supports multi-owner deployments without key collision |
 | Mock fallback strategy | Bundled static data in `mock-bookmarks.ts` | Zero-dependency fallback when Redis and X API are both unavailable |
 
-### 5.3 Error Taxonomy
+### 4.3 Error Taxonomy
 
 ```mermaid
 graph TD
@@ -390,7 +319,7 @@ graph TD
     style CacheStale fill:#ff03,stroke:#ff0
 ```
 
-### 5.4 Data Model Summary
+### 4.4 Data Model Summary
 
 | Entity | Storage | TTL / Freshness |
 |--------|---------|-----------------|
@@ -402,7 +331,7 @@ graph TD
 
 ---
 
-## 6. Alternative Solutions
+## 5. Alternative Solutions
 
 ### Alternative A: Static Export with Build-Time Sync
 
@@ -524,7 +453,7 @@ graph LR
 
 ---
 
-## 7. Comparison Matrix
+## 6. Comparison Matrix
 
 | Criteria | Current (Server Sync + Redis) | A: Static Build | B: Edge + KV | C: Webhook Push | D: Client Direct |
 |----------|-------------------------------|-----------------|--------------|-----------------|------------------|
@@ -543,28 +472,28 @@ graph LR
 
 ---
 
-## 8. Known Gaps
+## 7. Known Gaps
 
-### 8.1 Test Coverage
+### 7.1 Test Coverage
 
 - Only 4 test files with 13 test cases in `lib/x/`
 - **Zero test coverage on all API route handlers**
 - Missing tests for: `tokens.ts`, `cache.ts` (real Redis), `errors.ts`
 - Estimated ~106 new tests needed (~27 hours effort)
 
-### 8.2 Error Handling
+### 7.2 Error Handling
 
 - 7 errors silently swallowed without logging
 - 8 untyped `catch (error)` blocks with no narrowing
 - Redis connection singleton never recovers from failure
 
-### 8.3 Observability
+### 7.3 Observability
 
 - Distributed tracing is implemented but requires `?debug=1` query param
 - No structured logging framework (console.log/error only)
 - No alerting on repeated sync failures
 
-### 8.4 Infrastructure
+### 7.4 Infrastructure
 
 - Module-level singletons with no lifecycle management
 - Redis connection has no reconnection logic
@@ -572,7 +501,7 @@ graph LR
 
 ---
 
-## 9. File Reference
+## 8. File Reference
 
 | Layer | File | Purpose |
 |-------|------|---------|

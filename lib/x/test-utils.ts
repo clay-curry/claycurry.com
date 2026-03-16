@@ -12,13 +12,13 @@ import type {
 
 export const owner: BookmarkSourceOwner = {
   id: "owner-1",
-  username: "claycurry__",
-  name: "Clay Curry",
+  username: "test_user",
+  name: "Test User",
 };
 
 export const liveConfig = {
   mode: "live" as const,
-  ownerUsername: "claycurry__",
+  ownerUsername: "test_user",
   ownerUserId: "owner-1",
   clientId: "client-id",
   clientSecret: "client-secret",

@@ -504,11 +504,11 @@ curl, browser DevTools, or `jq`. This is sufficient for initial debugging.
 ```bash
 # View a trace as a flat list
 curl -H "x-owner-secret: $X_OWNER_SECRET" \
-  https://claycurry.com/api/trace/a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4
+  https://claycurry.studio/api/trace/a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4
 
 # View as a tree
 curl -H "x-owner-secret: $X_OWNER_SECRET" \
-  "https://claycurry.com/api/trace/a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4?tree=true"
+  "https://claycurry.studio/api/trace/a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4?tree=true"
 ```
 
 ### Phase 2: HTML viewer (optional, future)

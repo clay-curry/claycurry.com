@@ -9,6 +9,12 @@ function generateTraceId(): string {
 }
 
 export function proxy(request: NextRequest) {
+  const debugEnabled = new URL(request.url).searchParams.get("debug") === "1";
+
+  if (!debugEnabled) {
+    return NextResponse.next();
+  }
+
   const existingTraceId = request.cookies.get(TRACE_COOKIE)?.value;
   const isValid = existingTraceId && /^[0-9a-f]{32}$/.test(existingTraceId);
   const traceId = isValid ? existingTraceId : generateTraceId();

@@ -1,9 +1,9 @@
 /**
  * Query parameter constants for controlling the bookmarks API data source.
  *
- * In preproduction, the `source=live` query param forces a live X API sync
- * instead of using mock/cached data. The `bookmarksSource` param is used
- * by the client-side debug UI to persist the selected source.
+ * In non-production environments, the `source=live` query param forces a
+ * live X API sync instead of using mock/cached data. The `bookmarksSource`
+ * param is used by the client-side debug UI to persist the selected source.
  *
  * @module
  */

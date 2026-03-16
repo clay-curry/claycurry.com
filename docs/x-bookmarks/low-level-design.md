@@ -12,7 +12,7 @@
 
 ### `XBookmarksOwnerResolver`
 
-- Resolves the configured username `claycurry__` to a concrete X account.
+- Resolves the configured username (`X_OWNER_USERNAME`) to a concrete X account.
 - Validates the optional `X_OWNER_USER_ID` compatibility setting.
 - Throws `owner_mismatch` if the configured id does not match the resolved
   username.
@@ -20,7 +20,7 @@
 ### `XIdentityVerifier`
 
 - Calls `/2/users/me` using the current access token.
-- Rejects any token whose authenticated username is not `claycurry__`.
+- Rejects any token whose authenticated username does not match the configured owner.
 
 ### `XTokenStore`
 
@@ -123,7 +123,7 @@
   - refresh token invalid
   - access token rejected by X
 - `owner_mismatch`
-  - authenticated account is not `claycurry__`
+  - authenticated account does not match the configured owner
   - `X_OWNER_USER_ID` conflicts with the resolved username
 - `schema_invalid`
   - X returned a payload that failed contract validation

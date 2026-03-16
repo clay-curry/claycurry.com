@@ -277,7 +277,7 @@ export function getInternalApiDescriptors(
           label: "Email",
           type: "text",
           required: true,
-          defaultValue: "debug@claycurry.com",
+          defaultValue: "debug@claycurry.studio",
         },
         {
           name: "message",

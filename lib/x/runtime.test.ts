@@ -6,6 +6,7 @@ test("createBookmarksSyncService returns a live service wrapper when preferMockF
   const service = withEnv(
     {
       VERCEL_ENV: "preview",
+      X_OWNER_USERNAME: "test_user",
       X_OAUTH2_CLIENT_ID: undefined,
       X_OAUTH2_CLIENT_SECRET: undefined,
     },

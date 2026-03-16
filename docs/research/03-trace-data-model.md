@@ -1,7 +1,7 @@
 # Trace Data Model
 
 Defines the core abstractions -- trace, span, attributes, and events -- tailored to
-the claycurry.com API surface.
+the claycurry.studio API surface.
 
 ---
 

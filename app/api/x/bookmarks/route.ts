@@ -8,8 +8,9 @@
  * - **Debug mock override**: `?mock=<scenario>` in preproduction to simulate
  *   error states (e.g. `reauth_required`, `upstream_error`).
  * - **Force live sync**: `?source=live` in preproduction to bypass the cache.
- * - **Distributed tracing**: when a trace ID is present (via proxy header),
- *   installs a custom Effect tracer that persists spans to Redis.
+ * - **Distributed tracing**: when `?debug=1` is present, the proxy injects
+ *   a trace ID and this route installs a custom Effect tracer that persists
+ *   spans to Redis.
  *
  * @module
  */
@@ -41,15 +42,23 @@ const VALID_SCENARIOS = new Set<MockScenario>([
 ]);
 
 function buildBookmarksErrorResponse(message: string, httpStatus: number) {
-  const config = getXRuntimeConfig();
+  let ownerUsername: string | null = null;
+  let ownerUserId: string | null = null;
+  try {
+    const config = getXRuntimeConfig();
+    ownerUsername = config.ownerUsername;
+    ownerUserId = config.ownerUserId;
+  } catch {
+    // Config may be unavailable (e.g. X_OWNER_USERNAME not set)
+  }
 
   return NextResponse.json(
     Schema.decodeUnknownSync(BookmarksApiResponseSchema)({
       bookmarks: [],
       folders: [],
       owner: {
-        id: config.ownerUserId,
-        username: config.ownerUsername,
+        id: ownerUserId,
+        username: ownerUsername ?? "unknown",
         name: null,
       },
       status: "upstream_error",
@@ -122,7 +131,7 @@ export async function GET(request: NextRequest) {
     }),
   );
 
-  // If we have a trace ID from proxy, install the custom tracer
+  // If we have a trace ID from middleware, install the custom tracer
   // using Effect.withTracer so it overrides the default no-op tracer.
   if (traceId) {
     const onSpanEnd = (span: import("@/lib/tracing").Span) => {

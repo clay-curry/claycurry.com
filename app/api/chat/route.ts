@@ -128,7 +128,7 @@ Answer the visitor's question using the information in Clay's background. Always
 
 github: ${profileData.social.github}
 
-resume: https://claycurry.com/resume/
+resume: https://claycurry.studio/resume/
 
 **Special Questions (respond exactly as written, no analysis needed):**
 

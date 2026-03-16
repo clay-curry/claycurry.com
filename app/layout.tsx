@@ -14,7 +14,7 @@ import "katex/dist/katex.min.css";
 import "./globals.css";
 import "./styles/code.css";
 
-const SITE_ORIGIN = "https://www.claycurry.com";
+const SITE_ORIGIN = "https://www.claycurry.studio";
 
 const poppins = Poppins({
   subsets: ["latin"],

@@ -5,7 +5,7 @@ import {
   mergeTrackingQueryIntoHref,
 } from "./tracking-query";
 
-const SITE_ORIGIN = "https://claycurry.com";
+const SITE_ORIGIN = "https://claycurry.studio";
 
 describe("getTrackingSearch", () => {
   test("keeps allowlisted tracking and debug params only", () => {

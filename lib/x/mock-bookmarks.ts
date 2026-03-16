@@ -21,8 +21,8 @@ import type {
 
 const MOCK_OWNER = {
   id: "1234567890",
-  username: "claycurry__",
-  name: "Clay Curry",
+  username: "mock_user",
+  name: "Mock User",
 } as const;
 
 const MOCK_FOLDERS: XBookmarkFolder[] = [
@@ -327,7 +327,7 @@ export function getMockScenarioResponse(
           isStale: false,
           lastSyncedAt: null,
           error:
-            "Authenticated user @wrong_user does not match configured owner @claycurry__.",
+            "Authenticated user @wrong_user does not match configured owner @mock_user.",
         },
         httpStatus: 409,
       };

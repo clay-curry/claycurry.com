@@ -1,6 +1,6 @@
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 
- Copyright (C) 2026 Clay Curry <me@claycurry.com>
+ Copyright (C) 2026 Clay Curry <me@claycurry.studio>
 
  Everyone is permitted to copy and distribute verbatim or modified
  copies of this license document, and changing it is allowed as long

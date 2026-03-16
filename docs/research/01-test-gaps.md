@@ -1,7 +1,7 @@
 # Test Coverage Gap Analysis
 
 **Date**: 2026-03-12
-**Repo**: claycurry.com (Turborepo monorepo)
+**Repo**: claycurry.studio (Turborepo monorepo)
 **Main app**: `apps/www/` (Next.js 16, React 19, App Router)
 
 ---

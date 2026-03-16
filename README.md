@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/clay-curry/claycurry.com/actions/workflows/merge-criteria.yml"><img src="https://github.com/clay-curry/claycurry.com/actions/workflows/merge-criteria.yml/badge.svg" alt="Merge criteria"/></a>
-  <a href="https://www.claycurry.com"><img src="https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white" alt="Vercel"/></a>
+  <a href="https://github.com/clay-curry/claycurry.studio/actions/workflows/merge-criteria.yml"><img src="https://github.com/clay-curry/claycurry.studio/actions/workflows/merge-criteria.yml/badge.svg" alt="Merge criteria"/></a>
+  <a href="https://www.claycurry.studio"><img src="https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white" alt="Vercel"/></a>
   <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white" alt="Next.js"/></a>
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node-20.x-339933?logo=node.js&logoColor=white" alt="Node"/></a>
   <a href="https://pnpm.io/"><img src="https://img.shields.io/badge/pnpm-9.15.0-F69220?logo=pnpm&logoColor=white" alt="pnpm"/></a>
@@ -12,15 +12,15 @@
 </p>
 
 <h1 align="center">
-claycurry.com
+claycurry.studio
 </h1>
 
 My dent on the world wide web. A portfolio and blog, built as a pnpm + Turborepo monorepo combining a Next.js app, MDX compilation pipeline, visitor analytics, ad hoc tools, visitor analytics, and integrations for LLM agents and communication channels.
 
 ## Overview
 
-- Live site: [www.claycurry.com](https://www.claycurry.com)
-- Repository: [github.com/clay-curry/claycurry.com](https://github.com/clay-curry/claycurry.com)
+- Live site: [www.claycurry.studio](https://www.claycurry.studio)
+- Repository: [github.com/clay-curry/claycurry.studio](https://github.com/clay-curry/claycurry.studio)
 - Main app: Next.js 16 + React 19 + TypeScript at `apps/www`
 - Build system: Turborepo with pnpm workspaces
 - Content: MDX blog posts loaded from `apps/www/blog`
@@ -111,7 +111,7 @@ Local app URL: `http://localhost:3000`
 | `OPENAI_API_KEY` | AI model fallback | Optional direct provider fallback support. |
 | `XAI_API_KEY` | AI model selection | Optional model/provider support. |
 | `PERPLEXITY_API_KEY` | Web search tool in chat | Enables search tool usage when web search is turned on in chat. |
-| `X_OWNER_USERNAME` | X bookmarks sync | Canonical bookmark owner username. Set this to `claycurry__`. |
+| `X_OWNER_USERNAME` | X bookmarks sync | **Required.** Canonical bookmark owner username. |
 | `X_OWNER_USER_ID` | X bookmarks sync | Deprecated compatibility field. If set, it must resolve to the same account as `X_OWNER_USERNAME`. |
 | `X_OAUTH2_CLIENT_ID` | X OAuth | Canonical OAuth client identifier for token exchange/refresh. |
 | `X_OAUTH2_CLIENT_SECRET` | X OAuth | Canonical OAuth client secret for token exchange/refresh. |
@@ -138,7 +138,7 @@ Deployment note:
 ### X bookmarks
 
 - Endpoints: `apps/www/app/api/x/*`
-- Supports OAuth token exchange, owner validation for `@claycurry__`, and bookmark retrieval
+- Supports OAuth token exchange, owner validation for the configured `X_OWNER_USERNAME`, and bookmark retrieval
 - Returns stale snapshots instead of blank data when live sync fails and a prior snapshot exists
 - Exposes a minimal operator status route at `/api/x/bookmarks/status?secret=...`
 - Requires `X_OAUTH2_CLIENT_ID` and `X_OAUTH2_CLIENT_SECRET` — shows a clear error when credentials are missing or legacy names are still in use
@@ -186,7 +186,7 @@ Note: `packages/www` currently has no `package.json`, so it is not an active pnp
 
 ## Deployment
 
-- Production URL: [https://www.claycurry.com](https://www.claycurry.com)
+- Production URL: [https://www.claycurry.studio](https://www.claycurry.studio)
 - Deployed on Vercel
 - Ensure required environment variables are set in Vercel Project Settings
 - Keep Vercel system environment variables enabled so `VERCEL_ENV` is available at runtime
@@ -247,7 +247,7 @@ X_OAUTH2_CLIENT_ID=
 # as an authentication method.
 X_OAUTH2_CLIENT_SECRET=
 
-X_OWNER_USERNAME=claycurry__
+X_OWNER_USERNAME=your_x_username
 X_OWNER_SECRET=
 X_OWNER_USER_ID=
 ```

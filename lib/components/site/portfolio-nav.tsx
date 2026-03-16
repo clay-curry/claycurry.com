@@ -9,7 +9,7 @@ import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import { Button } from "@/lib/components/ui/button";
 import { InitialsAvatar } from "@/lib/components/ui/initials-avatar";
 import { useChatUI } from "@/lib/hooks/use-chat-ui";
-import type { NavLink } from "@/lib/navigation";
+import type { NavLink } from "@/lib/portfolio-data";
 
 export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
   const pathname = usePathname();
@@ -80,7 +80,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
           </button>
 
           <a
-            href="https://github.com/clay-curry/claycurry.com"
+            href="https://github.com/clay-curry/claycurry.studio"
             target="_blank"
             rel="noopener noreferrer"
             data-click-id="nav:github"

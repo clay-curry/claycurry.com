@@ -10,7 +10,7 @@
 import type { MetadataRoute } from "next";
 
 function toSiteUrl(path: string): string {
-  return new URL(path, "https://www.claycurry.com").toString();
+  return new URL(path, "https://www.claycurry.studio").toString();
 }
 
 export default function robots(): MetadataRoute.Robots {

@@ -4,10 +4,10 @@ import { XBookmarksOwnerResolver, XIdentityVerifier } from "./client";
 import { OwnerMismatch } from "./errors";
 import { StubIdentityClient } from "./test-utils";
 
-test("XIdentityVerifier rejects tokens for any account other than claycurry__", async () => {
+test("XIdentityVerifier rejects tokens for any account other than test_user", async () => {
   const verifier = new XIdentityVerifier(
     new StubIdentityClient("somebody_else"),
-    "claycurry__",
+    "test_user",
   );
 
   const exit = await Effect.runPromiseExit(verifier.verify("access-token"));
@@ -22,8 +22,8 @@ test("XIdentityVerifier rejects tokens for any account other than claycurry__", 
 
 test("XBookmarksOwnerResolver rejects configured user id mismatches", async () => {
   const resolver = new XBookmarksOwnerResolver(
-    new StubIdentityClient("claycurry__", "actual-owner-id"),
-    "claycurry__",
+    new StubIdentityClient("test_user", "actual-owner-id"),
+    "test_user",
     "expected-owner-id",
   );
 

@@ -290,7 +290,7 @@ const AppLive = Layer.mergeAll(
 
 // Anchored on globalThis — survives webpack re-bundling and HMR
 export const appRuntime = globalValue(
-  Symbol.for("claycurry.com/appRuntime"),
+  Symbol.for("claycurry.studio/appRuntime"),
   () => ManagedRuntime.make(AppLive)
 )
 ```
@@ -355,7 +355,7 @@ import { globalValue } from "effect/GlobalValue"
 const AppLive = Layer.mergeAll(RedisLive, ConfigLive)
 
 export const appRuntime = globalValue(
-  Symbol.for("claycurry.com/appRuntime"),
+  Symbol.for("claycurry.studio/appRuntime"),
   () => {
     const runtime = ManagedRuntime.make(AppLive)
 
@@ -644,7 +644,7 @@ const AppLive = Layer.mergeAll(
 )
 
 export const appRuntime = globalValue(
-  Symbol.for("claycurry.com/appRuntime"),
+  Symbol.for("claycurry.studio/appRuntime"),
   () => {
     const runtime = ManagedRuntime.make(AppLive)
 

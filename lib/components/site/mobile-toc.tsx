@@ -10,7 +10,7 @@ import {
   AccordionTrigger,
 } from "@/lib/components/ui/accordion";
 import { SidebarTrigger } from "@/lib/components/ui/sidebar";
-import type { NavLink } from "@/lib/navigation";
+import type { NavLink } from "@/lib/portfolio-data";
 import { slugify } from "@/lib/utils";
 
 export type TocItem = {

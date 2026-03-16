@@ -16,7 +16,7 @@ import {
 } from "@/lib/components/site/page-actions";
 import { PageFeedback } from "@/lib/components/site/page-feedback";
 import { PageViews } from "@/lib/components/site/page-views";
-import { getSiteNavLinks } from "@/lib/navigation";
+import { getSiteNavLinks } from "@/lib/portfolio-data";
 
 export const dynamicParams = false;
 

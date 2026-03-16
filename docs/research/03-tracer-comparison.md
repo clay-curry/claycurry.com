@@ -1,6 +1,6 @@
 # Tracer Implementation Comparison
 
-Two approaches for instrumenting the claycurry.com API routes: Effect.ts native
+Two approaches for instrumenting the claycurry.studio API routes: Effect.ts native
 tracing vs. standalone AsyncLocalStorage. This document evaluates both on code
 overhead, type safety, integration effort, and maintenance burden.
 

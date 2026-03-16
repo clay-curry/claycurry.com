@@ -57,7 +57,7 @@ These permissions enable OAuth 1.0a Authentication. See [v2 endpoint auth mappin
 Bearer Token authenticates requests on behalf of your developer App.
 
 ```
-X_CLAYCURRY_STUDIO_BOOKMARKS_BEARER_TOKEN=
+X_BOOKMARKS_BEARER_TOKEN=
 ```
 
 #### OAuth 1.0
@@ -68,14 +68,14 @@ The API Key and Secret (also known as Consumer Key and Secret) are the most fund
 **Consumer Key** — Think of these as the user name and password that represents your App when making API requests. While your Secret will remain permanently hidden, you can always view the last 6 characters of your Consumer Key.
 
 ```
-X_CLAYCURRY_STUDIO_BOOKMARKS_CONSUMER_KEY=
+X_BOOKMARKS_CONSUMER_KEY=
 ```
 
 **Access Token** — An Access Token and Secret are user-specific credentials used to authenticate OAuth 1.0 API requests. They specify the X account the request is made on behalf of.
 
 ```
-X_CLAYCURRY_STUDIO_BOOKMARKS_ACCESS_TOKEN=
-X_CLAYCURRY_STUDIO_BOOKMARKS_ACCESS_TOKEN_SECRET=
+X_BOOKMARKS_ACCESS_TOKEN=
+X_BOOKMARKS_ACCESS_TOKEN_SECRET=
 ```
 
 ##### [Obtaining Access Tokens using 3-legged OAuth flow](https://docs.x.com/fundamentals/authentication/oauth-1-0a/obtaining-user-access-tokens)
@@ -92,13 +92,13 @@ OAuth 2.0 allows users to log in to your App with X. It also allows your App to 
 **Client ID** — Think of your Client ID as the user name that allows you to use OAuth 2.0 as an authentication method.
 
 ```
-X_CLAYCURRY_STUDIO_BOOKMARKS_CLIENT_ID=
+X_BOOKMARKS_CLIENT_ID=
 ```
 
 **Client Secret** — Think of your Client Secret as the password that allows you to use OAuth 2.0 as an authentication method.
 
 ```
-X_CLAYCURRY_STUDIO_BOOKMARKS_CLIENT_SECTET=
+X_BOOKMARKS_CLIENT_SECTET=
 ```
 
 Documentation Index: https://docs.x.com/llms.txt

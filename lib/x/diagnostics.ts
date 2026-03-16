@@ -1,6 +1,5 @@
 /**
- * Development-only credential diagnostics and live validation for the X
- * integration.
+ * Credential diagnostics and live validation for the X integration.
  *
  * Provides two main entry points:
  * - `readXCredentialDiagnostics()` — passive read of env vars, stored tokens,
@@ -9,8 +8,8 @@
  *   refreshes tokens, hits the X API to verify owner identity, and reports
  *   detailed results.
  *
- * Both functions are non-production only and power the
- * `/api/x/debug/credentials` endpoints.
+ * Both functions power the `/api/x/debug/credentials` endpoints and are
+ * safe for production use — secret values are never included in the output.
  *
  * @module
  */
@@ -49,7 +48,7 @@ export type XCredentialCheckStatus = "pass" | "warn" | "fail";
 export type XCredentialSummaryStatus = "ready" | "warning" | "action_required";
 /** Result of an active validation attempt — either `"valid"` or a specific issue code. */
 export type XCredentialValidationStatus = "valid" | IntegrationIssueCode;
-export type XCredentialVariableSource = "env" | "default" | "missing" | "unset";
+export type XCredentialVariableSource = "env" | "missing" | "unset";
 
 /** A single pass/warn/fail check in the diagnostics checklist. */
 export type XCredentialCheck = {
@@ -195,8 +194,8 @@ function buildOwnerHint(config: XRuntimeConfig): BookmarkSourceOwner {
   };
 }
 
-function isDiagnosticsAvailable(env: XDebugEnv = process.env): boolean {
-  return env.VERCEL_ENV !== "production";
+function isProductionEnvironment(env: XDebugEnv = process.env): boolean {
+  return env.VERCEL_ENV === "production";
 }
 
 function buildEnvironmentVariables(
@@ -237,13 +236,11 @@ function buildEnvironmentVariables(
       value: null,
     },
     {
-      detail: hasConfiguredValue(env.X_OWNER_USERNAME)
-        ? "Loaded from the environment."
-        : "Using the built-in default owner username.",
+      detail: "Required. The X username whose bookmarks are synced.",
       isSecret: false,
       key: "X_OWNER_USERNAME",
-      present: true,
-      source: hasConfiguredValue(env.X_OWNER_USERNAME) ? "env" : "default",
+      present: hasConfiguredValue(env.X_OWNER_USERNAME),
+      source: hasConfiguredValue(env.X_OWNER_USERNAME) ? "env" : "missing",
       value: config.ownerUsername,
     },
     {
@@ -482,7 +479,7 @@ function buildSummary(
   }
 
   return {
-    message: "Live X sync looks ready for local validation.",
+    message: "Live X sync looks ready for validation.",
     status: "ready",
   };
 }
@@ -496,7 +493,7 @@ function buildPassiveNextSteps(input: {
 
   if (input.env.missingCanonicalOauthKeys.length > 0) {
     nextSteps.add(
-      `Set ${formatEnvKeyList(input.env.missingCanonicalOauthKeys)} in your local env file.`,
+      `Set ${formatEnvKeyList(input.env.missingCanonicalOauthKeys)} in the environment.`,
     );
   }
 
@@ -678,14 +675,12 @@ function buildValidationNextSteps(input: {
 
   if (input.env.missingCanonicalOauthKeys.length > 0) {
     nextSteps.add(
-      `Set ${formatEnvKeyList(input.env.missingCanonicalOauthKeys)} in your local env file.`,
+      `Set ${formatEnvKeyList(input.env.missingCanonicalOauthKeys)} in the environment.`,
     );
   }
 
   if (input.status === "reauth_required" || input.tokenStatus === "missing") {
-    nextSteps.add(
-      "Run the X OAuth setup flow to store a token before forcing live sync.",
-    );
+    nextSteps.add("Run the X OAuth setup flow to store a token.");
   }
 
   if (
@@ -699,7 +694,7 @@ function buildValidationNextSteps(input: {
 
   if (input.status === "valid") {
     nextSteps.add(
-      "Request /api/x/bookmarks?source=live to confirm the live sync path and refresh the snapshot.",
+      "Request /api/x/bookmarks to confirm the sync path and refresh the snapshot.",
     );
   }
 
@@ -752,7 +747,7 @@ export async function readXCredentialDiagnostics(
   return {
     checks,
     environment: {
-      isProduction: !isDiagnosticsAvailable(env),
+      isProduction: isProductionEnvironment(env),
       nodeEnv: env.NODE_ENV ?? null,
       vercelEnv: env.VERCEL_ENV ?? null,
     },

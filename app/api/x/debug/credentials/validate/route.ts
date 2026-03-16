@@ -6,15 +6,6 @@ import {
 
 export const dynamic = "force-dynamic";
 
-function notFoundResponse() {
-  return new NextResponse(null, {
-    headers: {
-      "Cache-Control": "no-store",
-    },
-    status: 404,
-  });
-}
-
 function jsonResponse(body: unknown, status = 200) {
   return NextResponse.json(body, {
     headers: {
@@ -25,10 +16,6 @@ function jsonResponse(body: unknown, status = 200) {
 }
 
 export async function POST() {
-  if (process.env.VERCEL_ENV === "production") {
-    return notFoundResponse();
-  }
-
   try {
     const result = await validateXCredentials();
     return jsonResponse(result, getValidationHttpStatus(result));
@@ -44,7 +31,7 @@ export async function POST() {
         owner: {
           authenticatedOwner: null,
           configuredUserId: null,
-          configuredUsername: "claycurry__",
+          configuredUsername: process.env.X_OWNER_USERNAME ?? null,
           resolvedOwner: null,
         },
         status: "upstream_error",

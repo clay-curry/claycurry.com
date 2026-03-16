@@ -19,12 +19,12 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 - Owner-validated X bookmarks status endpoint at `/api/x/bookmarks/status`
-- High-level and low-level design docs for the X bookmarks sync architecture under `docs/x-bookmarks/`
+- High-level and low-level design docs for the X bookmarks sync architecture under `docs/y-bookmarks/`
 - Contract and service tests covering bookmark payload validation, owner verification, and stale snapshot fallback
 
 ### Changed
 - Refactored X bookmarks into a class-based sync system with Zod contract validation
-- Made `X_OWNER_USERNAME` the canonical bookmark owner configuration, targeting `claycurry__`
+- Made `X_OWNER_USERNAME` the canonical bookmark owner configuration (required, no default)
 - Reworked bookmark caching to keep owner-scoped snapshots and serve stale data when live sync fails
 - Hardened OAuth callback/token handling to verify the authenticated X account before persisting tokens
 
@@ -35,7 +35,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Automated social metadata regression check script (`apps/www/scripts/check-social-metadata.mjs`) wired into `pnpm --filter www check`
 
 ### Changed
-- Standardized canonical metadata origin to `https://www.claycurry.com` for `metadataBase`, robots sitemap URL, and sitemap entries
+- Standardized canonical metadata origin to `https://www.claycurry.studio` for `metadataBase`, robots sitemap URL, and sitemap entries
 - Expanded homepage and blog metadata with explicit canonical, Open Graph, and Twitter card fields for stable social previews
 
 ## 2026-02-11

@@ -32,7 +32,7 @@ export async function POST(request: Request) {
       const { error } = yield* Effect.tryPromise({
         try: () =>
           resend.emails.send({
-            from: "Contact <contact@claycurry.com>",
+            from: "Contact <contact@claycurry.studio>",
             to: contactData.email,
             replyTo: email,
             subject: `New message from ${name}`,

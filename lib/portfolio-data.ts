@@ -8,10 +8,11 @@ export const profileData = {
   name: "Clay Curry",
   title: "Product Engineer",
   avatar: "/clay_profile_cropped.png",
-  email: "me@claycurry.com",
+  email: "me@claycurry.studio",
   location: locationData.label,
   locationHref: locationData.mapHref,
   githubUsername: "clay-curry",
+  xUsername: "claycurry__",
   social: {
     github: "https://github.com/clay-curry",
     x: "https://x.com/claycurry__",
@@ -20,11 +21,24 @@ export const profileData = {
 } as const;
 
 export const siteConfig = {
-  repo: "https://github.com/clay-curry/claycurry.com",
+  repo: "https://github.com/clay-curry/claycurry.studio",
 } as const;
 
 export const contactData = {
-  email: "me@claycurry.com",
+  email: "me@claycurry.studio",
   location: locationData.label,
   mapEmbedUrl: locationData.mapEmbedUrl,
 } as const;
+
+export type NavLink = { label: string; href: string };
+
+const navLinks: NavLink[] = [
+  { label: "about", href: "/" },
+  { label: "work", href: "/work" },
+  { label: "writing", href: "/writing" },
+  { label: "contact", href: "/contact" },
+];
+
+export function getSiteNavLinks(): NavLink[] {
+  return navLinks;
+}

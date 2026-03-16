@@ -5,7 +5,7 @@ import { RedisLayer } from "./services/redis";
 const AppLive = Layer.mergeAll(RedisLayer);
 
 export const appRuntime = globalValue(
-  Symbol.for("claycurry.com/appRuntime"),
+  Symbol.for("claycurry.studio/appRuntime"),
   () => {
     const runtime = ManagedRuntime.make(AppLive);
 
