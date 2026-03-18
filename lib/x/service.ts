@@ -167,16 +167,10 @@ export class BookmarksSyncService {
 
     return Effect.gen(function* () {
       const repo = yield* BookmarksRepo;
-      const snapshot = yield* repo.getSnapshot(self.ownerHint, folderId);
-      if (snapshot && self.isSnapshotFresh(snapshot) && !options.forceLive) {
-        return {
-          response: self.snapshotToApiResponse(snapshot, "fresh"),
-          httpStatus: 200,
-        };
-      }
 
       const previousStatus =
         (yield* repo.getStatus(opts.config.ownerUsername)) ?? null;
+      const snapshot = yield* repo.getSnapshot(self.ownerHint, folderId);
 
       const ctx: SyncContext = {
         authenticatedOwner: previousStatus?.authenticatedOwner ?? null,

@@ -33,7 +33,7 @@ function RecentActivitySection() {
 
 const Bookmarks = () => (
   <PreservedQueryLink
-    href="/work/y-bookmarks"
+    href="/work/x-bookmarks"
     className="bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent hover:shadow-lg transition-all p-6 flex items-center gap-4 group"
   >
     <svg
@@ -50,8 +50,7 @@ const Bookmarks = () => (
         Y Bookmarks
       </h2>
       <p className="text-muted-foreground text-sm mt-1">
-        reimagined for capturing intent, action items, and threads worth
-        sharing.
+        clone for X bookmarks, with more navigations tools
       </p>
     </div>
     <ArrowRight className="size-5 text-muted-foreground group-hover:text-accent transition-colors shrink-0" />

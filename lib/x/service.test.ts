@@ -13,7 +13,7 @@ import {
   withEnv,
 } from "./test-utils";
 
-test("BookmarksSyncService returns a fresh cached snapshot without live sync", async () => {
+test("BookmarksSyncService falls back to cached snapshot when live sync fails", async () => {
   const { state, layer } = makeTestBookmarksRepo();
   state.snapshot = createSnapshot({
     lastSyncedAt: new Date(Date.now() - 60_000).toISOString(),
@@ -25,7 +25,7 @@ test("BookmarksSyncService returns a fresh cached snapshot without live sync", a
     config: liveConfig,
     client: new StubBookmarksClient(),
     fetchImpl: async () => {
-      throw new Error("live token flow should not run");
+      throw new Error("live token flow fails");
     },
   });
 
@@ -33,7 +33,7 @@ test("BookmarksSyncService returns a fresh cached snapshot without live sync", a
     service.getBookmarks().pipe(Effect.provide(layer)),
   );
   expect(result.httpStatus).toBe(200);
-  expect(result.response.status).toBe("fresh");
+  expect(result.response.status).toBe("stale");
   expect(result.response.bookmarks[0]?.id).toBe("cached");
 });
 
