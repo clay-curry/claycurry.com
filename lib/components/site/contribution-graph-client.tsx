@@ -78,8 +78,10 @@ function DayLabelsSvg() {
       width={DAY_LABEL_WIDTH}
       height={height}
       className="shrink-0 hidden sm:block"
+      role="img"
       aria-label="Day labels"
     >
+      <title>Day labels</title>
       {DAY_LABELS.map(({ label, dayIndex }) => (
         <text
           key={label}
@@ -162,7 +164,10 @@ export function ContributionGraphClient({
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 -960 960 960"
             className="w-5 h-5 md:w-6 md:h-6 fill-accent"
+            role="img"
+            aria-label="Contributions"
           >
+            <title>Contributions</title>
             <path d="M800-560v-160H640v-80h160q33 0 56.5 23.5T880-720v160h-80Zm-720 0v-160q0-33 23.5-56.5T160-800h160v80H160v160H80Zm560 400v-80h160v-160h80v160q0 33-23.5 56.5T800-160H640Zm-480 0q-33 0-56.5-23.5T80-240v-160h80v160h160v80H160Zm320-140q7 0 8-6 16-61 60.5-105.5T654-472q6-2 6-8 0-7-6-8-61-16-105.5-60.5T488-654q-2-6-8-6t-8 6q-16 61-60.5 105.5T306-488q-6 1-6 8 0 6 6 8 61 16 105.5 60.5T472-306q2 6 8 6Z" />
           </svg>
         }
@@ -171,46 +176,46 @@ export function ContributionGraphClient({
           Contributions
         </span>
       </SectionHeading>
-          <div className="w-full flex flex-col items-center">
-      <div className="w-full pt-2 pb-14 md:py-4 md:pb-16">
-        Counts when I push to GitHub
-      </div>
-      <ContributionGraph
-        data={paddedData}
-        blockSize={BLOCK_SIZE}
-        blockMargin={BLOCK_MARGIN}
-        blockRadius={2}
-        fontSize={FONT_SIZE}
-        totalCount={totalCount}
-        labels={{
-          totalCount: "{{count}} contributions in {{year}}",
-        }}
-      >
-        <div className="flex items-start">
-          <div className="p-2 md:p-4 rounded-xl bg-secondary border border-border/65 min-w-0 flex-1">
-            <div className="flex items-start">
-              <DayLabelsSvg />
-              <div className="flex-1 min-w-0">
-                <ContributionGraphCalendar>
-                  {(props) => <ContributionGraphBlock {...props} />}
-                </ContributionGraphCalendar>
-              </div>
-            </div>
-            <ContributionGraphFooter className="mt-2">
-              <ContributionGraphLegend />
-            </ContributionGraphFooter>
-          </div>
-          <YearSelector
-            years={availableYears}
-            selectedYear={selectedYear}
-            onSelect={setSelectedYear}
-          />
+      <div className="w-full flex flex-col items-center">
+        <div className="w-full pt-2 pb-14 md:py-4 md:pb-16">
+          Counts when I push to GitHub
         </div>
-      </ContributionGraph>
-            <p className="text-muted-foreground mb-2">
-        {totalCount} contributions{" "}
-        {isCurrentYear ? "in the last year" : `in ${selectedYear}`}
-      </p>
+        <ContributionGraph
+          data={paddedData}
+          blockSize={BLOCK_SIZE}
+          blockMargin={BLOCK_MARGIN}
+          blockRadius={2}
+          fontSize={FONT_SIZE}
+          totalCount={totalCount}
+          labels={{
+            totalCount: "{{count}} contributions in {{year}}",
+          }}
+        >
+          <div className="flex items-start">
+            <div className="p-2 md:p-4 rounded-xl bg-secondary border border-border/65 min-w-0 flex-1">
+              <div className="flex items-start">
+                <DayLabelsSvg />
+                <div className="flex-1 min-w-0">
+                  <ContributionGraphCalendar>
+                    {(props) => <ContributionGraphBlock {...props} />}
+                  </ContributionGraphCalendar>
+                </div>
+              </div>
+              <ContributionGraphFooter className="mt-2">
+                <ContributionGraphLegend />
+              </ContributionGraphFooter>
+            </div>
+            <YearSelector
+              years={availableYears}
+              selectedYear={selectedYear}
+              onSelect={setSelectedYear}
+            />
+          </div>
+        </ContributionGraph>
+        <p className="text-muted-foreground mb-2">
+          {totalCount} contributions{" "}
+          {isCurrentYear ? "in the last year" : `in ${selectedYear}`}
+        </p>
       </div>
     </div>
   );

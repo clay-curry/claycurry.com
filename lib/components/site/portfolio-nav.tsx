@@ -5,14 +5,12 @@ import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { GitHubIcon, LinkedInIcon, XIcon } from "@/lib/components/icons";
 import { FeedbackPopover } from "@/lib/components/site/feedback-popover";
 import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import { Button } from "@/lib/components/ui/button";
 import { InitialsAvatar } from "@/lib/components/ui/initials-avatar";
 import { useChatUI } from "@/lib/hooks/use-chat-ui";
 import type { NavLink } from "@/lib/portfolio-data";
-import { profileData } from "@/lib/portfolio-data";
 
 export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
   const pathname = usePathname();
@@ -69,42 +67,6 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
 
         {/* Right side actions */}
         <div className="ml-auto flex items-center gap-2">
-          {/* Social links */}
-          {[
-            {
-              href: profileData.social.x,
-              label: "X",
-              icon: XIcon,
-              clickId: "nav:x",
-            },
-            {
-              href: profileData.social.github,
-              label: "GitHub",
-              icon: GitHubIcon,
-              clickId: "nav:github",
-            },
-            {
-              href: profileData.social.linkedin,
-              label: "LinkedIn",
-              icon: LinkedInIcon,
-              clickId: "nav:linkedin",
-            },
-          ].map(({ href, label, icon: Icon, clickId }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-click-id={clickId}
-              aria-label={label}
-              className="inline-flex items-center justify-center size-8 rounded-xl border border-border/40 text-foreground/80 bg-muted/50 hover:bg-muted transition-colors"
-            >
-              <Icon className="size-3.5" />
-            </a>
-          ))}
-
-          <div className="h-4 w-px bg-border/40 mx-0.5" />
-
           {/* Ask AI button */}
           <button
             type="button"
@@ -155,15 +117,18 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
                       exit={{ x: "-100%" }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
                     >
-                      <button
-                        type="button"
-                        onClick={close}
-                        className="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100"
-                        aria-label="Close menu"
-                      >
-                        <X className="size-4" />
-                      </button>
-                      <div className="flex flex-col gap-6 mt-12">
+                      <div className="flex items-center justify-between px-4 pt-4">
+                        <FeedbackPopover className="inline-flex" />
+                        <button
+                          type="button"
+                          onClick={close}
+                          className="rounded-xs opacity-70 transition-opacity hover:opacity-100"
+                          aria-label="Close menu"
+                        >
+                          <X className="size-4" />
+                        </button>
+                      </div>
+                      <div className="flex flex-col gap-6 mt-4">
                         <nav className="flex flex-col gap-1">
                           {navLinks.map((section) => (
                             <PreservedQueryLink

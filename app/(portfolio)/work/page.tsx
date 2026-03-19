@@ -23,8 +23,8 @@ const workItems = [
 
 export default function WorkPage() {
   return (
-    <div className="py-8 md:py-12 px-2 md:px-4 min-h-24">
-      <ul className="space-y-10">
+    <div className="py-8 md:py-12 px-2 md:px-4 min-h-dvh">
+      <ul className="space-y-10 min-h-[calc(3/8*100vh)]">
         {workItems.map((item) => (
           <li key={item.href}>
             <PreservedQueryLink

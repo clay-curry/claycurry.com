@@ -20,11 +20,11 @@ function PortfolioLink({
 export function IntroSection() {
   return (
     <section className="w-full mt-10 md:mt-14 text-lg">
-      <h2 className="text-2xl md:text-3xl font-semibold text-foreground py-5">
+      <h2 className="text-2xl md:text-3xl font-semibold text-foreground pl-2 py-5">
         Welcome.
       </h2>
 
-      <p className="text-foreground my-5 leading-relaxed">
+      <p className="text-md text-foreground my-5 leading-relaxed">
         I&apos;m excited to share the best work of my career with you. My
         portfolio breaks down into 3 parts:
       </p>
@@ -46,9 +46,8 @@ export function IntroSection() {
 
       <p className="text-foreground my-5 leading-loose">
         Take a moment to familiarise yourself with the entire website, if you
-        want to learn what my taste is like. I am on the job market, so if your
-        team obsessed with aesthetics and perfectly crafted software design,
-        reach out!
+        want to learn what my taste is like. Also, if your team obsessed with
+        aesthetics and perfectly crafted software design, I'm on the market!
       </p>
     </section>
   );

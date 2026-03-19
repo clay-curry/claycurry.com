@@ -13,7 +13,7 @@ const sentiments = [
 
 type Sentiment = (typeof sentiments)[number]["value"];
 
-export function PageFeedbackPill() {
+export function PageFeedbackPill({ className = "" }: { className?: string }) {
   const pathname = usePathname();
   const [selected, setSelected] = useState<Sentiment | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -37,7 +37,7 @@ export function PageFeedbackPill() {
   };
 
   return (
-    <div className="hidden md:flex justify-center">
+    <div className={`flex justify-center ${className}`}>
       <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-4 py-2">
         <span className="text-sm text-muted-foreground">
           {submitted ? "Thanks for your feedback!" : "Was this page helpful?"}

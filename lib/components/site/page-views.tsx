@@ -39,10 +39,6 @@ export function PageViews({
     increment,
   });
 
-  if (error) {
-    return null; // Silently fail - don't break the page for analytics
-  }
-
   return (
     <div
       className={`relative top-0 flex items-center gap-1.5 text-sm text-muted-foreground ${className}`}
@@ -66,7 +62,7 @@ export function PageViews({
             className="h-4 w-4"
             style={{ animation: "blink3 0.7s ease-in-out forwards" }}
           />
-          <span>{count?.toLocaleString() ?? 0} views</span>
+          <span>{error ? "—" : (count?.toLocaleString() ?? 0)} views</span>
         </>
       )}
     </div>

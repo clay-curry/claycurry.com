@@ -1,6 +1,11 @@
 import { Effect, Layer } from "effect";
 import { describe, expect, test } from "vitest";
-import { InMemoryRedisLive, RedisClient, type RedisService } from "./redis";
+import {
+  InMemoryRedisLive,
+  RedisClient,
+  type RedisMulti,
+  type RedisService,
+} from "./redis";
 
 function run<A, E>(effect: Effect.Effect<A, E, RedisClient>): Promise<A> {
   return Effect.runPromise(
@@ -119,11 +124,13 @@ describe("RedisClient service interface", () => {
       hIncrBy: () => Effect.succeed(0),
       multi: () =>
         Effect.succeed({
-          hIncrBy: function (this: any) {
+          hIncrBy: function (this: RedisMulti) {
             return this;
           },
           exec: () => Effect.succeed([]),
         }),
+      lPush: () => Effect.succeed(1),
+      lTrim: () => Effect.void,
       rPush: () => Effect.succeed(1),
       lLen: () => Effect.succeed(0),
       lRange: () => Effect.succeed([]),

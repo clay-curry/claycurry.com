@@ -35,33 +35,36 @@ const NAV_MAP: Record<string, { prev: PageNavLink; next: PageNavLink }> = {
 export function PageNav({ prev, next }: PageNavProps) {
   return (
     <footer className="flex flex-col items-center gap-16 border-t border-border pt-8">
-      <nav className="flex w-full items-center justify-between gap-4">
-        <Link
-          href={prev.href}
-          className="group flex items-center gap-3 text-left shrink-0"
-        >
-          <ChevronLeft className="size-5 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
-          <div>
-            <span className="text-sm text-muted-foreground">Previous</span>
-            <p className="text-base font-semibold text-foreground group-hover:text-accent transition-colors">
-              {prev.label}
-            </p>
-          </div>
-        </Link>
-        <PageFeedbackPill />
-        <Link
-          href={next.href}
-          className="group flex items-center gap-3 text-right shrink-0"
-        >
-          <div>
-            <span className="text-sm text-muted-foreground">Next</span>
-            <p className="text-base font-semibold text-foreground group-hover:text-accent transition-colors">
-              {next.label}
-            </p>
-          </div>
-          <ChevronRight className="size-5 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
-        </Link>
-      </nav>
+      <div className="flex w-full flex-col items-center gap-12">
+        <nav className="flex w-full items-center justify-between gap-4">
+          <Link
+            href={prev.href}
+            className="group flex items-center gap-3 text-left shrink-0"
+          >
+            <ChevronLeft className="size-5 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
+            <div>
+              <span className="text-sm text-muted-foreground">Previous</span>
+              <p className="text-base font-semibold text-foreground group-hover:text-accent transition-colors">
+                {prev.label}
+              </p>
+            </div>
+          </Link>
+          <PageFeedbackPill className="hidden md:flex" />
+          <Link
+            href={next.href}
+            className="group flex items-center gap-3 text-right shrink-0"
+          >
+            <div>
+              <span className="text-sm text-muted-foreground">Next</span>
+              <p className="text-base font-semibold text-foreground group-hover:text-accent transition-colors">
+                {next.label}
+              </p>
+            </div>
+            <ChevronRight className="size-5 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
+          </Link>
+        </nav>
+        <PageFeedbackPill className="flex md:hidden" />
+      </div>
       <GuestbookCTA />
     </footer>
   );

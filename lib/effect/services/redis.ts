@@ -1,5 +1,5 @@
 import { Context, Effect, Layer } from "effect";
-import { createClient, type RedisClientType } from "redis";
+import { createClient } from "redis";
 
 // ============================================================
 // Service Interface
@@ -42,6 +42,15 @@ export interface RedisService {
     start: number,
     stop: number,
   ) => Effect.Effect<string[], RedisError>;
+  readonly lPush: (
+    key: string,
+    value: string,
+  ) => Effect.Effect<number, RedisError>;
+  readonly lTrim: (
+    key: string,
+    start: number,
+    stop: number,
+  ) => Effect.Effect<void, RedisError>;
   readonly expire: (
     key: string,
     seconds: number,
@@ -180,6 +189,13 @@ export const RedisLive = Layer.scoped(
           return wrapper;
         }),
 
+      lPush: (key, value) => wrapOp("lPush", () => client.lPush(key, value)),
+
+      lTrim: (key, start, stop) =>
+        wrapOp("lTrim", () =>
+          client.lTrim(key, start, stop).then(() => void 0),
+        ),
+
       rPush: (key, value) => wrapOp("rPush", () => client.rPush(key, value)),
 
       lLen: (key) => wrapOp("lLen", () => client.lLen(key)),
@@ -284,6 +300,27 @@ export const InMemoryRedisLive: Layer.Layer<RedisClient> = Layer.sync(
             exec: () => Effect.sync(() => ops.map((op) => op())),
           };
           return wrapper;
+        }),
+
+      lPush: (key, value) =>
+        Effect.sync(() => {
+          let list = listStore.get(key);
+          if (!list) {
+            list = [];
+            listStore.set(key, list);
+          }
+          list.unshift(value);
+          return list.length;
+        }),
+
+      lTrim: (key, start, stop) =>
+        Effect.sync(() => {
+          const list = listStore.get(key);
+          if (list) {
+            const end = stop === -1 ? list.length : stop + 1;
+            const trimmed = list.slice(start, end);
+            listStore.set(key, trimmed);
+          }
         }),
 
       rPush: (key, value) =>

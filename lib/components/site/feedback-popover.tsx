@@ -19,7 +19,7 @@ const sentiments = [
 
 type Sentiment = (typeof sentiments)[number]["value"];
 
-export function FeedbackPopover() {
+export function FeedbackPopover({ className }: { className?: string } = {}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -66,10 +66,10 @@ export function FeedbackPopover() {
       <PopoverTrigger
         data-click-id="nav:feedback"
         aria-label="Give feedback"
-        className="inline-flex items-center justify-center h-8 gap-1.5 px-3 text-sm font-medium rounded-xl bg-white text-black hover:bg-white/90 transition-colors cursor-pointer"
+        className={`${className ?? "hidden sm:inline-flex"} items-center justify-center h-8 gap-1.5 px-3 text-sm font-medium rounded-xl bg-white text-black hover:bg-white/90 transition-colors cursor-pointer`}
       >
         <MessageSquare className="size-3.5" />
-        <span className="hidden sm:inline">Feedback</span>
+        Feedback
       </PopoverTrigger>
       <PopoverContent align="end" className="w-80 p-4">
         <div className="flex flex-col gap-3">
