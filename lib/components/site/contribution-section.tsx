@@ -18,10 +18,12 @@ export async function ContributionSection() {
   if (contributions.length === 0) return null;
 
   return (
+
     <ContributionGraphClient
       allContributions={contributions}
       yearTotals={total}
       availableYears={availableYears}
     />
+
   );
 }

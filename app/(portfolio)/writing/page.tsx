@@ -9,10 +9,10 @@ export default function BlogPage() {
   const recentPosts = posts.filter((post) => !post.pinned);
 
   return (
-    <div className="py-8 md:py-12 px-2 md:px-4 space-y-12 md:space-y-14">
+    <div className="py-8 md:py-12 px-2 md:px-4 flex flex-col gap-12 md:gap-14">
       {/* Pinned Posts */}
       {pinnedPosts.length > 0 && (
-        <div className="mt-10">
+        <div>
           <div className="flex items-center gap-4 mb-6">
             <span className="font-geist font-semibold uppercase tracking-wider text-xl md:text-2xl">
               Pinned
@@ -28,7 +28,7 @@ export default function BlogPage() {
       )}
 
       {/* Recent Posts */}
-      <div className="mt-10 mb-20">
+      <div>
         <div className="flex items-center gap-4 mb-12">
           <span className="font-geist font-semibold uppercase tracking-wider text-xl md:text-2xl">
             Recent

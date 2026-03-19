@@ -34,7 +34,7 @@ const NAV_MAP: Record<string, { prev: PageNavLink; next: PageNavLink }> = {
 
 export function PageNav({ prev, next }: PageNavProps) {
   return (
-    <footer className="mt-12 flex flex-col items-center gap-8 border-t border-border pt-16">
+    <footer className="flex flex-col items-center gap-16 border-t border-border pt-8">
       <nav className="flex w-full items-center justify-between gap-4">
         <Link
           href={prev.href}

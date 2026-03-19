@@ -16,7 +16,7 @@ export default function PortfolioLayout({
     <div className="min-h-dvh lg:h-dvh lg:overflow-hidden p-0 mx-auto max-w-7xl">
       <div className="flex min-h-dvh flex-col gap-1 sm:gap-4 md:gap-6 lg:h-full lg:flex-row">
         <MainBody>{children}</MainBody>
-        <AsideProfile data={profileData} />
+
       </div>
     </div>
   );
@@ -36,7 +36,7 @@ function MainBody({ children }: { children: React.ReactNode }) {
         <FloatingToolbar />
         <PageViews />
       </div>
-      <div className="p-2 lg:p-3 backdrop-blur supports-backdrop-filter:bg-background/60 lg:overflow-y-auto lg:flex-1">
+      <div className="p-6 backdrop-blur supports-backdrop-filter:bg-background/60 lg:overflow-y-auto lg:flex-1">
         {children}
       </div>
     </div>

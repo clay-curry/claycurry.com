@@ -155,7 +155,7 @@ export function ContributionGraphClient({
     : (yearTotals[String(selectedYear)] ?? 0);
 
   return (
-    <div className="w-full mt-10 md:mt-14">
+    <div className="w-full py-10 md:py-14">
       <SectionHeading
         icon={
           <svg
@@ -171,10 +171,10 @@ export function ContributionGraphClient({
           Contributions
         </span>
       </SectionHeading>
-      <p className="text-muted-foreground mb-2">
-        {totalCount} contributions{" "}
-        {isCurrentYear ? "in the last year" : `in ${selectedYear}`}
-      </p>
+          <div className="w-full flex flex-col items-center">
+      <div className="w-full pt-2 pb-14 md:py-4 md:pb-16">
+        Counts when I push to GitHub
+      </div>
       <ContributionGraph
         data={paddedData}
         blockSize={BLOCK_SIZE}
@@ -207,6 +207,11 @@ export function ContributionGraphClient({
           />
         </div>
       </ContributionGraph>
+            <p className="text-muted-foreground mb-2">
+        {totalCount} contributions{" "}
+        {isCurrentYear ? "in the last year" : `in ${selectedYear}`}
+      </p>
+      </div>
     </div>
   );
 }

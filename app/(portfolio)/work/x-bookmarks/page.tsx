@@ -35,7 +35,7 @@ export default function XBookmarksPage() {
           </g>
         </svg>
         <h2 className="font-sans font-semibold tracking-wider text-xl md:text-2xl">
-          Bookmarks
+          Y Bookmarks
         </h2>
         <div className="w-3 h-px bg-foreground rounded-full" />
       </div>

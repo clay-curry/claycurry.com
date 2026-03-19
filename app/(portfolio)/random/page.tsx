@@ -41,9 +41,9 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="py-8 md:py-12 px-2 md:px-4 space-y-12 md:space-y-14">
+    <div className="py-8 md:py-12 px-2 md:px-4 flex flex-col gap-12 md:gap-14">
       <div>
-        <div className="flex items-center gap-4 my-10">
+        <div className="flex items-center gap-4 mb-6">
           <span className="font-geist font-semibold uppercase tracking-wider text-xl md:text-2xl">
             Contact
           </span>

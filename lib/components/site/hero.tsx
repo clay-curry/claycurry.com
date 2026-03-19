@@ -41,15 +41,16 @@ function HeroSubtitle() {
   }, []);
 
   return (
-    <p
-      className={`font-[var(--font-pp-neue-montreal)] font-normal underline text-[14px] leading-[24px] md:text-[16px] text-foreground transition-all duration-500 ease-in-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+    <a
+      href="mailto:me@claycurry.com"
+      className={`font-[var(--font-pp-neue-montreal)] font-normal underline text-[14px] leading-[24px] md:text-[16px] text-foreground hover:text-accent transition-all ease-in-out ${visible ? "opacity-100 translate-y-0 duration-0" : "opacity-0 translate-y-4 duration-500"}`}
       style={{
         fontVariationSettings: "'ital' 100",
-        transitionDelay: "600ms",
+        transitionDelay: visible ? "0ms" : "600ms",
       }}
     >
       Available for Hire
-    </p>
+    </a>
   );
 }
 

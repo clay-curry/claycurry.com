@@ -16,14 +16,14 @@ const BookmarkIcon = () => (
 
 export function RecentActivitySection() {
   return (
-    <section className="w-full mt-10 md:mt-14">
+    <section className="w-full py-10 md:py-14">
       <SectionHeader
         title="Recent Activity"
         icon={<ActivityIcon className="w-5 h-5 md:w-6 md:h-6 text-accent" />}
       />
       <div className="mt-5 md:mt-6">
         <ProjectCard
-          href="/work/x-bookmarks"
+          href="/work/y-bookmarks"
           icon={<BookmarkIcon />}
           title="Y Bookmarks"
           description="clone for X bookmarks, with more navigations tools"
