@@ -37,7 +37,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
         {/* Logo */}
         <PreservedQueryLink href="/" className="flex items-center gap-3">
           <InitialsAvatar name="Clay Curry" size={32} />
-          <span className="hidden sm:inline-block font-semibold text-foreground">
+          <span className="hidden sm:inline-block font-semibold text-foreground font-[var(--font-pp-neue-montreal)]">
             CLAY CURRY
           </span>
         </PreservedQueryLink>

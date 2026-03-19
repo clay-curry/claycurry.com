@@ -37,10 +37,10 @@ export function PageFeedbackPill() {
   };
 
   return (
-    <div className="flex justify-center py-8">
-      <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-5 py-2.5">
+    <div className="hidden md:flex justify-center">
+      <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-4 py-2">
         <span className="text-sm text-muted-foreground">
-          {submitted ? "Thanks for your feedback!" : "Was this helpful?"}
+          {submitted ? "Thanks for your feedback!" : "Was this page helpful?"}
         </span>
         {!submitted && (
           <div className="flex items-center gap-1 ml-1">

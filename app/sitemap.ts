@@ -8,7 +8,7 @@
  * @see https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview
  */
 import type { MetadataRoute } from "next";
-import { getAllPostsMetadata } from "@/app/(portfolio)/blog/loader";
+import { getAllPostsMetadata } from "@/app/(portfolio)/writing/loader";
 
 function toSiteUrl(path: string): string {
   return new URL(path, "https://www.claycurry.studio").toString();

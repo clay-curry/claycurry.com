@@ -19,7 +19,7 @@ function PortfolioLink({
 
 export function IntroSection() {
   return (
-    <section className="w-full mt-10 md:mt-14">
+    <section className="w-full mt-10 md:mt-14 text-lg">
       <h2 className="text-2xl md:text-3xl font-semibold text-foreground py-5">
         Welcome.
       </h2>
@@ -29,7 +29,7 @@ export function IntroSection() {
         portfolio breaks down into 3 parts:
       </p>
 
-      <ol className="p-4 space-y-5 list-decimal list-inside text-muted-foreground leading-relaxed">
+      <ol className="p-4 space-y-5 list-decimal text-muted-foreground leading-relaxed pl-8">
         <li>
           <PortfolioLink href="/work">Work</PortfolioLink> — metrics and
           quantitative details collected from work I helped drive
@@ -39,14 +39,16 @@ export function IntroSection() {
           users) I share my thinking &amp; projects
         </li>
         <li>
-          <span className="text-foreground font-medium">Random</span> —
-          everything else
+          <PortfolioLink href="/random">Random</PortfolioLink> — everything not
+          in 1 or 2.
         </li>
       </ol>
 
-      <p className="text-foreground mt-2 leading-relaxed">
-        I am obsessed with helping teams stand out with aesthetics and perfectly
-        crafted design.
+      <p className="text-foreground my-5 leading-loose">
+        Take a moment to familiarise yourself with the entire website, if you
+        want to learn what my taste is like. I am on the job market, so if your
+        team obsessed with aesthetics and perfectly crafted software design,
+        reach out!
       </p>
     </section>
   );

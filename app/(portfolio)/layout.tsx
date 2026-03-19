@@ -3,7 +3,6 @@ import Image from "next/image";
 import type React from "react";
 import { GitHubIcon, LinkedInIcon, XIcon } from "@/lib/components/icons";
 import { FloatingToolbar } from "@/lib/components/site/floating-toolbar";
-import { PageFeedbackPill } from "@/lib/components/site/page-feedback-pill";
 import { PageViews } from "@/lib/components/site/page-views";
 import { PortfolioNav } from "@/lib/components/site/portfolio-nav";
 import { getSiteNavLinks, profileData } from "@/lib/portfolio-data";
@@ -39,7 +38,6 @@ function MainBody({ children }: { children: React.ReactNode }) {
       </div>
       <div className="p-2 lg:p-3 backdrop-blur supports-backdrop-filter:bg-background/60 lg:overflow-y-auto lg:flex-1">
         {children}
-        <PageFeedbackPill />
       </div>
     </div>
   );

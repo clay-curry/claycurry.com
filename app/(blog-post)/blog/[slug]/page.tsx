@@ -5,7 +5,7 @@ import {
   getAllPostsMetadata,
   getPost,
   getPostMetadata,
-} from "@/app/(portfolio)/blog/loader";
+} from "@/app/(portfolio)/writing/loader";
 import { AskQuestionBubble } from "@/lib/components/chat/ask-question-bubble";
 import { BlogPostFooter } from "@/lib/components/site/blog-post-footer";
 import { MobileToc } from "@/lib/components/site/mobile-toc";

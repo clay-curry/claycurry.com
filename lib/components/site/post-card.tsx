@@ -1,5 +1,5 @@
 import { ArrowRight, Calendar } from "lucide-react";
-import type { PostMetadata } from "@/app/(portfolio)/blog/loader";
+import type { PostMetadata } from "@/app/(portfolio)/writing/loader";
 import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 
 export function PostCard({ post }: { post: PostMetadata }) {

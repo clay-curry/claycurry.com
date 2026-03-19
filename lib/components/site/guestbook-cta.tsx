@@ -2,10 +2,10 @@ import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 
 export function GuestbookCTA() {
   return (
-    <p className="text-foreground mt-6 leading-relaxed">
+    <p className="text-foreground mb-6 leading-relaxed text-center">
       Made it this far?{" "}
       <PreservedQueryLink
-        href="/contact"
+        href="/random"
         className="text-accent underline underline-offset-4 hover:text-accent/80 transition-colors"
       >
         Sign my guestbook!

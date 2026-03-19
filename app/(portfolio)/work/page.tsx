@@ -1,3 +1,4 @@
+import { NAV_MAP, PageNav } from "@/lib/components/site/page-nav";
 import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 
 const workItems = [
@@ -45,6 +46,7 @@ export default function WorkPage() {
           </li>
         ))}
       </ul>
+      <PageNav prev={NAV_MAP["/work"].prev} next={NAV_MAP["/work"].next} />
     </div>
   );
 }

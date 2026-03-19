@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import type { PostMetadata } from "@/app/(portfolio)/blog/loader";
+import type { PostMetadata } from "@/app/(portfolio)/writing/loader";
 import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import {
   Sidebar,

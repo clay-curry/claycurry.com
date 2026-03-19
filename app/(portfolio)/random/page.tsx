@@ -3,6 +3,8 @@
 import { Loader2, Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { HeroContactAskAI } from "@/lib/components/chat/hero-contact-ask-ai";
+import { NAV_MAP, PageNav } from "@/lib/components/site/page-nav";
 import { contactData } from "@/lib/portfolio-data";
 
 export default function ContactPage() {
@@ -102,7 +104,6 @@ export default function ContactPage() {
                 }
                 className="w-full px-4 md:px-5 py-3 md:py-3.5 bg-secondary border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none transition-all text-sm md:text-base"
                 placeholder="alan.turing@example.com"
-                required
               />
             </div>
           </div>
@@ -127,21 +128,33 @@ export default function ContactPage() {
             />
           </div>
 
-          <button
-            type="submit"
-            data-click-id="contact:submit"
-            disabled={isSubmitting}
-            className="flex items-center justify-center gap-2 w-full md:w-auto md:ml-auto px-6 md:px-8 py-3 md:py-3.5 bg-accent-2 text-accent-2-foreground rounded-xl font-medium hover:shadow-lg hover:shadow-accent-2/20 hover:-translate-y-0.5 transition-all text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
-          >
-            {isSubmitting ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Send className="w-4 h-4" />
-            )}
-            {isSubmitting ? "Sending..." : "Send Message"}
-          </button>
+          <div className="flex items-center gap-3 w-full md:w-auto md:ml-auto justify-end">
+            <HeroContactAskAI
+              getPrompt={() => {
+                const parts: string[] = [];
+                if (formData.name) parts.push(`From: ${formData.name}`);
+                if (formData.email) parts.push(`Email: ${formData.email}`);
+                if (formData.message) parts.push(formData.message);
+                return parts.join("\n");
+              }}
+            />
+            <button
+              type="submit"
+              data-click-id="contact:submit"
+              disabled={isSubmitting}
+              className="flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-3.5 bg-secondary text-secondary-foreground border border-input rounded-xl font-medium hover:bg-accent hover:text-accent-foreground hover:-translate-y-0.5 transition-all text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+            >
+              {isSubmitting ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Send className="w-4 h-4" />
+              )}
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
+          </div>
         </form>
       </div>
+      <PageNav prev={NAV_MAP["/random"].prev} next={NAV_MAP["/random"].next} />
     </div>
   );
 }

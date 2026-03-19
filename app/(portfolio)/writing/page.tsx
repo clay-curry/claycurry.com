@@ -1,3 +1,4 @@
+import { NAV_MAP, PageNav } from "@/lib/components/site/page-nav";
 import { PostCard } from "@/lib/components/site/post-card";
 import { getAllPostsMetadata } from "./loader";
 
@@ -41,6 +42,10 @@ export default function BlogPage() {
           ))}
         </div>
       </div>
+      <PageNav
+        prev={NAV_MAP["/writing"].prev}
+        next={NAV_MAP["/writing"].next}
+      />
     </div>
   );
 }

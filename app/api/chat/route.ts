@@ -2,7 +2,7 @@ import type { GatewayProviderOptions } from "@ai-sdk/gateway";
 import type { UIMessage } from "ai";
 import { convertToModelMessages, gateway, streamText } from "ai";
 import { Effect } from "effect";
-import { getPostContent } from "@/app/(portfolio)/blog/loader";
+import { getPostContent } from "@/app/(portfolio)/writing/loader";
 import { profileData } from "@/lib/portfolio-data";
 
 interface GitHubRepo {

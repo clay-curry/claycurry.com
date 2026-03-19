@@ -3,7 +3,7 @@ import { BlogSidebar } from "@/lib/components/site/blog-sidebar";
 import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import { SidebarInset, SidebarProvider } from "@/lib/components/ui/sidebar";
 import { getSiteNavLinks } from "@/lib/portfolio-data";
-import { getAllPostsMetadata } from "../(portfolio)/blog/loader";
+import { getAllPostsMetadata } from "../(portfolio)/writing/loader";
 
 export default function BlogPostLayout({
   children,

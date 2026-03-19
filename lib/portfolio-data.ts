@@ -36,7 +36,7 @@ const navLinks: NavLink[] = [
   { label: "about", href: "/" },
   { label: "work", href: "/work" },
   { label: "writing", href: "/writing" },
-  { label: "contact", href: "/contact" },
+  { label: "random", href: "/random" },
 ];
 
 export function getSiteNavLinks(): NavLink[] {

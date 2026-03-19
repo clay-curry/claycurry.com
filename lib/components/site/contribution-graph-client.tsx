@@ -1,7 +1,7 @@
 "use client";
 
 import { eachDayOfInterval, formatISO, parseISO, subYears } from "date-fns";
-import { Activity as ActivityIcon } from "lucide-react";
+
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import {
@@ -157,7 +157,15 @@ export function ContributionGraphClient({
   return (
     <div className="w-full mt-10 md:mt-14">
       <SectionHeading
-        icon={<ActivityIcon className="w-5 h-5 md:w-6 md:h-6 text-accent" />}
+        icon={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 -960 960 960"
+            className="w-5 h-5 md:w-6 md:h-6 fill-accent"
+          >
+            <path d="M800-560v-160H640v-80h160q33 0 56.5 23.5T880-720v160h-80Zm-720 0v-160q0-33 23.5-56.5T160-800h160v80H160v160H80Zm560 400v-80h160v-160h80v160q0 33-23.5 56.5T800-160H640Zm-480 0q-33 0-56.5-23.5T80-240v-160h80v160h160v80H160Zm320-140q7 0 8-6 16-61 60.5-105.5T654-472q6-2 6-8 0-7-6-8-61-16-105.5-60.5T488-654q-2-6-8-6t-8 6q-16 61-60.5 105.5T306-488q-6 1-6 8 0 6 6 8 61 16 105.5 60.5T472-306q2 6 8 6Z" />
+          </svg>
+        }
       >
         <span className="font-geist uppercase tracking-wider">
           Contributions

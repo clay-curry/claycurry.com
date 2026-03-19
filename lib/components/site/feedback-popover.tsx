@@ -66,7 +66,7 @@ export function FeedbackPopover() {
       <PopoverTrigger
         data-click-id="nav:feedback"
         aria-label="Give feedback"
-        className="inline-flex items-center justify-center h-8 gap-1.5 px-3 text-sm font-medium rounded-xl border border-border/40 text-foreground/80 bg-muted/50 hover:bg-muted transition-colors cursor-pointer"
+        className="inline-flex items-center justify-center h-8 gap-1.5 px-3 text-sm font-medium rounded-xl bg-white text-black hover:bg-white/90 transition-colors cursor-pointer"
       >
         <MessageSquare className="size-3.5" />
         <span className="hidden sm:inline">Feedback</span>
