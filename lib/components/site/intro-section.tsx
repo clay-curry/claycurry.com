@@ -7,9 +7,11 @@ function PortfolioLink({
   href: string;
   children: React.ReactNode;
 }) {
+  const segment = href.replace(/^\//, "") || "home";
   return (
     <PreservedQueryLink
       href={href}
+      data-click-id={`intro:${segment}`}
       className="text-accent text-medium underline underline-offset-4 hover:text-accent/80 transition-colors"
     >
       {children}
@@ -20,7 +22,14 @@ function PortfolioLink({
 export function IntroSection() {
   return (
     <section className="w-full mt-10 md:mt-14 text-lg">
-      <h2 className="text-2xl md:text-3xl font-semibold text-foreground pl-2 py-5">
+      <h2
+        data-section-heading
+        className="relative group text-2xl md:text-3xl font-semibold text-foreground pl-2 py-5"
+      >
+        <span
+          aria-hidden="true"
+          className="absolute left-[-20px] top-1/2 -translate-y-1/2 hidden lg:block h-3 w-3 rounded-full bg-accent opacity-0 group-data-[active]:opacity-100 transition-opacity duration-300 pointer-events-none shadow-[0_0_8px_var(--accent)]"
+        />
         Welcome.
       </h2>
 
@@ -32,7 +41,7 @@ export function IntroSection() {
       <ol className="p-4 space-y-5 list-decimal text-muted-foreground leading-relaxed pl-8">
         <li>
           <PortfolioLink href="/work">Work</PortfolioLink> — metrics and
-          quantitative details collected from work I helped drive
+          quantitative details from initatives I helped drive
         </li>
         <li>
           <PortfolioLink href="/writing">Writing</PortfolioLink> — projects (no

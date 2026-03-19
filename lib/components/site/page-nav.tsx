@@ -39,6 +39,7 @@ export function PageNav({ prev, next }: PageNavProps) {
         <nav className="flex w-full items-center justify-between gap-4">
           <Link
             href={prev.href}
+            data-click-id={`nav:prev-${prev.label.toLowerCase()}`}
             className="group flex items-center gap-3 text-left shrink-0"
           >
             <ChevronLeft className="size-5 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
@@ -52,6 +53,7 @@ export function PageNav({ prev, next }: PageNavProps) {
           <PageFeedbackPill className="hidden md:flex" />
           <Link
             href={next.href}
+            data-click-id={`nav:next-${next.label.toLowerCase()}`}
             className="group flex items-center gap-3 text-right shrink-0"
           >
             <div>

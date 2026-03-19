@@ -14,7 +14,7 @@ function HeroName() {
 
   return (
     <h1
-      className="font-[var(--font-pp-neue-montreal)] font-bold uppercase text-foreground text-[42px] leading-[0.85] tracking-[-1.2px] md:text-[46px] md:tracking-[-2.24px] lg:text-[50px] lg:tracking-[-1.5px]"
+      className="font-[var(--font-pp-neue-montreal)] font-bold uppercase text-foreground text-[36px] leading-[0.85] tracking-[-1.2px] md:text-[46px] md:tracking-[-2.24px] lg:text-[50px] lg:tracking-[-1.5px]"
       style={{ fontVariationSettings: "'ital' 100" }}
     >
       <span
@@ -44,13 +44,18 @@ function HeroSubtitle() {
 
   return (
     <a
+      data-section-heading
       href="mailto:me@claycurry.com"
-      className={`font-[var(--font-pp-neue-montreal)] font-normal underline text-[14px] leading-[24px] md:text-[16px] text-foreground hover:text-accent transition-all ease-in-out ${visible ? "opacity-100 translate-y-0 duration-0" : "opacity-0 translate-y-4 duration-500"}`}
+      className={`relative group font-[var(--font-pp-neue-montreal)] font-normal underline text-[14px] leading-[24px] md:text-[16px] text-foreground hover:text-accent transition-all ease-in-out ${visible ? "opacity-100 translate-y-0 duration-0" : "opacity-0 translate-y-4 duration-500"}`}
       style={{
         fontVariationSettings: "'ital' 100",
         transitionDelay: visible ? "0ms" : "600ms",
       }}
     >
+      <span
+        aria-hidden="true"
+        className="absolute left-[-20px] top-1/2 -translate-y-1/2 hidden lg:block h-3 w-3 rounded-full bg-accent opacity-0 group-data-[active]:opacity-100 transition-opacity duration-300 pointer-events-none shadow-[0_0_8px_var(--accent)]"
+      />
       Available for Hire
     </a>
   );

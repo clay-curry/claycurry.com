@@ -15,6 +15,7 @@ export function ProjectCard({
   return (
     <PreservedQueryLink
       href={href}
+      data-click-id={`project:${title.toLowerCase().replace(/\s+/g, "-")}`}
       className="bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent hover:shadow-lg transition-all p-6 flex items-center gap-4 group"
     >
       <div className="shrink-0">{icon}</div>

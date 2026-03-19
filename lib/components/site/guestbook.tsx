@@ -155,6 +155,7 @@ export function Guestbook() {
         <div className="flex justify-end">
           <button
             type="submit"
+            data-click-id="guestbook:submit"
             disabled={submitting || cooldown}
             className="flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-3.5 bg-secondary text-secondary-foreground border border-input rounded-xl font-medium hover:bg-accent hover:text-accent-foreground hover:-translate-y-0.5 transition-all text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
           >

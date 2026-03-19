@@ -38,7 +38,14 @@ export function PageFeedbackPill({ className = "" }: { className?: string }) {
 
   return (
     <div className={`flex justify-center ${className}`}>
-      <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-4 py-2">
+      <div
+        data-section-heading
+        className="relative group inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-4 py-2"
+      >
+        <span
+          aria-hidden="true"
+          className="absolute left-[-20px] top-1/2 -translate-y-1/2 hidden lg:block h-3 w-3 rounded-full bg-accent opacity-0 group-data-[active]:opacity-100 transition-opacity duration-300 pointer-events-none shadow-[0_0_8px_var(--accent)]"
+        />
         <span className="text-sm text-muted-foreground">
           {submitted ? "Thanks for your feedback!" : "Was this page helpful?"}
         </span>
@@ -48,6 +55,7 @@ export function PageFeedbackPill({ className = "" }: { className?: string }) {
               <button
                 key={s.value}
                 type="button"
+                data-click-id={`feedback-pill:${s.value}`}
                 onClick={() => handleSelect(s.value)}
                 disabled={selected !== null}
                 className={`size-8 rounded-full text-base transition-all cursor-pointer ${

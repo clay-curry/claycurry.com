@@ -35,10 +35,17 @@ const SectionHeading = ({
   icon?: ReactNode;
 }) => (
   <div className="flex items-center gap-2 md:gap-3 my-3 border-b border-primary/30 pb-2">
-    {icon}
-    <h2 className="text-xl font-semibold md:text-2xl text-foreground text-shadow-none">
+    <h2
+      data-section-heading
+      className="relative group text-xl font-semibold md:text-2xl text-foreground text-shadow-none"
+    >
+      <span
+        aria-hidden="true"
+        className="absolute left-[-20px] top-1/2 -translate-y-1/2 hidden lg:block h-3 w-3 rounded-full bg-accent opacity-0 group-data-[active]:opacity-100 transition-opacity duration-300 pointer-events-none shadow-[0_0_8px_var(--accent)]"
+      />
       {children}
     </h2>
+    {icon}
   </div>
 );
 
@@ -118,6 +125,7 @@ function YearSelector({
         <button
           key={year}
           type="button"
+          data-click-id={`contrib:year-${year}`}
           onClick={() => onSelect(year)}
           className={cn(
             "text-xs font-bold tabular-nums px-3 py-1.5 rounded-full transition-colors",
