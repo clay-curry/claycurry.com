@@ -41,15 +41,15 @@ export function IntroSection() {
       <ol className="p-4 space-y-5 list-decimal text-muted-foreground leading-relaxed pl-8">
         <li>
           <PortfolioLink href="/work">Work</PortfolioLink> — metrics and
-          quantitative details from initatives I helped drive
+          quantitative details from initatives I've helped drive.
         </li>
         <li>
-          <PortfolioLink href="/writing">Writing</PortfolioLink> — projects (no
-          users) I share my thinking &amp; projects
+          <PortfolioLink href="/writing">Writing</PortfolioLink> — exploratory
+          projects and thinking, independent of users
         </li>
         <li>
-          <PortfolioLink href="/random">Random</PortfolioLink> — everything not
-          in 1 or 2.
+          <PortfolioLink href="/random">Random</PortfolioLink> — everything that
+          doesn’t fit into the first two.
         </li>
       </ol>
 

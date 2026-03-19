@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/clay-curry/claycurry.studio/actions/workflows/merge-criteria.yml"><img src="https://github.com/clay-curry/claycurry.studio/actions/workflows/merge-criteria.yml/badge.svg" alt="Merge criteria"/></a>
+  <a href="https://github.com/claycurry/claycurry.studio/actions/workflows/merge-criteria.yml"><img src="https://github.com/claycurry/claycurry.studio/actions/workflows/merge-criteria.yml/badge.svg" alt="Merge criteria"/></a>
   <a href="https://www.claycurry.studio"><img src="https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white" alt="Vercel"/></a>
   <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white" alt="Next.js"/></a>
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node-20.x-339933?logo=node.js&logoColor=white" alt="Node"/></a>
@@ -20,7 +20,7 @@ My dent on the world wide web. A portfolio and blog, built as a pnpm + Turborepo
 ## Overview
 
 - Live site: [www.claycurry.studio](https://www.claycurry.studio)
-- Repository: [github.com/clay-curry/claycurry.studio](https://github.com/clay-curry/claycurry.studio)
+- Repository: [github.com/claycurry/claycurry.studio](https://github.com/claycurry/claycurry.studio)
 - Main app: Next.js 16 + React 19 + TypeScript at `apps/www`
 - Build system: Turborepo with pnpm workspaces
 - Content: MDX blog posts loaded from `apps/www/blog`

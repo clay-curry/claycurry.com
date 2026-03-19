@@ -7,7 +7,7 @@ export async function ContributionSection() {
 
   try {
     const res = await fetch(
-      "https://github-contributions-api.jogruber.de/v4/clay-curry",
+      "https://github-contributions-api.jogruber.de/v4/claycurry",
       { next: { revalidate: 86400 } },
     );
     const json = await res.json();
