@@ -41,7 +41,7 @@ const SectionHeading = ({
     >
       <span
         aria-hidden="true"
-        className="absolute left-[-20px] top-1/2 -translate-y-1/2 hidden lg:block h-3 w-3 rounded-full bg-accent opacity-0 group-data-[active]:opacity-100 transition-opacity duration-300 pointer-events-none shadow-[0_0_8px_var(--accent)]"
+        className="absolute left-[-12px] md:left-[-20px] top-1/2 -translate-y-1/2 h-2 w-2 md:h-3 md:w-3 rounded-full bg-accent opacity-0 group-data-[active]:opacity-100 transition-opacity duration-300 pointer-events-none shadow-[0_0_8px_var(--accent)]"
       />
       {children}
     </h2>
