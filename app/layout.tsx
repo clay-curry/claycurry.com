@@ -49,6 +49,11 @@ const anders = localFont({
   variable: "--font-anders",
 });
 
+const ppNeueMontreal = localFont({
+  src: [{ path: "../public/fonts/PPNeueMontreal-Variable.woff2" }],
+  variable: "--font-pp-neue-montreal",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: "Clay Curry - Product Engineer",
@@ -122,7 +127,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${anders.variable} ${poppins.className} ${geistMono.variable} ${orbitron.variable} ${tourney.variable} ${GeistPixelSquare.variable} ${GeistPixelGrid.variable} ${GeistPixelCircle.variable} ${GeistPixelTriangle.variable} ${GeistPixelLine.variable} font-sans antialiased w-full`}
+        className={`${anders.variable} ${ppNeueMontreal.variable} ${poppins.className} ${geistMono.variable} ${orbitron.variable} ${tourney.variable} ${GeistPixelSquare.variable} ${GeistPixelGrid.variable} ${GeistPixelCircle.variable} ${GeistPixelTriangle.variable} ${GeistPixelLine.variable} font-sans antialiased w-full`}
       >
         <CompositeProviders>
           <div className="grid-background" aria-hidden="true" />

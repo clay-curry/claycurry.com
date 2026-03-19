@@ -1,11 +1,13 @@
 import { Calendar, Clock } from "lucide-react";
 import type { Metadata } from "next";
 import {
+  getAdjacentPosts,
   getAllPostsMetadata,
   getPost,
   getPostMetadata,
 } from "@/app/(portfolio)/blog/loader";
 import { AskQuestionBubble } from "@/lib/components/chat/ask-question-bubble";
+import { BlogPostFooter } from "@/lib/components/site/blog-post-footer";
 import { MobileToc } from "@/lib/components/site/mobile-toc";
 import { OnThisPage } from "@/lib/components/site/on-this-page";
 import {
@@ -14,7 +16,6 @@ import {
   ShareOnLinkedIn,
   ShareOnX,
 } from "@/lib/components/site/page-actions";
-import { PageFeedback } from "@/lib/components/site/page-feedback";
 import { PageViews } from "@/lib/components/site/page-views";
 import { getSiteNavLinks } from "@/lib/portfolio-data";
 
@@ -68,6 +69,7 @@ export default async function BlogPostPage({
     readTime,
   } = await getPost(slug);
   const navLinks = getSiteNavLinks();
+  const { prev, next } = getAdjacentPosts(slug);
   const { title } = postMeta;
 
   return (
@@ -125,10 +127,8 @@ export default async function BlogPostPage({
             </div>
           </article>
 
-          {/* Page Feedback */}
-          <div className="border-y border-border py-6">
-            <PageFeedback label="Was this article helpful?" />
-          </div>
+          {/* Footer: prev/next + feedback */}
+          <BlogPostFooter prev={prev} next={next} />
         </div>
       </div>
     </>

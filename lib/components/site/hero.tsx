@@ -16,7 +16,9 @@ function Subtitle({
   className?: string;
 }) {
   return (
-    <p className={`text-foreground font-[1000] text-[24px] ${className ?? ""}`}>
+    <p
+      className={`text-foreground font-[1000] text-[24px] font-[var(--font-pp-neue-montreal)] ${className ?? ""}`}
+    >
       {children}
     </p>
   );
@@ -25,7 +27,7 @@ function Subtitle({
 function HeroSubtitles() {
   return (
     <div className="mt-2 mb-16 md:mb-10 min-h-[40px]">
-      <Subtitle>Product Engineer</Subtitle>
+      <Subtitle>PRODUCT ENGINEER</Subtitle>
     </div>
   );
 }

@@ -78,6 +78,16 @@ export async function getPost(slug: string) {
   return { metadata, Content, toc, readTime };
 }
 
+export function getAdjacentPosts(slug: string) {
+  const posts = getAllPostsMetadata();
+  const index = posts.findIndex((p) => p.slug === slug);
+  if (index === -1) return { prev: null, next: null };
+  return {
+    prev: index < posts.length - 1 ? posts[index + 1] : null,
+    next: index > 0 ? posts[index - 1] : null,
+  };
+}
+
 // Get raw article content for AI chat context
 export function getPostContent(
   slug: string,
