@@ -1,10 +1,11 @@
 "use client";
 
-import { Github, Menu, MessagesSquare, X } from "lucide-react";
+import { Menu, MessagesSquare, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { FeedbackPopover } from "@/lib/components/site/feedback-popover";
 import { PreservedQueryLink } from "@/lib/components/site/preserved-query-link";
 import { Button } from "@/lib/components/ui/button";
 import { InitialsAvatar } from "@/lib/components/ui/initials-avatar";
@@ -79,16 +80,7 @@ export function PortfolioNav({ navLinks }: { navLinks: NavLink[] }) {
             Ask AI
           </button>
 
-          <a
-            href="https://github.com/clay-curry/claycurry.studio"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-click-id="nav:github"
-            aria-label="Open GitHub repository"
-            className="inline-flex items-center justify-center h-8 w-8 text-sm font-medium rounded-xl border border-border/40 text-foreground/80 bg-muted/50 hover:bg-muted transition-colors cursor-pointer"
-          >
-            <Github className="size-3.5" />
-          </a>
+          <FeedbackPopover />
 
           {/* Mobile hamburger menu */}
           <Button

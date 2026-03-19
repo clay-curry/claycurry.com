@@ -42,7 +42,7 @@ export default function ContactPage() {
     <div className="py-8 md:py-12 px-2 md:px-4 space-y-12 md:space-y-14">
       <div>
         <div className="flex items-center gap-4 my-10">
-          <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">
+          <span className="font-geist font-semibold uppercase tracking-wider text-xl md:text-2xl">
             Contact
           </span>
           <div className="w-3 h-px bg-foreground rounded-full" />

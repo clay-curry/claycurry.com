@@ -210,6 +210,12 @@ rect[data-level="4"] {
   --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, monospace;
   --font-tourney: "Tourney", system-ui, sans-serif;
   --font-anders: var(--font-anders), system-ui, sans-serif;
+  --font-orbitron: var(--font-orbitron), system-ui, sans-serif;
+  --font-pixel-square: var(--font-geist-pixel-square);
+  --font-pixel-grid: var(--font-geist-pixel-grid);
+  --font-pixel-circle: var(--font-geist-pixel-circle);
+  --font-pixel-triangle: var(--font-geist-pixel-triangle);
+  --font-pixel-line: var(--font-geist-pixel-line);
 
   --color-primary-accent: var(--primary-accent);
   --color-background: var(--background);
@@ -387,6 +393,20 @@ html.theme-switching *::after {
 /* ═══════════════════════════════════════════════════════════════════════════
    TRON ANIMATIONS & EFFECTS
    ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Text cursor blink */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+.animate-blink {
+  animation: blink 0.8s step-end infinite;
+}
 
 /* Neon pulse glow animation */
 @keyframes pulse-slow {

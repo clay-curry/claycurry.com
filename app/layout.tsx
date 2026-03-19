@@ -1,6 +1,13 @@
 import { Analytics } from "@vercel/analytics/next";
+import {
+  GeistPixelCircle,
+  GeistPixelGrid,
+  GeistPixelLine,
+  GeistPixelSquare,
+  GeistPixelTriangle,
+} from "geist/font/pixel";
 import type { Metadata } from "next";
-import { Geist_Mono, Poppins } from "next/font/google";
+import { Geist_Mono, Orbitron, Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import { DebugPanel } from "@/lib/components/site/debug-panel";
@@ -22,6 +29,11 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  variable: "--font-orbitron",
+});
+
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
@@ -40,8 +52,7 @@ const anders = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: "Clay Curry - Product Engineer",
-  description:
-    "Portfolio of Clay Curry, a Product Engineer experienced in web technologies",
+  description: "Portfolio of the best work of my career as a Product Engineer.",
   alternates: {
     canonical: "/",
   },
@@ -111,7 +122,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${anders.variable} ${poppins.className} ${geistMono.variable} ${tourney.variable} font-sans antialiased w-full`}
+        className={`${anders.variable} ${poppins.className} ${geistMono.variable} ${orbitron.variable} ${tourney.variable} ${GeistPixelSquare.variable} ${GeistPixelGrid.variable} ${GeistPixelCircle.variable} ${GeistPixelTriangle.variable} ${GeistPixelLine.variable} font-sans antialiased w-full`}
       >
         <CompositeProviders>
           <div className="grid-background" aria-hidden="true" />

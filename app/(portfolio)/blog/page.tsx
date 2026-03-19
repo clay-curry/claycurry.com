@@ -13,7 +13,7 @@ export default function BlogPage() {
       {pinnedPosts.length > 0 && (
         <div className="mt-10">
           <div className="flex items-center gap-4 mb-6">
-            <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">
+            <span className="font-geist font-semibold uppercase tracking-wider text-xl md:text-2xl">
               Pinned
             </span>
             <div className="w-3 h-px bg-foreground rounded-full" />
@@ -29,7 +29,7 @@ export default function BlogPage() {
       {/* Recent Posts */}
       <div className="mt-10 mb-20">
         <div className="flex items-center gap-4 mb-12">
-          <span className="font-tourney font-semibold uppercase tracking-wider text-xl md:text-2xl">
+          <span className="font-geist font-semibold uppercase tracking-wider text-xl md:text-2xl">
             Recent
           </span>
           <div className="w-3 h-px bg-foreground rounded-full" />

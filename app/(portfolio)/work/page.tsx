@@ -5,7 +5,7 @@ const workItems = [
     href: "/work/x-bookmarks",
     title: "X Bookmarks",
     description: "clone for X bookmarks, with more navigations tools",
-    year: 2025,
+    year: 2026,
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -28,10 +28,10 @@ export default function WorkPage() {
           <li key={item.href}>
             <PreservedQueryLink
               href={item.href}
-              className="group flex items-center gap-3"
+              className="group flex items-center gap-3 transition-colors"
             >
               <span className="shrink-0 self-center">{item.icon}</span>
-              <span className="font-bold text-foreground shrink-0">
+              <span className="font-bold text-accent underline underline-offset-4 hover:text-accent/80 shrink-0 transition-colors">
                 {item.title}
               </span>
               <span className="text-muted-foreground hidden sm:inline truncate min-w-0">

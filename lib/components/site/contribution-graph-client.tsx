@@ -159,7 +159,7 @@ export function ContributionGraphClient({
       <SectionHeading
         icon={<ActivityIcon className="w-5 h-5 md:w-6 md:h-6 text-accent" />}
       >
-        <span className="font-tourney uppercase tracking-wider">
+        <span className="font-geist uppercase tracking-wider">
           Contributions
         </span>
       </SectionHeading>

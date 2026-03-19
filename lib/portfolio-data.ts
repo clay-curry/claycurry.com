@@ -11,17 +11,17 @@ export const profileData = {
   email: "me@claycurry.studio",
   location: locationData.label,
   locationHref: locationData.mapHref,
-  githubUsername: "clay-curry",
+  githubUsername: "claycurry",
   xUsername: "claycurry__",
   social: {
-    github: "https://github.com/clay-curry",
+    github: "https://github.com/claycurry",
     x: "https://x.com/claycurry__",
     linkedin: "https://www.linkedin.com/in/clay-curry/",
   },
 } as const;
 
 export const siteConfig = {
-  repo: "https://github.com/clay-curry/claycurry.studio",
+  repo: "https://github.com/claycurry/claycurry.studio",
 } as const;
 
 export const contactData = {

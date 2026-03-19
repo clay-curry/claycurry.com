@@ -1,30 +1,41 @@
 import { HeroContactAskAI } from "@/lib/components/chat/hero-contact-ask-ai";
 
-export function Hero() {
+function HeroName() {
   return (
-    <div className="text-center py-20">
-      <HeroPrimaryText>Clay Curry</HeroPrimaryText>
-      <HeroSubtext>Product Engineer</HeroSubtext>
-      <HeroContactAskAI />
-    </div>
-  );
-}
-
-function HeroPrimaryText({ children }: { children: React.ReactNode }) {
-  return (
-    <h1 className="font-anders tracking-wide text-accent text-[42px] font-[1000] tracking-tight">
-      {children}
+    <h1 className="font-anders tracking-wide text-accent text-[42px] font-[1000]">
+      Clay Curry
     </h1>
   );
 }
 
-function HeroSubtext({ children }: { children: React.ReactNode }) {
+function Subtitle({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <p
-      className="text-[24px] text-foreground font-[1000] mb-16 md:mb-10"
-      style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
-    >
+    <p className={`text-foreground font-[1000] text-[24px] ${className ?? ""}`}>
       {children}
     </p>
+  );
+}
+
+function HeroSubtitles() {
+  return (
+    <div className="mt-2 mb-16 md:mb-10 min-h-[40px]">
+      <Subtitle>Product Engineer</Subtitle>
+    </div>
+  );
+}
+
+export function Hero() {
+  return (
+    <div className="text-center py-20">
+      <HeroName />
+      <HeroSubtitles />
+      <HeroContactAskAI />
+    </div>
   );
 }
